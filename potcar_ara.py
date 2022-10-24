@@ -47,7 +47,7 @@ finally:
 
 
 def path_pot(fol_name):
-		return root_pot + fol_name +'/POTCAR'
+		return os.environ["root_pot"] + fol_name +'/POTCAR'
 
 a=[]
 
