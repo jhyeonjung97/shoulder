@@ -47,7 +47,7 @@ finally:
 
 
 def path_pot(fol_name):
-		return '/home/aracho/new_POTCARs/potpaw_PBE/'+ fol_name +'/POTCAR'
+		return root_pot + fol_name +'/POTCAR'
 
 a=[]
 
