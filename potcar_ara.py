@@ -102,7 +102,7 @@ print(Q)
 print()
 print(B+"VASP53_ver POTCAR generated—"+W)
 
-print()
+print('\033[0m')
 print()
 
 
