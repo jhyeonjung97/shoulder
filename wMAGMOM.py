@@ -75,7 +75,7 @@ for a , i in enumerate(list_line) :
         atom=iMAGMOM['{}'.format(i)]
         MAGMOMlist.append(atomnumber[a]+"*"+atom)
     except:
-        MAGMOMlist.append(atomnumber[a]+"*"+'1.0')
+        MAGMOMlist.append(atomnumber[a]+"*"+'0.0')
 print(MAGMOMlist)
 
 atomlist=[]
