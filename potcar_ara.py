@@ -51,7 +51,7 @@ def path_pot(fol_name):
 
 a=[]
 
-pot_elements={'Zr':'Zr_sv', 'Ce':'Ce_h', 'Nb':'Nb_sv', 'Y':'Y_sv', 'Re':'Re_pv', 'Ru':'Ru_pv', 'Li':'Li_sv', 'Cs':'Cs_sv'}
+pot_elements={'Zr':'Zr_sv', 'Ce':'Ce_h', 'Nb':'Nb_sv', 'Y':'Y_sv', 'Re':'Re_pv', 'Ru':'Ru_pv', 'Cs':'Cs_sv'}
 
 for i in list_line:
 		try :
