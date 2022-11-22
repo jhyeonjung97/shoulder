@@ -13,7 +13,7 @@ x = int(x)
 y = int(y)
 z = int(z)
 for file in listdir(directory):
-    if file.endswith(".vasp"):
+    if file.endswith(".vasp") or file.endswith(".xyz"):
         filename = file.split('.')[0]
         atoms = read(file)
         write("%s/%s.png" % (directory, filename), atoms, rotation='%dx, %dy, %dz' % (x, y, z))
