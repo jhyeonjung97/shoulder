@@ -1,25 +1,20 @@
 from pymatgen.io.lobster import Lobsterin
-import os
-
-os.system("sed -i -e '/#ISMEAR/c\ISMEAR = 1' INCAR")
 lobsterin = Lobsterin.standard_calculations_from_vasp_files("POSCAR","INCAR","POTCAR",option='standard')
 
 lobsterin.write_INCAR(incar_input="INCAR",incar_output="INCAR.lobster",poscar_input="POSCAR",isym=-1,further_settings={"IBRION":-1})
 file=open('./INCAR.lobster','r')
 print(file.read())
 
+import os
 os.system("mv INCAR INCAR.original")
 os.system("mv INCAR.lobster INCAR")
 
-lob_str = """COHPstartEnergy -50.0
-COHPendEnergy 50.0
-
+lob_str = """COHPstartEnergy -30.0
+COHPendEnergy 15.0
 userecommendedbasisfunctions
-saveProjectionToFile
 
-cohpBetween atom # atom # orbitalWise
-
-writeBasisFunctions
+cohpBetween atom 68 and atom 70
+cobiBetween atom 68 and atom 70
 """
 
 with open('lobsterin', 'w') as f:
