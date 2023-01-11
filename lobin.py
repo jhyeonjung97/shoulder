@@ -13,8 +13,8 @@ lob_str = """COHPstartEnergy -30.0
 COHPendEnergy 15.0
 userecommendedbasisfunctions
 
-cohpBetween atom 68 and atom 70
-cobiBetween atom 68 and atom 70
+cohpBetween atom # atom # orbitalWise
+cobiBetween atom # atom # orbitalWise
 """
 
 with open('lobsterin', 'w') as f:
