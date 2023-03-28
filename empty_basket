@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# By Dongjae Shin, EEWS, KAIST, Korea
+# 01/31/2017
+
+## Remove files which have been more than certain days in _TRASH directory
+
+#echo -e '## Remove files which have been more than $1 days in _TRASH directory.'
+
+find /scratch/x2431a10/_TRASH/* -ctime +$1 -exec /bin/rm -vrf {} \;
