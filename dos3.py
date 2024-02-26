@@ -129,7 +129,7 @@ class Doscar:
     @property
     def number_of_channels(self):
         if self.lorbit == 11:
-            return {2: 9, 3: 16}[self.lmax]
+            return {1:4, 2: 9, 3: 16}[self.lmax]
         raise NotImplementedError
 
     def read_header(self):
