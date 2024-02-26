@@ -186,6 +186,7 @@ elif 's' in orb:
     lmax = 1
 else:
     print('lmax value not supported')
+print('lmax: ', lmax)
 with open('OUTCAR', 'r') as file:
     for line in file:
         if 'ISPIN' in line and '1' in line:
