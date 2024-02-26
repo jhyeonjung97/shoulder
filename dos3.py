@@ -84,6 +84,7 @@ class Doscar:
 
     def process_header(self):
         self.number_of_atoms = int(self.header[0].split()[0])
+        print('number_of_atoms: ', number_of_atoms)
         self.number_of_data_points = int(self.header[5].split()[2])
         self.efermi = float(self.header[5].split()[3])
         
