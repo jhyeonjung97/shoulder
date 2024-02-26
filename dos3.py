@@ -264,11 +264,9 @@ doscar  = Doscar(dosfile, ispin=ispin, lmax=lmax, lorbit=11)  # calculation sett
 # Set atoms for integration
 if ispin == 1:
     non, o_num = doscar.pdos_sum(atoms, spin='up', l=orb, m=m)
-    print(o_num)
 elif ispin == 2:
     up, o_num_up = doscar.pdos_sum(atoms, spin='up', l=orb, m=m)
     down, o_num_down = doscar.pdos_sum(atoms, spin='down', l=orb, m=m)
-    print(o_num_up, o_num_down)
 else:
     print('ispin value not supported')    
 
@@ -296,7 +294,7 @@ if ispin == 1:
     x = energies[emask_unocc]
     y = non[emask_unocc]
     unocc = simpson(y=y, x=x)
-    e_num = occ / unocc
+    e_num = occ / unocc * o_num * 2
     print('  occ: {:.4f} (eV)\n'.format(occ),
           'unocc: {:.4f} (eV)\n'.format(unocc),
           'e_num: {:.4f} (eV)\n'.format(e_num))
@@ -322,8 +320,8 @@ elif ispin == 2:
     y2 = down[emask_unocc]
     unocc1 = simpson(y=y1, x=x)
     unocc2 = simpson(y=y2, x=x)
-    e_num1 = occ1 / unocc1
-    e_num2 = occ2 / unocc2
+    e_num1 = occ1 / unocc1 * o_num_up * 2
+    e_num2 = occ2 / unocc2 * o_num_down * 2
     print('  occ_up  : {:.4f}\n'.format(occ1),
           'unocc_up  : {:.4f}\n'.format(unocc1),
           'total_up  : {:.4f}\n'.format(total1),
