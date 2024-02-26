@@ -180,8 +180,9 @@ class Doscar:
         # print('atom_idx: ', atom_idx)
         # print('spin_idx: ', spin_idx)
         # print('channel_idx: ', channel_idx)
-        return to_return[:, :, channel_idx, :]
+        to_return = to_return[:, :, channel_idx, :]
         print('to_return: ', to_return)
+        return to_return
         # print(type(to_return))
     def pdos_sum(self, atoms=None, spin=None, l=None, m=None):
         # print(self.pdos_select(atoms=atoms, spin=spin, l=l, m=m))
