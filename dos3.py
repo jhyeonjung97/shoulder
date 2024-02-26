@@ -166,8 +166,8 @@ class Doscar:
             spin_idx = [0]
         elif spin == 'down':
             spin_idx = [1]
-        elif spin == 'both':
-            spin_idx = [0,1]
+        # elif spin == 'both':
+        #     spin_idx = [0,1]
         else:
             raise ValueError 
         if not l:
@@ -223,7 +223,7 @@ atoms = [30]
 
 # Set atoms for integration
 if ispin == 1:
-    both = doscar.pdos_sum(atoms, spin='both', l=orb)
+    non = doscar.pdos_sum(atoms, spin='up', l=orb)
 elif ispin == 2:
     up = doscar.pdos_sum(atoms, spin='up', l=orb)
     down = doscar.pdos_sum(atoms, spin='down', l=orb)
@@ -242,11 +242,16 @@ emask = (energies <= erange[-1])
 
 # Calculating center of the orbital specified above in line 184
 x = energies[emask]
-y1 = up[emask]
-y2 = down[emask]
-dbc_up   = simpson(y=y1*x, x=x) / simpson(y=y1, x=x)
-dbc_down = simpson(y=y2*x, x=x) / simpson(y=y2,x=x)
-dbc = simpson(y=(y1+y2)*x, x=x) / simpson(y=(y1+y2), x=x)
-print('dbc_up  : {:.4f} (eV)'.format(dbc_up))
-print('dbc_down: {:.4f} (eV)'.format(dbc_down))
-print('dbc     : {:.4f} (eV)'.format(dbc))
+if ispin == 1:
+    y = up[emask]
+    dbc = simpson(y=y*x, x=x) / simpson(y=y, x=x)
+    print('dbc: {:.4f} (eV)'.format(dbc))
+elif ispin == 2:
+    y1 = up[emask]
+    y2 = down[emask]
+    dbc_up   = simpson(y=y1*x, x=x) / simpson(y=y1, x=x)
+    dbc_down = simpson(y=y2*x, x=x) / simpson(y=y2,x=x)
+    dbc = simpson(y=(y1+y2)*x, x=x) / simpson(y=(y1+y2), x=x)
+    print('dbc_up  : {:.4f} (eV)'.format(dbc_up))
+    print('dbc_down: {:.4f} (eV)'.format(dbc_down))
+    print('dbc     : {:.4f} (eV)'.format(dbc))
