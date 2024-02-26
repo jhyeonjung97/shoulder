@@ -149,7 +149,6 @@ class Doscar:
         else:
             raise ValueError 
         to_return = to_return[:, :, :, spin_idx]
-        
         if not l:
             channel_idx = list(range(self.number_of_channels))
         elif l == 's':
@@ -171,11 +170,13 @@ class Doscar:
                 channel_idx = [i for i, v in enumerate(valid_m_values['f']) if v in m]
         else:
             raise ValueError
-            
+        print('atom_idx: ', atom_idx)
+        print('spin_idx: ', spin_idx)
+        print('channel_idx: ', channel_idx)
         return to_return[:, :, channel_idx, :]
     
     def pdos_sum(self, atoms=None, spin=None, l=None, m=None):
-        print(self.pdos_select(atoms=atoms, spin=spin, l=l, m=m))
+        # print(self.pdos_select(atoms=atoms, spin=spin, l=l, m=m))
         return np.sum(self.pdos_select(atoms=atoms, spin=spin, l=l, m=m), axis=(0,2,3))
 
 orb = argv[1]
