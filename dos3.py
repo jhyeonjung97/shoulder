@@ -201,8 +201,8 @@ with open('OUTCAR', 'r') as file:
 # Open doscar
 dosfile = 'DOSCAR'
 doscar  = Doscar(dosfile, ispin=ispin, lmax=lmax, lorbit=11)  # calculation setting 
-# atoms = [30]
-atoms = []  # calculated atom ordinal
+atoms = [30]
+# atoms = []  # calculated atom ordinal
 # print('atoms: ', atoms)
 
 # Set atoms for integration
