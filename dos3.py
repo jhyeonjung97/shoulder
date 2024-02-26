@@ -187,11 +187,6 @@ class Doscar:
         valid_m_values = {'s': [],
                           'p': ['x', 'y', 'z'],
                           'd': ['xy', 'yz', 'z2-r2', 'xz', 'x2-y2'],
-                          'd1': ['xy'],
-                          'd2': ['yz'],
-                          'd3': ['z2-r2'],
-                          'd4': ['xz'],
-                          'd5': ['x2-y2'],
                           'f': ['y(3x2-y2)', 'xyz', 'yz2', 'z3', 'xz2', 'z(x2-y2)', 'x(x2-3y2)']}
         if not atoms:
             atom_idx = list(range(self.number_of_atoms))
@@ -334,3 +329,4 @@ elif ispin == 2:
     print('unocc_down: {:.4f}'.format(unocc2))
     print('total_down: {:.4f}'.format(total2))
     print('e_num_down: {:.4f} (e-)\n'.format(e_num2))
+    print(len(channel_idx))
