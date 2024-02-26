@@ -117,6 +117,7 @@ class Doscar:
         pdos_list = []
         for i in range(self.number_of_atoms):
             df = self.read_atomic_dos_as_df(i+1)
+            print(np.array(df))
             pdos_list.append(df)
             print(df)
         # self.pdos  =   pdos_list
