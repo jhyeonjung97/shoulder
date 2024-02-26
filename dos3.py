@@ -230,14 +230,14 @@ print('erange: ', erange)
 
 # Calculating center of the orbital specified above in line 184
 x = energies[emask]
-# print('x: ', x)
+print('x: ', x)
 # y = all[emask]
 y1 = up[emask]
 y2 = down[emask]
-# print('y1: ', y1)
+print('y1: ', y1)
 # print('y2: ', y2)
-print(simpson(y=y1*x, x=x))
-print(simpson(y=y1, x=x))
+# print(simpson(y=y1*x, x=x))
+# print(simpson(y=y1, x=x))
 dbc_up   = simpson(y=y1*x, x=x) / simpson(y=y1, x=x)
 dbc_down = simpson(y=y2*x, x=x) / simpson(y=y2,x=x)
 dbc = simpson(y=(y1+y2)*x, x=x) / simpson(y=(y1+y2), x=x)
