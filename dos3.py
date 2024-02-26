@@ -91,11 +91,11 @@ class Doscar:
     def read_total_dos(self): # assumes spin_polarised
         start_to_read = Doscar.number_of_header_lines
         df = pd.read_csv(self.filename, 
-                          skiprows=start_to_read, 
-                          nrows=self.number_of_data_points,
-                          delim_whitespace=True, 
-                          names=['energy', 'up', 'down', 'int_up', 'int_down'],
-                          index_col=False)
+                         skiprows=start_to_read, 
+                         nrows=self.number_of_data_points,
+                         delim_whitespace=True, 
+                         names=['energy', 'up', 'down', 'int_up', 'int_down'],
+                         index_col=False)
         self.energy = df.energy.values
         df.drop('energy', axis=1)
         self.tdos = df
@@ -104,11 +104,11 @@ class Doscar:
         assert atom_number > 0 & atom_number <= self.number_of_atoms
         start_to_read = Doscar.number_of_header_lines + atom_number * (self.number_of_data_points + 1)
         df = pd.read_csv(self.filename,
-                          skiprows=start_to_read,
-                          nrows=self.number_of_data_points,
-                          delim_whitespace=True,
-                          names=pdos_column_names(lmax=self.lmax, ispin=self.ispin),
-                          index_col=False)
+                         skiprows=start_to_read,
+                         nrows=self.number_of_data_points,
+                         delim_whitespace=True,
+                         names=pdos_column_names(lmax=self.lmax, ispin=self.ispin),
+                         index_col=False)
         return df.drop('energy', axis=1)
     
     def read_projected_dos(self):
@@ -118,6 +118,8 @@ class Doscar:
         for i in range(self.number_of_atoms):
             df = self.read_atomic_dos_as_df(i+1)
             pdos_list.append(df)
+            if i == 30:
+                print(df)
         # self.pdos  =   pdos_list
         self.pdos = np.vstack([np.array(df) for df in pdos_list]).reshape(
             self.number_of_atoms, self.number_of_data_points, self.number_of_channels, self.ispin)
