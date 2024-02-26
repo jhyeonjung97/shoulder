@@ -141,7 +141,6 @@ class Doscar:
             atom_idx = list(range(self.number_of_atoms))
         else:
             atom_idx = atoms
-        to_return = self.pdos[atom_idx, :, :, :]
         if not spin:
             spin_idx = list(range(self.ispin))
         elif spin == 'up':
@@ -152,7 +151,6 @@ class Doscar:
             spin_idx = [0,1]
         else:
             raise ValueError 
-        to_return = to_return[:, :, :, spin_idx]
         if not l:
             channel_idx = list(range(self.number_of_channels))
         elif l == 's':
@@ -174,10 +172,12 @@ class Doscar:
                 channel_idx = [i for i, v in enumerate(valid_m_values['f']) if v in m]
         else:
             raise ValueError
-        # print('atom_idx: ', atom_idx)
-        # print('spin_idx: ', spin_idx)
-        # print('channel_idx: ', channel_idx)
-        to_return = to_return[:, :, channel_idx, :]
+        print('atom_idx: ', atom_idx)
+        print('spin_idx: ', spin_idx)
+        print('channel_idx: ', channel_idx)
+        to_return = self.pdos[atom_idx, :, channel_idx, spin_idx]
+        # to_return = to_return[:, :, :, spin_idx]
+        # to_return = to_return[:, :, channel_idx, :]
         print('to_return: ', to_return)
         return to_return
         # print(type(to_return))
