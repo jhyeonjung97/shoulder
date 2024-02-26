@@ -21,6 +21,8 @@ orb = args.orbital
 
 if args.energy:
     emin, emax = map(int, args.repeat.split(','))
+else:
+    emin, emax = None
 
 # Check if input_str contains a dash, indicating a range
 input_str = args.atoms
