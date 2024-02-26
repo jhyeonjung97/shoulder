@@ -17,7 +17,7 @@ def pdos_column_names(lmax, ispin):
                   'f_y(3x2-y2)', 'f_xyz', 'f_yz2', 'f_z3', 'f_xz2', 'f_z(x2-y2)', 'f_x(x2-3y2)']
     else:
         raise ValueError('lmax value not supported')
-    print 'names: ', names
+    print('names: ', names)
     if ispin == 2:
         all_names = []
         for n in names:
@@ -140,11 +140,11 @@ class Doscar:
         to_return = self.pdos[atom_idx, :, :, :]
         if not spin:
             spin_idx = list(range(self.ispin))
-        elif spin is 'up':
+        elif spin == 'up':
             spin_idx = [0]
-        elif spin is 'down':
+        elif spin == 'down':
             spin_idx = [1]
-        elif spin is 'both':
+        elif spin == 'both':
             spin_idx = [0,1]
         else:
             raise ValueError 
@@ -177,8 +177,6 @@ class Doscar:
     def pdos_sum(self, atoms=None, spin=None, l=None, m=None):
         return np.sum(self.pdos_select(atoms=atoms, spin=spin, l=l, m=m), axis=(0,2,3))
 
-# calculation of d-band center
-
 orb = argv[1]
 if 'f' in orb:
     lmax = 3
@@ -187,7 +185,7 @@ elif 'd' in orb:
 elif 's' in orb:
     lmax = 1
 else:
-    print 'lmax value not supported'
+    print('lmax value not supported')
 with open('OUTCAR', 'r') as file:
     for line in file:
         if 'ISPIN' in line and '1' in line:
@@ -195,21 +193,21 @@ with open('OUTCAR', 'r') as file:
         elif 'ISPIN' in line and '2' in line:
             ispin = 2
 
-# Open doscar        
+# calculation of d-band center
+# Open doscar
 dosfile = 'DOSCAR'
 doscar  = Doscar(dosfile, ispin=ispin, lmax=lmax, lorbit=11)  # calculation setting 
 atoms = list(range(15,15))  # calculated atom ordinal
-print 'atoms: ', atoms
+print('atoms: ', atoms)
 
 # Set atoms for integration
-
 if ispin == 1:
     both = doscar.pdos_both(atoms, spin='both', l=orb)
 elif ispin == 2:
     up = doscar.pdos_sum(atoms, spin='up', l=orb)
     down = doscar.pdos_sum(atoms, spin='down', l=orb)
 else:
-    print 'ispin value not supported'    
+    print('ispin value not supported')    
 
 # Set intergrating range 
 efermi = doscar.efermi - doscar.efermi 
@@ -217,12 +215,12 @@ energies = doscar.energy - doscar.efermi
 emin, emax = energies[0], energies[-1]
 erange = (efermi-8, efermi+2)      # integral energy range
 emask = (energies <= erange[-1])
-print 'efermi: ', efermi
-print 'energies: ', energies
-print 'emin: ', emin
-print 'emax: ', emax
-print 'erange: ', erange
-print 'emask: ', emask
+print('efermi: ', efermi)
+print('energies: ', energies)
+print('emin: ', emin)
+print('emax: ', emax)
+print('erange: ', erange)
+print('emask: ', emask)
 
 # Calculating center of the orbital specified above in line 184
 x = energies[emask]
@@ -234,5 +232,5 @@ dbc_down = simps(y2*x, x) / simps(y2, x)
 dbc = simps((y1-y2)*x, x) / simps((y1-y2), x)
 # dbc.append(dbc_up)
 # dbc.append(dbc_down)
-print 'dbc_up(eV), dbc_down(eV), dbc(eV)'
-print dbc_up, dbc_down, dbc
+print('dbc_up(eV), dbc_down(eV), dbc(eV)')
+print(dbc_up, dbc_down, dbc)
