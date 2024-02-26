@@ -213,10 +213,11 @@ else:
 efermi = doscar.efermi #- doscar.efermi 
 energies = doscar.energy - doscar.efermi
 emin, emax = energies[0], energies[-1]
-erange = (efermi-8, efermi+2)      # integral energy range
+erange = (emin, emax)
+# erange = (efermi-8, efermi+2)      # integral energy range
 emask = (energies <= erange[-1])
-print('efermi: ', efermi)
-print('energies: ', energies)
+# print('efermi: ', efermi)
+# print('energies: ', energies)
 print('emin: ', emin)
 print('emax: ', emax)
 print('erange: ', erange)
