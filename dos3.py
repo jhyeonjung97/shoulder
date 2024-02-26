@@ -166,8 +166,8 @@ class Doscar:
             spin_idx = [0]
         elif spin == 'down':
             spin_idx = [1]
-        elif spin == 'both':
-            spin_idx = [0,1]
+        # elif spin == 'both':
+        #     spin_idx = [0,1]
         else:
             raise ValueError 
         if not l:
@@ -247,8 +247,6 @@ y2 = down[emask]
 dbc_up   = simpson(y=y1*x, x=x) / simpson(y=y1, x=x)
 dbc_down = simpson(y=y2*x, x=x) / simpson(y=y2,x=x)
 dbc = simpson(y=(y1+y2)*x, x=x) / simpson(y=(y1+y2), x=x)
-# dbc.append(dbc_up)
-# dbc.append(dbc_down)
-print('dbc_up  : ', dbc_up, '(eV)')
-print('dbc_down: ', dbc_down, '(eV)')
-print('dbc     : ', dbc, '(eV)')
+print('dbc_up  : {:.2f} (eV)'.format(dbc_up))
+print('dbc_down: {:.2f} (eV)'.format(dbc_down))
+print('dbc     : {:.2f} (eV)'.format(dbc))
