@@ -5,7 +5,7 @@ import datetime
 import numpy as np
 import pandas as pd
 from sys import argv
-from scipy.integrate import simps
+from scipy.integrate import simpson
 
 def pdos_column_names(lmax, ispin):
     if lmax == 1:
@@ -228,9 +228,9 @@ x = energies[emask]
 # y = all[emask]
 y1 = up[emask]
 y2 = down[emask]
-dbc_up   = simps(y1*x, x) / simps(y1, x)
-dbc_down = simps(y2*x, x) / simps(y2, x)
-dbc = simps((y1-y2)*x, x) / simps((y1-y2), x)
+dbc_up   = simpson(y1*x, x) / simpson(y1, x)
+dbc_down = simpson(y2*x, x) / simpson(y2, x)
+dbc = simpson((y1-y2)*x, x) / simpson((y1-y2), x)
 # dbc.append(dbc_up)
 # dbc.append(dbc_down)
 print('dbc_up(eV), dbc_down(eV), dbc(eV)')
