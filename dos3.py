@@ -221,16 +221,16 @@ emask = (energies <= erange[-1])
 # print('emin: ', emin)
 # print('emax: ', emax)
 # print('erange: ', erange)
-print('emask: ', emask)
+# print('emask: ', emask)
 
 # Calculating center of the orbital specified above in line 184
 x = energies[emask]
 # y = all[emask]
 y1 = up[emask]
 y2 = down[emask]
-dbc_up   = simpson(y1*x, x) / simpson(y1, x)
-dbc_down = simpson(y2*x, x) / simpson(y2, x)
-dbc = simpson((y1-y2)*x, x) / simpson((y1-y2), x)
+dbc_up   = simpson(y=y1*x, x=x) / simpson(y=y1, x=x)
+dbc_down = simpson(y=y2*x, x=x) / simpson(y=y2,x=x)
+dbc = simpson(y=(y1-y2)*x, x=x) / simpson(y=(y1-y2), x=x)
 # dbc.append(dbc_up)
 # dbc.append(dbc_down)
 print('dbc_up(eV), dbc_down(eV), dbc(eV)')
