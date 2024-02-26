@@ -242,11 +242,11 @@ with open('POTCAR', 'r') as file:
     for line in file:
         if "VRHFIN" in line:
             if 'f' in line:
-                lmax = 3; break
-            elif 'd' in line and lmax == None:
-                lmax = 2; break
+                lmax = 3
+            elif 'd' in line and lmax != 3:
+                lmax = 2
             elif 'p' in line and lmax == None:
-                lmax = 1; break
+                lmax = 1
 print(lmax)
 if lmax == None:
     print('check lmax value..')
