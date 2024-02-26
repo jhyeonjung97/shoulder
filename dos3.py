@@ -171,7 +171,7 @@ class Doscar:
                 channel_idx = [i for i, v in enumerate(valid_m_values['f']) if v in m]
         else:
             raise ValueError
-        # print('atom_idx: ', atom_idx)
+        print('atom_idx: ', atom_idx)
         # print('spin_idx: ', spin_idx)
         # print('channel_idx: ', channel_idx)
         return to_return[:, :, channel_idx, :]
@@ -201,7 +201,7 @@ with open('OUTCAR', 'r') as file:
 # Open doscar
 dosfile = 'DOSCAR'
 doscar  = Doscar(dosfile, ispin=ispin, lmax=lmax, lorbit=11)  # calculation setting 
-atoms = [31]
+# atoms = [31]
 # atoms = list(range(15,15))  # calculated atom ordinal
 # print('atoms: ', atoms)
 
