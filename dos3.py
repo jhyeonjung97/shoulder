@@ -225,12 +225,16 @@ class Doscar:
                 channel_idx = [i for i, v in enumerate(valid_m_values['f']) if v in m]
         else:
             raise ValueError
-        print(len(channel_idx))
         to_return = to_return[:, :, channel_idx, :]
-        return to_return
+        return to_return, len(channel_idx)
     
     def pdos_sum(self, atoms=None, spin=None, l=None, m=None):
-        return np.sum(self.pdos_select(atoms=atoms, spin=spin, l=l, m=m), axis=(0,2,3))
+        pdos_subset, _ = self.pdos_select(atoms=atoms, spin=spin, l=l, m=m)  # Unpack the returned tuple
+        return np.sum(pdos_subset, axis=(0,2,3))
+
+    def orbital_numb():
+        _, channel_idx_length = self.pdos_select(atoms=atoms, spin=spin, l=l, m=m)
+        return channel_idx_length
 
 def check_orbitals_in_potcar(potcar_path):
     has_d_or_f_orbital = False
@@ -269,6 +273,8 @@ elif ispin == 2:
     down = doscar.pdos_sum(atoms, spin='down', l=orb, m=m)
 else:
     print('ispin value not supported')    
+o_num = doscar.orbital_numb
+print(o_num)
 
 # Set intergrating range 
 efermi = doscar.efermi #- doscar.efermi 
