@@ -224,7 +224,7 @@ print('emask: ', emask)
 
 # Calculating center of the orbital specified above in line 184
 x = energies[emask]
-y = all[emask]
+# y = all[emask]
 y1 = up[emask]
 y2 = down[emask]
 dbc_up   = simps(y1*x, x) / simps(y1, x)

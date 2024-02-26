@@ -178,7 +178,6 @@ class Doscar:
         return np.sum(self.pdos_select(atoms=atoms, spin=spin, l=l, m=m), axis=(0,2,3))
 
 # calculation of d-band center
-
 orb = argv[1]
 if 'f' in orb:
     lmax = 3
