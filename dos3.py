@@ -233,14 +233,23 @@ class Doscar:
     def pdos_sum(self, atoms=None, spin=None, l=None, m=None):
         return np.sum(self.pdos_select(atoms=atoms, spin=spin, l=l, m=m), axis=(0,2,3))
 
-if 'f' in orb:
-    lmax = 3
-elif 'd' in orb:
-    lmax = 2
-elif 'p' in orb:
-    lmax = 1
-else:
-    print('lmax value not supported')
+def check_orbitals_in_potcar(potcar_path):
+    has_d_or_f_orbital = False
+    orbital_types = []
+
+lmax = None
+with open('POTCAR', 'r') as file:
+    for line in file:
+        if "VRHFIN" in line:
+            if 'f' in line:
+                lmax = 3; break
+            elif 'd' in line and lmax == None:
+                lmax = 2; break
+            elif 'p' in line and lmax == None:
+                lmax = 1; break
+if lmax == None:
+    print('check lmax value..')
+
 with open('OUTCAR', 'r') as file:
     for line in file:
         if 'ISPIN' in line and '1' in line:
@@ -287,3 +296,4 @@ elif ispin == 2:
     print('dbc_up  : {:.4f} (eV)'.format(dbc_up))
     print('dbc_down: {:.4f} (eV)'.format(dbc_down))
     print('dbc     : {:.4f} (eV)'.format(dbc))
+    
