@@ -147,6 +147,7 @@ class Doscar:
         to_return = self.pdos[atom_idx, :, :, :]
         print('to_return: ', to_return)
         print(type(to_return))
+        np.savetxt('my_array.txt', to_return)
         if not spin:
             spin_idx = list(range(self.ispin))
         elif spin == 'up':
