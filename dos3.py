@@ -22,8 +22,8 @@ orb = args.orbital
 
 if args.energy:
     emin, emax = map(int, args.energy.split(','))
-# else:
-#     emin, emax = None, None
+else:
+    emin, emax = None, None
 
 # Check if input_str contains a dash, indicating a range
 # if args.atoms:
@@ -269,11 +269,12 @@ else:
 # Set intergrating range 
 efermi = doscar.efermi #- doscar.efermi 
 energies = doscar.energy - doscar.efermi
-if emin == '':
+if emin == None:
     emin = energies[0]
-if emax == '':
+if emax == None:
     emax = energies[-1]
 erange = (emin, emax)
+print(energies, erange[-1])
 emask = (energies <= erange[-1])
 
 # Calculating center of the orbital specified above in line 184
