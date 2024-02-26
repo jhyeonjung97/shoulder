@@ -25,6 +25,7 @@ def pdos_column_names(lmax, ispin):
     else:
         all_names = names
     all_names.insert(0, 'energy')
+    print(all_names)
     return all_names
 
 class Doscar:
@@ -127,11 +128,11 @@ class Doscar:
         valid_m_values = {'s': [],
                           'p': ['x', 'y', 'z'],
                           'd': ['xy', 'yz', 'z2-r2', 'xz', 'x2-y2'],
-                          'd1': ['xy'],
-                          'd2': ['yz'],
-                          'd3': ['z2-r2'],
-                          'd4': ['xz'],
-                          'd5': ['x2-y2'],
+                          # 'd1': ['xy'],
+                          # 'd2': ['yz'],
+                          # 'd3': ['z2-r2'],
+                          # 'd4': ['xz'],
+                          # 'd5': ['x2-y2'],
                           'f': ['y(3x2-y2)', 'xyz', 'yz2', 'z3', 'xz2', 'z(x2-y2)', 'x(x2-3y2)']}
         if not atoms:
             atom_idx = list(range(self.number_of_atoms))
@@ -170,9 +171,9 @@ class Doscar:
                 channel_idx = [i for i, v in enumerate(valid_m_values['f']) if v in m]
         else:
             raise ValueError
-        print('atom_idx: ', atom_idx)
-        print('spin_idx: ', spin_idx)
-        print('channel_idx: ', channel_idx)
+        # print('atom_idx: ', atom_idx)
+        # print('spin_idx: ', spin_idx)
+        # print('channel_idx: ', channel_idx)
         return to_return[:, :, channel_idx, :]
     
     def pdos_sum(self, atoms=None, spin=None, l=None, m=None):
