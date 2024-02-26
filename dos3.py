@@ -218,9 +218,9 @@ erange = (emin, emax)
 emask = (energies <= erange[-1])
 # print('efermi: ', efermi)
 # print('energies: ', energies)
-print('emin: ', emin)
-print('emax: ', emax)
-print('erange: ', erange)
+# print('emin: ', emin)
+# print('emax: ', emax)
+# print('erange: ', erange)
 print('emask: ', emask)
 
 # Calculating center of the orbital specified above in line 184
