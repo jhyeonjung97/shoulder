@@ -117,9 +117,9 @@ class Doscar:
         pdos_list = []
         for i in range(self.number_of_atoms):
             df = self.read_atomic_dos_as_df(i+1)
-            print(np.array(df))
+            # print(np.array(df))
             pdos_list.append(df)
-            print(df)
+            # print(df)
         # self.pdos  =   pdos_list
         self.pdos = np.vstack([np.array(df) for df in pdos_list]).reshape(
             self.number_of_atoms, self.number_of_data_points, self.number_of_channels, self.ispin)
@@ -236,15 +236,15 @@ print('erange: ', erange)
 
 # Calculating center of the orbital specified above in line 184
 x = energies[emask]
-print('x: ')#, x)
-for item in x:
-    print(item)
+# print('x: ')#, x)
+# for item in x:
+#     print(item)
 # y = all[emask]
 y1 = up[emask]
 y2 = down[emask]
-print('y1: ')#, y1)
+print('y2: ')#, y1)
 # print('y2: ', y2)
-for item in y1:
+for item in y2:
     print(item)
 # print(simpson(y=y1*x, x=x))
 # print(simpson(y=y1, x=x))
