@@ -175,6 +175,7 @@ class Doscar:
         return to_return[:, :, channel_idx, :]
     
     def pdos_sum(self, atoms=None, spin=None, l=None, m=None):
+        print(self.pdos_select(atoms=atoms, spin=spin, l=l, m=m))
         return np.sum(self.pdos_select(atoms=atoms, spin=spin, l=l, m=m), axis=(0,2,3))
 
 orb = argv[1]
@@ -186,7 +187,7 @@ elif 's' in orb:
     lmax = 1
 else:
     print('lmax value not supported')
-print('lmax: ', lmax)
+# print('lmax: ', lmax)
 with open('OUTCAR', 'r') as file:
     for line in file:
         if 'ISPIN' in line and '1' in line:
@@ -203,7 +204,7 @@ atoms = list(range(15,15))  # calculated atom ordinal
 
 # Set atoms for integration
 if ispin == 1:
-    both = doscar.pdos_both(atoms, spin='both', l=orb)
+    both = doscar.pdos_sum(atoms, spin='both', l=orb)
 elif ispin == 2:
     up = doscar.pdos_sum(atoms, spin='up', l=orb)
     down = doscar.pdos_sum(atoms, spin='down', l=orb)
@@ -226,12 +227,12 @@ emask = (energies <= erange[-1])
 
 # Calculating center of the orbital specified above in line 184
 x = energies[emask]
-print('x: ', x)
+# print('x: ', x)
 # y = all[emask]
 y1 = up[emask]
 y2 = down[emask]
-print('y1: ', y1)
-print('y2: ', y2)
+# print('y1: ', y1)
+# print('y2: ', y2)
 dbc_up   = simpson(y=y1*x, x=x) / simpson(y=y1, x=x)
 dbc_down = simpson(y=y2*x, x=x) / simpson(y=y2,x=x)
 dbc = simpson(y=(y1+y2)*x, x=x) / simpson(y=(y1+y2), x=x)
