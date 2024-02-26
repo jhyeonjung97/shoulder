@@ -26,8 +26,6 @@ else:
     emin, emax = None, None
 
 # Check if input_str contains a dash, indicating a range
-# if args.atoms:
-#     atoms = []
 if '-' in args.atoms:
     start, end = args.atoms.split('-')
     atoms = list(range(start, end+1))
@@ -274,7 +272,6 @@ if emin == None:
 if emax == None:
     emax = energies[-1]
 erange = (emin, emax)
-print(energies, erange[-1])
 emask = (energies <= erange[-1])
 
 # Calculating center of the orbital specified above in line 184
