@@ -27,15 +27,15 @@ else:
 
 # Check if input_str contains a dash, indicating a range
 if '-' in args.atoms:
-    start, end = args.atoms.split('-')
-    atoms = list(range(int(start), int(end)+1))
+    a_start, a_end = args.atoms.split('-')
+    atoms = list(range(int(a_start), int(a_end)+1))
 elif args.atoms:
     atoms = list(map(int, args.atoms.split(',')))
 
 if args.subset:
     if '-' in args.subset:
-        start, end = args.atoms.split('-')
-        atoms = list(range(int(start), int(end)+1))
+        m_start, m_end = args.atoms.split('-')
+        atoms = list(range(int(m_start), int(m_end)+1))
     else:
         atoms = list(map(int, args.atoms.split(',')))
     subset_numbers = list(map(int, args.subset.split(',')))
