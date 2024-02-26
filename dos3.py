@@ -201,9 +201,9 @@ with open('OUTCAR', 'r') as file:
 # Open doscar
 dosfile = 'DOSCAR'
 doscar  = Doscar(dosfile, ispin=ispin, lmax=lmax, lorbit=11)  # calculation setting 
-# atoms = [31]
-atoms = list(range(15,15))  # calculated atom ordinal
-print('atoms: ', atoms)
+# atoms = [30]
+atoms = []  # calculated atom ordinal
+# print('atoms: ', atoms)
 
 # Set atoms for integration
 if ispin == 1:
