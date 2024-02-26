@@ -19,10 +19,7 @@ args = parser.parse_args()
 # Process arguments parsed by argparse
 orb = args.orbital
 
-if args.energy:
-    emin, emax = map(int, args.repeat.split(','))
-else:
-    emin, emax = None
+emin, emax = map(int, args.repeat.split(','))
 
 # Check if input_str contains a dash, indicating a range
 input_str = args.atoms
