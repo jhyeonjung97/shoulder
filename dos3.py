@@ -237,7 +237,7 @@ if 'f' in orb:
     lmax = 3
 elif 'd' in orb:
     lmax = 2
-elif 's' in orb:
+elif 'p' in orb:
     lmax = 1
 else:
     print('lmax value not supported')
