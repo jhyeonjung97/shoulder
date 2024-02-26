@@ -9,9 +9,10 @@ from scipy.integrate import simpson
 
 parser = argparse.ArgumentParser(description='Command-line options example')
 
-parser.add_argument('-o', '--orbital', type=str, default='d', help='orbital (e.g., d)')
-parser.add_argument('-a', '--atoms', type=str, default='', help='atoms (e.g. "14,15")')
+parser.add_argument('-a', '--atoms', type=str, default='', help='atoms (e.g. "14,15", "14-16")')
 parser.add_argument('-e', '--energy', type=str, default='', help='energy range (e.g., "-10,5")')
+parser.add_argument('-o', '--orbital', type=str, default='d', help='orbital (e.g. "s", "p", "d", "f"')
+parser.add_argument('-m', '--subset', type=str, default='', help='orbital subset # 1 for d_xy, 2 for d_yz, 3 for d_z2-r2, 4 for d_xz, 5 for d_x2-y2)')
 
 # args, remaining_args = parser.parse_known_args()
 args = parser.parse_args()
@@ -22,15 +23,52 @@ orb = args.orbital
 if args.energy:
     emin, emax = map(int, args.energy.split(','))
 else:
-    emin, emax = '', ''
+    emin, emax = None, None
 
 # Check if input_str contains a dash, indicating a range
-input_str = args.atoms
-if '-' in input_str:
-    start, end = input_str.split('-')
-    atoms = list(range(int(start), int(end) + 1))
-else:
-    atoms = list(args.atoms)
+if args.atoms:
+    atoms = []
+if '-' in args.atoms:
+    start, end = args.atoms.split('-')
+    atoms = list(range(start, end+1))
+elif args.atoms:
+    atoms = list(map(int, args.atoms.split(',')))
+print(atoms)
+
+if args.subset:
+    m = []
+    subset_numbers = list(map(int, args.subset.split(',')))
+    if orb == 'p':
+        subset_dict = {
+            1: 'x',
+            2: 'y',
+            3: 'z'
+        }
+        m = [subset_dict[number] for number in subset_numbers if number in subset_dict]
+    elif orb == 'd':
+        subset_dict = {
+            1: 'xy',
+            2: 'yz',
+            3: 'z2-r2',
+            4: 'xz',
+            5: 'x2-y2'
+        }
+        m = [subset_dict[number] for number in subset_numbers if number in subset_dict]
+    elif orb == 'f':
+        subset_dict = {
+            1: 'y(3x2-y2)', 
+            2: 'xyz', 
+            3: 'yz2', 
+            4: 'z3', 
+            5: 'xz2', 
+            6: 'z(x2-y2)', 
+            7: 'x(x2-3y2)'
+        }
+        m = [subset_dict[number] for number in subset_numbers if number in subset_dict]
+        valid_m_values = {'s': [],
+                          'p': ['x', 'y', 'z'],
+                          'd': ['xy', 'yz', 'z2-r2', 'xz', 'x2-y2'],
+                          'f': ['y(3x2-y2)', 'xyz', 'yz2', 'z3', 'xz2', 'z(x2-y2)', 'x(x2-3y2)']}
 
 def pdos_column_names(lmax, ispin):
     if lmax == 1:
@@ -150,11 +188,11 @@ class Doscar:
         valid_m_values = {'s': [],
                           'p': ['x', 'y', 'z'],
                           'd': ['xy', 'yz', 'z2-r2', 'xz', 'x2-y2'],
-                          # 'd1': ['xy'],
-                          # 'd2': ['yz'],
-                          # 'd3': ['z2-r2'],
-                          # 'd4': ['xz'],
-                          # 'd5': ['x2-y2'],
+                          'd1': ['xy'],
+                          'd2': ['yz'],
+                          'd3': ['z2-r2'],
+                          'd4': ['xz'],
+                          'd5': ['x2-y2'],
                           'f': ['y(3x2-y2)', 'xyz', 'yz2', 'z3', 'xz2', 'z(x2-y2)', 'x(x2-3y2)']}
         if not atoms:
             atom_idx = list(range(self.number_of_atoms))
