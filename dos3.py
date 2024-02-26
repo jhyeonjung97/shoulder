@@ -283,20 +283,45 @@ if emax == None:
     emax = energies[-1]
 erange = (emin, emax)
 emask = (energies <= erange[-1])
+emask_occ = (energies <= 0)
+emask_unocc = (energies > 0)
 
 # Calculating center of the orbital specified above in line 184
 x = energies[emask]
 if ispin == 1:
     y = non[emask]
     dbc = simpson(y=y*x, x=x) / simpson(y=y, x=x)
-    print('dbc: {:.4f} (eV)'.format(dbc))
+    print('  dbc: {:.4f} (eV)\n'.format(dbc))
+    y = non[emask_occ]
+    occ = simpson(y=y, x=x)
+    y = non[emask_unocc]
+    unocc = simpson(y=y, x=x)
+    e_num = occ / unocc
+    print('  occ: {:.4f} (eV)'.format(occ))
+    print('unocc: {:.4f} (eV)'.format(unocc))
+    print('e_num: {:.4f} (eV)'.format(e_num))
 elif ispin == 2:
     y1 = up[emask]
     y2 = down[emask]
     dbc_up   = simpson(y=y1*x, x=x) / simpson(y=y1, x=x)
     dbc_down = simpson(y=y2*x, x=x) / simpson(y=y2,x=x)
     dbc = simpson(y=(y1+y2)*x, x=x) / simpson(y=(y1+y2), x=x)
-    print('dbc_up  : {:.4f} (eV)'.format(dbc_up))
-    print('dbc_down: {:.4f} (eV)'.format(dbc_down))
-    print('dbc     : {:.4f} (eV)'.format(dbc))
-    
+    print('  dbc_up  : {:.4f} (eV)'.format(dbc_up))
+    print('  dbc_down: {:.4f} (eV)'.format(dbc_down))
+    print('  dbc     : {:.4f} (eV)\n'.format(dbc))
+    y1 = up[emask_occ]
+    y2 = down[emask_occ]
+    occ1 = simpson(y=y1, x=x)
+    occ2 = simpson(y=y2, x=x)
+    y1 = up[emask_unocc]
+    y2 = down[emask_unocc]
+    unocc1 = simpson(y=y1, x=x)
+    unocc2 = simpson(y=y2, x=x)
+    e_num1 = occ / unocc
+    e_num2 = occ / unocc
+    print('  occ_up  : {:.4f} (eV)'.format(occ1))
+    print('unocc_up  : {:.4f} (eV)'.format(unocc1))
+    print('e_num_up  : {:.4f} (eV)\n'.format(e_num1))
+    print('  occ_down: {:.4f} (eV)'.format(occ2))
+    print('unocc_down: {:.4f} (eV)'.format(unocc2))
+    print('e_num_down: {:.4f} (eV)'.format(e_num2))
