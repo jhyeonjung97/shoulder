@@ -286,6 +286,7 @@ emask = (energies <= erange[-1])
 
 # Calculating center of the orbital specified above in line 184
 x = energies[emask]
+print()
 if ispin == 1:
     y = non[emask]
     dbc = simpson(y=y*x, x=x) / simpson(y=y, x=x)
