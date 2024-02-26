@@ -175,9 +175,9 @@ class Doscar:
         print('atom_idx: ', atom_idx)
         print('spin_idx: ', spin_idx)
         print('channel_idx: ', channel_idx)
-        to_return = self.pdos[atom_idx, :, channel_idx, spin_idx]
-        # to_return = to_return[:, :, :, spin_idx]
-        # to_return = to_return[:, :, channel_idx, :]
+        to_return = self.pdos[atom_idx, :, :, :]
+        to_return = to_return[:, :, :, spin_idx]
+        to_return = to_return[:, :, channel_idx, :]
         print('to_return: ', to_return)
         return to_return
         # print(type(to_return))
