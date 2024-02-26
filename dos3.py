@@ -35,10 +35,9 @@ elif args.atoms:
 if args.subset:
     if '-' in args.subset:
         m_start, m_end = args.subset.split('-')
-        atoms = list(range(int(m_start), int(m_end)+1))
+        subset_numbers = list(range(int(m_start), int(m_end)+1))
     else:
-        atoms = list(map(int, args.subset.split(',')))
-    subset_numbers = list(map(int, args.subset.split(',')))
+        subset_numbers = list(map(int, args.subset.split(',')))
     if orb == 'p':
         subset_dict = {
             1: 'x',
