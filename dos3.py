@@ -272,7 +272,6 @@ elif ispin == 2:
 else:
     print('ispin value not supported')    
 
-
 # Set intergrating range 
 efermi = doscar.efermi #- doscar.efermi 
 energies = doscar.energy - doscar.efermi
@@ -325,11 +324,11 @@ elif ispin == 2:
     unocc2 = simpson(y=y2, x=x)
     e_num1 = occ1 / unocc1
     e_num2 = occ2 / unocc2
-    print('  occ_up  : {:.4f}'.format(occ1))
-    print('unocc_up  : {:.4f}'.format(unocc1))
-    print('total_up  : {:.4f}'.format(total1))
-    print('e_num_up  : {:.4f} (e-)\n'.format(e_num1))
-    print('  occ_down: {:.4f}'.format(occ2))
-    print('unocc_down: {:.4f}'.format(unocc2))
-    print('total_down: {:.4f}'.format(total2))
-    print('e_num_down: {:.4f} (e-)\n'.format(e_num2))
+    print('  occ_up  : {:.4f}\n'.format(occ1),
+          'unocc_up  : {:.4f}\n'.format(unocc1),
+          'total_up  : {:.4f}\n'.format(total1),
+          'e_num_up  : {:.4f} (e-)\n\n'.format(e_num1))
+    print('  occ_down: {:.4f}\n'.format(occ2),
+          'unocc_down: {:.4f}\n'.format(unocc2),
+          'total_down: {:.4f}\n'.format(total2),
+          'e_num_down: {:.4f} (e-)\n\n'.format(e_num2))
