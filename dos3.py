@@ -145,6 +145,7 @@ class Doscar:
         else:
             atom_idx = atoms
         to_return = self.pdos[atom_idx, :, :, :]
+        print('to_return: ', to_return)
         if not spin:
             spin_idx = list(range(self.ispin))
         elif spin == 'up':
