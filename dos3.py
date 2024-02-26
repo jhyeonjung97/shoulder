@@ -64,7 +64,7 @@ if args.subset:
             7: 'x(x2-3y2)'
         }
         m = [subset_dict[number] for number in subset_numbers if number in subset_dict]
-    print(m)
+    print(orb, m)
 
 def pdos_column_names(lmax, ispin):
     if lmax == 1:
