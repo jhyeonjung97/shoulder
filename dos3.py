@@ -65,7 +65,7 @@ if args.subset:
             7: 'x(x2-3y2)'
         }
         m = [subset_dict[number] for number in subset_numbers if number in subset_dict]
-    print(orb, m)
+    print(orb, m, '\n')
 else:
     m = None
 
@@ -286,7 +286,6 @@ emask = (energies <= erange[-1])
 
 # Calculating center of the orbital specified above in line 184
 x = energies[emask]
-print()
 if ispin == 1:
     y = non[emask]
     dbc = simpson(y=y*x, x=x) / simpson(y=y, x=x)
