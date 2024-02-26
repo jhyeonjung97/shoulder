@@ -329,4 +329,4 @@ elif ispin == 2:
     print('e_num_up  : {:.4f} (e-)\n'.format(e_num1))
     print('  occ_down: {:.4f}'.format(occ2))
     print('unocc_down: {:.4f}'.format(unocc2))
-    print('e_num_down: {:.4f} (e-)'.format(e_num2))
+    print('e_num_down: {:.4f} (e-)\n'.format(e_num2))
