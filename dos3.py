@@ -219,7 +219,7 @@ efermi = doscar.efermi #- doscar.efermi
 energies = doscar.energy - doscar.efermi
 emin, emax = energies[0], energies[-1]
 erange = (emin, emax)
-erange = (efermi-8, efermi+2)      # integral energy range
+# erange = (efermi-8, efermi+2)      # integral energy range
 emask = (energies <= erange[-1])
 # print('efermi: ', efermi)
 # print('energies: ', energies)
@@ -236,6 +236,8 @@ y1 = up[emask]
 y2 = down[emask]
 # print('y1: ', y1)
 # print('y2: ', y2)
+print(simpson(y=y1*x, x=x))
+print(simpson(y=y1, x=x))
 dbc_up   = simpson(y=y1*x, x=x) / simpson(y=y1, x=x)
 dbc_down = simpson(y=y2*x, x=x) / simpson(y=y2,x=x)
 dbc = simpson(y=(y1+y2)*x, x=x) / simpson(y=(y1+y2), x=x)
