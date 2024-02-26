@@ -225,6 +225,7 @@ class Doscar:
                 channel_idx = [i for i, v in enumerate(valid_m_values['f']) if v in m]
         else:
             raise ValueError
+        print(len(channel_idx))
         to_return = to_return[:, :, channel_idx, :]
         return to_return
     
@@ -329,4 +330,3 @@ elif ispin == 2:
     print('unocc_down: {:.4f}'.format(unocc2))
     print('total_down: {:.4f}'.format(total2))
     print('e_num_down: {:.4f} (e-)\n'.format(e_num2))
-    print(len(channel_idx))
