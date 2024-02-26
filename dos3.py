@@ -178,8 +178,8 @@ class Doscar:
         to_return = self.pdos[atom_idx, :, :, :]
         to_return = to_return[:, :, :, spin_idx]
         to_return = to_return[:, :, channel_idx, :]
-        print('to_return: ', to_return)
-        np.savetxt('my_array.txt', to_return.reshape(301,5))
+        # print('to_return: ', to_return)
+        # np.savetxt('my_array.txt', to_return.reshape(301,5))
         return to_return
         # print(type(to_return))
     def pdos_sum(self, atoms=None, spin=None, l=None, m=None):
@@ -236,16 +236,16 @@ print('erange: ', erange)
 
 # Calculating center of the orbital specified above in line 184
 x = energies[emask]
-# print('x: ', x)
+print('x: ')#, x)
 for item in x:
     print(item)
 # y = all[emask]
 y1 = up[emask]
 y2 = down[emask]
+print('y1: ')#, y1)
+# print('y2: ', y2)
 for item in y1:
     print(item)
-# print('y1: ', y1)
-# print('y2: ', y2)
 # print(simpson(y=y1*x, x=x))
 # print(simpson(y=y1, x=x))
 dbc_up   = simpson(y=y1*x, x=x) / simpson(y=y1, x=x)
