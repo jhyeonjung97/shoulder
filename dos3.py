@@ -247,7 +247,6 @@ with open('POTCAR', 'r') as file:
                 lmax = 2
             elif 'p' in line and lmax == None:
                 lmax = 1
-print(lmax)
 if lmax == None:
     print('check lmax value..')
 
@@ -265,10 +264,10 @@ doscar  = Doscar(dosfile, ispin=ispin, lmax=lmax, lorbit=11)  # calculation sett
 
 # Set atoms for integration
 if ispin == 1:
-    non = doscar.pdos_sum(atoms, spin='up', l=orb)
+    non = doscar.pdos_sum(atoms, spin='up', l=orb, m=m)
 elif ispin == 2:
-    up = doscar.pdos_sum(atoms, spin='up', l=orb)
-    down = doscar.pdos_sum(atoms, spin='down', l=orb)
+    up = doscar.pdos_sum(atoms, spin='up', l=orb, m=m)
+    down = doscar.pdos_sum(atoms, spin='down', l=orb, m=m)
 else:
     print('ispin value not supported')    
 
