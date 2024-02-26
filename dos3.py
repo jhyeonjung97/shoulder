@@ -10,7 +10,7 @@ from scipy.integrate import simpson
 parser = argparse.ArgumentParser(description='Command-line options example')
 
 parser.add_argument('-a', '--atoms', type=str, default='', help='atoms (e.g. "14,15", "14-16")')
-parser.add_argument('-e', '--energy', type=str, default='', help='energy range (e.g., "-10,5")')
+parser.add_argument('-e', '--energy', type=str, default='', help='energy range (e.g., -e=-10,5)')
 parser.add_argument('-o', '--orbital', type=str, default='d', help='orbital (e.g. "s", "p", "d", "f"')
 parser.add_argument('-m', '--subset', type=str, default='', help='orbital subset # 1 for d_xy, 2 for d_yz, 3 for d_z2-r2, 4 for d_xz, 5 for d_x2-y2)')
 
@@ -21,7 +21,7 @@ args = parser.parse_args()
 orb = args.orbital
 
 if args.energy:
-    emin, emax = map(int, args.energy.split(','))
+    emin, emax = map(float, args.energy.split(','))
 else:
     emin, emax = None, None
 
