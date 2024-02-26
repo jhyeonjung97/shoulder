@@ -243,7 +243,7 @@ emask = (energies <= erange[-1])
 # Calculating center of the orbital specified above in line 184
 x = energies[emask]
 if ispin == 1:
-    y = up[emask]
+    y = non[emask]
     dbc = simpson(y=y*x, x=x) / simpson(y=y, x=x)
     print('dbc: {:.4f} (eV)'.format(dbc))
 elif ispin == 2:
