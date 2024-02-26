@@ -26,14 +26,15 @@ else:
     emin, emax = None, None
 
 # Check if input_str contains a dash, indicating a range
-if args.atoms:
-    atoms = []
+# if args.atoms:
+#     atoms = []
 if '-' in args.atoms:
     start, end = args.atoms.split('-')
     atoms = list(range(start, end+1))
+    print(atoms)
 elif args.atoms:
     atoms = list(map(int, args.atoms.split(',')))
-print(atoms)
+    print(atoms)
 
 if args.subset:
     m = []
@@ -65,7 +66,7 @@ if args.subset:
             7: 'x(x2-3y2)'
         }
         m = [subset_dict[number] for number in subset_numbers if number in subset_dict]
-print(m)
+    print(m)
 
 def pdos_column_names(lmax, ispin):
     if lmax == 1:
