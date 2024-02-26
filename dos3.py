@@ -84,7 +84,7 @@ class Doscar:
 
     def process_header(self):
         self.number_of_atoms = int(self.header[0].split()[0])
-        print('number_of_atoms: ', self.number_of_atoms)
+        # print('number_of_atoms: ', self.number_of_atoms)
         self.number_of_data_points = int(self.header[5].split()[2])
         self.efermi = float(self.header[5].split()[3])
         
@@ -118,9 +118,9 @@ class Doscar:
         for i in range(self.number_of_atoms):
             df = self.read_atomic_dos_as_df(i+1)
             pdos_list.append(df)
-        # self.pdos  =   pdos_list
-        self.pdos = np.vstack([np.array(df) for df in pdos_list]).reshape(
-            self.number_of_atoms, self.number_of_data_points, self.number_of_channels, self.ispin)
+        self.pdos  =   pdos_list
+        # self.pdos = np.vstack([np.array(df) for df in pdos_list]).reshape(
+        #     self.number_of_atoms, self.number_of_data_points, self.number_of_channels, self.ispin)
         
     def pdos_select(self, atoms=None, spin=None, l=None, m=None):
         """
@@ -232,8 +232,8 @@ print('erange: ', erange)
 # Calculating center of the orbital specified above in line 184
 # x = energies[emask]
 # print('x: ', x)
-for item in x:
-    print(item)
+# for item in x:
+#     print(item)
 # y = all[emask]
 y1 = up[emask]
 y2 = down[emask]
