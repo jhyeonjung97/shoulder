@@ -2,10 +2,33 @@
 
 import time
 import datetime
+import argparse
 import numpy as np
 import pandas as pd
-from sys import argv
 from scipy.integrate import simpson
+
+parser = argparse.ArgumentParser(description='Command-line options example')
+
+parser.add_argument('-o', '--orbital', type=str, default='d', help='orbital (e.g., d)')
+parser.add_argument('-a', '--atoms', type=str, default='', help='atoms (e.g. "14,15")')
+parser.add_argument('-e', '--energy', type=str, default='', help='energy range (e.g., "-10,5")')
+
+# args, remaining_args = parser.parse_known_args()
+args = parser.parse_args()
+        
+# Process arguments parsed by argparse
+orb = args.orbital
+
+if args.energy:
+    emin, emax = map(int, args.repeat.split(','))
+
+# Check if input_str contains a dash, indicating a range
+input_str = args.atoms
+if '-' in input_str:
+    start, end = input_str.split('-')
+    atoms = list(range(int(start), int(end) + 1))
+else:
+    atoms = list(args.atoms)
 
 def pdos_column_names(lmax, ispin):
     if lmax == 1:
@@ -17,7 +40,6 @@ def pdos_column_names(lmax, ispin):
                   'f_y(3x2-y2)', 'f_xyz', 'f_yz2', 'f_z3', 'f_xz2', 'f_z(x2-y2)', 'f_x(x2-3y2)']
     else:
         raise ValueError('lmax value not supported')
-    # print('names: ', names)
     if ispin == 2:
         all_names = []
         for n in names:
@@ -25,7 +47,6 @@ def pdos_column_names(lmax, ispin):
     else:
         all_names = names
     all_names.insert(0, 'energy')
-    # print(all_names)
     return all_names
 
 class Doscar:
@@ -84,7 +105,6 @@ class Doscar:
 
     def process_header(self):
         self.number_of_atoms = int(self.header[0].split()[0])
-        # print('number_of_atoms: ', self.number_of_atoms)
         self.number_of_data_points = int(self.header[5].split()[2])
         self.efermi = float(self.header[5].split()[3])
         
@@ -117,10 +137,7 @@ class Doscar:
         pdos_list = []
         for i in range(self.number_of_atoms):
             df = self.read_atomic_dos_as_df(i+1)
-            # print(np.array(df))
             pdos_list.append(df)
-            # print(df)
-        # self.pdos  =   pdos_list
         self.pdos = np.vstack([np.array(df) for df in pdos_list]).reshape(
             self.number_of_atoms, self.number_of_data_points, self.number_of_channels, self.ispin)
         
@@ -172,21 +189,14 @@ class Doscar:
                 channel_idx = [i for i, v in enumerate(valid_m_values['f']) if v in m]
         else:
             raise ValueError
-        print('atom_idx: ', atom_idx)
-        print('spin_idx: ', spin_idx)
-        print('channel_idx: ', channel_idx)
         to_return = self.pdos[atom_idx, :, :, :]
         to_return = to_return[:, :, :, spin_idx]
         to_return = to_return[:, :, channel_idx, :]
-        # print('to_return: ', to_return)
-        # np.savetxt('my_array.txt', to_return.reshape(301,5))
         return to_return
-        # print(type(to_return))
+    
     def pdos_sum(self, atoms=None, spin=None, l=None, m=None):
-        # print(self.pdos_select(atoms=atoms, spin=spin, l=l, m=m))
         return np.sum(self.pdos_select(atoms=atoms, spin=spin, l=l, m=m), axis=(0,2,3))
 
-orb = argv[1]
 if 'f' in orb:
     lmax = 3
 elif 'd' in orb:
@@ -195,7 +205,6 @@ elif 's' in orb:
     lmax = 1
 else:
     print('lmax value not supported')
-# print('lmax: ', lmax)
 with open('OUTCAR', 'r') as file:
     for line in file:
         if 'ISPIN' in line and '1' in line:
@@ -209,7 +218,6 @@ dosfile = 'DOSCAR'
 doscar  = Doscar(dosfile, ispin=ispin, lmax=lmax, lorbit=11)  # calculation setting 
 atoms = [30]
 # atoms = []  # calculated atom ordinal
-# print('atoms: ', atoms)
 
 # Set atoms for integration
 if ispin == 1:
@@ -223,31 +231,17 @@ else:
 # Set intergrating range 
 efermi = doscar.efermi #- doscar.efermi 
 energies = doscar.energy - doscar.efermi
-emin, emax = energies[0], energies[-1]
+if emin == '':
+    emin = energies[0]
+if emax == '':
+    emax = energies[-1]
 erange = (emin, emax)
-# erange = (efermi-8, efermi+2)      # integral energy range
 emask = (energies <= erange[-1])
-# print('efermi: ', efermi)
-# print('energies: ', energies)
-# print('emin: ', emin)
-# print('emax: ', emax)
-print('erange: ', erange)
-# print('emask: ', emask)
 
 # Calculating center of the orbital specified above in line 184
 x = energies[emask]
-# print('x: ')#, x)
-# for item in x:
-#     print(item)
-# y = all[emask]
 y1 = up[emask]
 y2 = down[emask]
-print('y2: ')#, y1)
-# print('y2: ', y2)
-for item in y2:
-    print(item)
-# print(simpson(y=y1*x, x=x))
-# print(simpson(y=y1, x=x))
 dbc_up   = simpson(y=y1*x, x=x) / simpson(y=y1, x=x)
 dbc_down = simpson(y=y2*x, x=x) / simpson(y=y2,x=x)
 dbc = simpson(y=(y1+y2)*x, x=x) / simpson(y=(y1+y2), x=x)
