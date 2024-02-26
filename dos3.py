@@ -117,10 +117,11 @@ class Doscar:
         pdos_list = []
         for i in range(self.number_of_atoms):
             df = self.read_atomic_dos_as_df(i+1)
+            print('df: ', df)
             pdos_list.append(df)
-        self.pdos  =   pdos_list
-        # self.pdos = np.vstack([np.array(df) for df in pdos_list]).reshape(
-        #     self.number_of_atoms, self.number_of_data_points, self.number_of_channels, self.ispin)
+        # self.pdos  =   pdos_list
+        self.pdos = np.vstack([np.array(df) for df in pdos_list]).reshape(
+            self.number_of_atoms, self.number_of_data_points, self.number_of_channels, self.ispin)
         
     def pdos_select(self, atoms=None, spin=None, l=None, m=None):
         """
@@ -178,7 +179,7 @@ class Doscar:
         return to_return[:, :, channel_idx, :]
     
     def pdos_sum(self, atoms=None, spin=None, l=None, m=None):
-        print(self.pdos_select(atoms=atoms, spin=spin, l=l, m=m))
+        # print(self.pdos_select(atoms=atoms, spin=spin, l=l, m=m))
         return np.sum(self.pdos_select(atoms=atoms, spin=spin, l=l, m=m), axis=(0,2,3))
 
 orb = argv[1]
