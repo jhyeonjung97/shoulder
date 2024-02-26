@@ -229,12 +229,8 @@ class Doscar:
         return to_return, len(channel_idx)
     
     def pdos_sum(self, atoms=None, spin=None, l=None, m=None):
-        pdos_subset, _ = self.pdos_select(atoms=atoms, spin=spin, l=l, m=m)  # Unpack the returned tuple
-        return np.sum(pdos_subset, axis=(0,2,3))
-
-    def orbital_numb():
-        _, channel_idx_length = self.pdos_select(atoms=atoms, spin=spin, l=l, m=m)
-        return channel_idx_length
+        pdos_subset, channel_idx_length = self.pdos_select(atoms=atoms, spin=spin, l=l, m=m)  # Unpack the returned tuple
+        return np.sum(pdos_subset, axis=(0,2,3)), channel_idx_length
 
 def check_orbitals_in_potcar(potcar_path):
     has_d_or_f_orbital = False
@@ -267,14 +263,15 @@ doscar  = Doscar(dosfile, ispin=ispin, lmax=lmax, lorbit=11)  # calculation sett
 
 # Set atoms for integration
 if ispin == 1:
-    non = doscar.pdos_sum(atoms, spin='up', l=orb, m=m)
+    non, o_num = doscar.pdos_sum(atoms, spin='up', l=orb, m=m)
+    print(o_num)
 elif ispin == 2:
-    up = doscar.pdos_sum(atoms, spin='up', l=orb, m=m)
-    down = doscar.pdos_sum(atoms, spin='down', l=orb, m=m)
+    up, o_num_up = doscar.pdos_sum(atoms, spin='up', l=orb, m=m)
+    down, o_num_down = doscar.pdos_sum(atoms, spin='down', l=orb, m=m)
+    print(o_num_up, o_num_down)
 else:
     print('ispin value not supported')    
-o_num = doscar.orbital_numb(atoms, spin='up', l=orb, m=m)
-print(o_num)
+
 
 # Set intergrating range 
 efermi = doscar.efermi #- doscar.efermi 
