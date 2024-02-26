@@ -247,6 +247,7 @@ with open('POTCAR', 'r') as file:
                 lmax = 2; break
             elif 'p' in line and lmax == None:
                 lmax = 1; break
+print(lmax)
 if lmax == None:
     print('check lmax value..')
 
