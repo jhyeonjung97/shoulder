@@ -25,7 +25,7 @@ def pdos_column_names(lmax, ispin):
     else:
         all_names = names
     all_names.insert(0, 'energy')
-    print(all_names)
+    # print(all_names)
     return all_names
 
 class Doscar:
