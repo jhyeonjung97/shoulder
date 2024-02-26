@@ -179,6 +179,7 @@ class Doscar:
         to_return = to_return[:, :, :, spin_idx]
         to_return = to_return[:, :, channel_idx, :]
         print('to_return: ', to_return)
+        print(to_return.shape)
         return to_return
         # print(type(to_return))
     def pdos_sum(self, atoms=None, spin=None, l=None, m=None):
