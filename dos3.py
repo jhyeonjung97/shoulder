@@ -166,8 +166,8 @@ class Doscar:
             spin_idx = [0]
         elif spin == 'down':
             spin_idx = [1]
-        # elif spin == 'both':
-        #     spin_idx = [0,1]
+        elif spin == 'both':
+            spin_idx = [0,1]
         else:
             raise ValueError 
         if not l:
