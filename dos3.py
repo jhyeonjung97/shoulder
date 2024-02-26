@@ -121,6 +121,7 @@ class Doscar:
                 trray=np.array(df).reshape(1, self.number_of_data_points, self.number_of_channels, self.ispin)
                 for item in trray:
                     print(item)
+                print(vstack(trray))
             pdos_list.append(df)
         # self.pdos  =   pdos_list
         self.pdos = np.vstack([np.array(df) for df in pdos_list]).reshape(
