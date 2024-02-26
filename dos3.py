@@ -219,13 +219,13 @@ efermi = doscar.efermi #- doscar.efermi
 energies = doscar.energy - doscar.efermi
 emin, emax = energies[0], energies[-1]
 erange = (emin, emax)
-# erange = (efermi-8, efermi+2)      # integral energy range
+erange = (efermi-8, efermi+2)      # integral energy range
 emask = (energies <= erange[-1])
 # print('efermi: ', efermi)
 # print('energies: ', energies)
 # print('emin: ', emin)
 # print('emax: ', emax)
-# print('erange: ', erange)
+print('erange: ', erange)
 # print('emask: ', emask)
 
 # Calculating center of the orbital specified above in line 184
