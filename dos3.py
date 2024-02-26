@@ -312,6 +312,8 @@ elif ispin == 2:
     print('  dbc_up  : {:.4f} (eV)'.format(dbc_up))
     print('  dbc_down: {:.4f} (eV)'.format(dbc_down))
     print('  dbc     : {:.4f} (eV)\n'.format(dbc))
+    total1 = simpson(y=y1, x=x)
+    total2 = simpson(y=y2, x=x)
     x = energies[emask_occ]
     y1 = up[emask_occ]
     y2 = down[emask_occ]
@@ -322,8 +324,6 @@ elif ispin == 2:
     y2 = down[emask_unocc]
     unocc1 = simpson(y=y1, x=x)
     unocc2 = simpson(y=y2, x=x)
-    total1 = occ1 + unocc1
-    total2 = occ2 + unocc2
     e_num1 = occ1 / unocc1
     e_num2 = occ2 / unocc2
     print('  occ_up  : {:.4f}'.format(occ1))
