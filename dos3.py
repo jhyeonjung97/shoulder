@@ -29,10 +29,8 @@ else:
 if '-' in args.atoms:
     start, end = args.atoms.split('-')
     atoms = list(range(int(start), int(end)+1))
-    print(atoms)
 elif args.atoms:
     atoms = list(map(int, args.atoms.split(',')))
-    print(atoms)
 
 if args.subset:
     m = []
