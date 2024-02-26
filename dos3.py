@@ -273,7 +273,7 @@ elif ispin == 2:
     down = doscar.pdos_sum(atoms, spin='down', l=orb, m=m)
 else:
     print('ispin value not supported')    
-o_num = doscar.orbital_numb
+o_num = doscar.orbital_numb(atoms, spin='up', l=orb, m=m)
 print(o_num)
 
 # Set intergrating range 
