@@ -145,9 +145,6 @@ class Doscar:
         else:
             atom_idx = atoms
         to_return = self.pdos[atom_idx, :, :, :]
-        print('to_return: ', to_return)
-        print(type(to_return))
-        np.savetxt('my_array.txt', to_return)
         if not spin:
             spin_idx = list(range(self.ispin))
         elif spin == 'up':
@@ -184,7 +181,8 @@ class Doscar:
         # print('spin_idx: ', spin_idx)
         # print('channel_idx: ', channel_idx)
         return to_return[:, :, channel_idx, :]
-    
+        print('to_return: ', to_return)
+        # print(type(to_return))
     def pdos_sum(self, atoms=None, spin=None, l=None, m=None):
         # print(self.pdos_select(atoms=atoms, spin=spin, l=l, m=m))
         return np.sum(self.pdos_select(atoms=atoms, spin=spin, l=l, m=m), axis=(0,2,3))
