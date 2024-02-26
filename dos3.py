@@ -322,8 +322,8 @@ elif ispin == 2:
     y2 = down[emask_unocc]
     unocc1 = simpson(y=y1, x=x)
     unocc2 = simpson(y=y2, x=x)
-    e_num1 = occ / unocc
-    e_num2 = occ / unocc
+    e_num1 = occ1 / unocc1
+    e_num2 = occ2 / unocc2
     print('  occ_up  : {:.4f} (eV)'.format(occ1))
     print('unocc_up  : {:.4f} (eV)'.format(unocc1))
     print('e_num_up  : {:.4f} (eV)\n'.format(e_num1))
