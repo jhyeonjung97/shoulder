@@ -28,7 +28,7 @@ else:
 # Check if input_str contains a dash, indicating a range
 if '-' in args.atoms:
     start, end = args.atoms.split('-')
-    atoms = list(range(start, end+1))
+    atoms = list(range(int(start), int(end)+1))
     print(atoms)
 elif args.atoms:
     atoms = list(map(int, args.atoms.split(',')))
