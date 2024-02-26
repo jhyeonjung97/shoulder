@@ -17,7 +17,7 @@ def pdos_column_names(lmax, ispin):
                   'f_y(3x2-y2)', 'f_xyz', 'f_yz2', 'f_z3', 'f_xz2', 'f_z(x2-y2)', 'f_x(x2-3y2)']
     else:
         raise ValueError('lmax value not supported')
-    print('names: ', names)
+    # print('names: ', names)
     if ispin == 2:
         all_names = []
         for n in names:
@@ -198,7 +198,7 @@ with open('OUTCAR', 'r') as file:
 dosfile = 'DOSCAR'
 doscar  = Doscar(dosfile, ispin=ispin, lmax=lmax, lorbit=11)  # calculation setting 
 atoms = list(range(15,15))  # calculated atom ordinal
-print('atoms: ', atoms)
+# print('atoms: ', atoms)
 
 # Set atoms for integration
 if ispin == 1:
@@ -210,7 +210,7 @@ else:
     print('ispin value not supported')    
 
 # Set intergrating range 
-efermi = doscar.efermi - doscar.efermi 
+efermi = doscar.efermi #- doscar.efermi 
 energies = doscar.energy - doscar.efermi
 emin, emax = energies[0], energies[-1]
 erange = (efermi-8, efermi+2)      # integral energy range
