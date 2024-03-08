@@ -1,0 +1,6 @@
+COHPstartEnergy -30.0
+COHPendEnergy 15.0
+userecommendedbasisfunctions
+DesityOfEnergy
+
+cohpGenerator from 1.5 to 2.5 type Co type O orbitalWise around 1
