@@ -5,5 +5,10 @@
 
 export DIR_NAME=$(date '+%Y-%m-%d-%T')
 
-mkdir ~/_TRASH/${DIR_NAME}
-mv -v $* ~/_TRASH/${DIR_NAME}
+if [[ ${here} == 'nersc' ]]; then
+    mkdir ~/_TRASH/${DIR_NAME}
+    mv -v $* ~/_TRASH/${DIR_NAME}
+else
+    mkdir /pscratch/sd/j/jiuy97/_TRASH/${DIR_NAME}
+    mv -v $* /pscratch/sd/j/jiuy97/_TRASH/${DIR_NAME}
+fi
