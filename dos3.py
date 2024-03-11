@@ -264,7 +264,7 @@ doscar  = Doscar(dosfile, ispin=ispin, lmax=lmax, lorbit=11)  # calculation sett
 # Set atoms for integration
 if ispin == 1:
     non, o_num = doscar.pdos_sum(atoms, spin='up', l=orb, m=m)
-:qelif ispin == 2:
+elif ispin == 2:
     up, o_num_up = doscar.pdos_sum(atoms, spin='up', l=orb, m=m)
     down, o_num_down = doscar.pdos_sum(atoms, spin='down', l=orb, m=m)
 else:
