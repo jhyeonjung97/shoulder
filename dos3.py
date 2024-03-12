@@ -75,7 +75,9 @@ else:
     m = None
 
 def pdos_column_names(lmax, ispin):
-    if lmax == 1:
+    if lmax == 0:
+        names = ['s']
+    elif lmax == 1:
         names = ['s', 'p_y', 'p_z', 'p_x']
     elif lmax == 2:
         names = ['s', 'p_y', 'p_z', 'p_x', 'd_xy', 'd_yz', 'd_z2-r2', 'd_xz', 'd_x2-y2']
@@ -91,7 +93,6 @@ def pdos_column_names(lmax, ispin):
     else:
         all_names = names
     all_names.insert(0, 'energy')
-    print(all_names)
     return all_names
 
 class Doscar:
@@ -138,7 +139,7 @@ class Doscar:
     @property
     def number_of_channels(self):
         if self.lorbit == 11:
-            return {1:4, 2: 9, 3: 16}[self.lmax]
+            return {0: 1, 1: 4, 2: 9, 3: 16}[self.lmax]
         raise NotImplementedError
 
     def read_header(self):
@@ -250,8 +251,10 @@ with open('POTCAR', 'r') as file:
                 lmax = 3
             elif 'd' in line and lmax != 3:
                 lmax = 2
-            elif 'p' in line and lmax == None:
+            elif 'p' in line and lmax != 2:
                 lmax = 1
+            elif 's' in line and lmax == None:
+                lmax = 0
 if lmax == None:
     print('check lmax value..')
 
