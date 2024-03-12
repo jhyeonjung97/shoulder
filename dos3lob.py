@@ -292,8 +292,9 @@ elif ispin == 2:
     occ2 = simpson(y=y2, x=x)
     occ = occ1+occ2
     x = energies[emask_unocc]
-    print(x)
     y1 = up[emask_unocc]
+    print(y1)
+    print(len(x),len(y1))
     y2 = down[emask_unocc]
     unocc1 = simpson(y=y1, x=x)
     unocc2 = simpson(y=y2, x=x)
