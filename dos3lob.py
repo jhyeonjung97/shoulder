@@ -194,7 +194,7 @@ class Doscar:
         elif names:
             channel_idx = [i for i, name in enumerate(names) if l in name]
             if m:
-                channel_idx = channel_idx[m]
+                channel_idx = [channel_idx[i-1] for i in m]
         else:
             raise ValueError
         to_return = to_return[:, :, channel_idx, :]
