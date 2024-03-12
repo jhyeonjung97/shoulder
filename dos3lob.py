@@ -211,6 +211,7 @@ def check_orbitals_in_potcar(potcar_path):
 
 names = []
 atom_count = 0
+is_orb = False
 with open('DOSCAR.lobster', 'r') as file:
     for line in file:
         match = re.search(r"Z=\s*\d+;\s*(.*)", line)
@@ -218,8 +219,10 @@ with open('DOSCAR.lobster', 'r') as file:
             if atom_count in atoms:
                 names_str = match.group(1)
                 names = names_str.split()
+                if l in names_str:
+                    is_orb = True
             atom_count += 1
-if not names:
+if not names or not is_orb:
     print('check names..')
 
 with open('OUTCAR', 'r') as file:
