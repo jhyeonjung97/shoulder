@@ -192,23 +192,10 @@ class Doscar:
         to_return = to_return[:, :, :, spin_idx]
         if not l:
             channel_idx = list(range(self.number_of_channels))
-        elif l == 's':
-            channel_idx = [0]
-        elif l == 'p':
-            if not m:
-                channel_idx = [1, 2, 3]
-            else:
-                channel_idx = [i for i, v in enumerate(valid_m_values['p']) if v in m]
-        elif l == 'd':
-            if not m:
-                channel_idx = [4, 5, 6, 7, 8]
-            else:
-                channel_idx = [i for i, v in enumerate(valid_m_values['d']) if v in m]
-        elif l == 'f':
-            if not m:
-                channel_idx = [9, 10, 11, 12, 13, 14, 15]
-            else:
-                channel_idx = [i for i, v in enumerate(valid_m_values['f']) if v in m]
+        elif names:
+            channel_idx = [i for i, name in enumerate(names) if l in name]
+            if m:
+                channel_idx = channel_idx[m]
         else:
             raise ValueError
         to_return = to_return[:, :, channel_idx, :]
