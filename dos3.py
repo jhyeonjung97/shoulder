@@ -347,7 +347,7 @@ elif ispin == 2:
     #       'total_down: {:.4f}\n'.format(total2),
     #       'e_num_down: {:.4f} (e-)\n'.format(e_num2))
     print('  dbc  : {:.4f} (eV)'.format(dbc))
-    if not 1.9 * o_num_up < total < 2.1 * o_num_up:
+    if not 1.9 * o_num_up * 2 < total < 2.1 * o_num_up * 2:
         print('  occ  : {:.4f}\n'.format(occ),
               'unocc  : {:.4f}\n'.format(unocc),
               'total  : {:.4f}'.format(total))
