@@ -63,7 +63,7 @@ if args.subset:
         }
         m = [subset_dict[number] for number in subset_numbers if number in subset_dict]
     for mm in m:
-        print(orb+'_'+mm)
+        print(orb + '_' + mm, end=' ')
 else:
     m = None
 
