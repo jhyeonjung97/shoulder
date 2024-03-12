@@ -215,11 +215,11 @@ with open('DOSCAR.lobster', 'r') as file:
     for line in file:
         match = re.search(r"Z= \d+; (.*)", line)
         if "Z=" in line:
-            line_count += 1
             if line_count in atoms:
                 if match:
                     names_str = match.group(1)
                     names = names_str.split()
+            line_count += 1
 if names == []:
     print('check names..')
 
