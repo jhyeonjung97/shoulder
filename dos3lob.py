@@ -210,19 +210,19 @@ def check_orbitals_in_potcar(potcar_path):
     orbital_types = []
 
 names = []
-line_count = 0
+atom_count = 0
 print(atoms)
 with open('DOSCAR.lobster', 'r') as file:
     for line in file:
         match = re.search(r"Z= \d+; (.*)", line)
         if match:
-            if line_count in atoms:
+            if str(atom_count) in atoms:
                 names_str = match.group(1)
                 names = names_str.split(' ')
                 print(names)
-            line_count += 1
-            print(line_count)
-if names == []:
+            atom_count += 1
+            print(count)
+if not names:
     print('check names..')
 
 with open('OUTCAR', 'r') as file:
