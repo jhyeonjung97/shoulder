@@ -70,7 +70,7 @@ if args.subset:
             7: 'x(x2-3y2)'
         }
         m = [subset_dict[number] for number in subset_numbers if number in subset_dict]
-    print(orb, m)
+    print(orb+m)
 else:
     m = None
 
@@ -189,7 +189,8 @@ class Doscar:
         """
         Returns a subset of the projected density of states array.
         """
-        valid_m_values = {'p': ['y', 'z', 'x'],
+        valid_m_values = {'s': [' '],
+                          'p': ['y', 'z', 'x'],
                           'd': ['xy', 'yz', 'z2-r2', 'xz', 'x2-y2'],
                           'f': ['y(3x2-y2)', 'xyz', 'yz2', 'z3', 'xz2', 'z(x2-y2)', 'x(x2-3y2)']}
         if not atoms:
@@ -210,6 +211,11 @@ class Doscar:
         to_return = to_return[:, :, :, spin_idx]
         if not l:
             channel_idx = list(range(self.number_of_channels))
+        elif l == 's':
+            if not m:
+                channel_idx = [0]
+            else:
+                channel_idx = [i for i, v in enumerate(valid_m_values['s']) if v in m]
         elif l == 'p':
             if not m:
                 channel_idx = [1, 2, 3]
