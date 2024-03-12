@@ -238,7 +238,7 @@ class Doscar:
     
     def pdos_sum(self, atoms=None, spin=None, l=None, m=None):
         pdos_subset, channel_idx_length = self.pdos_select(atoms=atoms, spin=spin, l=l, m=m)
-        print(pdos_subset)
+        print(pdos_subset[0])
         return np.sum(pdos_subset, axis=(0,2,3)), channel_idx_length
 
 def check_orbitals_in_potcar(potcar_path):
