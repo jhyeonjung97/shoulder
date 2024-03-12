@@ -72,6 +72,7 @@ if args.subset:
         m = [subset_dict[number] for number in subset_numbers if number in subset_dict]
     print(orb+'_'+m[0])
 else:
+    print('s')
     m = None
 
 def pdos_column_names(lmax, ispin):
