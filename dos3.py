@@ -214,7 +214,10 @@ class Doscar:
         if not l:
             channel_idx = list(range(self.number_of_channels))
         elif l == 's':
-            channel_idx = [0]
+            if not m:
+                channel_idx = [0]
+            else:
+                channel_idx = [i for i, v in enumerate(valid_m_values['s']) if v in m]
         elif l == 'p':
             if not m:
                 channel_idx = [1, 2, 3]
@@ -255,6 +258,7 @@ with open('POTCAR', 'r') as file:
                 lmax = 1
             elif 's' in line and lmax == None:
                 lmax = 0
+print(lmax)
 if lmax == None:
     print('check lmax value..')
 
