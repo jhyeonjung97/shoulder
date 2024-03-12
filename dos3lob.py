@@ -1,5 +1,6 @@
 # Ref: https://vasppy.readthedocs.io/en/latest/_modules/vasppy/doscar.html
 
+import re
 import time
 import datetime
 import argparse
@@ -14,10 +15,7 @@ parser.add_argument('-e', '--energy', type=str, default='', help='energy range (
 parser.add_argument('-o', '--orbital', type=str, default='d', help='orbital (e.g. "s", "p", "d", "f"')
 parser.add_argument('-m', '--subset', type=str, default='', help='orbital subset # 1 for d_xy, 2 for d_yz, 3 for d_z2-r2, 4 for d_xz, 5 for d_x2-y2)')
 
-# args, remaining_args = parser.parse_known_args()
 args = parser.parse_args()
-        
-# Process arguments parsed by argparse
 orb = args.orbital
 
 if args.energy:
@@ -25,7 +23,6 @@ if args.energy:
 else:
     emin, emax = None, None
 
-# Check if input_str contains a dash, indicating a range
 if '-' in args.atoms:
     a_start, a_end = args.atoms.split('-')
     atoms = list(range(int(a_start), int(a_end)+1))
@@ -38,7 +35,14 @@ if args.subset:
         subset_numbers = list(range(int(m_start), int(m_end)+1))
     else:
         subset_numbers = list(map(int, args.subset.split(',')))
-    if orb == 'd':
+    if orb == 'p':
+        subset_dict = {
+            1: 'x',
+            2: 'y',
+            3: 'z'
+        }
+        m = [subset_dict[number] for number in subset_numbers if number in subset_dict]
+    elif orb == 'd':
         subset_dict = {
             1: 'xy',
             2: 'yz',
@@ -62,16 +66,7 @@ if args.subset:
 else:
     m = None
 
-def pdos_column_names(lmax, ispin):
-    if lmax == 1:
-        names = ['s']
-    elif lmax == 2:
-        names = ['s', 'd_xy', 'd_yz', 'd_z2-r2', 'd_xz', 'd_x2-y2']
-    elif lmax == 3:
-        names = ['s', 'd_xy', 'd_yz', 'd_z2-r2', 'd_xz', 'd_x2-y2',
-                  'f_y(3x2-y2)', 'f_xyz', 'f_yz2', 'f_z3', 'f_xz2', 'f_z(x2-y2)', 'f_x(x2-3y2)']
-    else:
-        raise ValueError('lmax value not supported')
+def pdos_column_names(names, ispin):
     if ispin == 2:
         all_names = []
         for n in names:
@@ -88,7 +83,7 @@ class Doscar:
 
     number_of_header_lines = 6
 
-    def __init__(self, filename, ispin=2, lmax=2, lorbit=11, spin_orbit_coupling=False, read_pdos=True, species=None):
+    def __init__(self, filename, ispin=2, names=None, lorbit=11, spin_orbit_coupling=False, read_pdos=True, species=None):
         '''
         Create a Doscar object from a VASP DOSCAR file.
         Args:
@@ -96,7 +91,7 @@ class Doscar:
             ispin (optional:int): ISPIN flag. 
                 Set to 1 for non-spin-polarised or 2 for spin-polarised calculations.
                 Default = 2.
-            lmax (optional:int): Maximum l angular momentum. (d=2, f=3). Default = 2.
+            names (optional:int): names of the columns
             lorbit (optional:int): The VASP LORBIT flag. (Default=11).
             spin_orbit_coupling (optional:bool): Spin-orbit coupling (Default=False).
             read_pdos (optional:bool): Set to True to read the atom-projected density of states (Default=True).
@@ -105,7 +100,7 @@ class Doscar:
         '''
         self.filename = filename
         self.ispin = ispin
-        self.lmax = lmax
+        self.names = names
         self.spin_orbit_coupling = spin_orbit_coupling
         if self.spin_orbit_coupling:
             raise NotImplementedError('Spin-orbit coupling is not yet implemented')
@@ -119,13 +114,11 @@ class Doscar:
                 self.read_projected_dos()
             except:
                 raise
-        # if species is set, should check that this is consistent with the number of entries in the
-        # projected_dos dataset
         
     @property
     def number_of_channels(self):
         if self.lorbit == 11:
-            return {1:4, 2: 9, 3: 16}[self.lmax]
+            return len(self.names)
         raise NotImplementedError
 
     def read_header(self):
@@ -159,7 +152,7 @@ class Doscar:
                          skiprows=start_to_read,
                          nrows=self.number_of_data_points,
                          delim_whitespace=True,
-                         names=pdos_column_names(lmax=self.lmax, ispin=self.ispin),
+                         names=pdos_column_names(names=self.names, ispin=self.ispin),
                          index_col=False)
         return df.drop('energy', axis=1)
     
@@ -178,6 +171,7 @@ class Doscar:
         Returns a subset of the projected density of states array.
         """
         valid_m_values = {'s': [],
+                          'p': ['x', 'y', 'z'],
                           'd': ['xy', 'yz', 'z2-r2', 'xz', 'x2-y2'],
                           'f': ['y(3x2-y2)', 'xyz', 'yz2', 'z3', 'xz2', 'z(x2-y2)', 'x(x2-3y2)']}
         if not atoms:
@@ -200,6 +194,11 @@ class Doscar:
             channel_idx = list(range(self.number_of_channels))
         elif l == 's':
             channel_idx = [0]
+        elif l == 'p':
+            if not m:
+                channel_idx = [1, 2, 3]
+            else:
+                channel_idx = [i for i, v in enumerate(valid_m_values['p']) if v in m]
         elif l == 'd':
             if not m:
                 channel_idx = [4, 5, 6, 7, 8]
@@ -223,16 +222,19 @@ def check_orbitals_in_potcar(potcar_path):
     has_d_or_f_orbital = False
     orbital_types = []
 
-lmax = None
-with open('POTCAR', 'r') as file:
+names = []
+line_count = 0
+with open('DOSCAR.lobsterout', 'r') as file:
     for line in file:
-        if "VRHFIN" in line:
-            if 'f' in line:
-                lmax = 3
-            elif 'd' in line and lmax != 3:
-                lmax = 2
-if lmax == None:
-    print('check lmax value..')
+        match = re.search(r"Z= \d+; (.*)", line)
+        if "Z=" in line:
+            line_count += 1
+            if line_count in atoms:
+                if match:
+                    names_str = match.group(1)
+                    names = names_str.split()
+if names == []:
+    print('check names..')
 
 with open('OUTCAR', 'r') as file:
     for line in file:
@@ -241,12 +243,9 @@ with open('OUTCAR', 'r') as file:
         elif 'ISPIN' in line and '2' in line:
             ispin = 2
 
-# calculation of d-band center
-# Open doscar
-dosfile = 'DOSCAR'
-doscar  = Doscar(dosfile, ispin=ispin, lmax=lmax, lorbit=11)  # calculation setting 
+dosfile = 'DOSCAR.lobster'
+doscar  = Doscar(dosfile, ispin=ispin, names=names, lorbit=11) 
 
-# Set atoms for integration
 if ispin == 1:
     non, o_num = doscar.pdos_sum(atoms, spin='up', l=orb, m=m)
 elif ispin == 2:
