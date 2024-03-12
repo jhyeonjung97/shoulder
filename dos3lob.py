@@ -221,7 +221,7 @@ with open('DOSCAR.lobster', 'r') as file:
                 names = names_str.split(' ')
                 print(names)
             atom_count += 1
-            print(count)
+            print(atom_count)
 if not names:
     print('check names..')
 
