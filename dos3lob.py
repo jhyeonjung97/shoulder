@@ -218,7 +218,7 @@ with open('DOSCAR.lobster', 'r') as file:
         if match:
             if atom_count in atoms:
                 names_str = match.group(1)
-                names = names_str.split(' ')
+                names = names_str.split('')
                 print(names)
             atom_count += 1
             print(atom_count)
