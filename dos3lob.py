@@ -217,9 +217,9 @@ with open('DOSCAR.lobster', 'r') as file:
         match = re.search(r"Z= \d+; (.*)", line)
         if match:
             if line_count in atoms:
-                    names_str = match.group(1)
-                    names = names_str.split()
-                    print(names)
+                names_str = match.group(1)
+                names = names_str.split(' ')
+                print(names)
             line_count += 1
             print(line_count)
 if names == []:
