@@ -257,7 +257,6 @@ emask_occ = (energies <= 0)
 emask_unocc = (energies > 0)
 
 # Calculating center of the orbital specified above in line 184
-print(ispin)
 if ispin == 1:
     x = energies[emask]
     y = non[emask]
@@ -280,6 +279,7 @@ elif ispin == 2:
     dbc_up   = simpson(y=y1*x, x=x) / simpson(y=y1, x=x)
     dbc_down = simpson(y=y2*x, x=x) / simpson(y=y2, x=x)
     dbc = simpson(y=(y1+y2)*x, x=x) / simpson(y=(y1+y2), x=x)
+    print(x)
     # print('   dbc_up  : {:.4f} (eV)\n'.format(dbc_up),
     #       '  dbc_down: {:.4f} (eV)\n'.format(dbc_down),
     #       '  dbc     : {:.4f} (eV)\n'.format(dbc))
@@ -287,7 +287,7 @@ elif ispin == 2:
     total2 = simpson(y=y2, x=x)
     total = total1+total2
     x = energies[emask_occ]
-    print(x)
+    
     y1 = up[emask_occ]
     y2 = down[emask_occ]
     occ1 = simpson(y=y1, x=x)
