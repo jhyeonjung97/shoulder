@@ -190,7 +190,7 @@ class Doscar:
         Returns a subset of the projected density of states array.
         """
         valid_m_values = {'s': [' '],
-                          'p': ['x', 'y', 'z'],
+                          'p': ['y', 'z', 'x'],
                           'd': ['xy', 'yz', 'z2-r2', 'xz', 'x2-y2'],
                           'f': ['y(3x2-y2)', 'xyz', 'yz2', 'z3', 'xz2', 'z(x2-y2)', 'x(x2-3y2)']}
         if not atoms:
