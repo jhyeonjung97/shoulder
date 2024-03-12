@@ -65,7 +65,7 @@ if args.subset:
             7: 'x(x2-3y2)'
         }
         m = [subset_dict[number] for number in subset_numbers if number in subset_dict]
-    print(orb, m, '\n')
+    print(orb, m)
 else:
     m = None
 
@@ -338,4 +338,4 @@ elif ispin == 2:
           '  occ  : {:.4f}\n'.format(occ),
           'unocc  : {:.4f}\n'.format(unocc),
           'total  : {:.4f}\n'.format(total),
-          'e_num  : {:.4f} (e-)\n'.format(e_num))
+          'e_num  : {:.4f} (e-)'.format(e_num))
