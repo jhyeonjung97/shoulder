@@ -62,9 +62,9 @@ if args.subset:
             7: 'x(x2-3y2)'
         }
         m = [subset_dict[number] for number in subset_numbers if number in subset_dict]
-    for mm in m:
-        print(orb + '_' + mm, end=' ')
+    print(' '.join([orb + '_' + mm for mm in m]))
 else:
+    print('s')
     m = None
 
 def pdos_column_names(names, ispin):
