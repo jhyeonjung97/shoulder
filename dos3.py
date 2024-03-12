@@ -182,6 +182,7 @@ class Doscar:
         for i in range(self.number_of_atoms):
             df = self.read_atomic_dos_as_df(i+1)
             pdos_list.append(df)
+        print(self.number_of_channels)
         self.pdos = np.vstack([np.array(df) for df in pdos_list]).reshape(
             self.number_of_atoms, self.number_of_data_points, self.number_of_channels, self.ispin)
         
