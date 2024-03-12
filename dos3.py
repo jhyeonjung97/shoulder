@@ -323,9 +323,9 @@ elif ispin == 2:
     unocc1 = simpson(y=y1, x=x)
     unocc2 = simpson(y=y2, x=x)
     unocc = unocc1+unocc2
-    e_num1 = occ1 / unocc1 * o_num_up * 2
-    e_num2 = occ2 / unocc2 * o_num_down * 2
-    e_num = e_num1+e_num2
+    e_num1 = occ1 / total1 * o_num_up * 2
+    e_num2 = occ2 / total2 * o_num_down * 2
+    e_num = occ / total * o_num_up * 2 * 2
     # print('   occ_up  : {:.4f}\n'.format(occ1),
     #       'unocc_up  : {:.4f}\n'.format(unocc1),
     #       'total_up  : {:.4f}\n'.format(total1),
