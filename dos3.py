@@ -19,6 +19,7 @@ args = parser.parse_args()
         
 # Process arguments parsed by argparse
 orb = args.orbital
+print(orb)
 
 if args.energy:
     emin, emax = map(float, args.energy.split(','))
@@ -258,7 +259,6 @@ with open('POTCAR', 'r') as file:
                 lmax = 1
             elif 's' in line and lmax == None:
                 lmax = 0
-print(lmax)
 if lmax == None:
     print('check lmax value..')
 
