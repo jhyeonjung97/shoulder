@@ -335,7 +335,7 @@ elif ispin == 2:
     #       'total_down: {:.4f}\n'.format(total2),
     #       'e_num_down: {:.4f} (e-)\n'.format(e_num2))
     print('   dbc  : {:.4f} (eV)\n'.format(dbc),
-          '   occ  : {:.4f}\n'.format(occ),
+          '  occ  : {:.4f}\n'.format(occ),
           'unocc  : {:.4f}\n'.format(unocc),
           'total  : {:.4f}\n'.format(total),
           'e_num  : {:.4f} (e-)\n'.format(e_num))
