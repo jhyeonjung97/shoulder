@@ -233,12 +233,12 @@ class Doscar:
                 channel_idx = [i for i, v in enumerate(valid_m_values['f']) if v in m]
         else:
             raise ValueError
-        print(l, channel_idx)
         to_return = to_return[:, :, channel_idx, :]
         return to_return, len(channel_idx)
     
     def pdos_sum(self, atoms=None, spin=None, l=None, m=None):
-        pdos_subset, channel_idx_length = self.pdos_select(atoms=atoms, spin=spin, l=l, m=m)  # Unpack the returned tuple
+        pdos_subset, channel_idx_length = self.pdos_select(atoms=atoms, spin=spin, l=l, m=m)
+        print(pdos_subset)
         return np.sum(pdos_subset, axis=(0,2,3)), channel_idx_length
 
 def check_orbitals_in_potcar(potcar_path):
