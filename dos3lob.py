@@ -247,7 +247,7 @@ else:
 # Set intergrating range 
 # efermi = doscar.efermi #- doscar.efermi 
 efermi = 0
-energies = doscar.energy - doscar.efermi
+energies = doscar.energy - efermi
 if emin == None:
     emin = energies[0]
 if emax == None:
