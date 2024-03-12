@@ -62,7 +62,6 @@ if args.subset:
             7: 'x(x2-3y2)'
         }
         m = [subset_dict[number] for number in subset_numbers if number in subset_dict]
-    print(orb, m)
 else:
     m = None
 
@@ -275,6 +274,7 @@ if ispin == 1:
           'e_num: {:.4f} (eV)\n'.format(e_num))
 elif ispin == 2:
     x = energies[emask]
+    print(x)
     y1 = up[emask]
     y2 = down[emask]
     dbc_up   = simpson(y=y1*x, x=x) / simpson(y=y1, x=x)
