@@ -224,7 +224,7 @@ def check_orbitals_in_potcar(potcar_path):
 
 names = []
 line_count = 0
-with open('DOSCAR.lobsterout', 'r') as file:
+with open('DOSCAR.lobster', 'r') as file:
     for line in file:
         match = re.search(r"Z= \d+; (.*)", line)
         if "Z=" in line:
