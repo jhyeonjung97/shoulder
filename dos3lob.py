@@ -62,7 +62,8 @@ if args.subset:
             7: 'x(x2-3y2)'
         }
         m = [subset_dict[number] for number in subset_numbers if number in subset_dict]
-    print(orb+'_'+m)
+    for mm in m:
+        print(orb+'_'+mm)
 else:
     m = None
 
