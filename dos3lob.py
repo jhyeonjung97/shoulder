@@ -280,9 +280,9 @@ elif ispin == 2:
     dbc_up   = simpson(y=y1*x, x=x) / simpson(y=y1, x=x)
     dbc_down = simpson(y=y2*x, x=x) / simpson(y=y2, x=x)
     dbc = simpson(y=(y1+y2)*x, x=x) / simpson(y=(y1+y2), x=x)
-    print('   dbc_up  : {:.4f} (eV)\n'.format(dbc_up),
-          '  dbc_down: {:.4f} (eV)\n'.format(dbc_down),
-          '  dbc     : {:.4f} (eV)\n'.format(dbc))
+    # print('   dbc_up  : {:.4f} (eV)\n'.format(dbc_up),
+    #       '  dbc_down: {:.4f} (eV)\n'.format(dbc_down),
+    #       '  dbc     : {:.4f} (eV)\n'.format(dbc))
     total1 = simpson(y=y1, x=x)
     total2 = simpson(y=y2, x=x)
     total = total1+total2
