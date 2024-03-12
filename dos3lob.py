@@ -224,6 +224,7 @@ with open('DOSCAR.lobster', 'r') as file:
             atom_count += 1
 if not names or not is_orb:
     print('check names..')
+    exit(1)
 
 with open('OUTCAR', 'r') as file:
     for line in file:
