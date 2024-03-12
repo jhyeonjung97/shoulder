@@ -38,7 +38,12 @@ if args.subset:
         subset_numbers = list(range(int(m_start), int(m_end)+1))
     else:
         subset_numbers = list(map(int, args.subset.split(',')))
-    if orb == 'p':
+    if orb == 's':
+        subset_dict = {
+            1: ' '
+        }
+        m = [subset_dict[number] for number in subset_numbers if number in subset_dict]
+    elif orb == 'p':
         subset_dict = {
             1: 'x',
             2: 'y',
@@ -184,7 +189,7 @@ class Doscar:
         """
         Returns a subset of the projected density of states array.
         """
-        valid_m_values = {'s': [],
+        valid_m_values = {'s': [' '],
                           'p': ['x', 'y', 'z'],
                           'd': ['xy', 'yz', 'z2-r2', 'xz', 'x2-y2'],
                           'f': ['y(3x2-y2)', 'xyz', 'yz2', 'z3', 'xz2', 'z(x2-y2)', 'x(x2-3y2)']}
