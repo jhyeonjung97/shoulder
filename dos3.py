@@ -45,9 +45,9 @@ if args.subset:
         m = [subset_dict[number] for number in subset_numbers if number in subset_dict]
     elif orb == 'p':
         subset_dict = {
-            1: 'x',
-            2: 'y',
-            3: 'z'
+            1: 'y',
+            2: 'z',
+            3: 'x'
         }
         m = [subset_dict[number] for number in subset_numbers if number in subset_dict]
     elif orb == 'd':
