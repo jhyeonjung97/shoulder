@@ -220,17 +220,17 @@ class Doscar:
             if not m:
                 channel_idx = [1, 2, 3]
             else:
-                channel_idx = [i for i, v in enumerate(valid_m_values['p']) if v in m]
+                channel_idx = [i+1 for i, v in enumerate(valid_m_values['p']) if v in m]
         elif l == 'd':
             if not m:
                 channel_idx = [4, 5, 6, 7, 8]
             else:
-                channel_idx = [i for i, v in enumerate(valid_m_values['d']) if v in m]
+                channel_idx = [i+4 for i, v in enumerate(valid_m_values['d']) if v in m]
         elif l == 'f':
             if not m:
                 channel_idx = [9, 10, 11, 12, 13, 14, 15]
             else:
-                channel_idx = [i for i, v in enumerate(valid_m_values['f']) if v in m]
+                channel_idx = [i+9 for i, v in enumerate(valid_m_values['f']) if v in m]
         else:
             raise ValueError
         print(l, channel_idx)
