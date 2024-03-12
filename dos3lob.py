@@ -62,7 +62,7 @@ if args.subset:
             7: 'x(x2-3y2)'
         }
         m = [subset_dict[number] for number in subset_numbers if number in subset_dict]
-    print(' '.join([orb + '_' + mm for mm in m]))
+    print("\033[34m" + ' '.join([orb + '_' + mm for mm in m]) + "\033[0m")
 else:
     if orb == 's':
         print('s')
