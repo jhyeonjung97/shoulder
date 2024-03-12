@@ -211,7 +211,6 @@ def check_orbitals_in_potcar(potcar_path):
 
 names = []
 atom_count = 0
-print(atoms)
 with open('DOSCAR.lobster', 'r') as file:
     for line in file:
         match = re.search(r"Z=\s*\d+;\s*(.*)", line)
@@ -219,9 +218,7 @@ with open('DOSCAR.lobster', 'r') as file:
             if atom_count in atoms:
                 names_str = match.group(1)
                 names = names_str.split()
-                print(names)
             atom_count += 1
-            print(atom_count)
 if not names:
     print('check names..')
 
@@ -256,6 +253,7 @@ emask_occ = (energies <= 0)
 emask_unocc = (energies > 0)
 
 # Calculating center of the orbital specified above in line 184
+print(ispin)
 if ispin == 1:
     x = energies[emask]
     y = non[emask]
