@@ -19,7 +19,6 @@ args = parser.parse_args()
         
 # Process arguments parsed by argparse
 orb = args.orbital
-print(orb)
 
 if args.energy:
     emin, emax = map(float, args.energy.split(','))
@@ -134,8 +133,6 @@ class Doscar:
                 self.read_projected_dos()
             except:
                 raise
-        # if species is set, should check that this is consistent with the number of entries in the
-        # projected_dos dataset
         
     @property
     def number_of_channels(self):
