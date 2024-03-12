@@ -245,7 +245,8 @@ else:
     print('ispin value not supported')    
 
 # Set intergrating range 
-efermi = doscar.efermi #- doscar.efermi 
+# efermi = doscar.efermi #- doscar.efermi 
+efermi = 0
 energies = doscar.energy - doscar.efermi
 if emin == None:
     emin = energies[0]
