@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# By Dongjae Shin, EEWS, KAIST, Korea
+# 01/31/2017
+
+export DIR_NAME=$(date '+%Y-%m-%d-%T')
+
+if [[ ${here} == 'nersc' ]]; then
+    mkdir /pscratch/sd/j/jiuy97/_TRASH/${DIR_NAME}
+    mv -v $* /pscratch/sd/j/jiuy97/_TRASH/${DIR_NAME}
+else
+    mkdir ~/_TRASH/${DIR_NAME}
+    mv -v $* ~/_TRASH/${DIR_NAME}
+fi
