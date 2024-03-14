@@ -345,7 +345,7 @@ elif ispin == 2:
     print('   occ: {:.4f}\t{:.4f}(eV)\n'.format(dbc_occ_up, dbc_occ_down),
           '  occ: {:.4f}\t{:.4f}(e-)\n'.format(occ1, occ2),
           'unocc: {:.4f}\t{:.4f}(eV)\n'.format(dbc_unocc_up, dbc_unocc_down),
-          'unocc: {:.4f}\t{:.4f}(e-)\n'.format(unocc1, unocc2),
+          'unocc: {:.4f}\t{:.4f}(e-)\n'.format(unocc1, unocc2)) #,
           # 'total: {:.4f}\t{:.4f}(e-)\n'.format(total1, total2),
           # 'e_num: {:.4f}\t{:.4f}(e-)\n'.format(e_num1, e_num2))
     # print('   occ_down: {:.4f} (eV)\n'.format(dbc_occ_down),
