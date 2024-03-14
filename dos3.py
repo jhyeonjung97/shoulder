@@ -342,12 +342,12 @@ elif ispin == 2:
     e_num = occ / total * o_num_up * 2
     dbc_unocc_up = simpson(y=y1*x, x=x) / simpson(y=y1, x=x)
     dbc_unocc_down = simpson(y=y2*x, x=x) / simpson(y=y2, x=x)
-    print('   occ: {:.4f} (eV)\t{:.4f}\n'.format(dbc_occ_up, dbc_occ_down),
-          '  occ: {:.4f} (e-)\t{:.4f}\n'.format(occ1, occ2),
-          'unocc: {:.4f} (eV)\t{:.4f}\n'.format(dbc_unocc_up, dbc_unocc_down),
-          'unocc: {:.4f} (e-)\t{:.4f}\n'.format(unocc1, unocc2),
-          'total: {:.4f} (e-)\t{:.4f}\n'.format(total1, total2),
-          'e_num: {:.4f} (e-)\t{:.4f}\n'.format(e_num1, e_num2))
+    print('   occ: {:.4f}\t{:.4f}(eV)\n'.format(dbc_occ_up, dbc_occ_down),
+          '  occ: {:.4f}\t{:.4f}(e-)\n'.format(occ1, occ2),
+          'unocc: {:.4f}\t{:.4f}(eV)\n'.format(dbc_unocc_up, dbc_unocc_down),
+          'unocc: {:.4f}\t{:.4f}(e-)\n'.format(unocc1, unocc2),
+          # 'total: {:.4f}\t{:.4f}(e-)\n'.format(total1, total2),
+          # 'e_num: {:.4f}\t{:.4f}(e-)\n'.format(e_num1, e_num2))
     # print('   occ_down: {:.4f} (eV)\n'.format(dbc_occ_down),
     #       '  occ_down: {:.4f} (e-)\n'.format(occ2),
     #       'unocc_down: {:.4f} (eV)\n'.format(dbc_unocc_down),
