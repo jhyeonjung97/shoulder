@@ -23,17 +23,10 @@ def ooh_oh_scaling(doh):
     return 0.84 * doh + 3.14
 
 # Function to calculate overpotential
-def overpotential3(x, doh):
+def overpotential_oer(x, doh):
     dooh = ooh_oh_scaling(doh)
     dg14 = [doh, x, dooh - (x + doh), -dooh + 4.92]
-    m = max(dg14)
-    return m - 1.23
-
-# Function for calculating and plotting the overpotential surface
-def calculate_overpotential(x, y, delta):
-    X, Y = np.meshgrid(x, y)
-    Z = np.array([[overpotential3(i, j) for i in x] for j in y])
-    return X, Y, Z
+    return max(dg14) - 1.23
 
 # Function for plotting contour and colorbars
 def plot_contour(X, Y, Z, x1, x2, y1, y2, fig, ax):
@@ -87,10 +80,10 @@ def plot_oer_contour():
     
     delta = 0.01
     x = np.arange(x1, x2 + delta, delta)
-    y = np.arange(y1, y2 + delta, delta)
-    
-    # Calculate and plot contour
-    X, Y, Z = calculate_overpotential(x, y, delta)
+    y = np.arange(y1, y2 + delta, delta)    
+    X, Y = np.meshgrid(x, y)
+    Z = np.array([[overpotential_oer(i, j) for i in x] for j in y])
+
     plot_contour(X, Y, Z, x1, x2, y1, y2, fig, ax)
     
     # Load data from 'scaling_relationship.tsv'
@@ -98,7 +91,7 @@ def plot_oer_contour():
 
     # Add calculated dOOH and overpotential
     df['dG_OOH'] = df['dG_OH'].apply(ooh_oh_scaling)
-    df['overpotential'] = df.apply(lambda row: overpotential3(row['dG_O'], row['dG_OH']), axis=1)
+    df['overpotential'] = df.apply(lambda row: overpotential_oer(row['dG_O'], row['dG_OH']), axis=1)
 
     # Extract data for plotting (replace dummy data)
     calc_systems = []
