@@ -113,8 +113,7 @@ for idx, row in df.iterrows():
 ax.plot(x, 0.87 * x + 3.22, '--', lw=1, dashes=(3, 1), c='black')
 ax.text(1.2, 2.5, r'$\Delta$G$_{\sf OOH}$=0.87$\Delta$G$_{\sf OH}$', color='black', fontsize=10)
 ax.text(1.8, 2.34, '+3.22 eV', color='black', fontsize=10)
-ax.legend(bbox_to_anchor=(1, 1), loc='upper right', borderaxespad=0.5, ncol=3, fancybox=True, shadow=False, fontsize='x-small', handlelength=2)
-# ax.legend(bbox_to_anchor=(-0.15, 1.65), loc=2, borderaxespad=0.5, ncol=3, fancybox=True, shadow=False, fontsize='x-small', handlelength=2)
+ax.legend(bbox_to_anchor=(0.5, 1.15), loc='center', borderaxespad=0.5, ncol=3, fancybox=True, shadow=False, fontsize='x-small', handlelength=2)
 fig.savefig('contour_ORR.png', bbox_inches='tight')
 fig.clf()
 
