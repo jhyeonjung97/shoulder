@@ -56,7 +56,7 @@ cbar.ax.tick_params(size=3, labelsize=6, labelcolor='black', width=0.5, color='b
 
 # Plot the calculated points from the dataset
 for idx, row in df.iterrows():
-    ax.plot(row['dG_OH'], row['dG_OOH'], 'o', label=f'{row["Metal"]}: {row["overpotential"]:.2f} V')
+    ax.plot(row['dG_OH'], row['dG_OOH'], 'o', label=f'{row.name}: {row["overpotential"]:.2f} V')
 
 # Add labels and title
 ax.set_xlabel(r'$\Delta$G$_{\sf OH}$ (eV)')
