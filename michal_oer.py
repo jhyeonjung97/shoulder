@@ -65,8 +65,8 @@ ax.legend(bbox_to_anchor=(1.05, 1), loc='upper left', borderaxespad=0.)
 
 # Save the plot
 plt.tight_layout()
-plt.savefig('ORR_contour_with_data_points.pdf')
+plt.savefig('contour_OER.png')
 plt.show()
 
 # Save the results (including calculated overpotentials) back to a CSV file
-df.to_csv('scaling_relationship_with_overpotential.csv', index=False)
+df.to_csv('contour_OER.csv', index=False)
