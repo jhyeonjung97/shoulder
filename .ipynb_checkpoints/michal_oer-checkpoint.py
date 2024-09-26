@@ -28,12 +28,14 @@ do_values = df['dG_O']
 df['dG_OOH'] = doh_values.apply(ooh_oh_scaling)
 df['overpotential'] = df.apply(lambda row: overpotential_orr(row['dG_OH'], row['dG_O'], row['dG_OOH']), axis=1)
 
+# Automatically set the axis limits based on the data
+x1, x2 = df['dG_OH'].min() - 0.2, df['dG_OH'].max() + 0.2
+y1, y2 = df['dG_OOH'].min() - 0.2, df['dG_OOH'].max() + 0.2
+
 # Plotting the results
 fig, ax = plt.subplots(figsize=(8, 6))
 
 # Contour plot settings
-x1, x2 = 0.4, 1.6
-y1, y2 = 3.0, 5.0
 delta = 0.01
 x = np.arange(x1, x2 + delta, delta)
 y = np.arange(y1, y2 + delta, delta)
@@ -65,7 +67,7 @@ ax.legend(bbox_to_anchor=(1.05, 1), loc='upper left', borderaxespad=0.)
 
 # Save the plot
 plt.tight_layout()
-plt.savefig('contour_OER.png')
+plt.savefig('contour_OER.png', dpi=300)
 plt.show()
 
 # Save the results (including calculated overpotentials) back to a CSV file
