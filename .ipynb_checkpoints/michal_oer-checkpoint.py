@@ -57,8 +57,8 @@ def plot_contour(X, Y, Z, x1, x2, y1, y2, fig, ax):
 # Plot data points for systems
 def plot_systems(ax, calc_systems):
     for system in calc_systems:
-        ax.plot(system[1] - system[0], system[0], system[9], mec=system[5], mfc=system[12], 
-                mew=0.8, zorder=4, marker=system[11], label=f'{system[4]}: {system[3]:.2f} V')
+        ax.plot(system[1] - system[0], system[0], 'o', mec=system[5], mfc=system[5], 
+                mew=0.8, zorder=4, label=f'{system[4]}: {system[3]:.2f} V')
 
 # Function to save overpotential results into a .tsv file
 def save_to_tsv(df, filename='contour_OER_results.tsv'):
