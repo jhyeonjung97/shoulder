@@ -138,10 +138,10 @@ with open('contour_ORR.tsv', 'w', newline='') as myfile:
         recalculated_over = overpotential_orr_full(row['dG_OH'], row['dG_O'], row['dG_OOH'])
         writer.writerow({
             'Surf.': idx,
-            'dOH': f'{row['dG_OH']:.2f}',
-            'dO': f'{row['dG_O']:.2f}',
-            'dOOH': f'{row['dG_OOH']:.2f}',
-            'overP': f'{recalculated_over[0]:.2f}',
-            'onsetP': f'{recalculated_over[1]:.2f}',
+            'dOH': row['dG_OH']:.2f,
+            'dO': row['dG_O']:.2f,
+            'dOOH': row['dG_OOH']:.2f,
+            'overP': recalculated_over[0]:.2f,
+            'onsetP': recalculated_over[1]:.2f,
             'PLS': recalculated_over[2]
         })
