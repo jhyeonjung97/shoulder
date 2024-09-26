@@ -115,7 +115,7 @@ ax.text(1.2, 2.5, r'$\Delta$G$_{\sf OOH}$=0.87$\Delta$G$_{\sf OH}$', color='blac
 ax.text(1.8, 2.34, '+3.22 eV', color='black', fontsize=10)
 
 ax.legend(bbox_to_anchor=(-0.15, 1.65), loc=2, borderaxespad=0.5, ncol=3, fancybox=True, shadow=False, fontsize='x-small', handlelength=2)
-fig.savefig('contour_ORR.png', bbox_inches='tight')
+fig.savefig('contour_ORR.png')
 fig.clf()
 
 # CSV writing for overpotential results
