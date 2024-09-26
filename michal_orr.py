@@ -14,7 +14,7 @@ golden_mean = (np.sqrt(5) - 1.0) / 2.0
 fig_width = fig_width_pt * inches_per_pt
 fig_height = fig_width * golden_mean
 fig_size = [fig_width, fig_height]
-fig = plt.figure(figsize=fig_size, dpi=300, constrained_layout=True)
+fig = plt.figure(figsize=fig_size, dpi=300)
 
 font_size = 9
 tick_font_size = 8
@@ -113,9 +113,9 @@ for idx, row in df.iterrows():
 ax.plot(x, 0.87 * x + 3.22, '--', lw=1, dashes=(3, 1), c='black')
 ax.text(1.2, 2.5, r'$\Delta$G$_{\sf OOH}$=0.87$\Delta$G$_{\sf OH}$', color='black', fontsize=10)
 ax.text(1.8, 2.34, '+3.22 eV', color='black', fontsize=10)
-
-ax.legend(bbox_to_anchor=(-0.15, 1.65), loc=2, borderaxespad=0.5, ncol=3, fancybox=True, shadow=False, fontsize='x-small', handlelength=2)
-fig.savefig('contour_ORR.png')
+ax.legend(bbox_to_anchor=(1, 1), loc='upper right', borderaxespad=0.5, ncol=3, fancybox=True, shadow=False, fontsize='x-small', handlelength=2)
+# ax.legend(bbox_to_anchor=(-0.15, 1.65), loc=2, borderaxespad=0.5, ncol=3, fancybox=True, shadow=False, fontsize='x-small', handlelength=2)
+fig.savefig('contour_ORR.png', bbox_inches='tight')
 fig.clf()
 
 # CSV writing for overpotential results
