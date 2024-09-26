@@ -17,7 +17,7 @@ def overpotential_orr_full(doh, do, dooh):
     return [round(m + 1.23, 2), round(-m, 2), orr_step(dg14.index(m))]
 
 # Reading data from 'scaling_relationship.tsv'
-df = pd.read_csv('scaling_relationship.tsv', sep='\t')
+df = pd.read_csv('/pscratch/sd/j/jiuy97/6_MNC/figure/scaling_relationship.tsv', sep='\t')
 
 # Extract `doh` and `do` from the file
 doh_values = df['dG_OH']
