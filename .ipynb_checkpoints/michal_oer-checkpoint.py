@@ -60,6 +60,11 @@ def plot_systems(ax, calc_systems):
         ax.plot(system[1] - system[0], system[0], system[9], mec=system[5], mfc=system[12], 
                 mew=0.8, zorder=4, marker=system[11], label=f'{system[4]}: {system[3]:.2f} V')
 
+# Function to save overpotential results into a .tsv file
+def save_to_tsv(df, filename='contour_OER_results.tsv'):
+    df.to_csv(filename, sep='\t', index=False)
+    print(f"Data saved to {filename}")
+
 # Main plotting function
 def plot_oer_contour():
     set_plot_style()
@@ -89,7 +94,7 @@ def plot_oer_contour():
     plot_contour(X, Y, Z, x1, x2, y1, y2, fig, ax)
     
     # Load data from 'scaling_relationship.tsv'
-    df = pd.read_csv('contour_OER.tsv', sep='\t')
+    df = pd.read_csv('/pscratch/sd/j/jiuy97/6_MNC/figure/scaling_relationship.tsv', sep='\t', index_col=0)
 
     # Add calculated dOOH and overpotential
     df['dG_OOH'] = df['dG_OH'].apply(ooh_oh_scaling)
@@ -107,6 +112,9 @@ def plot_oer_contour():
     # Save figure
     fig.savefig('contour_OER.png', bbox_inches='tight')
     fig.clf()
+    
+    # Save results to a .tsv file
+    save_to_tsv(df)
 
 # Run the plot function
 plot_oer_contour()
