@@ -55,23 +55,23 @@ ax.set_ylabel(r'$\Delta$G$_{\sf OOH}$ (eV)')
 def ooh_oh_scaling(doh):
     return doh + 3.2
 
-def overpotential_orr_for_contour(doh, dooh):
-    do = 1.469 * doh + 1.253
-    dg14 = [-doh, -do + doh, -dooh + do, -4.92 + dooh]
-    return max(dg14) + 1.23
-
-def overpotential_oer(doh, do, dooh):
-    dg14 = [doh, do - doh, dooh - do, -dooh + 4.92]
-    return max(dg14) + 1.23
-
-def orr_step(i):
-    steps = ['O2->OOH*', 'OOH*->O*', 'O*->OH*', 'OH*->H2O']
+def oer_step(i):
+    steps = ['H2O->OH*', 'OH*->O*', 'O*->OOH*', 'OOH*->O2']
     return steps[i]
 
-def overpotential_orr_full(doh, do, dooh):
-    dg14 = [-4.92 + dooh, -dooh + do, -do + doh, -doh]
+def overpotential_oer(doh, do, dooh):
+    dg14 = [doh, do - doh, dooh - do, 4.92 - dooh]
+    return max(dg14) - 1.23
+
+def overpotential_oer_for_contour(doh, dooh):
+    do = 1.469 * doh + 1.253
+    dg14 = [doh, do - doh, dooh - do, 4.92 - dooh]
+    return max(dg14) - 1.23
+
+def overpotential_oer_full(doh, do, dooh):
+    dg14 = [doh, do - doh, dooh - do, 4.92 - dooh]
     m = max(dg14)
-    return [round(m + 1.23, 2), round(-m, 2), orr_step(dg14.index(m))]
+    return [round(m - 1.23, 2), round(-m, 2), oer_step(dg14.index(m))]
 
 # Read data from the TSV file
 df = pd.read_csv('/pscratch/sd/j/jiuy97/6_MNC/figure/scaling_relationship.tsv', sep='\t', index_col=0)
@@ -82,7 +82,7 @@ do_values = df['dG_O']
 
 # Add `dG_OOH` and calculate overpotential for each entry
 df['dG_OOH'] = doh_values.apply(ooh_oh_scaling)
-df['overpotential'] = df.apply(lambda row: overpotential_orr(row['dG_OH'], row['dG_O'], row['dG_OOH']), axis=1)
+df['overpotential'] = df.apply(lambda row: overpotential_oer(row['dG_OH'], row['dG_O'], row['dG_OOH']), axis=1)
 
 # Generate data for contour plot
 delta = 0.01
@@ -90,7 +90,7 @@ x = np.arange(x1, x2 + delta, delta)
 y = np.arange(y1, y2 + delta, delta)
 X, Y = np.meshgrid(x, y)
 
-Z = np.array([[overpotential_orr_for_contour(i, j) for i in x] for j in y])
+Z = np.array([[overpotential_oer_for_contour(i, j) for i in x] for j in y])
 
 # Plot contour
 levels = np.arange(0.1, 1.7, 0.1)
@@ -100,7 +100,7 @@ CS = plt.contourf(X, Y, Z, levels, cmap=ListedColormap([
 ]), extend='max', origin='lower')
 
 cbar = plt.colorbar(CS, ticks=np.arange(0.1, 1.6, 0.1))
-cbar.ax.set_ylabel(r'$\eta_{\sf ORR}$ (V)')
+cbar.ax.set_ylabel(r'$\eta_{\sf OER}$ (V)')
 cbar.ax.tick_params(size=3, labelsize=6, labelcolor='black', width=0.5, color='black')
 
 # Plot data points from the TSV file with their calculated overpotentials
@@ -111,16 +111,16 @@ for idx, row in df.iterrows():
 ax.plot(x, x+3.2, '--', lw=1, dashes=(3, 1), c='black')
 ax.text(1.0, 2.1, r'$\Delta$G$_{\sf OOH}$=$\Delta$G$_{\sf OH}$+3.2 eV', color='black', fontsize=10)
 ax.legend(bbox_to_anchor=(0.5, 1.1), loc='center', borderaxespad=0.0, ncol=3, fancybox=True, shadow=False, fontsize='x-small', handlelength=2)
-fig.savefig('contour_ORR.png', bbox_inches='tight')
+fig.savefig('contour_OER.png', bbox_inches='tight')
 fig.clf()
 
 # CSV writing for overpotential results
-with open('contour_ORR.csv', 'w', newline='') as myfile:
+with open('contour_OER.csv', 'w', newline='') as myfile:
     fieldnames = ['Surface name', 'dOH', 'dO', 'dOOH', 'overpotential', 'onset potential', 'PLS']
     writer = csv.DictWriter(myfile, fieldnames=fieldnames)
     writer.writeheader()
     for idx, row in df.iterrows():
-        recalculated_over = overpotential_orr_full(row['dG_OH'], row['dG_O'], row['dG_OOH'])
+        recalculated_over = overpotential_oer_full(row['dG_OH'], row['dG_O'], row['dG_OOH'])
         writer.writerow({
             'Surface name': row.name, 
             'dOH': row['dG_OH'], 'dO': row['dG_O'], 'dOOH': row['dG_OOH'], 
@@ -130,18 +130,17 @@ with open('contour_ORR.csv', 'w', newline='') as myfile:
         })
 
 # TSV writing for overpotential results
-with open('contour_ORR.tsv', 'w', newline='') as myfile:
+with open('contour_OER.tsv', 'w', newline='') as myfile:
     fieldnames = ['Surf.', 'dOH', 'dO', 'dOOH', 'overP', 'onsetP', 'PLS']
     writer = csv.DictWriter(myfile, fieldnames=fieldnames, delimiter='\t')  # Change delimiter to '\t'
     writer.writeheader()
     for idx, row in df.iterrows():
-        recalculated_over = overpotential_orr_full(row['dG_OH'], row['dG_O'], row['dG_OOH'])
+        recalculated_over = overpotential_oer_full(row['dG_OH'], row['dG_O'], row['dG_OOH'])
         writer.writerow({
-            'Surf.': idx,
-            'dOH': f"{row['dG_OH']:.2f}",
-            'dO': f"{row['dG_O']:.2f}",
-            'dOOH': f"{row['dG_OOH']:.2f}",
-            'overP': f"{recalculated_over[0]:.2f}",
-            'onsetP': f"{recalculated_over[1]:.2f}",
+            'dOH': round(row['dG_OH'], 2),
+            'dO': round(row['dG_O'], 2),
+            'dOOH': round(row['dG_OOH'], 2),
+            'overP': round(recalculated_over[0], 2),
+            'onsetP': round(recalculated_over[1], 2),
             'PLS': recalculated_over[2]
         })

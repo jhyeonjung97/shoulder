@@ -55,23 +55,23 @@ ax.set_ylabel(r'$\Delta$G$_{\sf OOH}$ (eV)')
 def ooh_oh_scaling(doh):
     return doh + 3.2
 
-def overpotential_orr_for_contour(doh, dooh):
-    do = 1.469 * doh + 1.253
-    dg14 = [-doh, -do + doh, -dooh + do, -4.92 + dooh]
-    return max(dg14) + 1.23
+def orr_step(i):
+    steps = ['O2->OOH*', 'OOH*->O*', 'O*->OH*', 'OH*->H2O']
+    return steps[i]
 
 def overpotential_orr(doh, do, dooh):
     dg14 = [-doh, -do + doh, -dooh + do, -4.92 + dooh]
     return max(dg14) + 1.23
 
-def orr_step(i):
-    steps = ['O2->OOH*', 'OOH*->O*', 'O*->OH*', 'OH*->H2O']
-    return steps[i]
-
 def overpotential_orr_full(doh, do, dooh):
     dg14 = [-4.92 + dooh, -dooh + do, -do + doh, -doh]
     m = max(dg14)
     return [round(m + 1.23, 2), round(-m, 2), orr_step(dg14.index(m))]
+
+def overpotential_orr_for_contour(doh, dooh):
+    do = 1.469 * doh + 1.253
+    dg14 = [-doh, -do + doh, -dooh + do, -4.92 + dooh]
+    return max(dg14) + 1.23
 
 # Read data from the TSV file
 df = pd.read_csv('/pscratch/sd/j/jiuy97/6_MNC/figure/scaling_relationship.tsv', sep='\t', index_col=0)
