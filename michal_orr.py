@@ -14,7 +14,7 @@ golden_mean = (np.sqrt(5) - 1.0) / 2.0
 fig_width = fig_width_pt * inches_per_pt
 fig_height = fig_width * golden_mean
 fig_size = [fig_width, fig_height]
-fig = plt.figure(figsize=fig_size, dpi=300)
+fig = plt.figure(figsize=fig_size, dpi=300, constrained_layout=True)
 
 font_size = 9
 tick_font_size = 8
@@ -115,7 +115,6 @@ ax.text(1.2, 2.5, r'$\Delta$G$_{\sf OOH}$=0.87$\Delta$G$_{\sf OH}$', color='blac
 ax.text(1.8, 2.34, '+3.22 eV', color='black', fontsize=10)
 
 ax.legend(bbox_to_anchor=(-0.15, 1.65), loc=2, borderaxespad=0.5, ncol=3, fancybox=True, shadow=False, fontsize='x-small', handlelength=2)
-plt.tight_layout()
 fig.savefig('contour_ORR.png', bbox_inches='tight')
 fig.clf()
 
