@@ -24,7 +24,8 @@ plt.rcParams.update({
     'legend.fontsize': font_size,
     'xtick.labelsize': tick_font_size,
     'ytick.labelsize': tick_font_size,
-    'lines.linewidth': 1.0
+    'lines.linewidth': 1.0,
+    'text.usetex': False  # Disable LaTeX
 })
 
 def setfont(font='cmss', unicode=True):
