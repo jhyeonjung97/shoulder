@@ -50,7 +50,7 @@ CS = ax.contourf(X, Y, Z, levels, cmap=ListedColormap([
 ]), extend='max', origin='lower')
 
 # Add colorbar
-cbar = plt.colorbar(CS, ticks=[np.arange(0.1, 1.6, step=0.1)])
+cbar = plt.colorbar(CS, ticks=np.arange(0.1, 1.6, 0.1))
 cbar.ax.set_ylabel(r'$\eta_{\sf ORR}$ (V)')
 cbar.ax.tick_params(size=3, labelsize=6, labelcolor='black', width=0.5, color='black')
 
