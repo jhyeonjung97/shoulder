@@ -1,11 +1,10 @@
-#! /user/bin/env python
+import csv
 import matplotlib
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
 from matplotlib.markers import MarkerStyle
-import pandas as pd
-import csv
 
 # Figure and font settings
 fig_width_pt = 1.8 * 246.0
@@ -120,37 +119,29 @@ with open('contour_ORR.csv', 'w', newline='') as myfile:
     fieldnames = ['Surface name', 'dOH', 'dO', 'dOOH', 'overpotential', 'onset potential', 'PLS']
     writer = csv.DictWriter(myfile, fieldnames=fieldnames)
     writer.writeheader()
-
-    solv_corr_OH, solv_corr_O, solv_corr_OOH = -0.116, -0.083, -0.327
     for idx, row in df.iterrows():
-        doh_corr = row['dG_OH'] + solv_corr_OH
-        do_corr = row['dG_O'] + solv_corr_O
-        dooh_corr = row['dG_OOH'] + solv_corr_OOH
-        recalculated_over = overpotential_orr_full(doh_corr, do_corr, dooh_corr)
+        recalculated_over = overpotential_orr_full(row['dG_OH'], row['dG_O'], row['dG_OOH'])
         writer.writerow({
-            'Surface name': row.name, 'dOH': doh_corr, 'dO': do_corr,
-            'dOOH': dooh_corr, 'overpotential': recalculated_over[0],
-            'onset potential': recalculated_over[1], 'PLS': recalculated_over[2]
+            'Surface name': row.name, 
+            'dOH': row['dG_OH'], 'dO': row['dG_O'], 'dOOH': row['dG_OOH'], 
+            'overpotential': recalculated_over[0],
+            'onset potential': recalculated_over[1], 
+            'PLS': recalculated_over[2]
         })
 
 # TSV writing for overpotential results
 with open('contour_ORR.tsv', 'w', newline='') as myfile:
-    fieldnames = ['Surface name', 'dOH', 'dO', 'dOOH', 'overpotential', 'onset potential', 'PLS']
+    fieldnames = ['Surf.', 'dOH', 'dO', 'dOOH', 'overP', 'onsetP', 'PLS']
     writer = csv.DictWriter(myfile, fieldnames=fieldnames, delimiter='\t')  # Change delimiter to '\t'
     writer.writeheader()
-
-    solv_corr_OH, solv_corr_O, solv_corr_OOH = -0.116, -0.083, -0.327
     for idx, row in df.iterrows():
-        doh_corr = row['dG_OH'] + solv_corr_OH
-        do_corr = row['dG_O'] + solv_corr_O
-        dooh_corr = row['dG_OOH'] + solv_corr_OOH
-        recalculated_over = overpotential_orr_full(doh_corr, do_corr, dooh_corr)
+        recalculated_over = overpotential_orr_full(row['dG_OH'], row['dG_O'], row['dG_OOH'])
         writer.writerow({
-            'Surface name': idx,  # Use index as 'Surface name'
-            'dOH': f'{doh_corr:.2f}',  # Format to two decimal places
-            'dO': f'{do_corr:.2f}',  # Format to two decimal places
-            'dOOH': f'{dooh_corr:.2f}',  # Format to two decimal places
-            'overpotential': f'{recalculated_over[0]:.2f}',  # Format to two decimal places
-            'onset potential': f'{recalculated_over[1]:.2f}',  # Format to two decimal places
-            'PLS': recalculated_over[2]  # Assuming PLS is not a float
+            'Surf.': idx,
+            'dOH': f'{row['dG_OH']:.2f}',
+            'dO': f'{row['dG_O']:.2f}',
+            'dOOH': f'{row['dG_OOH']:.2f}',
+            'overP': f'{recalculated_over[0]:.2f}',
+            'onsetP': f'{recalculated_over[1]:.2f}',
+            'PLS': recalculated_over[2]
         })

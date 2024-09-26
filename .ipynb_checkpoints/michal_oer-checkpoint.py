@@ -1,74 +1,112 @@
-import numpy as np
-import pandas as pd
 import matplotlib.pyplot as plt
+import numpy as np
+import csv
+import pandas as pd
 from matplotlib.colors import ListedColormap
-from matplotlib.markers import MarkerStyle
 
-# Define functions for calculations
+# Global settings for plot
+def set_plot_style():
+    plt.rcParams.update({
+        'ps.usedistiller': 'xpdf',
+        'font.size': 9,
+        'axes.labelsize': 9,
+        'legend.fontsize': 9,
+        'xtick.labelsize': 8,
+        'ytick.labelsize': 8,
+        'lines.linewidth': 1.0,
+        'axes.linewidth': 0.8,
+        'text.usetex': True
+    })
+
+# Function to calculate OOH scaling
 def ooh_oh_scaling(doh):
-    return doh + 3.2  # Example scaling relationship for OOH
+    return 0.84 * doh + 3.14
 
-def overpotential_orr(doh, do, dooh):
-    dg14 = [-doh, -do + doh, -dooh + do, -4.92 + dooh]
-    return max(dg14) + 1.23
-
-def overpotential_orr_full(doh, do, dooh):
-    dg14 = [-4.92 + dooh, -dooh + do, -do + doh, -doh]
+# Function to calculate overpotential
+def overpotential3(x, doh):
+    dooh = ooh_oh_scaling(doh)
+    dg14 = [doh, x, dooh - (x + doh), -dooh + 4.92]
     m = max(dg14)
-    return [round(m + 1.23, 2), round(-m, 2), orr_step(dg14.index(m))]
+    return m - 1.23
 
-# Reading data from 'scaling_relationship.tsv'
-df = pd.read_csv('/pscratch/sd/j/jiuy97/6_MNC/figure/scaling_relationship.tsv', sep='\t')
+# Function for calculating and plotting the overpotential surface
+def calculate_overpotential(x, y, delta):
+    X, Y = np.meshgrid(x, y)
+    Z = np.array([[overpotential3(i, j) for i in x] for j in y])
+    return X, Y, Z
 
-# Extract `doh` and `do` from the file
-doh_values = df['dG_OH']
-do_values = df['dG_O']
+# Function for plotting contour and colorbars
+def plot_contour(X, Y, Z, x1, x2, y1, y2, fig, ax):
+    levels = np.arange(0.2, 1.6, 0.1)
+    cmap = ListedColormap([
+        '#a50026', '#d73027', '#f46d43', '#fdae61', '#fee090', '#ffffbf',
+        '#ffffe5', '#e0f3f8', '#abd9e9', '#74add1', '#4575b4', '#313695'
+    ])
+    CS = ax.contourf(X, Y, Z, levels, cmap=cmap, extend='max', origin='lower')
+    
+    # Colorbar
+    cbar = plt.colorbar(CS, ticks=list(np.arange(0.2, 1.6, step=0.1)))
+    cbar.ax.set_ylabel(r'$\eta_{\sf OER}$ (V)')
+    cbar.ax.tick_params(size=3, labelsize=6, labelcolor='black', width=0.5, color='black')
 
-# Calculate `dooh` and `overpotential`
-df['dG_OOH'] = doh_values.apply(ooh_oh_scaling)
-df['overpotential'] = df.apply(lambda row: overpotential_orr(row['dG_OH'], row['dG_O'], row['dG_OOH']), axis=1)
+    # Axis settings
+    ax.set_xlabel(r'$\Delta$G$_{\sf OH}$ (eV)')
+    ax.set_ylabel(r'$\Delta$G$_{\sf OOH}$ (eV)')
+    ax.axis([x1, x2, y1, y2])
 
-# Automatically set the axis limits based on the data
-x1, x2 = df['dG_OH'].min() - 0.2, df['dG_OH'].max() + 0.2
-y1, y2 = df['dG_OOH'].min() - 0.2, df['dG_OOH'].max() + 0.2
+# Plot data points for systems
+def plot_systems(ax, calc_systems):
+    for system in calc_systems:
+        ax.plot(system[1] - system[0], system[0], system[9], mec=system[5], mfc=system[12], 
+                mew=0.8, zorder=4, marker=system[11], label=f'{system[4]}: {system[3]:.2f} V')
 
-# Plotting the results
-fig, ax = plt.subplots(figsize=(8, 6))
+# Main plotting function
+def plot_oer_contour():
+    set_plot_style()
+    
+    fig_width_pt = 1.8 * 246.0
+    inches_per_pt = 1.0 / 72.27
+    golden_mean = (np.sqrt(5) - 1.0) / 2.0
+    fig_width = fig_width_pt * inches_per_pt
+    fig_height = fig_width * golden_mean
+    fig_size = [fig_width, fig_height]
+    
+    fig = plt.figure(figsize=fig_size, dpi=300)
+    ax = fig.add_axes([0.2, 0.2, 0.6, 0.6])
+    
+    zoom = 0.5
+    xcenter, ycenter = 1.45, 0.73
+    d1, d2 = 3 * zoom, 4 * zoom
+    x1, x2 = xcenter - d1, xcenter + d1
+    y1, y2 = ycenter - d2, ycenter + d2
+    
+    delta = 0.01
+    x = np.arange(x1, x2 + delta, delta)
+    y = np.arange(y1, y2 + delta, delta)
+    
+    # Calculate and plot contour
+    X, Y, Z = calculate_overpotential(x, y, delta)
+    plot_contour(X, Y, Z, x1, x2, y1, y2, fig, ax)
+    
+    # Load data from 'scaling_relationship.tsv'
+    df = pd.read_csv('contour_OER.tsv', sep='\t')
 
-# Contour plot settings
-delta = 0.01
-x = np.arange(x1, x2 + delta, delta)
-y = np.arange(y1, y2 + delta, delta)
-X, Y = np.meshgrid(x, y)
+    # Add calculated dOOH and overpotential
+    df['dG_OOH'] = df['dG_OH'].apply(ooh_oh_scaling)
+    df['overpotential'] = df.apply(lambda row: overpotential3(row['dG_O'], row['dG_OH']), axis=1)
 
-# Generate the Z values based on overpotential
-Z = np.array([[overpotential_orr(i, j, ooh_oh_scaling(i)) for i in x] for j in y])
+    # Extract data for plotting (replace dummy data)
+    calc_systems = []
+    for idx, row in df.iterrows():
+        calc_systems.append([row['dG_OH'], row['dG_O'], row['dG_OOH'], row['overpotential'], 
+                             f'System {idx}', '#737373', 0.0, 0.08, 1.5, 'o', 'blue', 'red'])
+    
+    # Plot the systems
+    plot_systems(ax, calc_systems)
+    
+    # Save figure
+    fig.savefig('contour_OER.png', bbox_inches='tight')
+    fig.clf()
 
-# Create contour plot
-levels = np.arange(0.1, 1.7, 0.1)
-CS = ax.contourf(X, Y, Z, levels, cmap=ListedColormap([
-    '#a50026', '#d73027', '#f46d43', '#fdae61', '#fee090', '#ffffbf',
-    '#ffffe5', '#ffffff', '#e0f3f8', '#abd9e9', '#74add1', '#4575b4', '#313695'
-]), extend='max', origin='lower')
-
-# Add colorbar
-cbar = plt.colorbar(CS, ticks=np.arange(0.1, 1.6, 0.1))
-cbar.ax.set_ylabel(r'$\eta_{\sf ORR}$ (V)')
-cbar.ax.tick_params(size=3, labelsize=6, labelcolor='black', width=0.5, color='black')
-
-# Plot the calculated points from the dataset
-for idx, row in df.iterrows():
-    ax.plot(row['dG_OH'], row['dG_OOH'], 'o', label=f'{row.name}: {row["overpotential"]:.2f} V')
-
-# Add labels and title
-ax.set_xlabel(r'$\Delta$G$_{\sf OH}$ (eV)')
-ax.set_ylabel(r'$\Delta$G$_{\sf OOH}$ (eV)')
-ax.legend(bbox_to_anchor=(1.05, 1), loc='upper left', borderaxespad=0.)
-
-# Save the plot
-plt.tight_layout()
-plt.savefig('contour_OER.png', dpi=300)
-plt.show()
-
-# Save the results (including calculated overpotentials) back to a CSV file
-df.to_csv('contour_OER.csv', index=False)
+# Run the plot function
+plot_oer_contour()
