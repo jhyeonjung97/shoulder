@@ -94,10 +94,10 @@ Z = np.array([[overpotential_orr(i, j) for i in x] for j in y])
 
 # Plot contour
 levels = np.arange(0.1, 1.7, 0.1)
-cmap=ListedColormap([
+cmap = ListedColormap([
     '#a50026', '#d73027', '#f46d43', '#fdae61', '#fee090', '#ffffbf',
     '#ffffe5', '#ffffff', '#e0f3f8', '#abd9e9', '#74add1', '#4575b4', '#313695'
-]
+])
 CS = plt.contourf(X, Y, Z, levels, cmap=cmap), extend='max', origin='lower')
 
 cbar = plt.colorbar(CS, ticks=np.arange(0.1, 1.6, 0.1))
