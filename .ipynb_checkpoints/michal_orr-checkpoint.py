@@ -111,7 +111,7 @@ for idx, row in df.iterrows():
 # Add scaling line
 ax.plot(x, x+3.2, '--', lw=1, dashes=(3, 1), c='black')
 ax.text(1.0, 2.1, r'$\Delta$G$_{\sf OOH}$=$\Delta$G$_{\sf OH}$+3.2 eV', color='black', fontsize=10)
-ax.legend(bbox_to_anchor=(0.5, 1.15), loc='center', borderaxespad=0.5, ncol=3, fancybox=True, shadow=False, fontsize='x-small', handlelength=2)
+ax.legend(bbox_to_anchor=(0.5, 1.15), loc='center', borderaxespad=0.0, ncol=3, fancybox=True, shadow=False, fontsize='x-small', handlelength=2)
 fig.savefig('contour_ORR.png', bbox_inches='tight')
 fig.clf()
 
@@ -146,7 +146,11 @@ with open('contour_ORR.tsv', 'w', newline='') as myfile:
         dooh_corr = row['dG_OOH'] + solv_corr_OOH
         recalculated_over = overpotential_orr_full(doh_corr, do_corr, dooh_corr)
         writer.writerow({
-            'Surface name': row.name, 'dOH': doh_corr, 'dO': do_corr,
-            'dOOH': dooh_corr, 'overpotential': recalculated_over[0],
-            'onset potential': recalculated_over[1], 'PLS': recalculated_over[2]
+            'Surface name': idx,  # Use index as 'Surface name'
+            'dOH': f'{doh_corr:.2f}',  # Format to two decimal places
+            'dO': f'{do_corr:.2f}',  # Format to two decimal places
+            'dOOH': f'{dooh_corr:.2f}',  # Format to two decimal places
+            'overpotential': f'{recalculated_over[0]:.2f}',  # Format to two decimal places
+            'onset potential': f'{recalculated_over[1]:.2f}',  # Format to two decimal places
+            'PLS': recalculated_over[2]  # Assuming PLS is not a float
         })
