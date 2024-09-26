@@ -24,8 +24,7 @@ plt.rcParams.update({
     'legend.fontsize': font_size,
     'xtick.labelsize': tick_font_size,
     'ytick.labelsize': tick_font_size,
-    'lines.linewidth': 1.0,
-    'text.usetex': False  # Disable LaTeX
+    'lines.linewidth': 1.0
 })
 
 def setfont(font='cmss', unicode=True):
@@ -91,15 +90,14 @@ x = np.arange(x1, x2 + delta, delta)
 y = np.arange(y1, y2 + delta, delta)
 X, Y = np.meshgrid(x, y)
 
-Z = np.array([[overpotential_orr(i, j) for i in x] for j in y])
+Z = np.array([[overpotential_orr_for_contour(i, j) for i in x] for j in y])
 
 # Plot contour
 levels = np.arange(0.1, 1.7, 0.1)
-cmap = ListedColormap([
+CS = plt.contourf(X, Y, Z, levels, cmap=ListedColormap([
     '#a50026', '#d73027', '#f46d43', '#fdae61', '#fee090', '#ffffbf',
     '#ffffe5', '#ffffff', '#e0f3f8', '#abd9e9', '#74add1', '#4575b4', '#313695'
-])
-CS = plt.contourf(X, Y, Z, levels, cmap=cmap, extend='max', origin='lower')
+]), extend='max', origin='lower')
 
 cbar = plt.colorbar(CS, ticks=np.arange(0.1, 1.6, 0.1))
 cbar.ax.set_ylabel(r'$\eta_{\sf ORR}$ (V)')
@@ -139,10 +137,11 @@ with open('contour_ORR.tsv', 'w', newline='') as myfile:
     for idx, row in df.iterrows():
         recalculated_over = overpotential_orr_full(row['dG_OH'], row['dG_O'], row['dG_OOH'])
         writer.writerow({
-            'dOH': round(row['dG_OH'], 2),
-            'dO': round(row['dG_O'], 2),
-            'dOOH': round(row['dG_OOH'], 2),
-            'overP': round(recalculated_over[0], 2),
-            'onsetP': round(recalculated_over[1], 2),
+            'Surf.': idx,
+            'dOH': row['dG_OH']:.2f,
+            'dO': row['dG_O']:.2f,
+            'dOOH': row['dG_OOH']:.2f,
+            'overP': recalculated_over[0]:.2f,
+            'onsetP': recalculated_over[1]:.2f,
             'PLS': recalculated_over[2]
         })
