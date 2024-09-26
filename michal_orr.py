@@ -133,3 +133,21 @@ with open('contour_ORR.csv', 'w', newline='') as myfile:
             'dOOH': dooh_corr, 'overpotential': recalculated_over[0],
             'onset potential': recalculated_over[1], 'PLS': recalculated_over[2]
         })
+
+# TSV writing for overpotential results
+with open('contour_ORR.tsv', 'w', newline='') as myfile:
+    fieldnames = ['Surface name', 'dOH', 'dO', 'dOOH', 'overpotential', 'onset potential', 'PLS']
+    writer = csv.DictWriter(myfile, fieldnames=fieldnames, delimiter='\t')  # Change delimiter to '\t'
+    writer.writeheader()
+
+    solv_corr_OH, solv_corr_O, solv_corr_OOH = -0.116, -0.083, -0.327
+    for idx, row in df.iterrows():
+        doh_corr = row['dG_OH'] + solv_corr_OH
+        do_corr = row['dG_O'] + solv_corr_O
+        dooh_corr = row['dG_OOH'] + solv_corr_OOH
+        recalculated_over = overpotential_orr_full(doh_corr, do_corr, dooh_corr)
+        writer.writerow({
+            'Surface name': row.name, 'dOH': doh_corr, 'dO': do_corr,
+            'dOOH': dooh_corr, 'overpotential': recalculated_over[0],
+            'onset potential': recalculated_over[1], 'PLS': recalculated_over[2]
+        })
