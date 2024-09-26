@@ -4,6 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
 from matplotlib.markers import MarkerStyle
+import pandas as pd
 import csv
 
 # Figure and font settings
@@ -73,6 +74,18 @@ def overpotential_orr_full(doh, do, dooh):
     m = max(dg14)
     return [round(m + 1.23, 2), round(-m, 2), orr_step(dg14.index(m))]
 
+# Read data from the TSV file
+data_path = '/pscratch/sd/j/jiuy97/6_MNC/figure/scaling_relationship.tsv'
+df = pd.read_csv(data_path, sep='\t')
+
+# Extract values from the dataframe
+doh_values = df['dG_OH']
+do_values = df['dG_O']
+
+# Add `dG_OOH` and calculate overpotential for each entry
+df['dG_OOH'] = doh_values.apply(ooh_oh_scaling)
+df['overpotential'] = df.apply(lambda row: overpotential_orr(row['dG_OH'], row['dG_O'], row['dG_OOH']), axis=1)
+
 # Generate data for contour plot
 delta = 0.01
 x = np.arange(x1, x2 + delta, delta)
@@ -88,48 +101,37 @@ CS = plt.contourf(X, Y, Z, levels, cmap=ListedColormap([
     '#ffffe5', '#ffffff', '#e0f3f8', '#abd9e9', '#74add1', '#4575b4', '#313695'
 ]), extend='max', origin='lower')
 
-cbar = plt.colorbar(CS, ticks=[np.arange(0.1, 1.6, step=0.1)])
+cbar = plt.colorbar(CS, ticks=np.arange(0.1, 1.6, 0.1))
 cbar.ax.set_ylabel(r'$\eta_{\sf ORR}$ (V)')
 cbar.ax.tick_params(size=3, labelsize=6, labelcolor='black', width=0.5, color='black')
 
-# Calculate and plot overpotentials for each system
-calc_systems = [
-    [1.456, 2.892, 4.432, 1.752, r'CoCo_M1', '#737373', 0.0, 0.08, 1.5, '8', 'blue', 'o', 'red'],
-    # More systems...
-]
+# Plot data points from the TSV file with their calculated overpotentials
+for idx, row in df.iterrows():
+    ax.plot(row['dG_OH'], row['dG_OOH'], 'o', label=f'{row.name}: {row["overpotential"]:.2f} V')
 
-for i, system in enumerate(calc_systems):
-    if i % 2 == 0:
-        ax.plot(system[0], system[2], system[9], mec=system[5], mfc=system[11], mew=0.8, zorder=4,
-                marker=MarkerStyle('o', fillstyle='left'), markersize=8,
-                label=f'{system[4]} : {overpotential_orr(system[0], system[1], system[2]):.2f} V')
-    else:
-        ax.plot(system[0], system[2], system[9], mec=system[5], mfc=system[11], mew=0.8, zorder=4,
-                marker=MarkerStyle('o', fillstyle='right'), markersize=8,
-                label=f'{system[4]} : {overpotential_orr(system[0], system[1], system[2]):.2f} V')
-
+# Add scaling line
 ax.plot(x, 0.87 * x + 3.22, '--', lw=1, dashes=(3, 1), c='black')
 ax.text(1.2, 2.5, r'$\Delta$G$_{\sf OOH}$=0.87$\Delta$G$_{\sf OH}$', color='black', fontsize=10)
 ax.text(1.8, 2.34, '+3.22 eV', color='black', fontsize=10)
 
 ax.legend(bbox_to_anchor=(-0.15, 1.65), loc=2, borderaxespad=0.5, ncol=3, fancybox=True, shadow=False, fontsize='x-small', handlelength=2)
-fig.savefig('ORR_contour_plot_v13_full_scaling_trilayer_v3.pdf', bbox_inches='tight')
+fig.savefig('contour_ORR.png', bbox_inches='tight')
 fig.clf()
 
 # CSV writing for overpotential results
-with open('Final_dGs_for_MOOHx_system_ORR.csv', 'w', newline='') as myfile:
+with open('contour_ORR.csv', 'w', newline='') as myfile:
     fieldnames = ['Surface name', 'dOH', 'dO', 'dOOH', 'overpotential', 'onset potential', 'PLS']
     writer = csv.DictWriter(myfile, fieldnames=fieldnames)
     writer.writeheader()
 
     solv_corr_OH, solv_corr_O, solv_corr_OOH = -0.116, -0.083, -0.327
-    for system in calc_systems:
-        system[0] += solv_corr_OH
-        system[1] += solv_corr_O
-        system[2] += solv_corr_OOH
-        recalculated_over = overpotential_orr_full(system[0], system[1], system[2])
+    for idx, row in df.iterrows():
+        doh_corr = row['dG_OH'] + solv_corr_OH
+        do_corr = row['dG_O'] + solv_corr_O
+        dooh_corr = row['dG_OOH'] + solv_corr_OOH
+        recalculated_over = overpotential_orr_full(doh_corr, do_corr, dooh_corr)
         writer.writerow({
-            'Surface name': system[4], 'dOH': system[0], 'dO': system[1],
-            'dOOH': system[2], 'overpotential': recalculated_over[0],
+            'Surface name': row.name, 'dOH': doh_corr, 'dO': do_corr,
+            'dOOH': dooh_corr, 'overpotential': recalculated_over[0],
             'onset potential': recalculated_over[1], 'PLS': recalculated_over[2]
         })
