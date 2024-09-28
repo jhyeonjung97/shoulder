@@ -42,7 +42,7 @@ setfont()
 # Plot settings
 ax = fig.add_axes([0.2, 0.2, 0.6, 0.6])
 zoomx, zoomy = 0.4, 0.6
-xcenter, ycenter = 0.9, 3.75
+xcenter, ycenter = 1.45, 3.75
 d1, d2, d3 = 4 * zoomx, 3 * zoomy, 5 * zoomx
 x1, x2 = xcenter - d1, xcenter + d3
 y1, y2 = ycenter - d2, ycenter + d2
