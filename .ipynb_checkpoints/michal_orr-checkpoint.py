@@ -6,6 +6,10 @@ import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
 from matplotlib.markers import MarkerStyle
 
+rows = ['3d', '3d', '3d', '3d', '4d', '5d']
+groups = ['5', '6', '7', '8', '4', '4']
+metals = ['Mn', 'Fe', 'Co', 'Ni', 'Mo', 'W']
+
 # Figure and font settings
 fig_width_pt = 1.8 * 246.0
 inches_per_pt = 1.0 / 72.27
@@ -42,8 +46,8 @@ setfont()
 # Plot settings
 ax = fig.add_axes([0.2, 0.2, 0.6, 0.6])
 xcenter, ycenter = 1.0, 3.7
-x1, x2 = xcenter - 1.4, xcenter + 1.8 # 3.2
-y1, y2 = ycenter - 1.6, ycenter + 1.6 # 3.2
+x1, x2 = xcenter - 1.4, xcenter + 1.8
+y1, y2 = ycenter - 1.6, ycenter + 1.6
 
 ax.axis([x1, x2, y1, y2])
 ax.set_xlabel(r'$\Delta$G$_{\sf OH}$ (eV)', fontsize=10)
@@ -72,7 +76,7 @@ def overpotential_orr_for_contour(doh, dooh):
     return max(dg14) + 1.23
 
 # Read data from the TSV file
-df = pd.read_csv('/pscratch/sd/j/jiuy97/6_MNC/figure/scaling_relationship.tsv', sep='\t', index_col=0)
+df = pd.read_csv('/pscratch/sd/j/jiuy97/6_MNC/figure/scaling_relationship.tsv', sep='\t', header=0, index_col=0)
 
 # Extract values from the dataframe
 doh_values = df['dG_OH']
@@ -81,6 +85,17 @@ do_values = df['dG_O']
 # Add `dG_OOH` and calculate overpotential for each entry
 df['dG_OOH'] = doh_values.apply(ooh_oh_scaling)
 df['overpotential'] = df.apply(lambda row: overpotential_orr(row['dG_OH'], row['dG_O'], row['dG_OOH']), axis=1)
+
+# Prepare separate data for each metal
+dfs = {}
+for m, metal in enumerate(metals):
+    row = rows[m]
+    group = groups[m]
+    dfs[metal] = pd.read_csv(f'/pscratch/sd/j/jiuy97/6_MNC/figure/{row}_{group}{metal}_gibbs.tsv', sep='\t', header=0, index_col=0)
+    doh_values = dfs[metal]['dG_OH']
+    do_values = dfs[metal]['dG_O']
+    dfs[metal]['dG_OOH'] = doh_values.apply(ooh_oh_scaling)
+    dfs[metal]['overpotential'] = dfs[metal].apply(lambda row: overpotential_orr(row['dG_OH'], row['dG_O'], row['dG_OOH']), axis=1)
 
 # Generate data for contour plot
 delta = 0.01
@@ -102,13 +117,44 @@ cbar.ax.set_ylabel(r'$\eta_{\sf ORR}$ (V)')
 cbar.ax.tick_params(size=3, labelsize=6, labelcolor='black', width=0.5, color='black')
 
 # Plot data points from the TSV file with their calculated overpotentials
-for idx, row in df.iterrows():
-    ax.plot(row['dG_OH'], row['dG_OOH'], 'o', label=f'{row.name}: {row["overpotential"]:.2f} V')
+markers = ['o', 's', 'd', '^', 'v', '*']  # Different markers for metals
+colors = ['blue', 'orange', 'green', 'red', 'purple', 'grey']
+color_ranges = [
+    plt.cm.Blues(np.linspace(0.3, 0.9, 7)),
+    plt.cm.Oranges(np.linspace(0.3, 0.9, 7)),
+    plt.cm.Greens(np.linspace(0.3, 0.9, 7)),
+    plt.cm.Reds(np.linspace(0.3, 0.9, 7)),
+    plt.cm.Purples(np.linspace(0.3, 0.9, 7)),
+    plt.cm.Greys(np.linspace(0.3, 0.9, 7)),
+    ]
 
+# Plot the general dataset points
+for row_num, row in enumerate(df.itertuples(), 1):  # Start row number from 1
+    ax.scatter(row.dG_OH, row.dG_OOH, label=f'{row.Index}: {row.overpotential:.2f} V',               
+               s = 24, marker='o', # marker=markers[row_num-1],
+               linewidths=1.5, # Use row_num for marker cycling
+               facecolors=colors[row_num-1],  # White fill for contrast (use facecolors for scatter)
+               edgecolors='black',
+               zorder=10)  # Black edge color
+
+# Plot the metal-specific data points with colormaps
+for m, metal in enumerate(metals):
+    for row_num, row in enumerate(dfs[metal].itertuples(), 1):  # Use row number here as well
+        ax.scatter(row.dG_OH, row.dG_OOH,
+                   s=24, marker='s', # marker=markers[m],
+                   linewidths=0.5,
+                   facecolors=color_ranges[m][row_num-1],  # Filled face with colormap
+                   edgecolors='black',
+                   zorder=9)  # Matching edge color
+   
 # Add scaling line
-ax.plot(x, x+3.2, '--', lw=1, dashes=(3, 1), c='black')
-ax.text(1.1, 2.4, r'$\Delta$G$_{\sf OOH}$=$\Delta$G$_{\sf OH}$+3.2 eV', color='black', fontsize=10)
+ax.plot(x, x + 3.2, '--', lw=1, dashes=(3, 1), c='black')
+ax.text(1.1, 2.3, r'$\Delta$G$_{\sf OOH}$=$\Delta$G$_{\sf OH}$+3.2 eV', color='black', fontsize=10)
+
+# Add legend
 ax.legend(bbox_to_anchor=(0.5, 1.1), loc='center', borderaxespad=0.0, ncol=3, fancybox=True, shadow=False, fontsize='x-small', handlelength=2)
+
+# Save the figure
 fig.savefig('contour_ORR.png', bbox_inches='tight')
 print("Figure saved as contour_ORR.png")
 fig.clf()
@@ -131,7 +177,7 @@ with open('contour_ORR.csv', 'w', newline='') as myfile:
 # TSV writing for overpotential results
 with open('contour_ORR.tsv', 'w', newline='') as myfile:
     fieldnames = ['Surf.', 'dOH', 'dO', 'dOOH', 'overP', 'onsetP', 'PLS']
-    writer = csv.DictWriter(myfile, fieldnames=fieldnames, delimiter='\t')  # Change delimiter to '\t'
+    writer = csv.DictWriter(myfile, fieldnames=fieldnames, delimiter='\t')
     writer.writeheader()
     for idx, row in df.iterrows():
         recalculated_over = overpotential_orr_full(row['dG_OH'], row['dG_O'], row['dG_OOH'])
@@ -143,3 +189,19 @@ with open('contour_ORR.tsv', 'w', newline='') as myfile:
             'onsetP': round(recalculated_over[1], 2),
             'PLS': recalculated_over[2]
         })
+
+# Write results for each metal
+for m, metal in enumerate(metals):
+    with open(f'contour_{m+1}{metal}_ORR.csv', 'w', newline='') as myfile:
+        fieldnames = ['Surface name', 'dOH', 'dO', 'dOOH', 'overpotential', 'onset potential', 'PLS']
+        writer = csv.DictWriter(myfile, fieldnames=fieldnames)
+        writer.writeheader()
+        for idx, row in dfs[metal].iterrows():
+            recalculated_over = overpotential_orr_full(row['dG_OH'], row['dG_O'], row['dG_OOH'])
+            writer.writerow({
+                'Surface name': row.name, 
+                'dOH': row['dG_OH'], 'dO': row['dG_O'], 'dOOH': row['dG_OOH'], 
+                'overpotential': recalculated_over[0],
+                'onset potential': recalculated_over[1], 
+                'PLS': recalculated_over[2]
+            })
