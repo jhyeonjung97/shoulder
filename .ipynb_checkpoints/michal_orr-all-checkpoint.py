@@ -118,15 +118,25 @@ cbar.ax.tick_params(size=3, labelsize=6, labelcolor='black', width=0.5, color='b
 
 # Plot data points from the TSV file with their calculated overpotentials
 markers = ['o', 's', 'd', '^', 'v', '*']  # Different markers for metals
-colors = ['blue', 'green', 'red', 'orange', 'purple', 'cyan']
+color_ranges = [plt.cm.Reds(np.linspace(0.3, 0.9, 7)),
+                plt.cm.Oranges(np.linspace(0.3, 0.9, 7)),
+                plt.cm.Wistia(np.linspace(0.3, 0.9, 7)),
+                plt.cm.Greens(np.linspace(0.3, 0.9, 7)),
+                plt.cm.Blues(np.linspace(0.3, 0.9, 7)),
+                plt.cm.Purples(np.linspace(0.3, 0.9, 7)),
+                plt.cm.Greys(np.linspace(0.3, 0.9, 7))]
 
+# Plot the general dataset points
 for idx, row in df.iterrows():
-    ax.plot(row['dG_OH'], row['dG_OOH'], 'o', label=f'{row.name}: {row["overpotential"]:.2f} V')
+    ax.plot(row['dG_OH'], row['dG_OOH'], label=f'{row.name}: {row["overpotential"]:.2f} V',
+           marker=markers[idx % len(markers)], markerfacecolor='white', markeredgecolor='black')
 
+# Plot the metal-specific data points with colormaps
 for m, metal in enumerate(metals):
     for idx, row in dfs[metal].iterrows():
-        ax.plot(row['dG_OH'], row['dG_OOH'], markers[m], label=f'{metal} {row.name}: {row["overpotential"]:.2f} V', 
-                markerfacecolor='none', markeredgewidth=1, markeredgecolor=colors[m])
+        ax.plot(row['dG_OH'], row['dG_OOH'], 
+                marker=markers[m], 
+                color=color_ranges[m][idx % 7])
 
 # Add scaling line
 ax.plot(x, x + 3.2, '--', lw=1, dashes=(3, 1), c='black')
@@ -172,8 +182,8 @@ with open('contour_ORR.tsv', 'w', newline='') as myfile:
         })
 
 # Write results for each metal
-for metal in metals:
-    with open(f'{metal}_contour_ORR.csv', 'w', newline='') as myfile:
+for m, metal in enumerate(metals):
+    with open(f'contour_{m+1}{metal}_ORR.csv', 'w', newline='') as myfile:
         fieldnames = ['Surface name', 'dOH', 'dO', 'dOOH', 'overpotential', 'onset potential', 'PLS']
         writer = csv.DictWriter(myfile, fieldnames=fieldnames)
         writer.writeheader()
