@@ -18,7 +18,7 @@ tick_font_size = 10
 
 # Matplotlib configuration
 plt.rcParams['font.family'] = 'sans-serif'
-plt.rcParams['font.sans-serif'] = 'Arial'
+plt.rcParams['font.sans-serif'] = ['DejaVu Sans']
 plt.rcParams['font.size'] = font_size
 plt.rcParams['axes.labelsize'] = 2 * font_size
 plt.rcParams['legend.fontsize'] = font_size
