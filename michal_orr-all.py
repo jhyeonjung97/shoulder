@@ -131,8 +131,8 @@ color_ranges = [
 # Plot the general dataset points
 for row_num, row in enumerate(df.itertuples(), 1):  # Start row number from 1
     ax.scatter(row.dG_OH, row.dG_OOH, label=f'{row.Index}: {row.overpotential:.2f} V',
-               marker=markers[row_num-1],
-               s = 36,
+               # marker=markers[row_num-1],
+               s = 24, marker='s'
                linewidths=1.5, # Use row_num for marker cycling
                facecolors=colors[row_num-1],  # White fill for contrast (use facecolors for scatter)
                edgecolors=colors[row_num-1])  # Black edge color
@@ -141,13 +141,12 @@ for row_num, row in enumerate(df.itertuples(), 1):  # Start row number from 1
 for m, metal in enumerate(metals):
     for row_num, row in enumerate(dfs[metal].itertuples(), 1):  # Use row number here as well
         ax.scatter(row.dG_OH, row.dG_OOH, 
-                   marker=markers[m],
-                   s = 24,
+                   # marker=markers[m],
+                   s = 24, marker='s'
                    linewidths=0.5,
                    facecolors=color_ranges[m][row_num-1],  # Filled face with colormap
                    edgecolors='black')  # Matching edge color
-
-        
+   
 # Add scaling line
 ax.plot(x, x + 3.2, '--', lw=1, dashes=(3, 1), c='black')
 ax.text(1.1, 2.3, r'$\Delta$G$_{\sf OOH}$=$\Delta$G$_{\sf OH}$+3.2 eV', color='black', fontsize=10)
