@@ -142,7 +142,7 @@ for m, metal in enumerate(metals):
     for row_num, row in enumerate(dfs[metal].itertuples(), 1):  # Use row number here as well
         ax.scatter(row.dG_OH, row.dG_OOH, 
                    marker=markers[m],
-                   s = 24
+                   s = 24,
                    linewidths=0.5,
                    facecolors=color_ranges[m][row_num-1],  # Filled face with colormap
                    edgecolors='black')  # Matching edge color
