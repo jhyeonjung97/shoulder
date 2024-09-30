@@ -36,8 +36,8 @@ kjmol = 96.485
 # Define pH and U ranges
 pH = np.arange(0, 14, 0.10)
 U = np.arange(Umin, Umax, 0.05)
-Umax2 = Umax + 0.06 * 14
-U2 = np.arange(Umin, Umax2, 0.05)
+# Umax2 = Umax + 0.06 * 14
+# U2 = np.arange(Umin, Umax2, 0.05)
 
 # Define Gibbs energy contributions
 h2 = -6.77149190
@@ -98,7 +98,7 @@ for m, metal in enumerate(data.index):
     # Find surface energy intersections
     nsurfs = len(surfs)
     lowest_surfaces = []
-    for j in U2:
+    for j in U:
         values = [dg(k, 0, j) for k in range(nsurfs)]
         lowest_surfaces.append(np.argmin(values))
     
@@ -108,13 +108,13 @@ for m, metal in enumerate(data.index):
     old_value = lowest_surfaces[0]
     crossover.append(Umin)
     
-    for j in range(len(U2)):
+    for j in range(len(U)):
         if lowest_surfaces[j] != old_value:
             uniquesurf.append(lowest_surfaces[j])
-            crossover.append(U2[j])
+            crossover.append(U[j])
             old_value = lowest_surfaces[j]
     
-    crossover.append(Umax2)
+    crossover.append(Umax)
     
     # Define colors for different surfaces
     color = ['turquoise', 'green', 'red', 'blue', 'gray', 'gold', 'purple', 'pink', 'darkorange',
@@ -142,16 +142,15 @@ for m, metal in enumerate(data.index):
         label = r"S$_{%i}$(H-%i O-%i OH-%i OOH-%i)" % (k, surfs[k][1], surfs[k][2], surfs[k][3], surfs[k][4])
         plt.fill_between(pH2, crossover[i] - pH2 * const, crossover[i + 1] - pH2 * const, facecolor=color[i], alpha=0.3, lw=0.5, edgecolor='black')
         plt.plot([], [], color=color[i], alpha=0.3, linewidth=5, label=label)
-
-    
-    # Plot OER line
-    Vover = 0.184
-    y = 1.23 + Vover - pH2 * const
-    plt.plot(pH2, y, '-', color='black', lw=1, dashes=(3, 1), label='$\eta$ OER = ' + repr(Vover) + ' ')
+        
+    # # Plot OER line
+    # Vover = 0.184
+    # y = 1.23 + Vover - pH2 * const
+    # plt.plot(pH2, y, '-', color='black', lw=1, dashes=(3, 1), label='$\eta$ OER = ' + repr(Vover) + ' ')
     
     # Plot equilibrium line
     plt.plot(pH2, 1.23 - pH2 * const, '--', color='blue', lw=1, dashes=(3, 1))
-    ax.text(0.2, 1.25, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-7, fontsize='x-small')
+    ax.text(0.2, 1.25, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-10, fontsize='x-small')
     
     # Add legend and save the plot
     plt.legend(bbox_to_anchor=(0.05, 1.2), loc=2, borderaxespad=0.0, ncol=2, fancybox=True, shadow=True, fontsize='x-small', handlelength=2)
