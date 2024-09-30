@@ -15,7 +15,7 @@ def set_plot_style():
         'ytick.labelsize': 8,
         'lines.linewidth': 1.0,
         'axes.linewidth': 0.8,
-        'text.usetex': True
+        'text.usetex': False  # Disable LaTeX rendering
     })
 
 # Function to calculate OOH scaling
