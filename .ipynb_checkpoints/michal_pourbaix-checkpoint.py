@@ -36,8 +36,8 @@ kjmol = 96.485
 # Define pH and U ranges
 pH = np.arange(0, 14, 0.10)
 U = np.arange(Umin, Umax, 0.05)
-# Umax2 = Umax + 0.06 * 14
-# U2 = np.arange(Umin, Umax2, 0.05)
+Umax2 = Umax + 0.06 * 14
+U2 = np.arange(Umin, Umax2, 0.05)
 
 # Define Gibbs energy contributions
 h2 = -6.77149190
@@ -98,7 +98,7 @@ for m, metal in enumerate(data.index):
     # Find surface energy intersections
     nsurfs = len(surfs)
     lowest_surfaces = []
-    for j in U:
+    for j in U2:
         values = [dg(k, 0, j) for k in range(nsurfs)]
         lowest_surfaces.append(np.argmin(values))
     
@@ -108,13 +108,13 @@ for m, metal in enumerate(data.index):
     old_value = lowest_surfaces[0]
     crossover.append(Umin)
     
-    for j in range(len(U)):
+    for j in range(len(U2)):
         if lowest_surfaces[j] != old_value:
             uniquesurf.append(lowest_surfaces[j])
-            crossover.append(U[j])
+            crossover.append(U2[j])
             old_value = lowest_surfaces[j]
     
-    crossover.append(Umax)
+    crossover.append(Umax2)
     
     # Define colors for different surfaces
     color = ['turquoise', 'green', 'red', 'blue', 'gray', 'gold', 'purple', 'pink', 'darkorange',
