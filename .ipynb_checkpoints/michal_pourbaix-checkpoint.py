@@ -145,12 +145,18 @@ for m, metal in enumerate(data.index):
     # Plot surface Gibbs energies
     for i in range(len(uniquesurf)):
         k = uniquesurf[i]
-        label = r"S$_{%i}$(H-%i O-%i OH-%i OOH-%i)" % (k, surfs[k][1], surfs[k][2], surfs[k][3], surfs[k][4])
         # Use the index from surfs to get the color
-        color_index = surfs.index(surfs[k])  # Get the index of the current surface in surfs
         plt.fill_between(pH2, crossover[i] - pH2 * const, crossover[i + 1] - pH2 * const, 
-                         facecolor=color[color_index], alpha=0.3, lw=0.5, edgecolor='black')
-        plt.plot([], [], color=color[color_index], alpha=0.3, linewidth=5, label=label)
+                         facecolor=color[k], alpha=0.3, lw=0.5, edgecolor='black')
+    
+    # Create labels for each surface
+    for j in range(len(surfs)):
+        # Generate the label for each surface based on its index
+        label = r"S$_{%i}$(H-%i O-%i OH-%i OOH-%i)" % (j, surfs[j][1], surfs[j][2], surfs[j][3], surfs[j][4])
+        plt.plot([], [], color=color[j], alpha=0.3, linewidth=5, label=label)  # Use j for color and label
+    
+    # Add legend after all plots are created
+    plt.legend(bbox_to_anchor=(0.05, 1.2), loc=2, borderaxespad=0.0, ncol=2, fancybox=True, shadow=True, fontsize='x-small', handlelength=2)
         
     # # Plot OER line
     # Vover = 0.184
@@ -159,7 +165,7 @@ for m, metal in enumerate(data.index):
     
     # Plot equilibrium line
     plt.plot(pH2, 1.23 - pH2 * const, '--', color='blue', lw=1, dashes=(3, 1))
-    ax.text(0.2, 1.00, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-10, fontsize='x-small')
+    ax.text(0.2, 1.00, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9, fontsize='x-small')
     
     # Add legend and save the plot
     plt.legend(bbox_to_anchor=(0.05, 1.2), loc=2, borderaxespad=0.0, ncol=2, fancybox=True, shadow=True, fontsize='x-small', handlelength=2)
@@ -177,7 +183,7 @@ for m, metal in enumerate(data.index):
     # Plot Gibbs energies for surfaces in the second figure
     xx = np.arange(-1.00, 2.55, 0.05)
     for k in range(nsurfs):
-        label = r"S$_{%i}$(H: %i O: %i OH: %i OOH: %i)" % (k, surfs[k][1], surfs[k][2], surfs[k][3], surfs[k][4])
+        label = r"S$_{%i}#$(H: %i O: %i OH: %i OOH: %i)" % (k, surfs[k][1], surfs[k][2], surfs[k][3], surfs[k][4])
         ax.plot(xx, dg(k, 0, xx) * kjmol, '-', lw=1, c=color[k], label=label)
     
     # Add legend and save the second plot
