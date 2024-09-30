@@ -41,11 +41,10 @@ setfont()
 
 # Plot settings
 ax = fig.add_axes([0.2, 0.2, 0.6, 0.6])
-zoomx, zoomy = 0.4, 0.6
 xcenter, ycenter = 0.5, 3.4
-d1, d2, d3 = 4 * zoomx, 3 * zoomy, 5 * zoomx
-x1, x2 = xcenter - d1, xcenter + d3
-y1, y2 = ycenter - d2, ycenter + d2
+zoomx, zoomy = 0.4, 0.6
+x1, x2 = xcenter - 2 * zoomx, xcenter + 6 * zoomx
+y1, y2 = ycenter - 2 * zoomy, ycenter + 4 * zoomy
 
 ax.axis([x1, x2, y1, y2])
 ax.set_xlabel(r'$\Delta$G$_{\sf OH}$ (eV)', fontsize=10)
