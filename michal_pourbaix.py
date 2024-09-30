@@ -95,7 +95,7 @@ def dg(i, x, y):
 data = pd.read_csv('/pscratch/sd/j/jiuy97/6_MNC/figure/scaling_relationship.tsv', sep='\t', header=0, index_col=0)
 
 # Loop through each metal
-for metal in data.index:
+for m, metal in enumerate(data.index):
     # Extract values for calculations
     G_clean = data.loc[metal, 'G_']  # Clean surface
     G_O = data.loc[metal, 'G_O']  # 1*O surface
@@ -154,7 +154,7 @@ for metal in data.index:
     
     # Add legend and save the plot
     plt.legend(bbox_to_anchor=(0.05, 1), loc=2, borderaxespad=0., ncol=2, fancybox=True, shadow=True, fontsize='x-small', handlelength=3)
-    plt.savefig(f'pourbaix_full_{metal}.png', bbox_inches='tight')
+    plt.savefig(f'pourbaix_full_{m+1}{metal}.png', bbox_inches='tight')
     plt.close()
     
     # Clear the plot and set up for the second figure
@@ -174,5 +174,5 @@ for metal in data.index:
     # Add legend and save the second plot
     plt.xlim(-1.0, 2.5)
     plt.legend(bbox_to_anchor=(0.05, 1.3), loc=2, borderaxespad=0., ncol=2, fancybox=True, shadow=True, fontsize='x-small', handlelength=3)
-    plt.savefig(f'pourbaix_{metal}.png', bbox_inches='tight')
+    plt.savefig(f'pourbaix_{m+1}{metal}.png', bbox_inches='tight')
     plt.close()
