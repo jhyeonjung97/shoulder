@@ -154,7 +154,8 @@ for metal in data.index:
     
     # Add legend and save the plot
     plt.legend(bbox_to_anchor=(0.05, 1), loc=2, borderaxespad=0., ncol=2, fancybox=True, shadow=True, fontsize='x-small', handlelength=3)
-    plt.savefig(f'pourbaix_{metal}.pdf', bbox_inches='tight')
+    plt.savefig(f'pourbaix_{metal}.png', bbox_inches='tight')
+    plt.close()
     
     # Clear the plot and set up for the second figure
     plt.clf()
@@ -172,7 +173,5 @@ for metal in data.index:
     
     # Add legend and save the second plot
     plt.legend(bbox_to_anchor=(0.05, 1.3), loc=2, borderaxespad=0., ncol=2, fancybox=True, shadow=True, fontsize='x-small', handlelength=3)
-    plt.savefig(f'pourbaix2_{metal}.pdf', bbox_inches='tight')
-
-# Show the final plot
-plt.show()
+    plt.savefig(f'pourbaix2_{metal}.png', bbox_inches='tight')
+    plt.close()
