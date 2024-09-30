@@ -135,12 +135,22 @@ for m, metal in enumerate(data.index):
     extraticks = [1.23]
     plt.yticks(list(plt.yticks()[0]) + extraticks)
 
+    # # Plot surface Gibbs energies
+    # for i in range(len(uniquesurf)):
+    #     k = uniquesurf[i]
+    #     label = r"S$_{%i}$(H-%i O-%i OH-%i OOH-%i)" % (k, surfs[k][1], surfs[k][2], surfs[k][3], surfs[k][4])
+    #     plt.fill_between(pH2, crossover[i] - pH2 * const, crossover[i + 1] - pH2 * const, facecolor=color[i], alpha=0.3, lw=0.5, edgecolor='black')
+    #     plt.plot([], [], color=color[i], alpha=0.3, linewidth=5, label=label)
+        
     # Plot surface Gibbs energies
     for i in range(len(uniquesurf)):
         k = uniquesurf[i]
         label = r"S$_{%i}$(H-%i O-%i OH-%i OOH-%i)" % (k, surfs[k][1], surfs[k][2], surfs[k][3], surfs[k][4])
-        plt.fill_between(pH2, crossover[i] - pH2 * const, crossover[i + 1] - pH2 * const, facecolor=color[i], alpha=0.3, lw=0.5, edgecolor='black')
-        plt.plot([], [], color=color[i], alpha=0.3, linewidth=5, label=label)
+        # Use the index from surfs to get the color
+        color_index = surfs.index(surfs[k])  # Get the index of the current surface in surfs
+        plt.fill_between(pH2, crossover[i] - pH2 * const, crossover[i + 1] - pH2 * const, 
+                         facecolor=color[color_index], alpha=0.3, lw=0.5, edgecolor='black')
+        plt.plot([], [], color=color[color_index], alpha=0.3, linewidth=5, label=label)
         
     # # Plot OER line
     # Vover = 0.184
