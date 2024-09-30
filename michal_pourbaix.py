@@ -128,8 +128,8 @@ for m, metal in enumerate(data.index):
     
     # Set axis limits and labels
     ax.axis([0, 14, Umin, Umax])
-    ax.set_xlabel(r'pH')
-    ax.set_ylabel(r'U/V')
+    ax.set_xlabel(r'pH', fontsize='small')
+    ax.set_ylabel(r'U/V', fontsize='small')
     
     # Extra ticks for the plot
     extraticks = [1.23]
@@ -157,8 +157,8 @@ for m, metal in enumerate(data.index):
     fig = plt.figure(figsize=fig_size, dpi=300)
     ax = fig.add_axes([0.2, 0.2, 0.6, 0.6])
     ax.axis([-1.0, 2.5, -800, 200])
-    ax.set_xlabel(r'RHE (V)')
-    ax.set_ylabel(r'$\Delta$G (kJ/mol)')
+    ax.set_xlabel(r'RHE (V)', fontsize='small')
+    ax.set_ylabel(r'$\Delta$G (kJ/mol)', fontsize='small')
     
     # Plot Gibbs energies for surfaces in the second figure
     xx = np.arange(-1.00, 2.55, 0.05)

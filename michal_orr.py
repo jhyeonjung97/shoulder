@@ -42,14 +42,14 @@ setfont()
 # Plot settings
 ax = fig.add_axes([0.2, 0.2, 0.6, 0.6])
 zoomx, zoomy = 0.4, 0.6
-xcenter, ycenter = 0.9, 3.75
+xcenter, ycenter = 1.0, 3.7
 d1, d2, d3 = 4 * zoomx, 3 * zoomy, 5 * zoomx
 x1, x2 = xcenter - d1, xcenter + d3
 y1, y2 = ycenter - d2, ycenter + d2
 
 ax.axis([x1, x2, y1, y2])
-ax.set_xlabel(r'$\Delta$G$_{\sf OH}$ (eV)')
-ax.set_ylabel(r'$\Delta$G$_{\sf OOH}$ (eV)')
+ax.set_xlabel(r'$\Delta$G$_{\sf OH}$ (eV)', fontsize=10)
+ax.set_ylabel(r'$\Delta$G$_{\sf OOH}$ (eV)', fontsize=10)
 
 # Define functions for overpotential calculations
 def ooh_oh_scaling(doh):
@@ -93,13 +93,13 @@ X, Y = np.meshgrid(x, y)
 Z = np.array([[overpotential_orr_for_contour(i, j) for i in x] for j in y])
 
 # Plot contour
-levels = np.arange(0.1, 1.7, 0.1)
+levels = np.arange(0.2, 1.6, 0.1)
 CS = plt.contourf(X, Y, Z, levels, cmap=ListedColormap([
     '#a50026', '#d73027', '#f46d43', '#fdae61', '#fee090', '#ffffbf',
     '#ffffe5', '#ffffff', '#e0f3f8', '#abd9e9', '#74add1', '#4575b4', '#313695'
 ]), extend='max', origin='lower')
 
-cbar = plt.colorbar(CS, ticks=np.arange(0.1, 1.6, 0.1))
+cbar = plt.colorbar(CS, ticks=np.arange(0.2, 1.6, 0.1))
 cbar.ax.set_ylabel(r'$\eta_{\sf ORR}$ (V)')
 cbar.ax.tick_params(size=3, labelsize=6, labelcolor='black', width=0.5, color='black')
 
@@ -112,6 +112,7 @@ ax.plot(x, x+3.2, '--', lw=1, dashes=(3, 1), c='black')
 ax.text(1.0, 2.1, r'$\Delta$G$_{\sf OOH}$=$\Delta$G$_{\sf OH}$+3.2 eV', color='black', fontsize=10)
 ax.legend(bbox_to_anchor=(0.5, 1.1), loc='center', borderaxespad=0.0, ncol=3, fancybox=True, shadow=False, fontsize='x-small', handlelength=2)
 fig.savefig('contour_ORR.png', bbox_inches='tight')
+print("Figure saved as contour_ORR.png")
 fig.clf()
 
 # CSV writing for overpotential results

@@ -43,8 +43,8 @@ def plot_contour(X, Y, Z, x1, x2, y1, y2, fig, ax):
     cbar.ax.tick_params(size=3, labelsize=6, labelcolor='black', width=0.5, color='black')
 
     # Axis settings
-    ax.set_xlabel(r'$\Delta$G$_{\sf OH}$ (eV)')
-    ax.set_ylabel(r'$\Delta$G$_{\sf OOH}$ (eV)')
+    ax.set_xlabel(r'$\Delta$G$_{\sf OH}$ (eV)', fontsize=10)
+    ax.set_ylabel(r'$\Delta$G$_{\sf OOH}$ (eV)', fontsize=10)
     ax.axis([x1, x2, y1, y2])
 
 # Plot data points for systems

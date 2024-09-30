@@ -42,14 +42,14 @@ setfont()
 # Plot settings
 ax = fig.add_axes([0.2, 0.2, 0.6, 0.6])
 zoomx, zoomy = 0.4, 0.6
-xcenter, ycenter = 1.45, 3.75
+xcenter, ycenter = 0.5, 3.4
 d1, d2, d3 = 4 * zoomx, 3 * zoomy, 5 * zoomx
 x1, x2 = xcenter - d1, xcenter + d3
 y1, y2 = ycenter - d2, ycenter + d2
 
 ax.axis([x1, x2, y1, y2])
-ax.set_xlabel(r'$\Delta$G$_{\sf OH}$ (eV)')
-ax.set_ylabel(r'$\Delta$G$_{\sf OOH}$ (eV)')
+ax.set_xlabel(r'$\Delta$G$_{\sf OH}$ (eV)', fontsize=10)
+ax.set_ylabel(r'$\Delta$G$_{\sf OOH}$ (eV)', fontsize=10)
 
 # Define functions for overpotential calculations
 def ooh_oh_scaling(doh):
@@ -112,6 +112,7 @@ ax.plot(x, x+3.2, '--', lw=1, dashes=(3, 1), c='black')
 ax.text(1.0, 2.1, r'$\Delta$G$_{\sf OOH}$=$\Delta$G$_{\sf OH}$+3.2 eV', color='black', fontsize=10)
 ax.legend(bbox_to_anchor=(0.5, 1.1), loc='center', borderaxespad=0.0, ncol=3, fancybox=True, shadow=False, fontsize='x-small', handlelength=2)
 fig.savefig('contour_OER.png', bbox_inches='tight')
+print("Figure saved as contour_OER.png")
 fig.clf()
 
 # CSV writing for overpotential results
