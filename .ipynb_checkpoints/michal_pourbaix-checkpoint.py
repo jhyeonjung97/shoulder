@@ -149,7 +149,7 @@ for m, metal in enumerate(data.index):
     
     # Plot equilibrium line
     plt.plot(pH2, 1.23 - pH2 * const, '--', color='blue', lw=1, dashes=(3, 1))
-    ax.text(0.2, 1.25, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-10, fontsize='x-small')
+    ax.text(0.2, 1.00, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-10, fontsize='x-small')
     
     # Add legend and save the plot
     plt.legend(bbox_to_anchor=(0.05, 1.2), loc=2, borderaxespad=0.0, ncol=2, fancybox=True, shadow=True, fontsize='x-small', handlelength=2)
