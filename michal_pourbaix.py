@@ -152,7 +152,7 @@ for m, metal in enumerate(data.index):
     for j in range(len(surfs)):
         k = surfs[j]
         label = r"S$_{%i}$(H-%i O-%i OH-%i OOH-%i)" % (k, surfs[k][1], surfs[k][2], surfs[k][3], surfs[k][4])
-        plt.plot([], [], color=color[color_index], alpha=0.3, linewidth=5), label=label)
+        plt.plot([], [], color=color[color_index], alpha=0.3, linewidth=5, label=label)
         
     # # Plot OER line
     # Vover = 0.184
