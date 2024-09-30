@@ -132,8 +132,8 @@ color_ranges = [
 for row_num, row in enumerate(df.itertuples(), 1):  # Start row number from 1
     ax.scatter(row.dG_OH, row.dG_OOH, label=f'{row.Index}: {row.overpotential:.2f} V',
                # marker=markers[row_num-1],
-               s = 24, marker='s',
-               linewidths=1.5, # Use row_num for marker cycling
+               s = 24, marker='o',
+               linewidths=0.5, # Use row_num for marker cycling
                facecolors=colors[row_num-1],  # White fill for contrast (use facecolors for scatter)
                edgecolors=colors[row_num-1])  # Black edge color
 
