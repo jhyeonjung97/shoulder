@@ -135,28 +135,14 @@ for m, metal in enumerate(data.index):
     extraticks = [1.23]
     plt.yticks(list(plt.yticks()[0]) + extraticks)
 
-    # # Plot surface Gibbs energies
-    # for i in range(len(uniquesurf)):
-    #     k = uniquesurf[i]
-    #     label = r"S$_{%i}$(H-%i O-%i OH-%i OOH-%i)" % (k, surfs[k][1], surfs[k][2], surfs[k][3], surfs[k][4])
-    #     plt.fill_between(pH2, crossover[i] - pH2 * const, crossover[i + 1] - pH2 * const, facecolor=color[i], alpha=0.3, lw=0.5, edgecolor='black')
-    #     plt.plot([], [], color=color[i], alpha=0.3, linewidth=5, label=label)
-        
     # Plot surface Gibbs energies
     for i in range(len(uniquesurf)):
         k = uniquesurf[i]
         label = r"S$_{%i}$(H-%i O-%i OH-%i OOH-%i)" % (k, surfs[k][1], surfs[k][2], surfs[k][3], surfs[k][4])
-        # Use the index from surfs to get the color
-        color_index = surfs.index(surfs[k])  # Get the index of the current surface in surfs
         plt.fill_between(pH2, crossover[i] - pH2 * const, crossover[i + 1] - pH2 * const, 
-                         facecolor=color[color_index], alpha=0.3, lw=0.5, edgecolor='black')
-        plt.plot([], [], color=color[color_index], alpha=0.3, linewidth=5, label=label)
+                         facecolor=color[k], alpha=0.3, lw=0.5, edgecolor='black')
+        plt.plot([], [], color=color[k], alpha=0.3, linewidth=5, label=label)
         
-    # # Plot OER line
-    # Vover = 0.184
-    # y = 1.23 + Vover - pH2 * const
-    # plt.plot(pH2, y, '-', color='black', lw=1, dashes=(3, 1), label='$\eta$ OER = ' + repr(Vover) + ' ')
-    
     # Plot equilibrium line
     plt.plot(pH2, 1.23 - pH2 * const, '--', color='blue', lw=1, dashes=(3, 1))
     ax.text(0.2, 1.00, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9, fontsize='x-small')
@@ -177,7 +163,7 @@ for m, metal in enumerate(data.index):
     # Plot Gibbs energies for surfaces in the second figure
     xx = np.arange(-1.00, 2.55, 0.05)
     for k in range(nsurfs):
-        label = r"S$_{%i}#$(H: %i O: %i OH: %i OOH: %i)" % (k, surfs[k][1], surfs[k][2], surfs[k][3], surfs[k][4])
+        label = r"S$_{%i}$(H: %i O: %i OH: %i OOH: %i)" % (k, surfs[k][1], surfs[k][2], surfs[k][3], surfs[k][4])
         ax.plot(xx, dg(k, 0, xx) * kjmol, '-', lw=1, c=color[k], label=label)
     
     # Add legend and save the second plot
