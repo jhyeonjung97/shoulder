@@ -117,7 +117,7 @@ cbar.ax.set_ylabel(r'$\eta_{\sf ORR}$ (V)')
 cbar.ax.tick_params(size=3, labelsize=6, labelcolor='black', width=0.5, color='black')
 
 # Plot data points from the TSV file with their calculated overpotentials
-markers = ['o', 's', 'd', '*', '^', 'v']  # Different markers for metals
+markers = ['o', 's', 'd', '^', 'v', '*']  # Different markers for metals
 color_ranges = [plt.cm.Reds(np.linspace(0.3, 0.9, 7)),
                 plt.cm.Oranges(np.linspace(0.3, 0.9, 7)),
                 plt.cm.Wistia(np.linspace(0.3, 0.9, 7)),
@@ -128,20 +128,20 @@ color_ranges = [plt.cm.Reds(np.linspace(0.3, 0.9, 7)),
 
 # Plot the general dataset points
 for row_num, row in enumerate(df.itertuples(), 1):  # Start row number from 1
-    ax.plot(row.dG_OH, row.dG_OOH, label=f'{row.Index}: {row.overpotential:.2f} V',
+    ax.scatter(row.dG_OH, row.dG_OOH, label=f'{row.Index}: {row.overpotential:.2f} V',
            marker=markers[row_num % len(markers)],  # Use row_num for marker cycling
-           markerfacecolor='white',  # White fill for contrast
-           markeredgecolor='black')
+           facecolors='white',  # White fill for contrast (use facecolors for scatter)
+           edgecolors='black')  # Black edge color
 
 # Plot the metal-specific data points with colormaps
 for m, metal in enumerate(metals):
     for row_num, row in enumerate(dfs[metal].itertuples(), 1):  # Use row number here as well
-        ax.plot(row.dG_OH, row.dG_OOH, 
+        ax.scatter(row.dG_OH, row.dG_OOH, 
                 marker=markers[m], 
-                markerfacecolor='none',  # Filled face with color
-                markeredgecolor=color_ranges[m][row_num % 7],  # Matching edge color
-                label=f'{metal} {row.Index}: {row.overpotential:.2f} V')
+                facecolors='none',  # Filled face with colormap
+                edgecolors=color_ranges[m][row_num % 7])  # Matching edge color
 
+        
 # Add scaling line
 ax.plot(x, x + 3.2, '--', lw=1, dashes=(3, 1), c='black')
 ax.text(1.1, 2.4, r'$\Delta$G$_{\sf OOH}$=$\Delta$G$_{\sf OH}$+3.2 eV', color='black', fontsize=10)
