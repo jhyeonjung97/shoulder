@@ -42,8 +42,8 @@ setfont()
 # Plot settings
 ax = fig.add_axes([0.2, 0.2, 0.6, 0.6])
 xcenter, ycenter = 1.0, 3.7
-x1, x2 = xcenter - 1.6, xcenter + 2.0 # 3.6
-y1, y2 = ycenter - 1.8, ycenter + 1.8 # 3.6
+x1, x2 = xcenter - 1.6, xcenter + 2.0 # 3.2
+y1, y2 = ycenter - 1.8, ycenter + 1.8 # 3.2
 
 ax.axis([x1, x2, y1, y2])
 ax.set_xlabel(r'$\Delta$G$_{\sf OH}$ (eV)', fontsize=10)
@@ -91,13 +91,13 @@ X, Y = np.meshgrid(x, y)
 Z = np.array([[overpotential_orr_for_contour(i, j) for i in x] for j in y])
 
 # Plot contour
-levels = np.arange(0.2, 1.6, 0.1)
+levels = np.arange(0.1, 1.7, 0.1)
 CS = plt.contourf(X, Y, Z, levels, cmap=ListedColormap([
     '#a50026', '#d73027', '#f46d43', '#fdae61', '#fee090', '#ffffbf',
     '#ffffe5', '#ffffff', '#e0f3f8', '#abd9e9', '#74add1', '#4575b4', '#313695'
 ]), extend='max', origin='lower')
 
-cbar = plt.colorbar(CS, ticks=np.arange(0.2, 1.6, 0.1))
+cbar = plt.colorbar(CS, ticks=np.arange(0.1, 1.7, 0.1))
 cbar.ax.set_ylabel(r'$\eta_{\sf ORR}$ (V)')
 cbar.ax.tick_params(size=3, labelsize=6, labelcolor='black', width=0.5, color='black')
 
