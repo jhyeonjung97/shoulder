@@ -117,7 +117,7 @@ cbar.ax.set_ylabel(r'$\eta_{\sf ORR}$ (V)')
 cbar.ax.tick_params(size=3, labelsize=6, labelcolor='black', width=0.5, color='black')
 
 # Plot data points from the TSV file with their calculated overpotentials
-markers = ['o', 's', 'd', '^', 'v', '*']  # Different markers for metals
+markers = ['o', 's', 'd', '*', '^', 'v']  # Different markers for metals
 color_ranges = [plt.cm.Reds(np.linspace(0.3, 0.9, 7)),
                 plt.cm.Oranges(np.linspace(0.3, 0.9, 7)),
                 plt.cm.Wistia(np.linspace(0.3, 0.9, 7)),
@@ -136,11 +136,10 @@ for row_num, row in enumerate(df.itertuples(), 1):  # Start row number from 1
 # Plot the metal-specific data points with colormaps
 for m, metal in enumerate(metals):
     for row_num, row in enumerate(dfs[metal].itertuples(), 1):  # Use row number here as well
-        color = color_ranges[m][row_num % 7]
         ax.plot(row.dG_OH, row.dG_OOH, 
                 marker=markers[m], 
-                markerfacecolor=color,  # Filled face with color
-                markeredgecolor=color,  # Matching edge color
+                markerfacecolor='none',  # Filled face with color
+                markeredgecolor=color_ranges[m][row_num % 7],  # Matching edge color
                 label=f'{metal} {row.Index}: {row.overpotential:.2f} V')
 
 # Add scaling line
