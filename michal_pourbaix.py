@@ -150,7 +150,7 @@ for m, metal in enumerate(data.index):
         color_index = surfs.index(surfs[k])  # Get the index of the current surface in surfs
         plt.fill_between(pH2, crossover[i] - pH2 * const, crossover[i + 1] - pH2 * const, 
                          facecolor=color[color_index], alpha=0.3, lw=0.5, edgecolor='black')
-        plt.plot([], [], color=color[color_index], alpha=0.3, linewidth=5), label=label)
+        plt.plot([], [], color=color[color_index], alpha=0.3, linewidth=5, label=label)
         
     # # Plot OER line
     # Vover = 0.184
