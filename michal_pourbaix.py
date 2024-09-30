@@ -27,10 +27,6 @@ plt.rcParams['ytick.labelsize'] = tick_font_size
 plt.rcParams['mathtext.default'] = 'regular'
 plt.rcParams['lines.linewidth'] = 1.0
 
-# Initialize figure
-fig = plt.figure(figsize=fig_size, dpi=300)
-ax = fig.add_axes([0.2, 0.2, 0.6, 0.6])
-
 # Define constants
 Umin, Umax = -0.5, 2.5
 kbt = 0.0256 
@@ -133,7 +129,11 @@ for m, metal in enumerate(data.index):
     color = ['turquoise', 'green', 'red', 'blue', 'gray', 'gold', 'purple', 'pink', 'darkorange',
              'lime', 'olive', 'yellowgreen', 'violet', 'navy', 'brown', 'teal', 'deeppink',
              'cyan', 'dodgerblue', 'steelblue', 'darkslategrey']
-    pH2 = np.arange(0, 14, 0.01)
+    pH2 = np.arange(0, 14.01, 0.01)
+    
+    # Initialize figure
+    fig = plt.figure(figsize=fig_size, dpi=300)
+    ax = fig.add_axes([0.2, 0.2, 0.6, 0.6])
     
     # Plot surface Gibbs energies
     for i in range(len(uniquesurf)):
@@ -166,7 +166,7 @@ for m, metal in enumerate(data.index):
     ax.set_ylabel(r'$\Delta$G (kJ/mol)')
     
     # Plot Gibbs energies for surfaces in the second figure
-    xx = np.arange(-1.0, 3.0, 0.05)
+    xx = np.arange(-1.00, 2.55, 0.05)
     for k in range(nsurfs):
         label = r"S$_{%i}$(H: %i O: %i OH: %i OOH: %i)" % (k, surfs[k][1], surfs[k][2], surfs[k][3], surfs[k][4])
         ax.plot(xx, dg(k, 0, xx) * kjmol, '-', lw=1, c=color[k], label=label)
