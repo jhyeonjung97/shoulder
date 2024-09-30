@@ -123,7 +123,7 @@ color_ranges = [
     plt.cm.Blues(np.linspace(0.3, 0.9, 7)),
     plt.cm.Greens(np.linspace(0.3, 0.9, 7)),
     plt.cm.Purples(np.linspace(0.3, 0.9, 7)),
-    plt.cm.Greys(np.linspace(0.3, 0.9, 7))
+    plt.cm.Greys(np.linspace(0.3, 0.9, 7)),
     plt.cm.Oranges(np.linspace(0.3, 0.9, 7)),
     plt.cm.Reds(np.linspace(0.3, 0.9, 7)),
     ]
