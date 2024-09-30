@@ -86,6 +86,17 @@ do_values = df['dG_O']
 df['dG_OOH'] = doh_values.apply(ooh_oh_scaling)
 df['overpotential'] = df.apply(lambda row: overpotential_oer(row['dG_OH'], row['dG_O'], row['dG_OOH']), axis=1)
 
+# Prepare separate data for each metal
+dfs = {}
+for m, metal in enumerate(metals):
+    row = rows[m]
+    group = groups[m]
+    dfs[metal] = pd.read_csv(f'/pscratch/sd/j/jiuy97/6_MNC/figure/{row}_{group}{metal}_gibbs.tsv', sep='\t', header=0, index_col=0)
+    doh_values = dfs[metal]['dG_OH']
+    do_values = dfs[metal]['dG_O']
+    dfs[metal]['dG_OOH'] = doh_values.apply(ooh_oh_scaling)
+    dfs[metal]['overpotential'] = dfs[metal].apply(lambda row: overpotential_oer(row['dG_OH'], row['dG_O'], row['dG_OOH']), axis=1)
+
 # Generate data for contour plot
 delta = 0.01
 x = np.arange(x1, x2 + delta, delta)
@@ -106,8 +117,35 @@ cbar.ax.set_ylabel(r'$\eta_{\sf OER}$ (V)')
 cbar.ax.tick_params(size=3, labelsize=6, labelcolor='black', width=0.5, color='black')
 
 # Plot data points from the TSV file with their calculated overpotentials
-for idx, row in df.iterrows():
-    ax.plot(row['dG_OH'], row['dG_OOH'], 'o', label=f'{row.name}: {row["overpotential"]:.2f} V')
+markers = ['o', 's', 'd', '^', 'v', '*']  # Different markers for metals
+colors = ['red', 'green', 'purple', 'blue', 'orange', 'grey']
+color_ranges = [
+    plt.cm.Reds(np.linspace(0.3, 0.9, 7)),
+    plt.cm.Greens(np.linspace(0.3, 0.9, 7)),
+    plt.cm.Purples(np.linspace(0.3, 0.9, 7)),
+    plt.cm.Blues(np.linspace(0.3, 0.9, 7)),
+    plt.cm.Oranges(np.linspace(0.3, 0.9, 7)),
+    plt.cm.Greys(np.linspace(0.3, 0.9, 7)),
+    ]
+
+# Plot the general dataset points
+for row_num, row in enumerate(df.itertuples(), 1):  # Start row number from 1
+    ax.scatter(row.dG_OH, row.dG_OOH, label=f'{row.Index}: {row.overpotential:.2f} V',               
+               s = 24, marker='o', # marker=markers[row_num-1],
+               linewidths=0.5, # Use row_num for marker cycling
+               facecolors=colors[row_num-1],  # White fill for contrast (use facecolors for scatter)
+               edgecolors='black',
+               zorder=10)  # Black edge color
+    
+# Plot the metal-specific data points with colormaps
+for m, metal in enumerate(metals):
+    for row_num, row in enumerate(dfs[metal].itertuples(), 1):  # Use row number here as well
+        ax.scatter(row.dG_OH, row.dG_OOH,
+                   s=24, marker='s', # marker=markers[m],
+                   linewidths=0.5,
+                   facecolors=color_ranges[m][row_num-1],  # Filled face with colormap
+                   edgecolors='black',
+                   zorder=9)  # Matching edge color
 
 # Add scaling line
 ax.plot(x, x+3.2, '--', lw=1, dashes=(3, 1), c='black')

@@ -135,17 +135,17 @@ for row_num, row in enumerate(df.itertuples(), 1):  # Start row number from 1
                linewidths=0.5, # Use row_num for marker cycling
                facecolors=colors[row_num-1],  # White fill for contrast (use facecolors for scatter)
                edgecolors='black',
-               zorder = 10)  # Black edge color
+               zorder=10)  # Black edge color
 
 # Plot the metal-specific data points with colormaps
 for m, metal in enumerate(metals):
     for row_num, row in enumerate(dfs[metal].itertuples(), 1):  # Use row number here as well
-        ax.scatter(row.dG_OH, row.dG_OOH, 
-                   # marker=markers[m],
-                   s = 24, marker='s',
+        ax.scatter(row.dG_OH, row.dG_OOH,
+                   s=24, marker='s', # marker=markers[m],
                    linewidths=0.5,
                    facecolors=color_ranges[m][row_num-1],  # Filled face with colormap
-                   edgecolors='black')  # Matching edge color
+                   edgecolors='black',
+                   zorder=9)  # Matching edge color
    
 # Add scaling line
 ax.plot(x, x + 3.2, '--', lw=1, dashes=(3, 1), c='black')
