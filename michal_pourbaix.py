@@ -61,6 +61,12 @@ dsoh = 0.376 + 0.042 - 0.066 - (dgh2o - 0.5 * dgh2)
 dsooh = 0.471 + 0.077 - 0.134 - (2 * dgh2o - 1.5 * dgh2)
 dsh = dsoh - dso
 
+# Define colors for different surfaces
+color = ['turquoise', 'green', 'red', 'blue', 'gray', 'gold', 'purple', 'pink', 'darkorange',
+         'lime', 'olive', 'yellowgreen', 'violet', 'navy', 'brown', 'teal', 'deeppink',
+         'cyan', 'dodgerblue', 'steelblue', 'darkslategrey']
+pH2 = np.arange(0, 14.01, 0.01)
+
 # Functions to calculate Gibbs energy changes
 def addO(x, y):
     return -(h2o - h2) - 2 * (y + x * const) + dso
@@ -113,15 +119,8 @@ for m, metal in enumerate(data.index):
             uniquesurf.append(lowest_surfaces[j])
             crossover.append(U2[j])
             old_value = lowest_surfaces[j]
-    
     crossover.append(Umax2)
-    
-    # Define colors for different surfaces
-    color = ['turquoise', 'green', 'red', 'blue', 'gray', 'gold', 'purple', 'pink', 'darkorange',
-             'lime', 'olive', 'yellowgreen', 'violet', 'navy', 'brown', 'teal', 'deeppink',
-             'cyan', 'dodgerblue', 'steelblue', 'darkslategrey']
-    pH2 = np.arange(0, 14.01, 0.01)
-    
+
     # Initialize figure
     plt.clf()
     fig = plt.figure(figsize=fig_size, dpi=300)
@@ -139,40 +138,4 @@ for m, metal in enumerate(data.index):
     # Plot surface Gibbs energies
     for i in range(len(uniquesurf)):
         k = uniquesurf[i]
-        label = r"S$_{%i}$(H-%i O-%i OH-%i OOH-%i)" % (k, surfs[k][1], surfs[k][2], surfs[k][3], surfs[k][4])
-        plt.fill_between(pH2, crossover[i] - pH2 * const, crossover[i + 1] - pH2 * const, facecolor=color[i], alpha=0.3, lw=0.5, edgecolor='black')
-        plt.plot([], [], color=color[i], alpha=0.3, linewidth=5, label=label)
-        
-    # # Plot OER line
-    # Vover = 0.184
-    # y = 1.23 + Vover - pH2 * const
-    # plt.plot(pH2, y, '-', color='black', lw=1, dashes=(3, 1), label='$\eta$ OER = ' + repr(Vover) + ' ')
-    
-    # Plot equilibrium line
-    plt.plot(pH2, 1.23 - pH2 * const, '--', color='blue', lw=1, dashes=(3, 1))
-    ax.text(0.2, 1.25, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-10, fontsize='x-small')
-    
-    # Add legend and save the plot
-    plt.legend(bbox_to_anchor=(0.05, 1.2), loc=2, borderaxespad=0.0, ncol=2, fancybox=True, shadow=True, fontsize='x-small', handlelength=2)
-    plt.savefig(f'pourbaix_full_{m+1}{metal}.png', bbox_inches='tight')
-    plt.close()
-    
-    # Clear the plot and set up for the second figure
-    plt.clf()
-    fig = plt.figure(figsize=fig_size, dpi=300)
-    ax = fig.add_axes([0.2, 0.2, 0.6, 0.6])
-    ax.axis([-1.0, 2.5, -800, 200])
-    ax.set_xlabel(r'RHE (V)')
-    ax.set_ylabel(r'$\Delta$G (kJ/mol)')
-    
-    # Plot Gibbs energies for surfaces in the second figure
-    xx = np.arange(-1.00, 2.55, 0.05)
-    for k in range(nsurfs):
-        label = r"S$_{%i}$(H: %i O: %i OH: %i OOH: %i)" % (k, surfs[k][1], surfs[k][2], surfs[k][3], surfs[k][4])
-        ax.plot(xx, dg(k, 0, xx) * kjmol, '-', lw=1, c=color[k], label=label)
-    
-    # Add legend and save the second plot
-    plt.xlim(-1.0, 2.5)
-    plt.legend(bbox_to_anchor=(0.05, 1.2), loc=2, borderaxespad=0.0, ncol=2, fancybox=True, shadow=True, fontsize='x-small', handlelength=2)
-    plt.savefig(f'pourbaix_{m+1}{metal}.png', bbox_inches='tight')
-    plt.close()
+        label = r"S$_{%i}$(H-%i O-%i OH-%i OOH-%i)" % (k, surfs[k][1], surfs[k][2], surfs[k][3
