@@ -118,20 +118,20 @@ cbar.ax.tick_params(size=3, labelsize=6, labelcolor='black', width=0.5, color='b
 
 # Plot data points from the TSV file with their calculated overpotentials
 markers = ['o', 's', 'd', '^', 'v', '*']  # Different markers for metals
-color_ranges = [plt.cm.Reds(np.linspace(0.3, 0.9, 7)),
-                plt.cm.Oranges(np.linspace(0.3, 0.9, 7)),
-                plt.cm.Wistia(np.linspace(0.3, 0.9, 7)),
-                plt.cm.Greens(np.linspace(0.3, 0.9, 7)),
-                plt.cm.Blues(np.linspace(0.3, 0.9, 7)),
-                plt.cm.Purples(np.linspace(0.3, 0.9, 7)),
-                plt.cm.Greys(np.linspace(0.3, 0.9, 7))]
+colors = ['bule', 'orange', 'green', 'red', 'purple', 'grey']
+color_ranges = [plt.cm.Blues(np.linspace(0.3, 0.9, 8)),
+                plt.cm.Oranges(np.linspace(0.3, 0.9, 8)),
+                plt.cm.Greens(np.linspace(0.3, 0.9, 8)),
+                plt.cm.Reds(np.linspace(0.3, 0.9, 8)),
+                plt.cm.Purples(np.linspace(0.3, 0.9, 8)),
+                plt.cm.Greys(np.linspace(0.3, 0.9, 8))]
 
 # Plot the general dataset points
 for row_num, row in enumerate(df.itertuples(), 1):  # Start row number from 1
     ax.scatter(row.dG_OH, row.dG_OOH, label=f'{row.Index}: {row.overpotential:.2f} V',
            marker=markers[row_num % len(markers)],  # Use row_num for marker cycling
-           facecolors='white',  # White fill for contrast (use facecolors for scatter)
-           edgecolors='black')  # Black edge color
+           facecolors=colors[row_num],  # White fill for contrast (use facecolors for scatter)
+           edgecolors=colors[row_num])  # Black edge color
 
 # Plot the metal-specific data points with colormaps
 for m, metal in enumerate(metals):
