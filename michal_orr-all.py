@@ -127,16 +127,21 @@ color_ranges = [plt.cm.Reds(np.linspace(0.3, 0.9, 7)),
                 plt.cm.Greys(np.linspace(0.3, 0.9, 7))]
 
 # Plot the general dataset points
-for idx, row in df.iterrows():
-    ax.plot(row['dG_OH'], row['dG_OOH'], label=f'{row.name}: {row["overpotential"]:.2f} V',
-           marker=markers[idx % len(markers)], markerfacecolor='white', markeredgecolor='black')
+for row_num, row in enumerate(df.itertuples(), 1):  # Start row number from 1
+    ax.plot(row.dG_OH, row.dG_OOH, label=f'{row.Index}: {row.overpotential:.2f} V',
+           marker=markers[row_num % len(markers)],  # Use row_num for marker cycling
+           markerfacecolor='white',  # White fill for contrast
+           markeredgecolor='black')
 
 # Plot the metal-specific data points with colormaps
 for m, metal in enumerate(metals):
-    for idx, row in dfs[metal].iterrows():
-        ax.plot(row['dG_OH'], row['dG_OOH'], 
+    for row_num, row in enumerate(dfs[metal].itertuples(), 1):  # Use row number here as well
+        color = color_ranges[m][row_num % 7]
+        ax.plot(row.dG_OH, row.dG_OOH, 
                 marker=markers[m], 
-                color=color_ranges[m][idx % 7])
+                markerfacecolor=color,  # Filled face with color
+                markeredgecolor=color,  # Matching edge color
+                label=f'{metal} {row.Index}: {row.overpotential:.2f} V')
 
 # Add scaling line
 ax.plot(x, x + 3.2, '--', lw=1, dashes=(3, 1), c='black')
