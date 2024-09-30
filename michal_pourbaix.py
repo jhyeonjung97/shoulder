@@ -39,15 +39,6 @@ U = np.arange(Umin, Umax, 0.05)
 Umax2 = Umax + 0.06 * 14
 U2 = np.arange(Umin, Umax2, 0.05)
 
-# Set axis limits and labels
-ax.axis([0, 14, Umin, Umax])
-ax.set_xlabel(r'pH')
-ax.set_ylabel(r'U/V')
-
-# Extra ticks for the plot
-extraticks = [1.23]
-plt.yticks(list(plt.yticks()[0]) + extraticks)
-
 # Define Gibbs energy contributions
 h2 = -6.77149190
 h2o = -14.23091949
@@ -136,6 +127,15 @@ for m, metal in enumerate(data.index):
     fig = plt.figure(figsize=fig_size, dpi=300)
     ax = fig.add_axes([0.2, 0.2, 0.6, 0.6])
     
+    # Set axis limits and labels
+    ax.axis([0, 14, Umin, Umax])
+    ax.set_xlabel(r'pH')
+    ax.set_ylabel(r'U/V')
+    
+    # Extra ticks for the plot
+    extraticks = [1.23]
+    plt.yticks(list(plt.yticks()[0]) + extraticks)
+
     # Plot surface Gibbs energies
     for i in range(len(uniquesurf)):
         k = uniquesurf[i]
