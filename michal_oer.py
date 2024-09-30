@@ -118,13 +118,13 @@ cbar.ax.tick_params(size=3, labelsize=6, labelcolor='black', width=0.5, color='b
 
 # Plot data points from the TSV file with their calculated overpotentials
 markers = ['o', 's', 'd', '^', 'v', '*']  # Different markers for metals
-colors = ['red', 'green', 'purple', 'blue', 'orange', 'grey']
+colors = ['blue', 'orange', 'green', 'red', 'purple', 'grey']
 color_ranges = [
-    plt.cm.Reds(np.linspace(0.3, 0.9, 7)),
-    plt.cm.Greens(np.linspace(0.3, 0.9, 7)),
-    plt.cm.Purples(np.linspace(0.3, 0.9, 7)),
     plt.cm.Blues(np.linspace(0.3, 0.9, 7)),
     plt.cm.Oranges(np.linspace(0.3, 0.9, 7)),
+    plt.cm.Greens(np.linspace(0.3, 0.9, 7)),
+    plt.cm.Reds(np.linspace(0.3, 0.9, 7)),
+    plt.cm.Purples(np.linspace(0.3, 0.9, 7)),
     plt.cm.Greys(np.linspace(0.3, 0.9, 7)),
     ]
 
@@ -136,7 +136,7 @@ for row_num, row in enumerate(df.itertuples(), 1):  # Start row number from 1
                facecolors=colors[row_num-1],  # White fill for contrast (use facecolors for scatter)
                edgecolors='black',
                zorder=10)  # Black edge color
-    
+
 # Plot the metal-specific data points with colormaps
 for m, metal in enumerate(metals):
     for row_num, row in enumerate(dfs[metal].itertuples(), 1):  # Use row number here as well
