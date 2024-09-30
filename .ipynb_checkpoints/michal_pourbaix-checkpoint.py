@@ -147,8 +147,7 @@ ax.text(0.2, 1.25, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='
 
 # Add legend and save the plot
 plt.legend(bbox_to_anchor=(0.05, 1), loc=2, borderaxespad=0., ncol=2, fancybox=True, shadow=True, fontsize='x-small', handlelength=3)
-plt.savefig('Pourbaix_2D_H_octa2.pdf', bbox_inches='tight')
-plt.savefig('Pourbaix_2D_H_oct2.png', bbox_inches='tight')
+plt.savefig('pourbaix.pdf', bbox_inches='tight')
 
 # Clear the plot and set up for the second figure
 plt.clf()
