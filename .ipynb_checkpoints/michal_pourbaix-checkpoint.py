@@ -132,6 +132,7 @@ for m, metal in enumerate(data.index):
     pH2 = np.arange(0, 14.01, 0.01)
     
     # Initialize figure
+    plt.clf()
     fig = plt.figure(figsize=fig_size, dpi=300)
     ax = fig.add_axes([0.2, 0.2, 0.6, 0.6])
     
