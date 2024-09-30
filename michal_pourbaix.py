@@ -27,6 +27,10 @@ plt.rcParams['ytick.labelsize'] = tick_font_size
 plt.rcParams['mathtext.default'] = 'regular'
 plt.rcParams['lines.linewidth'] = 1.0
 
+# Initialize figure
+fig = plt.figure(figsize=fig_size, dpi=300)
+ax = fig.add_axes([0.2, 0.2, 0.6, 0.6])
+
 # Define constants
 Umin, Umax = -0.5, 2.5
 kbt = 0.0256 
@@ -38,6 +42,54 @@ pH = np.arange(0, 14, 0.10)
 U = np.arange(Umin, Umax, 0.05)
 Umax2 = Umax + 0.06 * 14
 U2 = np.arange(Umin, Umax2, 0.05)
+
+# Set axis limits and labels
+ax.axis([0, 14, Umin, Umax])
+ax.set_xlabel(r'pH')
+ax.set_ylabel(r'U/V')
+
+# Extra ticks for the plot
+extraticks = [1.23]
+plt.yticks(list(plt.yticks()[0]) + extraticks)
+
+# Define Gibbs energy contributions
+h2 = -6.77149190
+h2o = -14.23091949
+
+# Example values for Gibbs energies (can be modified based on your file)
+zpeh2o = 0.560
+zpeh2 = 0.268
+cvh2o = 0.103
+cvh2 = 0.0905
+tsh2o = 0.675
+tsh2 = 0.408
+
+# Calculate Gibbs energies for gas molecules
+dgh2o = zpeh2o + cvh2o - tsh2o
+dgh2 = zpeh2 + cvh2 - tsh2
+
+# Gibbs energy corrections for adsorbates (dummy values for demonstration)
+dso = 0.064 + 0.034 - 0.060 - (dgh2o - dgh2)
+dsoh = 0.376 + 0.042 - 0.066 - (dgh2o - 0.5 * dgh2)
+dsooh = 0.471 + 0.077 - 0.134 - (2 * dgh2o - 1.5 * dgh2)
+dsh = dsoh - dso
+
+# Functions to calculate Gibbs energy changes
+def addO(x, y):
+    return -(h2o - h2) - 2 * (y + x * const) + dso
+
+def addOH(x, y):
+    return -(h2o - 0.5 * h2) - (y + x * const) + dsoh
+
+def addOOH(x, y):
+    return -(2 * h2o - 1.5 * h2) - 3 * (y + x * const) + dsooh
+
+def addH(x, y):
+    return -0.5 * h2 + 1 * (y + x * const) + dsh
+
+# Function to calculate DG
+def dg(i, x, y):
+    return surfs[i][0] - surfs[0][0] + surfs[i][1] * addH(x, y) + surfs[i][2] * addO(x, y) + surfs[i][3] * addOH(x, y) + surfs[i][4] * addOOH(x, y)
 
 # Read data from scaling_relationship.tsv
 data = pd.read_csv('/pscratch/sd/j/jiuy97/6_MNC/figure/scaling_relationship.tsv', sep='\t', header=0, index_col=0)
