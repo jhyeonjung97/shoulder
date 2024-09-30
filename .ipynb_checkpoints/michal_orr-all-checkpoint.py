@@ -6,6 +6,10 @@ import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
 from matplotlib.markers import MarkerStyle
 
+rows = ['3d', '3d', '3d', '3d', '4d', '5d']
+groups = ['5', '6', '7', '8', '4', '4']
+metals = ['Mn', 'Fe', 'Co', 'Ni', 'Mo', 'W']
+
 # Figure and font settings
 fig_width_pt = 1.8 * 246.0
 inches_per_pt = 1.0 / 72.27
@@ -48,10 +52,6 @@ y1, y2 = ycenter - 1.6, ycenter + 1.6
 ax.axis([x1, x2, y1, y2])
 ax.set_xlabel(r'$\Delta$G$_{\sf OH}$ (eV)', fontsize=10)
 ax.set_ylabel(r'$\Delta$G$_{\sf OOH}$ (eV)', fontsize=10)
-
-rows = ['3d', '3d', '3d', '3d', '4d', '5d']
-groups = ['5', '6', '7', '8', '4', '4']
-metals = ['Mn', 'Fe', 'Co', 'Ni', 'Mo', 'W']
 
 # Define functions for overpotential calculations
 def ooh_oh_scaling(doh):
@@ -131,22 +131,24 @@ color_ranges = [
 # Plot the general dataset points
 for row_num, row in enumerate(df.itertuples(), 1):  # Start row number from 1
     ax.scatter(row.dG_OH, row.dG_OOH, label=f'{row.Index}: {row.overpotential:.2f} V',
-           marker=markers[row_num-1],  # Use row_num for marker cycling
-           facecolors=colors[row_num-1],  # White fill for contrast (use facecolors for scatter)
-           edgecolors=colors[row_num-1])  # Black edge color
+               marker=markers[row_num-1], 
+               linewidths=1.5, # Use row_num for marker cycling
+               facecolors='white',  # White fill for contrast (use facecolors for scatter)
+               edgecolors=colors[row_num-1])  # Black edge color
 
 # Plot the metal-specific data points with colormaps
 for m, metal in enumerate(metals):
     for row_num, row in enumerate(dfs[metal].itertuples(), 1):  # Use row number here as well
         ax.scatter(row.dG_OH, row.dG_OOH, 
-                marker=markers[m], 
-                facecolors='none',  # Filled face with colormap
-                edgecolors=color_ranges[m][row_num-1])  # Matching edge color
+                   marker=markers[m], 
+                   linewidths=0.5,
+                   facecolors=color_ranges[m][row_num-1],  # Filled face with colormap
+                   edgecolors='black')  # Matching edge color
 
         
 # Add scaling line
 ax.plot(x, x + 3.2, '--', lw=1, dashes=(3, 1), c='black')
-ax.text(1.1, 2.4, r'$\Delta$G$_{\sf OOH}$=$\Delta$G$_{\sf OH}$+3.2 eV', color='black', fontsize=10)
+ax.text(1.1, 2.3, r'$\Delta$G$_{\sf OOH}$=$\Delta$G$_{\sf OH}$+3.2 eV', color='black', fontsize=10)
 
 # Add legend
 ax.legend(bbox_to_anchor=(0.5, 1.1), loc='center', borderaxespad=0.0, ncol=3, fancybox=True, shadow=False, fontsize='x-small', handlelength=2)
