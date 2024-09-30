@@ -66,7 +66,7 @@ def overpotential_orr(doh, do, dooh):
     return max(dg14) + 1.23
 
 def overpotential_orr_full(doh, do, dooh):
-    dg14 = [-4.92 + dooh, -dooh + do, -do + doh, -doh]
+    dg14 = [-doh, -do + doh, -dooh + do, -4.92 + dooh]
     m = max(dg14)
     return [round(m + 1.23, 2), round(-m, 2), orr_step(dg14.index(m))]
 

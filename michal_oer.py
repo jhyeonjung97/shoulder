@@ -65,15 +65,15 @@ def overpotential_oer(doh, do, dooh):
     dg14 = [doh, do - doh, dooh - do, 4.92 - dooh]
     return max(dg14) - 1.23
 
-def overpotential_oer_for_contour(doh, dooh):
-    do = 1.469 * doh + 1.253
-    dg14 = [doh, do - doh, dooh - do, 4.92 - dooh]
-    return max(dg14) - 1.23
-
 def overpotential_oer_full(doh, do, dooh):
     dg14 = [doh, do - doh, dooh - do, 4.92 - dooh]
     m = max(dg14)
     return [round(m - 1.23, 2), round(-m, 2), oer_step(dg14.index(m))]
+    
+def overpotential_oer_for_contour(doh, dooh):
+    do = 1.556 * doh + 0.9951 
+    dg14 = [doh, do - doh, dooh - do, 4.92 - dooh]
+    return max(dg14) - 1.23
 
 # Read data from the TSV file
 df = pd.read_csv('/pscratch/sd/j/jiuy97/6_MNC/figure/scaling_relationship.tsv', sep='\t', index_col=0)
