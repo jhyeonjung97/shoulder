@@ -146,17 +146,13 @@ for m, metal in enumerate(data.index):
     for i in range(len(uniquesurf)):
         k = uniquesurf[i]
         # Use the index from surfs to get the color
+        color_index = surfs.index(surfs[k])  # Get the index of the current surface in surfs
         plt.fill_between(pH2, crossover[i] - pH2 * const, crossover[i + 1] - pH2 * const, 
-                         facecolor=color[k], alpha=0.3, lw=0.5, edgecolor='black')
-    
-    # Create labels for each surface
+                         facecolor=color[color_index], alpha=0.3, lw=0.5, edgecolor='black')
     for j in range(len(surfs)):
-        # Generate the label for each surface based on its index
-        label = r"S$_{%i}$(H-%i O-%i OH-%i OOH-%i)" % (j, surfs[j][1], surfs[j][2], surfs[j][3], surfs[j][4])
-        plt.plot([], [], color=color[j], alpha=0.3, linewidth=5, label=label)  # Use j for color and label
-    
-    # Add legend after all plots are created
-    plt.legend(bbox_to_anchor=(0.05, 1.2), loc=2, borderaxespad=0.0, ncol=2, fancybox=True, shadow=True, fontsize='x-small', handlelength=2)
+        k = surfs[j]
+        label = r"S$_{%i}$(H-%i O-%i OH-%i OOH-%i)" % (k, surfs[k][1], surfs[k][2], surfs[k][3], surfs[k][4])
+        plt.plot([], [], color=color[color_index], alpha=0.3, linewidth=5), label=label)
         
     # # Plot OER line
     # Vover = 0.184
