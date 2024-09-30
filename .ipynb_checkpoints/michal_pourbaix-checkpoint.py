@@ -154,7 +154,7 @@ for metal in data.index:
     
     # Add legend and save the plot
     plt.legend(bbox_to_anchor=(0.05, 1), loc=2, borderaxespad=0., ncol=2, fancybox=True, shadow=True, fontsize='x-small', handlelength=3)
-    plt.savefig(f'pourbaix_{metal}.png', bbox_inches='tight')
+    plt.savefig(f'pourbaix_full_{metal}.png', bbox_inches='tight')
     plt.close()
     
     # Clear the plot and set up for the second figure
@@ -166,12 +166,13 @@ for metal in data.index:
     ax.set_ylabel(r'$\Delta$G (kJ/mol)')
     
     # Plot Gibbs energies for surfaces in the second figure
-    xx = np.arange(-1.0, 2.5, 0.05)
+    xx = np.arange(-1.0, 3.0, 0.05)
     for k in range(nsurfs):
         label = r"S$_{%i}$(H: %i O: %i OH: %i OOH: %i)" % (k, surfs[k][1], surfs[k][2], surfs[k][3], surfs[k][4])
         ax.plot(xx, dg(k, 0, xx) * kjmol, '-', lw=1, c=color[k], label=label)
     
     # Add legend and save the second plot
+    plt.xlim(-1.0, 2.5)
     plt.legend(bbox_to_anchor=(0.05, 1.3), loc=2, borderaxespad=0., ncol=2, fancybox=True, shadow=True, fontsize='x-small', handlelength=3)
-    plt.savefig(f'pourbaix2_{metal}.png', bbox_inches='tight')
+    plt.savefig(f'pourbaix_{metal}.png', bbox_inches='tight')
     plt.close()
