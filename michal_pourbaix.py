@@ -161,4 +161,11 @@ ax.set_ylabel(r'$\Delta$G (kJ/mol)')
 xx = np.arange(-1.0, 2.5, 0.05)
 for k in range(nsurfs):
     label = r"S$_{%i}$(H: %i O: %i OH: %i OOH: %i)" % (k, surfs[k][1], surfs[k][2], surfs[k][3], surfs[k][4])
-    ax.plot(xx, dg(k, 0, xx) * kjmol, '-', lw=1, c=color[k], label=
+    ax.plot(xx, dg(k, 0, xx) * kjmol, '-', lw=1, c=color[k], label=label)
+
+# Add legend and save the second plot
+plt.legend(bbox_to_anchor=(0.05, 1.3), loc=2, borderaxespad=0., ncol=2, fancybox=True, shadow=True, fontsize='x-small', handlelength=3)
+plt.savefig('LNO_NiO_term_1D_H_octa2.pdf', bbox_inches='tight')
+
+# Show the final plot
+plt.show()
