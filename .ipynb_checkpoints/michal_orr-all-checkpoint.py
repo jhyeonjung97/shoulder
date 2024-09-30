@@ -118,14 +118,14 @@ cbar.ax.tick_params(size=3, labelsize=6, labelcolor='black', width=0.5, color='b
 
 # Plot data points from the TSV file with their calculated overpotentials
 markers = ['o', 's', 'd', '^', 'v', '*']  # Different markers for metals
-colors = ['blue', 'green', 'purple', 'grey', 'orange', 'red']
+colors = ['red', 'green', 'purple', 'blue', 'orange', 'grey']
 color_ranges = [
-    plt.cm.Blues(np.linspace(0.3, 0.9, 7)),
+    plt.cm.Reds(np.linspace(0.3, 0.9, 7)),
     plt.cm.Greens(np.linspace(0.3, 0.9, 7)),
     plt.cm.Purples(np.linspace(0.3, 0.9, 7)),
-    plt.cm.Greys(np.linspace(0.3, 0.9, 7)),
+    plt.cm.Blues(np.linspace(0.3, 0.9, 7)),
     plt.cm.Oranges(np.linspace(0.3, 0.9, 7)),
-    plt.cm.Reds(np.linspace(0.3, 0.9, 7)),
+    plt.cm.Greys(np.linspace(0.3, 0.9, 7)),
     ]
 
 # Plot the general dataset points
