@@ -1,113 +1,146 @@
-import matplotlib.pyplot as plt
-import numpy as np
 import csv
+import matplotlib
+import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
+from matplotlib.markers import MarkerStyle
 
-# Global settings for plot
-def set_plot_style():
-    plt.rcParams.update({
-        'ps.usedistiller': 'xpdf',
-        'font.size': 9,
-        'axes.labelsize': 9,
-        'legend.fontsize': 9,
-        'xtick.labelsize': 8,
-        'ytick.labelsize': 8,
-        'lines.linewidth': 1.0,
-        'axes.linewidth': 0.8,
-        'text.usetex': False  # Disable LaTeX rendering
-    })
+# Figure and font settings
+fig_width_pt = 1.8 * 246.0
+inches_per_pt = 1.0 / 72.27
+golden_mean = (np.sqrt(5) - 1.0) / 2.0
+fig_width = fig_width_pt * inches_per_pt
+fig_height = fig_width * golden_mean
+fig_size = [fig_width, fig_height]
+fig = plt.figure(figsize=fig_size, dpi=300)
 
-# Function to calculate OOH scaling
+font_size = 9
+tick_font_size = 8
+plt.rcParams.update({
+    'ps.usedistiller': 'xpdf',
+    'font.size': font_size,
+    'axes.labelsize': font_size,
+    'legend.fontsize': font_size,
+    'xtick.labelsize': tick_font_size,
+    'ytick.labelsize': tick_font_size,
+    'lines.linewidth': 1.0
+})
+
+def setfont(font='cmss', unicode=True):
+    """
+    Set Matplotlib rcParams to use LaTeX for font rendering.
+    """
+    font = font.lower().replace(" ", "")
+    font = {'family': 'sans-serif', 'serif': ['cmss']}
+    preamble = r"""\usepackage{color} \usepackage[tx]{sfmath}"""
+    plt.rc('font', **font)
+    plt.rcParams['text.latex.preamble'] = preamble
+
+setfont()
+
+# Plot settings
+ax = fig.add_axes([0.2, 0.2, 0.6, 0.6])
+zoomx, zoomy = 0.4, 0.6
+xcenter, ycenter = 1.45, 3.75
+d1, d2, d3 = 4 * zoomx, 3 * zoomy, 5 * zoomx
+x1, x2 = xcenter - d1, xcenter + d3
+y1, y2 = ycenter - d2, ycenter + d2
+
+ax.axis([x1, x2, y1, y2])
+ax.set_xlabel(r'$\Delta$G$_{\sf OH}$ (eV)')
+ax.set_ylabel(r'$\Delta$G$_{\sf OOH}$ (eV)')
+
+# Define functions for overpotential calculations
 def ooh_oh_scaling(doh):
-    return 0.84 * doh + 3.14
+    return doh + 3.2
 
-# Function to calculate overpotential
-def overpotential_oer(x, doh):
-    dooh = ooh_oh_scaling(doh)
-    dg14 = [doh, x, dooh - (x + doh), -dooh + 4.92]
+def oer_step(i):
+    steps = ['H2O->OH*', 'OH*->O*', 'O*->OOH*', 'OOH*->O2']
+    return steps[i]
+
+def overpotential_oer(doh, do, dooh):
+    dg14 = [doh, do - doh, dooh - do, 4.92 - dooh]
     return max(dg14) - 1.23
 
-# Function for plotting contour and colorbars
-def plot_contour(X, Y, Z, x1, x2, y1, y2, fig, ax):
-    levels = np.arange(0.2, 1.6, 0.1)
-    cmap = ListedColormap([
-        '#a50026', '#d73027', '#f46d43', '#fdae61', '#fee090', '#ffffbf',
-        '#ffffe5', '#e0f3f8', '#abd9e9', '#74add1', '#4575b4', '#313695'
-    ])
-    CS = ax.contourf(X, Y, Z, levels, cmap=cmap, extend='max', origin='lower')
-    
-    # Colorbar
-    cbar = plt.colorbar(CS, ticks=list(np.arange(0.2, 1.6, step=0.1)))
-    cbar.ax.set_ylabel(r'$\eta_{\sf OER}$ (V)')
-    cbar.ax.tick_params(size=3, labelsize=6, labelcolor='black', width=0.5, color='black')
+def overpotential_oer_for_contour(doh, dooh):
+    do = 1.469 * doh + 1.253
+    dg14 = [doh, do - doh, dooh - do, 4.92 - dooh]
+    return max(dg14) - 1.23
 
-    # Axis settings
-    ax.set_xlabel(r'$\Delta$G$_{\sf OH}$ (eV)')
-    ax.set_ylabel(r'$\Delta$G$_{\sf OOH}$ (eV)')
-    ax.axis([x1, x2, y1, y2])
+def overpotential_oer_full(doh, do, dooh):
+    dg14 = [doh, do - doh, dooh - do, 4.92 - dooh]
+    m = max(dg14)
+    return [round(m - 1.23, 2), round(-m, 2), oer_step(dg14.index(m))]
 
-# Plot data points for systems
-def plot_systems(ax, calc_systems):
-    for system in calc_systems:
-        ax.plot(system[1] - system[0], system[0], 'o', mec=system[5], mfc=system[5], 
-                mew=0.8, zorder=4, label=f'{system[4]}: {system[3]:.2f} V')
+# Read data from the TSV file
+df = pd.read_csv('/pscratch/sd/j/jiuy97/6_MNC/figure/scaling_relationship.tsv', sep='\t', index_col=0)
 
-# Function to save overpotential results into a .tsv file
-def save_to_tsv(df, filename='contour_OER_results.tsv'):
-    df.to_csv(filename, sep='\t', index=False)
-    print(f"Data saved to {filename}")
+# Extract values from the dataframe
+doh_values = df['dG_OH']
+do_values = df['dG_O']
 
-# Main plotting function
-def plot_oer_contour():
-    set_plot_style()
-    
-    fig_width_pt = 1.8 * 246.0
-    inches_per_pt = 1.0 / 72.27
-    golden_mean = (np.sqrt(5) - 1.0) / 2.0
-    fig_width = fig_width_pt * inches_per_pt
-    fig_height = fig_width * golden_mean
-    fig_size = [fig_width, fig_height]
-    
-    fig = plt.figure(figsize=fig_size, dpi=300)
-    ax = fig.add_axes([0.2, 0.2, 0.6, 0.6])
-    
-    zoom = 0.5
-    xcenter, ycenter = 1.45, 0.73
-    d1, d2 = 3 * zoom, 4 * zoom
-    x1, x2 = xcenter - d1, xcenter + d1
-    y1, y2 = ycenter - d2, ycenter + d2
-    
-    delta = 0.01
-    x = np.arange(x1, x2 + delta, delta)
-    y = np.arange(y1, y2 + delta, delta)    
-    X, Y = np.meshgrid(x, y)
-    Z = np.array([[overpotential_oer(i, j) for i in x] for j in y])
+# Add `dG_OOH` and calculate overpotential for each entry
+df['dG_OOH'] = doh_values.apply(ooh_oh_scaling)
+df['overpotential'] = df.apply(lambda row: overpotential_oer(row['dG_OH'], row['dG_O'], row['dG_OOH']), axis=1)
 
-    plot_contour(X, Y, Z, x1, x2, y1, y2, fig, ax)
-    
-    # Load data from 'scaling_relationship.tsv'
-    df = pd.read_csv('/pscratch/sd/j/jiuy97/6_MNC/figure/scaling_relationship.tsv', sep='\t', index_col=0)
+# Generate data for contour plot
+delta = 0.01
+x = np.arange(x1, x2 + delta, delta)
+y = np.arange(y1, y2 + delta, delta)
+X, Y = np.meshgrid(x, y)
 
-    # Add calculated dOOH and overpotential
-    df['dG_OOH'] = df['dG_OH'].apply(ooh_oh_scaling)
-    df['overpotential'] = df.apply(lambda row: overpotential_oer(row['dG_O'], row['dG_OH']), axis=1)
+Z = np.array([[overpotential_oer_for_contour(i, j) for i in x] for j in y])
 
-    # Extract data for plotting (replace dummy data)
-    calc_systems = []
+# Plot contour
+levels = np.arange(0.2, 1.6, 0.1)
+CS = plt.contourf(X, Y, Z, levels, cmap=ListedColormap([
+    '#a50026', '#d73027', '#f46d43', '#fdae61', '#fee090', '#ffffbf',
+    '#ffffe5', '#ffffff', '#e0f3f8', '#abd9e9', '#74add1', '#4575b4', '#313695'
+]), extend='max', origin='lower')
+
+cbar = plt.colorbar(CS, ticks=np.arange(0.2, 1.6, 0.1))
+cbar.ax.set_ylabel(r'$\eta_{\sf OER}$ (V)')
+cbar.ax.tick_params(size=3, labelsize=6, labelcolor='black', width=0.5, color='black')
+
+# Plot data points from the TSV file with their calculated overpotentials
+for idx, row in df.iterrows():
+    ax.plot(row['dG_OH'], row['dG_OOH'], 'o', label=f'{row.name}: {row["overpotential"]:.2f} V')
+
+# Add scaling line
+ax.plot(x, x+3.2, '--', lw=1, dashes=(3, 1), c='black')
+ax.text(1.0, 2.1, r'$\Delta$G$_{\sf OOH}$=$\Delta$G$_{\sf OH}$+3.2 eV', color='black', fontsize=10)
+ax.legend(bbox_to_anchor=(0.5, 1.1), loc='center', borderaxespad=0.0, ncol=3, fancybox=True, shadow=False, fontsize='x-small', handlelength=2)
+fig.savefig('contour_OER.png', bbox_inches='tight')
+fig.clf()
+
+# CSV writing for overpotential results
+with open('contour_OER.csv', 'w', newline='') as myfile:
+    fieldnames = ['Surface name', 'dOH', 'dO', 'dOOH', 'overpotential', 'onset potential', 'PLS']
+    writer = csv.DictWriter(myfile, fieldnames=fieldnames)
+    writer.writeheader()
     for idx, row in df.iterrows():
-        calc_systems.append([row['dG_OH'], row['dG_O'], row['dG_OOH'], row['overpotential'], 
-                             f'System {idx}', '#737373', 0.0, 0.08, 1.5, 'o', 'blue', 'red'])
-    
-    # Plot the systems
-    plot_systems(ax, calc_systems)
-    
-    # Save figure
-    fig.savefig('contour_OER.png', bbox_inches='tight')
-    fig.clf()
-    
-    # Save results to a .tsv file
-    save_to_tsv(df)
+        recalculated_over = overpotential_oer_full(row['dG_OH'], row['dG_O'], row['dG_OOH'])
+        writer.writerow({
+            'Surface name': row.name, 
+            'dOH': row['dG_OH'], 'dO': row['dG_O'], 'dOOH': row['dG_OOH'], 
+            'overpotential': recalculated_over[0],
+            'onset potential': recalculated_over[1], 
+            'PLS': recalculated_over[2]
+        })
 
-# Run the plot function
-plot_oer_contour()
+# TSV writing for overpotential results
+with open('contour_OER.tsv', 'w', newline='') as myfile:
+    fieldnames = ['Surf.', 'dOH', 'dO', 'dOOH', 'overP', 'onsetP', 'PLS']
+    writer = csv.DictWriter(myfile, fieldnames=fieldnames, delimiter='\t')  # Change delimiter to '\t'
+    writer.writeheader()
+    for idx, row in df.iterrows():
+        recalculated_over = overpotential_oer_full(row['dG_OH'], row['dG_O'], row['dG_OOH'])
+        writer.writerow({
+            'dOH': round(row['dG_OH'], 2),
+            'dO': round(row['dG_O'], 2),
+            'dOOH': round(row['dG_OOH'], 2),
+            'overP': round(recalculated_over[0], 2),
+            'onsetP': round(recalculated_over[1], 2),
+            'PLS': recalculated_over[2]
+        })
