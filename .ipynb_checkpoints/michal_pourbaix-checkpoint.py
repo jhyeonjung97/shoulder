@@ -139,8 +139,9 @@ for metal in data.index:
     for i in range(len(uniquesurf)):
         k = uniquesurf[i]
         label = r"S$_{%i}$(H-%i O-%i OH-%i OOH-%i)" % (k, surfs[k][1], surfs[k][2], surfs[k][3], surfs[k][4])
-        fill_between(pH2, crossover[i] - pH2 * const, crossover[i + 1] - pH2 * const, facecolor=color[i], alpha=0.3, lw=0.5, edgecolor='black')
+        plt.fill_between(pH2, crossover[i] - pH2 * const, crossover[i + 1] - pH2 * const, facecolor=color[i], alpha=0.3, lw=0.5, edgecolor='black')
         plt.plot([], [], color=color[i], alpha=0.3, linewidth=5, label=label)
+
     
     # Plot OER line
     Vover = 0.184
