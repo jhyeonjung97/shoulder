@@ -182,6 +182,7 @@ with open('contour_ORR.tsv', 'w', newline='') as myfile:
     for idx, row in df.iterrows():
         recalculated_over = overpotential_orr_full(row['dG_OH'], row['dG_O'], row['dG_OOH'])
         writer.writerow({
+            'Surf.': row.name, 
             'dOH': round(row['dG_OH'], 2),
             'dO': round(row['dG_O'], 2),
             'dOOH': round(row['dG_OOH'], 2),
@@ -192,16 +193,18 @@ with open('contour_ORR.tsv', 'w', newline='') as myfile:
 
 # Write results for each metal
 for m, metal in enumerate(metals):
-    with open(f'contour_{m+1}{metal}_ORR.csv', 'w', newline='') as myfile:
-        fieldnames = ['Surface name', 'dOH', 'dO', 'dOOH', 'overpotential', 'onset potential', 'PLS']
-        writer = csv.DictWriter(myfile, fieldnames=fieldnames)
+    with open(f'contour_{m+1}{metal}_ORR.tsv', 'w', newline='') as myfile:
+        fieldnames = ['Surf.', 'dOH', 'dO', 'dOOH', 'overpotential', 'onset potential', 'PLS']
+        writer = csv.DictWriter(myfile, fieldnames=fieldnames, delimiter='\t')
         writer.writeheader()
         for idx, row in dfs[metal].iterrows():
             recalculated_over = overpotential_orr_full(row['dG_OH'], row['dG_O'], row['dG_OOH'])
             writer.writerow({
-                'Surface name': row.name, 
-                'dOH': row['dG_OH'], 'dO': row['dG_O'], 'dOOH': row['dG_OOH'], 
-                'overpotential': recalculated_over[0],
-                'onset potential': recalculated_over[1], 
+                'Surf.': row.name, 
+                'dOH': round(row['dG_OH'], 2),
+                'dO': round(row['dG_O'], 2),
+                'dOOH': round(row['dG_OOH'], 2),
+                'overP': round(recalculated_over[0], 2),
+                'onsetP': round(recalculated_over[1], 2),
                 'PLS': recalculated_over[2]
             })
