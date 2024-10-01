@@ -89,13 +89,14 @@ df['overpotential'] = df.apply(lambda row: overpotential_orr(row['dG_OH'], row['
 # Prepare separate data for each metal
 dfs = {}
 for m, metal in enumerate(metals):
-    row = rows[m]
-    group = groups[m]
-    dfs[metal] = pd.read_csv(f'/pscratch/sd/j/jiuy97/6_MNC/figure/{row}_{group}{metal}_gibbs.tsv', sep='\t', header=0, index_col=0)
-    doh_values = dfs[metal]['dG_OH']
-    do_values = dfs[metal]['dG_O']
-    dfs[metal]['dG_OOH'] = doh_values.apply(ooh_oh_scaling)
-    dfs[metal]['overpotential'] = dfs[metal].apply(lambda row: overpotential_orr(row['dG_OH'], row['dG_O'], row['dG_OOH']), axis=1)
+    if metal == 'Co':
+        row = rows[m]
+        group = groups[m]
+        dfs[metal] = pd.read_csv(f'/pscratch/sd/j/jiuy97/6_MNC/figure/{row}_{group}{metal}_gibbs.tsv', sep='\t', header=0, index_col=0)
+        doh_values = dfs[metal]['dG_OH']
+        do_values = dfs[metal]['dG_O']
+        dfs[metal]['dG_OOH'] = doh_values.apply(ooh_oh_scaling)
+        dfs[metal]['overpotential'] = dfs[metal].apply(lambda row: overpotential_orr(row['dG_OH'], row['dG_O'], row['dG_OOH']), axis=1)
 
 # Generate data for contour plot
 delta = 0.01
