@@ -135,8 +135,9 @@ for row_num, row in enumerate(df.itertuples(), 1):  # Start row number from 1
                s = 24, marker='x', 
                # marker=markers[row_num-1],
                # linewidths=0.5,
-               facecolors='white',
-               edgecolors=colors[row_num-1],
+               # facecolors='white',
+               # edgecolors=colors[row_num-1],
+               color=colors[row_num-1],
                zorder=10)
 
 # Plot the metal-specific data points with colormaps
