@@ -155,28 +155,48 @@ for m, metal in enumerate(metals):
     ax.axis([x1, x2, y1, y2])
     ax.set_xlabel(r'$\Delta$G$_{\sf O}$ - $\Delta$G$_{\sf OH}$(eV)', fontsize=10)
     ax.set_ylabel(r'$\Delta$G$_{\sf OH}$ (eV)', fontsize=10)
+    
+    # Contour plot for overpotential
     CS = plt.contourf(X, Y, Z, levels, cmap=ListedColormap([
         '#a50026', '#d73027', '#f46d43', '#fdae61', '#fee090', '#ffffbf',
         '#ffffe5', '#ffffff', '#e0f3f8', '#abd9e9', '#74add1', '#4575b4', '#313695'
     ]), extend='max', origin='lower')
+    
+    # First colorbar for the contour plot
     cbar = plt.colorbar(CS, ticks=np.arange(0.3, 1.6, 0.1))
     cbar.ax.set_ylabel(r'$\eta_{\sf OER}$ (V)')
     cbar.ax.tick_params(size=3, labelsize=6, labelcolor='black', width=0.5, color='black')
     
+    # Scatter plot for the specific metal in the general dataframe
     row = df.loc[metal]
     ax.scatter(row.dG_O - row.dG_OH, row.dG_OH, 
                label=f'{row.name}: {row.overpotential:.2f} V',
                s=24, marker='x', 
                linewidths=1.0,
-               color=colors[m],
+               color=colors[m],  # Color for this specific metal
                zorder=10)
+
+    # Normalize the index (which represents z-displacement) for the second colorbar
+    z_values = dfs[metal].index  # Index itself represents z-displacement
+    norm = mcolors.Normalize(vmin=z_values.min(), vmax=z_values.max())
     
+    # Scatter plot for the metal-specific dataframe
     for row_num, row in enumerate(dfs[metal].itertuples(), 1):
+        # Color mapping based on index (z-displacement)
+        color = plt.cm.Blues(norm(z_values[row_num-1]))  # Map z-values to the colormap
         ax.scatter(row.dG_O - row.dG_OH, row.dG_OH, 
                    s=24, marker='o',
-                   facecolors=color_ranges[m][row_num-1],
+                   facecolors=color,
                    edgecolors='none',
                    zorder=9)
+    
+    # ScalarMappable for the second colorbar based on z-displacement
+    sm = cm.ScalarMappable(cmap=plt.cm.Blues, norm=norm)  # Using a colormap like 'Blues' or custom
+    sm.set_array([])  # Necessary to pass the empty array for the colorbar
+    cbar2 = plt.colorbar(sm, ax=ax)
+    cbar2.set_label(r'$\Delta z$ (Å)', fontsize=10)
+    
+    # Save the figure
     fig.savefig(f"contour_OER_{m+1}{metal}.png", bbox_inches='tight')
     print(f"Figure saved as contour_OER_{m+1}{metal}.png")
     fig.clf()
