@@ -161,9 +161,6 @@ for m, metal in enumerate(metals):
         '#a50026', '#d73027', '#f46d43', '#fdae61', '#fee090', '#ffffbf',
         '#ffffe5', '#ffffff', '#e0f3f8', '#abd9e9', '#74add1', '#4575b4', '#313695'
     ]), extend='max', origin='lower')
-    cbar = plt.colorbar(CS, ticks=np.arange(0.3, 1.6, 0.1))
-    cbar.ax.set_ylabel(r'$\eta_{\sf OER}$ (V)')
-    cbar.ax.tick_params(size=3, labelsize=6, labelcolor='black', width=0.5, color='black')
     row = df.loc[metal]
     ax.scatter(row.dG_O - row.dG_OH, row.dG_OH, 
                label=f'{row.name}: {row.overpotential:.2f} V',
@@ -181,9 +178,9 @@ for m, metal in enumerate(metals):
     norm = mcolors.Normalize(vmin=z_values.min(), vmax=z_values.max())  # Normalize the index values
     sm = cm.ScalarMappable(norm=norm, cmap=ListedColormap(color_ranges[m]))  # Create ScalarMappable with your colormap
     sm.set_array([])  # You need to set an array for ScalarMappable to use
-    cbar2 = plt.colorbar(sm, ticks=np.arange(0.0, 1.4, 0.2))
-    cbar2.ax.set_ylabel(r'$\Delta z$ (Å)')
-    cbar2.ax.tick_params(size=3, labelsize=6, labelcolor='black', width=0.5, color='black')
+    cbar = plt.colorbar(sm, ticks=np.arange(0.0, 1.4, 0.2))
+    cbar.ax.set_ylabel(r'$\Delta z$ (Å)')
+    cbar.ax.tick_params(size=3, labelsize=6, labelcolor='black', width=0.5, color='black')
     fig.savefig(f"contour_OER_{m+1}{metal}.png", bbox_inches='tight')
     print(f"Figure saved as contour_OER_{m+1}{metal}.png")
     fig.clf()
