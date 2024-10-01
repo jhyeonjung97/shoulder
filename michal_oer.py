@@ -172,7 +172,7 @@ with open('contour_OER.csv', 'w', newline='') as myfile:
 
 # TSV writing for overpotential results
 with open('contour_OER.tsv', 'w', newline='') as myfile:
-    fieldnames = ['Surf.', 'dOH', 'dOH*', 'diff', 'dO', 'dOOH', 'overP', 'onsetP', 'PLS']
+    fieldnames = ['Surf.', 'dOH', 'dO', 'dO*', 'diff', 'dOOH', 'overP', 'onsetP', 'PLS']
     writer = csv.DictWriter(myfile, fieldnames=fieldnames, delimiter='\t')  # Change delimiter to '\t'
     writer.writeheader()
     for idx, row in df.iterrows():
@@ -192,7 +192,7 @@ with open('contour_OER.tsv', 'w', newline='') as myfile:
 # Write results for each metal
 for m, metal in enumerate(metals):
     with open(f'contour_{m+1}{metal}_OER.tsv', 'w', newline='') as myfile:
-        fieldnames = ['Surf.', 'dOH', 'dOH*', 'diff', 'dO', 'dOOH', 'overP', 'onsetP', 'PLS']
+        fieldnames = ['Surf.', 'dOH', 'dO', 'dO*', 'diff', 'dOOH', 'overP', 'onsetP', 'PLS']
         writer = csv.DictWriter(myfile, fieldnames=fieldnames, delimiter='\t')
         writer.writeheader()
         for idx, row in dfs[metal].iterrows():
