@@ -174,11 +174,10 @@ for m, metal in enumerate(metals):
                    facecolors=color_ranges[m][row_num-1],
                    edgecolors='none',
                    zorder=9)
-    z_values = dfs[metal].index
-    norm = mcolors.Normalize(vmin=z_values.min(), vmax=z_values.max())
+    norm = mcolors.Normalize(vmin=-0.1, vmax=1.3)
     sm = cm.ScalarMappable(norm=norm, cmap=ListedColormap(color_ranges[m]))
     sm.set_array([])
-    cbar = plt.colorbar(sm, ax=ax, ticks=np.arange(0.0, 1.4, 0.2))
+    cbar = plt.colorbar(sm, ax=ax, ticks=np.arange(0.0, 1.4, 0.2), extend='max')
     cbar.ax.set_ylabel(r'$\Delta z$ (Å)')
     cbar.ax.tick_params(size=3, labelsize=6, labelcolor='black', width=0.5, color='black')
     fig.savefig(f"contour_OER_{m+1}{metal}.png", bbox_inches='tight')
