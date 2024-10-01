@@ -151,6 +151,7 @@ print("Figure saved as contour_OER.png")
 fig.clf()
 
 for m, metal in enumerate(metals):
+    ax = fig.add_axes([0.2, 0.2, 0.6, 0.6])
     CS = plt.contourf(X, Y, Z, levels, cmap=ListedColormap([
         '#a50026', '#d73027', '#f46d43', '#fdae61', '#fee090', '#ffffbf',
         '#ffffe5', '#ffffff', '#e0f3f8', '#abd9e9', '#74add1', '#4575b4', '#313695'
