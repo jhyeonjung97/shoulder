@@ -89,14 +89,13 @@ df['overpotential'] = df.apply(lambda row: overpotential_orr(row['dG_OH'], row['
 # Prepare separate data for each metal
 dfs = {}
 for m, metal in enumerate(metals):
-    if metal == 'Co':
-        row = rows[m]
-        group = groups[m]
-        dfs[metal] = pd.read_csv(f'/pscratch/sd/j/jiuy97/6_MNC/figure/{row}_{group}{metal}_gibbs.tsv', sep='\t', header=0, index_col=0)
-        doh_values = dfs[metal]['dG_OH']
-        do_values = dfs[metal]['dG_O']
-        dfs[metal]['dG_OOH'] = doh_values.apply(ooh_oh_scaling)
-        dfs[metal]['overpotential'] = dfs[metal].apply(lambda row: overpotential_orr(row['dG_OH'], row['dG_O'], row['dG_OOH']), axis=1)
+    row = rows[m]
+    group = groups[m]
+    dfs[metal] = pd.read_csv(f'/pscratch/sd/j/jiuy97/6_MNC/figure/{row}_{group}{metal}_gibbs.tsv', sep='\t', header=0, index_col=0)
+    doh_values = dfs[metal]['dG_OH']
+    do_values = dfs[metal]['dG_O']
+    dfs[metal]['dG_OOH'] = doh_values.apply(ooh_oh_scaling)
+    dfs[metal]['overpotential'] = dfs[metal].apply(lambda row: overpotential_orr(row['dG_OH'], row['dG_O'], row['dG_OOH']), axis=1)
 
 # Generate data for contour plot
 delta = 0.01
@@ -140,13 +139,14 @@ for row_num, row in enumerate(df.itertuples(), 1):  # Start row number from 1
 
 # Plot the metal-specific data points with colormaps
 for m, metal in enumerate(metals):
-    for row_num, row in enumerate(dfs[metal].itertuples(), 1):  # Use row number here as well
-        ax.scatter(row.dG_OH, row.dG_OOH,
-                   s=24, marker='s', # marker=markers[m],
-                   linewidths=0.5,
-                   facecolors=color_ranges[m][row_num-1],  # Filled face with colormap
-                   edgecolors='black',
-                   zorder=9)  # Matching edge color
+    if metal == 'Co':
+        for row_num, row in enumerate(dfs[metal].itertuples(), 1):  # Use row number here as well
+            ax.scatter(row.dG_OH, row.dG_OOH,
+                       s=24, marker='s', # marker=markers[m],
+                       linewidths=0.5,
+                       facecolors=color_ranges[m][row_num-1],  # Filled face with colormap
+                       edgecolors='black',
+                       zorder=9)  # Matching edge color
    
 # Add scaling line
 ax.plot(x, x + 3.2, '--', lw=1, dashes=(3, 1), c='black')
