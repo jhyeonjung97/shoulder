@@ -142,7 +142,7 @@ for row_num, row in enumerate(df.itertuples(), 1):
 for m, metal in enumerate(metals):
     for row_num, row in enumerate(dfs[metal].itertuples(), 1):
         ax.scatter(row.dG_OH, row.dG_OOH, 
-                   s=24, marker='o', 
+                   s=36, marker='o', 
                    facecolors=color_ranges[m][row_num-1],
                    edgecolors='none',
                    zorder=9)
@@ -166,13 +166,13 @@ for m, metal in enumerate(metals):
     row = df.loc[metal]
     ax.scatter(row.dG_OH, row.dG_OOH, 
                label=f'{row.name}: {row.overpotential:.2f} V',
-               s=24, marker='x', 
+               s=36, marker='x', 
                linewidths=1.0,
                color=colors[m],
                zorder=10)
     for row_num, row in enumerate(dfs[metal].itertuples(), 1):
         ax.scatter(row.dG_OH, row.dG_OOH, 
-                   s=24, marker='o',
+                   s=36, marker='o',
                    facecolors=color_ranges[m][row_num-1],
                    edgecolors='none',
                    zorder=9)
