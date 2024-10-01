@@ -46,8 +46,8 @@ setfont()
 # Plot settings
 ax = fig.add_axes([0.2, 0.2, 0.6, 0.6])
 xcenter, ycenter = 1.60, 0.81
-x1, x2 = xcenter - 1.0, xcenter + 1.0 # 3.2
-y1, y2 = ycenter - 1.8, ycenter + 1.8 # 3.6
+x1, x2 = xcenter - 1.2, xcenter + 1.2 # 3.2
+y1, y2 = ycenter - 2.0, ycenter + 2.0 # 3.6
 
 ax.axis([x1, x2, y1, y2])
 ax.set_xlabel(r'$\Delta$G$_{\sf O}$ - $\Delta$G$_{\sf OH}$(eV)', fontsize=10)
@@ -148,7 +148,7 @@ for row_num, row in enumerate(df.itertuples(), 1):  # Start row number from 1
 for m, metal in enumerate(metals):
     for row_num, row in enumerate(dfs[metal].itertuples(), 1):  # Use row number here as well
         ax.scatter(row.dG_O - row.dG_OH, row.dG_OH, 
-                   s=18, marker='o', 
+                   s=24, marker='o', 
                    # marker=markers[m],
                    # linewidths=0.5,
                    facecolors=color_ranges[m][row_num-1],
