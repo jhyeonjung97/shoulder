@@ -50,8 +50,8 @@ x1, x2 = xcenter - 1.2, xcenter + 2.0 # 3.2
 y1, y2 = ycenter - 1.3, ycenter + 2.3 # 3.6
 
 ax.axis([x1, x2, y1, y2])
-ax.set_xlabel(r'$\Delta$G$_{\sf OH}$ (eV)', fontsize=10)
-ax.set_ylabel(r'$\Delta$G$_{\sf OOH}$ (eV)', fontsize=10)
+ax.set_xlabel(r'$\Delta$G$_{\sf O}$ - $\Delta$G$_{\sf OH}$(eV)', fontsize=10)
+ax.set_ylabel(r'$\Delta$G$_{\sf OH}$ (eV)', fontsize=10)
 
 # Define functions for overpotential calculations
 def ooh_oh_scaling(doh):
@@ -70,8 +70,9 @@ def overpotential_oer_full(doh, do, dooh):
     m = max(dg14)
     return [round(m - 1.23, 2), round(-m, 2), oer_step(dg14.index(m))]
     
-def overpotential_oer_for_contour(doh, dooh):
-    do = 1.8847 * doh + 0.7599 
+def overpotential_oer_for_contour(do_doh, doh):
+    do = do_doh + doh
+    dooh = ooh_oh_scaling(doh)
     dg14 = [doh, do - doh, dooh - do, 4.92 - dooh]
     return max(dg14) - 1.23
 
@@ -129,7 +130,8 @@ color_ranges = [
 
 # Plot the general dataset points
 for row_num, row in enumerate(df.itertuples(), 1):  # Start row number from 1
-    ax.scatter(row.dG_OH, row.dG_OOH, label=f'{row.Index}: {row.overpotential:.2f} V',               
+    ax.scatter(row.dG_O - row.dG_OH, row.dG_OH, 
+               label=f'{row.Index}: {row.overpotential:.2f} V',               
                s = 24, marker='o', # marker=markers[row_num-1],
                linewidths=0.5, # Use row_num for marker cycling
                facecolors=colors[row_num-1],  # White fill for contrast (use facecolors for scatter)
@@ -139,7 +141,7 @@ for row_num, row in enumerate(df.itertuples(), 1):  # Start row number from 1
 # Plot the metal-specific data points with colormaps
 for m, metal in enumerate(metals):
     for row_num, row in enumerate(dfs[metal].itertuples(), 1):  # Use row number here as well
-        ax.scatter(row.dG_OH, row.dG_OOH,
+        ax.scatter(row.dG_O - row.dG_OH, row.dG_OH, 
                    s=24, marker='s', # marker=markers[m],
                    linewidths=0.5,
                    facecolors=color_ranges[m][row_num-1],  # Filled face with colormap
