@@ -194,7 +194,7 @@ with open('contour_ORR.tsv', 'w', newline='') as myfile:
 # Write results for each metal
 for m, metal in enumerate(metals):
     with open(f'contour_{m+1}{metal}_ORR.tsv', 'w', newline='') as myfile:
-        fieldnames = ['Surf.', 'dOH', 'dO', 'dOOH', 'overpotential', 'onset potential', 'PLS']
+        fieldnames = ['Surf.', 'dOH', 'dO', 'dOOH', 'overP', 'onsetP', 'PLS']
         writer = csv.DictWriter(myfile, fieldnames=fieldnames, delimiter='\t')
         writer.writeheader()
         for idx, row in dfs[metal].iterrows():
