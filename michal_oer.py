@@ -71,7 +71,7 @@ def overpotential_oer_full(doh, do, dooh):
     return [round(m - 1.23, 2), round(-m, 2), oer_step(dg14.index(m))]
     
 def overpotential_oer_for_contour(doh, dooh):
-    do = 1.88 * doh + 0.75 
+    do = 1.8847 * doh + 0.7599 
     dg14 = [doh, do - doh, dooh - do, 4.92 - dooh]
     return max(dg14) - 1.23
 
@@ -102,7 +102,6 @@ delta = 0.01
 x = np.arange(x1, x2 + delta, delta)
 y = np.arange(y1, y2 + delta, delta)
 X, Y = np.meshgrid(x, y)
-
 Z = np.array([[overpotential_oer_for_contour(i, j) for i in x] for j in y])
 
 # Plot contour
@@ -191,7 +190,7 @@ with open('contour_OER.tsv', 'w', newline='') as myfile:
 # Write results for each metal
 for m, metal in enumerate(metals):
     with open(f'contour_{m+1}{metal}_OER.tsv', 'w', newline='') as myfile:
-        fieldnames = ['Surf.', 'dOH', 'dO', 'dOOH', 'overP', 'onsetP', 'PLS']
+        fieldnames = ['Surf.', 'dOH', 'dOH*', 'dO', 'dOOH*', 'overP', 'onsetP', 'PLS']
         writer = csv.DictWriter(myfile, fieldnames=fieldnames, delimiter='\t')
         writer.writeheader()
         for idx, row in dfs[metal].iterrows():
@@ -199,8 +198,9 @@ for m, metal in enumerate(metals):
             writer.writerow({
                 'Surf.': row.name, 
                 'dOH': round(row['dG_OH'], 2),
+                'dOH*': round(1.8847*row['dG_OH']+0.7599, 2),
                 'dO': round(row['dG_O'], 2),
-                'dOOH': round(row['dG_OOH'], 2),
+                'dOOH*': round(row['dG_OOH'], 2),
                 'overP': round(recalculated_over[0], 2),
                 'onsetP': round(recalculated_over[1], 2),
                 'PLS': recalculated_over[2]

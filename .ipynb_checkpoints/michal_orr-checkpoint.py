@@ -71,7 +71,7 @@ def overpotential_orr_full(doh, do, dooh):
     return [round(m + 1.23, 2), round(-m, 2), orr_step(dg14.index(m))]
 
 def overpotential_orr_for_contour(doh, dooh):
-    do = 1.88 * doh + 0.75 
+    do = 1.8847 * doh + 0.7599 
     dg14 = [-doh, -do + doh, -dooh + do, -4.92 + dooh]
     return max(dg14) + 1.23
 
