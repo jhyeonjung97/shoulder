@@ -110,13 +110,13 @@ X, Y = np.meshgrid(x, y)
 Z = np.array([[overpotential_oer_for_contour(i, j) for i in x] for j in y])
 
 # Plot contour
-levels = np.arange(0.1, 1.6, 0.1)
+levels = np.arange(0.3, 1.6, 0.1)
 CS = plt.contourf(X, Y, Z, levels, cmap=ListedColormap([
     '#a50026', '#d73027', '#f46d43', '#fdae61', '#fee090', '#ffffbf',
     '#ffffe5', '#ffffff', '#e0f3f8', '#abd9e9', '#74add1', '#4575b4', '#313695'
 ]), extend='max', origin='lower')
 
-cbar = plt.colorbar(CS, ticks=np.arange(0.1, 1.6, 0.1))
+cbar = plt.colorbar(CS, ticks=np.arange(0.3, 1.6, 0.1))
 cbar.ax.set_ylabel(r'$\eta_{\sf OER}$ (V)')
 cbar.ax.tick_params(size=3, labelsize=6, labelcolor='black', width=0.5, color='black')
 
@@ -138,7 +138,7 @@ for row_num, row in enumerate(df.itertuples(), 1):  # Start row number from 1
                label=f'{row.Index}: {row.overpotential:.2f} V',               
                s = 24, marker='x', 
                # marker=markers[row_num-1],
-               # linewidths=0.5,
+               linewidths=1.0,
                # facecolors='white',
                # edgecolors=colors[row_num-1],
                color=colors[row_num-1],
@@ -159,7 +159,8 @@ for m, metal in enumerate(metals):
 # ax.plot(x, x+3.2, '--', lw=1, dashes=(3, 1), c='black')
 # ax.text(-0.5, 5.3, r'$\Delta$G$_{\sf OOH}$=', color='black', fontsize=10)
 # ax.text(-0.5, 5.1, r'$\Delta$G$_{\sf OH}$+3.2 eV', color='black', fontsize=10)
-# ax.legend(bbox_to_anchor=(0.5, 1.1), loc='center', borderaxespad=0.0, ncol=3, fancybox=True, shadow=False, fontsize='x-small', handlelength=2)
+
+ax.legend(bbox_to_anchor=(0.5, 1.1), loc='center', borderaxespad=0.0, ncol=3, fancybox=True, shadow=False, fontsize='x-small', handlelength=2)
 fig.savefig('contour_OER.png', bbox_inches='tight')
 print("Figure saved as contour_OER.png")
 fig.clf()
