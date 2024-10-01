@@ -65,16 +65,16 @@ def overpotential_orr(doh, do, dooh):
     dg14 = [-doh, -do + doh, -dooh + do, -4.92 + dooh]
     return max(dg14) + 1.23
 
-def overpotential_orr_full(doh, do, dooh):
-    dg14 = [-doh, -do + doh, -dooh + do, -4.92 + dooh]
-    m = max(dg14)
-    return [round(m + 1.23, 2), round(-m, 2), orr_step(dg14.index(m))]
-
 def overpotential_orr_for_contour(doh, dooh):
     do = 1.8847 * doh + 0.7599 
     dg14 = [-doh, -do + doh, -dooh + do, -4.92 + dooh]
     return max(dg14) + 1.23
-
+    
+def overpotential_orr_full(doh, do, dooh):
+    dg14 = [-doh, -do + doh, -dooh + do, -4.92 + dooh]
+    m = max(dg14)
+    return [round(m + 1.23, 2), round(-m, 2), orr_step(dg14.index(m))]
+    
 # Read data from the TSV file
 df = pd.read_csv('/pscratch/sd/j/jiuy97/6_MNC/figure/scaling_relationship.tsv', sep='\t', header=0, index_col=0)
 
