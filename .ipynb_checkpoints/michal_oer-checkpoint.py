@@ -157,7 +157,7 @@ for m, metal in enumerate(metals):
     ax.axis([x1, x2, y1, y2])
     ax.set_xlabel(r'$\Delta$G$_{\sf O}$ - $\Delta$G$_{\sf OH}$(eV)', fontsize=10)
     ax.set_ylabel(r'$\Delta$G$_{\sf OH}$ (eV)', fontsize=10)
-    CS = plt.contourf(X, Y, Z, levels, cmap=ListedColormap([
+    plt.contourf(X, Y, Z, levels, cmap=ListedColormap([
         '#a50026', '#d73027', '#f46d43', '#fdae61', '#fee090', '#ffffbf',
         '#ffffe5', '#ffffff', '#e0f3f8', '#abd9e9', '#74add1', '#4575b4', '#313695'
     ]), extend='max', origin='lower')
@@ -174,11 +174,11 @@ for m, metal in enumerate(metals):
                    facecolors=color_ranges[m][row_num-1],
                    edgecolors='none',
                    zorder=9)
-    z_values = dfs[metal].index  # Use the index for z-displacement
-    norm = mcolors.Normalize(vmin=z_values.min(), vmax=z_values.max())  # Normalize the index values
-    sm = cm.ScalarMappable(norm=norm, cmap=ListedColormap(color_ranges[m]))  # Create ScalarMappable with your colormap
-    sm.set_array([])  # You need to set an array for ScalarMappable to use
-    cbar = plt.colorbar(sm, ticks=np.arange(0.0, 1.4, 0.2))
+    z_values = dfs[metal].index
+    norm = mcolors.Normalize(vmin=z_values.min(), vmax=z_values.max())
+    sm = cm.ScalarMappable(norm=norm, cmap=ListedColormap(color_ranges[m]))
+    sm.set_array([])
+    cbar = plt.colorbar(sm, ax=ax, ticks=np.arange(0.0, 1.4, 0.2))
     cbar.ax.set_ylabel(r'$\Delta z$ (Å)')
     cbar.ax.tick_params(size=3, labelsize=6, labelcolor='black', width=0.5, color='black')
     fig.savefig(f"contour_OER_{m+1}{metal}.png", bbox_inches='tight')
