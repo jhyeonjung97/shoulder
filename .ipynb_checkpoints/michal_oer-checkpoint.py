@@ -45,7 +45,7 @@ setfont()
 
 # Plot settings
 ax = fig.add_axes([0.2, 0.2, 0.6, 0.6])
-xcenter, ycenter = 0.5, 3.4
+xcenter, ycenter = 1.5, 1.5
 x1, x2 = xcenter - 1.2, xcenter + 2.0 # 3.2
 y1, y2 = ycenter - 1.3, ycenter + 2.3 # 3.6
 
@@ -149,10 +149,10 @@ for m, metal in enumerate(metals):
                    zorder=9)  # Matching edge color
 
 # Add scaling line
-ax.plot(x, x+3.2, '--', lw=1, dashes=(3, 1), c='black')
-ax.text(-0.5, 5.3, r'$\Delta$G$_{\sf OOH}$=', color='black', fontsize=10)
-ax.text(-0.5, 5.1, r'$\Delta$G$_{\sf OH}$+3.2 eV', color='black', fontsize=10)
-ax.legend(bbox_to_anchor=(0.5, 1.1), loc='center', borderaxespad=0.0, ncol=3, fancybox=True, shadow=False, fontsize='x-small', handlelength=2)
+# ax.plot(x, x+3.2, '--', lw=1, dashes=(3, 1), c='black')
+# ax.text(-0.5, 5.3, r'$\Delta$G$_{\sf OOH}$=', color='black', fontsize=10)
+# ax.text(-0.5, 5.1, r'$\Delta$G$_{\sf OH}$+3.2 eV', color='black', fontsize=10)
+# ax.legend(bbox_to_anchor=(0.5, 1.1), loc='center', borderaxespad=0.0, ncol=3, fancybox=True, shadow=False, fontsize='x-small', handlelength=2)
 fig.savefig('contour_OER.png', bbox_inches='tight')
 print("Figure saved as contour_OER.png")
 fig.clf()
