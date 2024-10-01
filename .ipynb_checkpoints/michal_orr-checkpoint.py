@@ -182,6 +182,8 @@ for m, metal in enumerate(metals):
     cbar = plt.colorbar(sm, ax=ax, ticks=np.arange(0.0, 1.4, 0.2), extend='max')
     cbar.ax.set_ylabel(r'$\Delta z$ (Å)')
     cbar.ax.tick_params(size=3, labelsize=6, labelcolor='black', width=0.5, color='black')
+    ax.plot(x, x + 3.2, '--', lw=1, dashes=(3, 1), c='black')
+    ax.text(1.1, 2.3, r'$\Delta$G$_{\sf OOH}$=$\Delta$G$_{\sf OH}$+3.2 eV', color='black', fontsize=10)
     fig.savefig(f"contour_ORR_{m+1}{metal}.png", bbox_inches='tight')
     print(f"Figure saved as contour_ORR_{m+1}{metal}.png")
     fig.clf()
