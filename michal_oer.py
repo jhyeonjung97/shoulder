@@ -191,7 +191,7 @@ with open('contour_OER.tsv', 'w', newline='') as myfile:
 
 # Write results for each metal
 for m, metal in enumerate(metals):
-    with open(f'contour_{m+1}{metal}_OER.tsv', 'w', newline='') as myfile:
+    with open(f'contour_OER_{m+1}{metal}.tsv', 'w', newline='') as myfile:
         fieldnames = ['Surf.', 'dOH', 'dO', 'dO*', 'diff', 'dOOH', 'overP', 'onsetP', 'PLS']
         writer = csv.DictWriter(myfile, fieldnames=fieldnames, delimiter='\t')
         writer.writeheader()

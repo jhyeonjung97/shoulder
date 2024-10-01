@@ -176,8 +176,8 @@ with open('contour_ORR.csv', 'w', newline='') as myfile:
 
 # TSV writing for overpotential results
 with open('contour_ORR.tsv', 'w', newline='') as myfile:
-    fieldnames = ['Surf.', 'dOH', 'dO', 'dOOH', 'overP', 'onsetP', 'PLS']
-    writer = csv.DictWriter(myfile, fieldnames=fieldnames, delimiter='\t')
+    fieldnames = ['Surf.', 'dOH', 'dO', 'dO*', 'diff', 'dOOH', 'overP', 'onsetP', 'PLS']
+    writer = csv.DictWriter(myfile, fieldnames=fieldnames, delimiter='\t')  # Change delimiter to '\t'
     writer.writeheader()
     for idx, row in df.iterrows():
         recalculated_over = overpotential_orr_full(row['dG_OH'], row['dG_O'], row['dG_OOH'])
@@ -185,6 +185,8 @@ with open('contour_ORR.tsv', 'w', newline='') as myfile:
             'Surf.': row.name, 
             'dOH': round(row['dG_OH'], 2),
             'dO': round(row['dG_O'], 2),
+            'dO*': round(1.8847*row['dG_OH']+0.7599, 2),
+            'diff': round(1.8847*row['dG_OH']+0.7599-row['dG_O'], 2),
             'dOOH': round(row['dG_OOH'], 2),
             'overP': round(recalculated_over[0], 2),
             'onsetP': round(recalculated_over[1], 2),
@@ -193,8 +195,8 @@ with open('contour_ORR.tsv', 'w', newline='') as myfile:
 
 # Write results for each metal
 for m, metal in enumerate(metals):
-    with open(f'contour_{m+1}{metal}_ORR.tsv', 'w', newline='') as myfile:
-        fieldnames = ['Surf.', 'dOH', 'dO', 'dOOH', 'overP', 'onsetP', 'PLS']
+    with open(f'contour_ORR_{m+1}{metal}.tsv', 'w', newline='') as myfile:
+        fieldnames = ['Surf.', 'dOH', 'dO', 'dO*', 'diff', 'dOOH', 'overP', 'onsetP', 'PLS']
         writer = csv.DictWriter(myfile, fieldnames=fieldnames, delimiter='\t')
         writer.writeheader()
         for idx, row in dfs[metal].iterrows():
@@ -203,6 +205,8 @@ for m, metal in enumerate(metals):
                 'Surf.': row.name, 
                 'dOH': round(row['dG_OH'], 2),
                 'dO': round(row['dG_O'], 2),
+                'dO*': round(1.8847*row['dG_OH']+0.7599, 2),
+                'diff': round(1.8847*row['dG_OH']+0.7599-row['dG_O'], 2),
                 'dOOH': round(row['dG_OOH'], 2),
                 'overP': round(recalculated_over[0], 2),
                 'onsetP': round(recalculated_over[1], 2),
