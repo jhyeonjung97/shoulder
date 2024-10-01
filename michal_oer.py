@@ -181,8 +181,9 @@ for m, metal in enumerate(metals):
     norm = mcolors.Normalize(vmin=z_values.min(), vmax=z_values.max())  # Normalize the index values
     sm = cm.ScalarMappable(norm=norm, cmap=ListedColormap(color_ranges[m]))  # Create ScalarMappable with your colormap
     sm.set_array([])  # You need to set an array for ScalarMappable to use
-    cbar2 = plt.colorbar(sm, ax=ax, ticks=np.arange(0.0, 1.4, 0.2))
-    cbar2.set_label(r'$\Delta z$ (Å)', fontsize=10)
+    cbar2 = plt.colorbar(sm, ticks=np.arange(0.0, 1.4, 0.2))
+    cbar2.ax.set_ylabel(r'$\Delta z$ (Å)')
+    cbar2.ax.tick_params(size=3, labelsize=6, labelcolor='black', width=0.5, color='black')
     fig.savefig(f"contour_OER_{m+1}{metal}.png", bbox_inches='tight')
     print(f"Figure saved as contour_OER_{m+1}{metal}.png")
     fig.clf()
