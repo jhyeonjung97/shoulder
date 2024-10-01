@@ -133,7 +133,7 @@ color_ranges = [
 for row_num, row in enumerate(df.itertuples(), 1):
     ax.scatter(row.dG_OH, row.dG_OOH, 
                label=f'{row.Index}: {row.overpotential:.2f} V',               
-               s = 24, marker='x', 
+               s=24, marker='x', 
                linewidths=1.0,
                color=colors[row_num-1],
                zorder=10)
@@ -142,7 +142,7 @@ for row_num, row in enumerate(df.itertuples(), 1):
 for m, metal in enumerate(metals):
     for row_num, row in enumerate(dfs[metal].itertuples(), 1):
         ax.scatter(row.dG_OH, row.dG_OOH, 
-                   s=36, marker='o', 
+                   s=24, marker='o', 
                    facecolors=color_ranges[m][row_num-1],
                    edgecolors='none',
                    zorder=9)
