@@ -64,17 +64,12 @@ def oer_step(i):
 def overpotential_oer(doh, do, dooh):
     dg14 = [doh, do - doh, dooh - do, 4.92 - dooh]
     return max(dg14) - 1.23
-
-def overpotential_oer_full(doh, do, dooh):
-    dg14 = [doh, do - doh, dooh - do, 4.92 - dooh]
-    m = max(dg14)
-    return [round(m - 1.23, 2), round(-m, 2), oer_step(dg14.index(m))]
     
-# def overpotential_oer_for_contour(do_doh, doh):
-#     do = do_doh + doh
-#     dooh = ooh_oh_scaling(doh)
-#     dg14 = [doh, do - doh, dooh - do, 4.92 - dooh]
-#     return max(dg14) - 1.23
+def overpotential_oer_for_contour(do_doh, doh):
+    do = do_doh + doh
+    dooh = ooh_oh_scaling(doh)
+    dg14 = [doh, do - doh, dooh - do, 4.92 - dooh]
+    return max(dg14) - 1.23
     
 def overpotential_oer_for_contour(x, y):
     dg14 = [y, x, 3.2-x, 1.72-y]
@@ -115,7 +110,6 @@ CS = plt.contourf(X, Y, Z, levels, cmap=ListedColormap([
     '#a50026', '#d73027', '#f46d43', '#fdae61', '#fee090', '#ffffbf',
     '#ffffe5', '#ffffff', '#e0f3f8', '#abd9e9', '#74add1', '#4575b4', '#313695'
 ]), extend='max', origin='lower')
-
 cbar = plt.colorbar(CS, ticks=np.arange(0.3, 1.6, 0.1))
 cbar.ax.set_ylabel(r'$\eta_{\sf OER}$ (V)')
 cbar.ax.tick_params(size=3, labelsize=6, labelcolor='black', width=0.5, color='black')
@@ -137,10 +131,7 @@ for row_num, row in enumerate(df.itertuples(), 1):  # Start row number from 1
     ax.scatter(row.dG_O - row.dG_OH, row.dG_OH, 
                label=f'{row.Index}: {row.overpotential:.2f} V',               
                s = 24, marker='x', 
-               # marker=markers[row_num-1],
                linewidths=1.0,
-               # facecolors='white',
-               # edgecolors=colors[row_num-1],
                color=colors[row_num-1],
                zorder=10)
 
@@ -149,21 +140,33 @@ for m, metal in enumerate(metals):
     for row_num, row in enumerate(dfs[metal].itertuples(), 1):  # Use row number here as well
         ax.scatter(row.dG_O - row.dG_OH, row.dG_OH, 
                    s=24, marker='o', 
-                   # marker=markers[m],
-                   # linewidths=0.5,
                    facecolors=color_ranges[m][row_num-1],
                    edgecolors='none',
                    zorder=9)
-
-# Add scaling line
-# ax.plot(x, x+3.2, '--', lw=1, dashes=(3, 1), c='black')
-# ax.text(-0.5, 5.3, r'$\Delta$G$_{\sf OOH}$=', color='black', fontsize=10)
-# ax.text(-0.5, 5.1, r'$\Delta$G$_{\sf OH}$+3.2 eV', color='black', fontsize=10)
 
 ax.legend(bbox_to_anchor=(0.5, 1.1), loc='center', borderaxespad=0.0, ncol=3, fancybox=True, shadow=False, fontsize='x-small', handlelength=2)
 fig.savefig('contour_OER.png', bbox_inches='tight')
 print("Figure saved as contour_OER.png")
 fig.clf()
+
+for m, metal in enumerate(metals):
+    for row_num, row in enumerate(dfs[metal].itertuples(), 1):
+        CS = plt.contourf(X, Y, Z, levels, cmap=ListedColormap([
+            '#a50026', '#d73027', '#f46d43', '#fdae61', '#fee090', '#ffffbf',
+            '#ffffe5', '#ffffff', '#e0f3f8', '#abd9e9', '#74add1', '#4575b4', '#313695'
+        ]), extend='max', origin='lower')
+        cbar = plt.colorbar(CS, ticks=np.arange(0.3, 1.6, 0.1))
+        cbar.ax.set_ylabel(r'$\eta_{\sf OER}$ (V)')
+        cbar.ax.tick_params(size=3, labelsize=6, labelcolor='black', width=0.5, color='black')
+        ax.scatter(row.dG_O - row.dG_OH, row.dG_OH, 
+                   s=24, marker='o',
+                   facecolors=color_ranges[m][row_num-1],
+                   edgecolors='none',
+                   zorder=9)
+        fig.savefig(f"contour_OER_{m+1}{metal}.png", bbox_inches='tight')
+        print(f"Figure saved as contour_OER_{m+1}{metal}.png")
+        fig.clf()
+
 
 # CSV writing for overpotential results
 with open('contour_OER.csv', 'w', newline='') as myfile:
