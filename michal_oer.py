@@ -132,7 +132,7 @@ color_ranges = [
 for row_num, row in enumerate(df.itertuples(), 1):  # Start row number from 1
     ax.scatter(row.dG_O - row.dG_OH, row.dG_OH, 
                label=f'{row.Index}: {row.overpotential:.2f} V',               
-               s = 24, marker='o', 
+               s = 24, marker='x', 
                # marker=markers[row_num-1],
                # linewidths=0.5,
                facecolors='white',
