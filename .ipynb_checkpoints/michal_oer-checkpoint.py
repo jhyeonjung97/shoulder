@@ -180,9 +180,9 @@ with open('contour_OER.tsv', 'w', newline='') as myfile:
         writer.writerow({
             'Surf.': row.name, 
             'dOH': round(row['dG_OH'], 2),
-            'dOH*': round(1.8847*row['dG_O']+0.7599, 2),
-            'diff': round(1.8847*row['dG_O']+0.7599-row['dG_OH'], 2),
             'dO': round(row['dG_O'], 2),
+            'dO*': round(1.8847*row['dG_OH']+0.7599, 2),
+            'diff': round(1.8847*row['dG_OH']+0.7599-row['dG_O'], 2),
             'dOOH': round(row['dG_OOH'], 2),
             'overP': round(recalculated_over[0], 2),
             'onsetP': round(recalculated_over[1], 2),
@@ -200,9 +200,9 @@ for m, metal in enumerate(metals):
             writer.writerow({
                 'Surf.': row.name, 
                 'dOH': round(row['dG_OH'], 2),
-                'dOH*': round(1.8847*row['dG_OH']+0.7599, 2),
-                'diff': round(1.8847*row['dG_O']+0.7599-row['dG_OH'], 2),
                 'dO': round(row['dG_O'], 2),
+                'dO*': round(1.8847*row['dG_OH']+0.7599, 2),
+                'diff': round(1.8847*row['dG_OH']+0.7599-row['dG_O'], 2),
                 'dOOH': round(row['dG_OOH'], 2),
                 'overP': round(recalculated_over[0], 2),
                 'onsetP': round(recalculated_over[1], 2),
