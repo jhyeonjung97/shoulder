@@ -133,20 +133,22 @@ for row_num, row in enumerate(df.itertuples(), 1):  # Start row number from 1
     ax.scatter(row.dG_O - row.dG_OH, row.dG_OH, 
                label=f'{row.Index}: {row.overpotential:.2f} V',               
                s = 24, marker='o', # marker=markers[row_num-1],
-               linewidths=0.5, # Use row_num for marker cycling
-               facecolors=colors[row_num-1],  # White fill for contrast (use facecolors for scatter)
-               edgecolors='black',
-               zorder=10)  # Black edge color
+               # linewidths=0.5,
+               # facecolors=colors[row_num-1],
+               # edgecolors='black',
+               color=colors[row_num-1],
+               zorder=10)
 
 # Plot the metal-specific data points with colormaps
 for m, metal in enumerate(metals):
     for row_num, row in enumerate(dfs[metal].itertuples(), 1):  # Use row number here as well
         ax.scatter(row.dG_O - row.dG_OH, row.dG_OH, 
-                   s=24, marker='s', # marker=markers[m],
-                   linewidths=0.5,
-                   facecolors=color_ranges[m][row_num-1],  # Filled face with colormap
-                   edgecolors='black',
-                   zorder=9)  # Matching edge color
+                   s=18, marker='s', # marker=markers[m],
+                   # linewidths=0.5,
+                   # facecolors=color_ranges[m][row_num-1],
+                   # edgecolors='black',
+                   color=color_ranges[m][row_num-1],
+                   zorder=9)
 
 # Add scaling line
 # ax.plot(x, x+3.2, '--', lw=1, dashes=(3, 1), c='black')
