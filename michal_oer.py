@@ -152,6 +152,9 @@ fig.clf()
 
 for m, metal in enumerate(metals):
     ax = fig.add_axes([0.2, 0.2, 0.6, 0.6])
+    ax.axis([x1, x2, y1, y2])
+    ax.set_xlabel(r'$\Delta$G$_{\sf O}$ - $\Delta$G$_{\sf OH}$(eV)', fontsize=10)
+    ax.set_ylabel(r'$\Delta$G$_{\sf OH}$ (eV)', fontsize=10)
     CS = plt.contourf(X, Y, Z, levels, cmap=ListedColormap([
         '#a50026', '#d73027', '#f46d43', '#fdae61', '#fee090', '#ffffbf',
         '#ffffe5', '#ffffff', '#e0f3f8', '#abd9e9', '#74add1', '#4575b4', '#313695'
