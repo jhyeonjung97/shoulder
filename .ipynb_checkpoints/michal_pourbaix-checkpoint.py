@@ -150,6 +150,7 @@ for m, metal in enumerate(data.index):
     # Add legend and save the plot
     plt.legend(bbox_to_anchor=(0.05, 1.2), loc=2, borderaxespad=0.0, ncol=2, fancybox=True, shadow=True, fontsize='x-small', handlelength=2)
     plt.savefig(f'pourbaix_full_{m+1}{metal}.png', bbox_inches='tight')
+    print(f"Figure saved as pourbaix_full_{m+1}{metal}.png")
     plt.close()
     
     # Clear the plot and set up for the second figure
@@ -170,4 +171,5 @@ for m, metal in enumerate(data.index):
     plt.xlim(-1.0, 2.5)
     plt.legend(bbox_to_anchor=(0.05, 1.2), loc=2, borderaxespad=0.0, ncol=2, fancybox=True, shadow=True, fontsize='x-small', handlelength=2)
     plt.savefig(f'pourbaix_{m+1}{metal}.png', bbox_inches='tight')
+    print(f"Figure saved as pourbaix_{m+1}{metal}.png")
     plt.close()
