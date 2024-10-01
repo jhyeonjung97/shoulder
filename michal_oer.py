@@ -152,11 +152,6 @@ fig.savefig('contour_OER.png', bbox_inches='tight')
 print("Figure saved as contour_OER.png")
 fig.clf()
 
-CS = plt.contourf(X, Y, Z, levels, cmap=ListedColormap([
-    '#a50026', '#d73027', '#f46d43', '#fdae61', '#fee090', '#ffffbf',
-    '#ffffe5', '#ffffff', '#e0f3f8', '#abd9e9', '#74add1', '#4575b4', '#313695'
-]), extend='max', origin='lower')
-
 for m, metal in enumerate(metals):
     ax = fig.add_axes([0.2, 0.2, 0.6, 0.6])
     ax.axis([x1, x2, y1, y2])
@@ -187,7 +182,6 @@ for m, metal in enumerate(metals):
     fig.savefig(f"contour_OER_{m+1}{metal}.png", bbox_inches='tight')
     print(f"Figure saved as contour_OER_{m+1}{metal}.png")
     fig.clf()
-
 
 # CSV writing for overpotential results
 with open('contour_OER.csv', 'w', newline='') as myfile:
