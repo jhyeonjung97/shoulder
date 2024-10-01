@@ -128,7 +128,7 @@ color_ranges = [
     ]
 
 # Plot the general dataset points
-for row_num, row in enumerate(df.itertuples(), 1):  # Start row number from 1
+for row_num, row in enumerate(df.itertuples(), 1):
     ax.scatter(row.dG_O - row.dG_OH, row.dG_OH, 
                label=f'{row.Index}: {row.overpotential:.2f} V',               
                s = 24, marker='x', 
@@ -138,7 +138,7 @@ for row_num, row in enumerate(df.itertuples(), 1):  # Start row number from 1
 
 # Plot the metal-specific data points with colormaps
 for m, metal in enumerate(metals):
-    for row_num, row in enumerate(dfs[metal].itertuples(), 1):  # Use row number here as well
+    for row_num, row in enumerate(dfs[metal].itertuples(), 1):
         ax.scatter(row.dG_O - row.dG_OH, row.dG_OH, 
                    s=24, marker='o', 
                    facecolors=color_ranges[m][row_num-1],
@@ -162,6 +162,15 @@ for m, metal in enumerate(metals):
     cbar = plt.colorbar(CS, ticks=np.arange(0.3, 1.6, 0.1))
     cbar.ax.set_ylabel(r'$\eta_{\sf OER}$ (V)')
     cbar.ax.tick_params(size=3, labelsize=6, labelcolor='black', width=0.5, color='black')
+    
+    row = df.loc[metal]
+    ax.scatter(row.dG_O - row.dG_OH, row.dG_OH, 
+               label=f'{row.name}: {row.overpotential:.2f} V',
+               s=24, marker='x', 
+               linewidths=1.0,
+               color=colors[m],
+               zorder=10)
+    
     for row_num, row in enumerate(dfs[metal].itertuples(), 1):
         ax.scatter(row.dG_O - row.dG_OH, row.dG_OH, 
                    s=24, marker='o',
