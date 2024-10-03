@@ -148,8 +148,8 @@ for m, metal in enumerate(metals):
                    zorder=9)
 
 ax.plot(x, x + 3.2, '--', lw=1, dashes=(3, 1), c='black')
-ax.text(1.3, 2.6, r'$\Delta$G$_{\sf OOH}$=', color='black', fontsize=10)
-ax.text(1.3, 2.3, r'$\Delta$G$_{\sf OH}$+3.2 eV', color='black', fontsize=10)
+ax.text(1.2, 2.5, r'$\Delta$G$_{\sf OOH}$=', color='black', fontsize=10)
+ax.text(1.2, 2.3, r'$\Delta$G$_{\sf OH}$+3.2 eV', color='black', fontsize=10)
 ax.legend(bbox_to_anchor=(0.5, 1.1), loc='center', borderaxespad=0.5,
           ncol=3, columnspacing=1.0, handletextpad=0.4,
           fancybox=True, shadow=False, fontsize='small', handlelength=2)
@@ -189,8 +189,8 @@ for m, metal in enumerate(metals):
     cbar2.ax.set_ylabel(r'$\Delta z$ (Å)')
     cbar2.ax.tick_params(size=3, labelsize=6, labelcolor='black', width=0.5, color='black')
     ax.plot(x, x + 3.2, '--', lw=1, dashes=(3, 1), c='black')
-    ax.text(1.2, 2.8, r'$\Delta$G$_{\sf OOH}$=', color='black', fontsize=10)
-    ax.text(1.2, 2.3, r'$\Delta$G$_{\sf OH}$+3.2 eV', color='black', fontsize=10)    
+    ax.text(1.3, 2.6, r'$\Delta$G$_{\sf OOH}$=', color='black', fontsize=10)
+    ax.text(1.3, 2.3, r'$\Delta$G$_{\sf OH}$+3.2 eV', color='black', fontsize=10)    
     fig.savefig(f"contour_ORR_{m+1}{metal}.png", bbox_inches='tight')
     print(f"Figure saved as contour_ORR_{m+1}{metal}.png")
     fig.clf()
