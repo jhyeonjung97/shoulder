@@ -144,7 +144,7 @@ for m, metal in enumerate(metals):
         ax.scatter(row.dG_O - row.dG_OH, row.dG_OH, 
                    s=24, marker='o', 
                    facecolors=color_ranges[m][row_num-1],
-                   edgecolors='none',
+                   edgecolors='black',
                    zorder=9)
 
 # ax.plot(x, x + 3.2, '--', lw=1, dashes=(3, 1), c='black')
@@ -179,7 +179,7 @@ for m, metal in enumerate(metals):
         ax.scatter(row.dG_O - row.dG_OH, row.dG_OH, 
                    s=36, marker='o',
                    facecolors=color_ranges[m][row_num-1],
-                   edgecolors='none',
+                   edgecolors='black',
                    zorder=9)
     norm = mcolors.Normalize(vmin=-0.1, vmax=1.3)
     sm = cm.ScalarMappable(norm=norm, cmap=ListedColormap(color_ranges[m]))
