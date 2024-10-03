@@ -165,9 +165,9 @@ for m, metal in enumerate(metals):
         '#a50026', '#d73027', '#f46d43', '#fdae61', '#fee090', '#ffffbf',
         '#ffffe5', '#ffffff', '#e0f3f8', '#abd9e9', '#74add1', '#4575b4', '#313695'
     ]), extend='max', origin='lower')
-    cbar = plt.colorbar(CS, ticks=np.arange(0.3, 1.6, 0.1))
-    cbar.ax.set_ylabel(r'$\eta_{\sf OER}$ (V)')
-    cbar.ax.tick_params(size=3, labelsize=6, labelcolor='black', width=0.5, color='black')
+    # cbar = plt.colorbar(CS, ticks=np.arange(0.3, 1.6, 0.1))
+    # cbar.ax.set_ylabel(r'$\eta_{\sf OER}$ (V)')
+    # cbar.ax.tick_params(size=3, labelsize=6, labelcolor='black', width=0.5, color='black')
     row = df.loc[metal]
     ax.scatter(row.dG_O - row.dG_OH, row.dG_OH, 
                label=f'{row.name}: {row.overpotential:.2f} V',
