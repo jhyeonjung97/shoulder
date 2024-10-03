@@ -19,7 +19,6 @@ golden_mean = (np.sqrt(5) - 1.0) / 2.0
 fig_width = fig_width_pt * inches_per_pt
 fig_height = fig_width * golden_mean
 fig_size = [fig_width, fig_height]
-print(fig_size)
 fig = plt.figure(figsize=fig_size, dpi=300)
 
 font_size = 9
@@ -150,7 +149,7 @@ for m, metal in enumerate(metals):
 
 # ax.plot(x, x + 3.2, '--', lw=1, dashes=(3, 1), c='black')
 # ax.text(1.1, 2.3, r'$\Delta$G$_{\sf OOH}$=$\Delta$G$_{\sf OH}$+3.2 eV', color='black', fontsize=10)
-ax.legend(bbox_to_anchor=(0.5, 1.1), loc='center', borderaxespad=0.0, ncol=3, fancybox=True, shadow=False, fontsize=10, handlelength=2)
+ax.legend(bbox_to_anchor=(0.5, 1.2), loc='center', borderaxespad=0.0, ncol=3, fancybox=True, shadow=False, fontsize=10, handlelength=2)
 fig.savefig('contour_OER.png', bbox_inches='tight')
 print("Figure saved as contour_OER.png")
 fig.clf()
