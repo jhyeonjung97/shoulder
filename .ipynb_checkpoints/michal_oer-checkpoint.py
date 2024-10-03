@@ -144,6 +144,7 @@ for m, metal in enumerate(metals):
     for row_num, row in enumerate(dfs[metal].itertuples(), 1):
         ax.scatter(row.dG_O - row.dG_OH, row.dG_OH, 
                    s=24, marker='o', 
+                   linewidths=0.5,
                    facecolors=color_ranges[m][row_num-1],
                    edgecolors='black',
                    zorder=9)
@@ -180,6 +181,7 @@ for m, metal in enumerate(metals):
     for row_num, row in enumerate(dfs[metal].itertuples(), 1):
         ax.scatter(row.dG_O - row.dG_OH, row.dG_OH, 
                    s=36, marker='o',
+                   linewidths=0.5,
                    facecolors=color_ranges[m][row_num-1],
                    edgecolors='black',
                    zorder=9)
