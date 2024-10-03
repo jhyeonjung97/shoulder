@@ -148,18 +148,18 @@ for m, metal in enumerate(metals):
                    facecolors=color_ranges[m][row_num-1],
                    edgecolors='black',
                    zorder=9)
-
-# ax.plot(x, x + 3.2, '--', lw=1, dashes=(3, 1), c='black')
-# ax.text(1.1, 2.3, r'$\Delta$G$_{\sf OOH}$=$\Delta$G$_{\sf OH}$+3.2 eV', color='black', fontsize=10)
 for row_num, row in enumerate(df.itertuples(), 1):
     if row_num < 5:
-        ax.scatter(row.dG_O - row.dG_OH, row.dG_OH, 
+        ax.scatter([], [], 
                    label=f'{row.Index}: {row.overpotential:.2f} V',               
                    s=24, marker='X', 
                    linewidths=0.5,
                    facecolor=colors[row_num-1],
-                   edgecolor='black',
-                   zorder=10)
+                   edgecolor='black')
+        
+# ax.plot(x, x + 3.2, '--', lw=1, dashes=(3, 1), c='black')
+# ax.text(1.1, 2.3, r'$\Delta$G$_{\sf OOH}$=$\Delta$G$_{\sf OH}$+3.2 eV', color='black', fontsize=10)
+
 ax.scatter([], [], label='relaxed', s=24, marker='X', linewidths=0.5, facecolor='black', edgecolor='black')
 ax.scatter([], [], label='z-fixed', s=24, marker='o', linewidths=0.5, facecolor='black', edgecolor='black')
 
