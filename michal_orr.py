@@ -48,7 +48,7 @@ setfont()
 # Plot settings
 ax = fig.add_axes([0.2, 0.2, 0.6, 0.6])
 xcenter, ycenter = 1.0, 3.7
-x1, x2 = xcenter - 1.4, xcenter + 1.8
+x1, x2 = xcenter - 1.4, xcenter + 1.2
 y1, y2 = ycenter - 1.6, ycenter + 1.6
 
 ax.axis([x1, x2, y1, y2])
