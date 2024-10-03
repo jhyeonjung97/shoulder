@@ -149,7 +149,9 @@ for m, metal in enumerate(metals):
 
 # ax.plot(x, x + 3.2, '--', lw=1, dashes=(3, 1), c='black')
 # ax.text(1.1, 2.3, r'$\Delta$G$_{\sf OOH}$=$\Delta$G$_{\sf OH}$+3.2 eV', color='black', fontsize=10)
-ax.legend(bbox_to_anchor=(0.5, 1.2), loc='center', borderaxespad=0.0, ncol=3, fancybox=True, shadow=False, fontsize=10, handlelength=2)
+ax.legend(bbox_to_anchor=(0.5, 1.2), loc='center', borderaxespad=0.5,
+          ncol=3, columnspacing=1.0,
+          fancybox=True, shadow=False, fontsize=10, handlelength=2)
 fig.savefig('contour_OER.png', bbox_inches='tight')
 print("Figure saved as contour_OER.png")
 fig.clf()
