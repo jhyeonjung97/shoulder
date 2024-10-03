@@ -133,9 +133,10 @@ color_ranges = [
 for row_num, row in enumerate(df.itertuples(), 1):
     ax.scatter(row.dG_O - row.dG_OH, row.dG_OH, 
                label=f'{row.Index}: {row.overpotential:.2f} V',               
-               s=24, marker='x', 
-               linewidths=1.0,
-               color=colors[row_num-1],
+               s=24, marker='X', 
+               linewidths=0.5,
+               facecolor=colors[row_num-1],
+               edgecolor='black',
                zorder=10)
 
 # Plot the metal-specific data points with colormaps
@@ -171,9 +172,10 @@ for m, metal in enumerate(metals):
     row = df.loc[metal]
     ax.scatter(row.dG_O - row.dG_OH, row.dG_OH, 
                label=f'{row.name}: {row.overpotential:.2f} V',
-               s=36, marker='x', 
-               linewidths=1.0,
-               color=colors[m],
+               s=36, marker='X', 
+               linewidths=0.5,
+               facecolor=colors[m],
+               edgecolor='black',
                zorder=10)
     for row_num, row in enumerate(dfs[metal].itertuples(), 1):
         ax.scatter(row.dG_O - row.dG_OH, row.dG_OH, 
