@@ -53,8 +53,8 @@ x1, x2 = xcenter - 1.2, xcenter + 1.2 # 3.2
 y1, y2 = ycenter - 2.0, ycenter + 2.0 # 3.6
 
 ax.axis([x1, x2, y1, y2])
-ax.set_xlabel(r'$\Delta$G$_{\sf O}$ - $\Delta$G$_{\sf OH}$(eV)', fontsize=10)
-ax.set_ylabel(r'$\Delta$G$_{\sf OH}$ (eV)', fontsize=10)
+ax.set_xlabel(r'$\Delta$G$_{\sf O}$ - $\Delta$G$_{\sf OH}$(eV)', fontsize='large')
+ax.set_ylabel(r'$\Delta$G$_{\sf OH}$ (eV)', fontsize='large')
 
 # Define functions for overpotential calculations
 def ooh_oh_scaling(doh):
@@ -150,7 +150,7 @@ for m, metal in enumerate(metals):
 
 # ax.plot(x, x + 3.2, '--', lw=1, dashes=(3, 1), c='black')
 # ax.text(1.1, 2.3, r'$\Delta$G$_{\sf OOH}$=$\Delta$G$_{\sf OH}$+3.2 eV', color='black', fontsize=10)
-ax.legend(bbox_to_anchor=(0.5, 1.1), loc='center', borderaxespad=0.0, ncol=3, fancybox=True, shadow=False, fontsize='x-small', handlelength=2)
+ax.legend(bbox_to_anchor=(0.5, 1.1), loc='center', borderaxespad=0.0, ncol=3, fancybox=True, shadow=False, fontsize=10, handlelength=2)
 fig.savefig('contour_OER.png', bbox_inches='tight')
 print("Figure saved as contour_OER.png")
 fig.clf()
@@ -158,8 +158,8 @@ fig.clf()
 for m, metal in enumerate(metals):
     ax = fig.add_axes([0.2, 0.2, 0.6, 0.6])
     ax.axis([x1, x2, y1, y2])
-    ax.set_xlabel(r'$\Delta$G$_{\sf O}$ - $\Delta$G$_{\sf OH}$(eV)', fontsize=10)
-    ax.set_ylabel(r'$\Delta$G$_{\sf OH}$ (eV)', fontsize=10)
+    ax.set_xlabel(r'$\Delta$G$_{\sf O}$ - $\Delta$G$_{\sf OH}$(eV)', fontsize='large')
+    ax.set_ylabel(r'$\Delta$G$_{\sf OH}$ (eV)', fontsize='large')
     plt.contourf(X, Y, Z, levels, cmap=ListedColormap([
         '#a50026', '#d73027', '#f46d43', '#fdae61', '#fee090', '#ffffbf',
         '#ffffe5', '#ffffff', '#e0f3f8', '#abd9e9', '#74add1', '#4575b4', '#313695'
