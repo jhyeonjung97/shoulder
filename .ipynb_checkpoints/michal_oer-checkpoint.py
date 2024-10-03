@@ -132,7 +132,7 @@ color_ranges = [
 # Plot the general dataset points
 for row_num, row in enumerate(df.itertuples(), 1):
     ax.scatter(row.dG_O - row.dG_OH, row.dG_OH, 
-               label=f'{row.Index}: {row.overpotential:.2f} V',               
+               # label=f'{row.Index}: {row.overpotential:.2f} V',               
                s=24, marker='X', 
                linewidths=0.5,
                facecolor=colors[row_num-1],
@@ -151,6 +151,13 @@ for m, metal in enumerate(metals):
 
 # ax.plot(x, x + 3.2, '--', lw=1, dashes=(3, 1), c='black')
 # ax.text(1.1, 2.3, r'$\Delta$G$_{\sf OOH}$=$\Delta$G$_{\sf OH}$+3.2 eV', color='black', fontsize=10)
+ax.scatter([], [], label=f'Mn: {dfs['Mn']['overpotential']:.2f} V', s=24, marker='X', linewidths=0.5, facecolor=colors[0], edgecolor='black')
+ax.scatter([], [], label=f'Fe: {dfs['Fe']['overpotential']:.2f} V', s=24, marker='X', linewidths=0.5, facecolor=colors[0], edgecolor='black')
+ax.scatter([], [], label=f'Co: {dfs['Co']['overpotential']:.2f} V', s=24, marker='X', linewidths=0.5, facecolor=colors[0], edgecolor='black')
+ax.scatter([], [], label=f'Ni: {dfs['Ni']['overpotential']:.2f} V', s=24, marker='X', linewidths=0.5, facecolor=colors[0], edgecolor='black')
+ax.scatter([], [], label='relaxed', s=24, marker='X', linewidths=0.5, facecolor='black', edgecolor='black')
+ax.scatter([], [], label='z-fixed', s=24, marker='o', linewidths=0.5, facecolor='black', edgecolor='black')
+
 ax.legend(bbox_to_anchor=(0.5, 1.1), loc='center', borderaxespad=0.5,
           ncol=3, columnspacing=1.0, handletextpad=0.4,
           fancybox=True, shadow=False, fontsize='small', handlelength=2)
@@ -172,7 +179,7 @@ for m, metal in enumerate(metals):
     # cbar.ax.tick_params(size=3, labelsize=6, labelcolor='black', width=0.5, color='black')
     row = df.loc[metal]
     ax.scatter(row.dG_O - row.dG_OH, row.dG_OH, 
-               label=f'{row.name}: {row.overpotential:.2f} V',
+               # label=f'{row.name}: {row.overpotential:.2f} V',
                s=36, marker='X', 
                linewidths=0.5,
                facecolor=colors[m],
