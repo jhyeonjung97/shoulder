@@ -133,7 +133,7 @@ color_ranges = [
 for row_num, row in enumerate(df.itertuples(), 1):
     ax.scatter(row.dG_OH, row.dG_OOH, 
                label=f'{row.Index}: {row.overpotential:.2f} V',               
-               s=24, marker='x', 
+               s=24, marker='+', 
                linewidths=1.0,
                color=colors[row_num-1],
                zorder=10)
@@ -149,8 +149,8 @@ for m, metal in enumerate(metals):
                    zorder=9)
 
 ax.plot(x, x + 3.2, '--', lw=1, dashes=(3, 1), c='black')
-ax.text(1.2, 2.5, r'$\Delta$G$_{\sf OOH}$=', color='grey', fontsize=10)
-ax.text(1.2, 2.3, r'$\Delta$G$_{\sf OH}$+3.2 eV', color='grey', fontsize=10)
+ax.text(1.2, 2.5, r'$\Delta$G$_{\sf OOH}$=', color=(211, 211, 211), fontsize=10)
+ax.text(1.2, 2.3, r'$\Delta$G$_{\sf OH}$+3.2 eV', color=(211, 211, 211), fontsize=10)
 ax.legend(bbox_to_anchor=(0.5, 1.1), loc='center', borderaxespad=0.5,
           ncol=3, columnspacing=1.0, handletextpad=0.4,
           fancybox=True, shadow=False, fontsize='small', handlelength=2)
@@ -173,7 +173,7 @@ for m, metal in enumerate(metals):
     row = df.loc[metal]
     ax.scatter(row.dG_OH, row.dG_OOH, 
                label=f'{row.name}: {row.overpotential:.2f} V',
-               s=36, marker='x', 
+               s=36, marker='+', 
                linewidths=1.0,
                color=colors[m],
                zorder=10)
@@ -191,8 +191,8 @@ for m, metal in enumerate(metals):
     cbar2.ax.set_ylabel(r'$\Delta z$ (Å)')
     cbar2.ax.tick_params(size=3, labelsize=6, labelcolor='black', width=0.5, color='black')
     ax.plot(x, x + 3.2, '--', lw=1, dashes=(3, 1), c='black')
-    ax.text(1.2, 2.5, r'$\Delta$G$_{\sf OOH}$=', color='grey', fontsize=10)
-    ax.text(1.2, 2.3, r'$\Delta$G$_{\sf OH}$+3.2 eV', color='grey', fontsize=10)    
+    ax.text(1.2, 2.5, r'$\Delta$G$_{\sf OOH}$=', color=(211, 211, 211), fontsize=10)
+    ax.text(1.2, 2.3, r'$\Delta$G$_{\sf OH}$+3.2 eV', color=(211, 211, 211), fontsize=10)    
     fig.savefig(f"contour_ORR_{m+1}{metal}.png", bbox_inches='tight')
     print(f"Figure saved as contour_ORR_{m+1}{metal}.png")
     fig.clf()
