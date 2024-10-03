@@ -19,6 +19,7 @@ golden_mean = (np.sqrt(5) - 1.0) / 2.0
 fig_width = fig_width_pt * inches_per_pt
 fig_height = fig_width * golden_mean
 fig_size = [fig_width, fig_height]
+print(fig_size)
 fig = plt.figure(figsize=fig_size, dpi=300)
 
 font_size = 9
