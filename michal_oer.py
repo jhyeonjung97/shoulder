@@ -149,9 +149,9 @@ for m, metal in enumerate(metals):
 
 # ax.plot(x, x + 3.2, '--', lw=1, dashes=(3, 1), c='black')
 # ax.text(1.1, 2.3, r'$\Delta$G$_{\sf OOH}$=$\Delta$G$_{\sf OH}$+3.2 eV', color='black', fontsize=10)
-ax.legend(bbox_to_anchor=(0.5, 1.2), loc='center', borderaxespad=0.5,
+ax.legend(bbox_to_anchor=(0.5, 1.15), loc='center', borderaxespad=0.5,
           ncol=3, columnspacing=1.0,
-          fancybox=True, shadow=False, fontsize=10, handlelength=2)
+          fancybox=True, shadow=False, fontsize='small', handlelength=2)
 fig.savefig('contour_OER.png', bbox_inches='tight')
 print("Figure saved as contour_OER.png")
 fig.clf()
@@ -161,10 +161,13 @@ for m, metal in enumerate(metals):
     ax.axis([x1, x2, y1, y2])
     ax.set_xlabel(r'$\Delta$G$_{\sf O}$ - $\Delta$G$_{\sf OH}$(eV)', fontsize='large')
     ax.set_ylabel(r'$\Delta$G$_{\sf OH}$ (eV)', fontsize='large')
-    plt.contourf(X, Y, Z, levels, cmap=ListedColormap([
+    CS = plt.contourf(X, Y, Z, levels, cmap=ListedColormap([
         '#a50026', '#d73027', '#f46d43', '#fdae61', '#fee090', '#ffffbf',
         '#ffffe5', '#ffffff', '#e0f3f8', '#abd9e9', '#74add1', '#4575b4', '#313695'
     ]), extend='max', origin='lower')
+    cbar = plt.colorbar(CS, ticks=np.arange(0.3, 1.6, 0.1))
+    cbar.ax.set_ylabel(r'$\eta_{\sf OER}$ (V)')
+    cbar.ax.tick_params(size=3, labelsize=6, labelcolor='black', width=0.5, color='black')
     row = df.loc[metal]
     ax.scatter(row.dG_O - row.dG_OH, row.dG_OH, 
                label=f'{row.name}: {row.overpotential:.2f} V',
@@ -181,9 +184,9 @@ for m, metal in enumerate(metals):
     norm = mcolors.Normalize(vmin=-0.1, vmax=1.3)
     sm = cm.ScalarMappable(norm=norm, cmap=ListedColormap(color_ranges[m]))
     sm.set_array([])
-    cbar = plt.colorbar(sm, ax=ax, ticks=np.arange(0.0, 1.4, 0.2), extend='max')
-    cbar.ax.set_ylabel(r'$\Delta z$ (Å)')
-    cbar.ax.tick_params(size=3, labelsize=6, labelcolor='black', width=0.5, color='black')
+    cbar2 = plt.colorbar(sm, ax=ax, ticks=np.arange(0.0, 1.4, 0.2), extend='max')
+    cbar2.ax.set_ylabel(r'$\Delta z$ (Å)')
+    cbar2.ax.tick_params(size=3, labelsize=6, labelcolor='black', width=0.5, color='black')
     fig.savefig(f"contour_OER_{m+1}{metal}.png", bbox_inches='tight')
     print(f"Figure saved as contour_OER_{m+1}{metal}.png")
     fig.clf()
