@@ -128,8 +128,8 @@ for m, metal in enumerate(data.index):
     
     # Set axis limits and labels
     ax.axis([0, 14, Umin, Umax])
-    ax.set_xlabel(r'pH', fontsize='small')
-    ax.set_ylabel(r'U/V', fontsize='small')
+    ax.set_xlabel(r'pH', fontsize='large')
+    ax.set_ylabel(r'U/V', fontsize='large')
     
     # Extra ticks for the plot
     extraticks = [1.23]
@@ -145,10 +145,10 @@ for m, metal in enumerate(data.index):
         
     # Plot equilibrium line
     plt.plot(pH2, 1.23 - pH2 * const, '--', color='blue', lw=1, dashes=(3, 1))
-    ax.text(0.2, 1.00, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9, fontsize='x-small')
+    ax.text(0.2, 1.00, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9, fontsize=10)
     
     # Add legend and save the plot
-    plt.legend(bbox_to_anchor=(0.05, 1.2), loc=2, borderaxespad=0.0, ncol=2, fancybox=True, shadow=True, fontsize='x-small', handlelength=2)
+    plt.legend(bbox_to_anchor=(0.05, 1.2), loc=2, borderaxespad=0.0, ncol=2, fancybox=True, shadow=True, fontsize=10, handlelength=2)
     plt.savefig(f'pourbaix_full_{m+1}{metal}.png', bbox_inches='tight')
     print(f"Figure saved as pourbaix_full_{m+1}{metal}.png")
     plt.close()
@@ -158,8 +158,8 @@ for m, metal in enumerate(data.index):
     fig = plt.figure(figsize=fig_size, dpi=300)
     ax = fig.add_axes([0.2, 0.2, 0.6, 0.6])
     ax.axis([-1.0, 2.5, -800, 200])
-    ax.set_xlabel(r'RHE (V)', fontsize='small')
-    ax.set_ylabel(r'$\Delta$G (kJ/mol)', fontsize='small')
+    ax.set_xlabel(r'RHE (V)', fontsize='large')
+    ax.set_ylabel(r'$\Delta$G (kJ/mol)', fontsize='large')
     
     # Plot Gibbs energies for surfaces in the second figure
     xx = np.arange(-1.00, 2.55, 0.05)
@@ -169,7 +169,7 @@ for m, metal in enumerate(data.index):
     
     # Add legend and save the second plot
     plt.xlim(-1.0, 2.5)
-    plt.legend(bbox_to_anchor=(0.05, 1.2), loc=2, borderaxespad=0.0, ncol=2, fancybox=True, shadow=True, fontsize='x-small', handlelength=2)
+    plt.legend(bbox_to_anchor=(0.05, 1.2), loc=2, borderaxespad=0.0, ncol=2, fancybox=True, shadow=True, fontsize=10, handlelength=2)
     plt.savefig(f'pourbaix_{m+1}{metal}.png', bbox_inches='tight')
     print(f"Figure saved as pourbaix_{m+1}{metal}.png")
     plt.close()
