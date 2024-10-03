@@ -151,10 +151,11 @@ for m, metal in enumerate(metals):
 
 # ax.plot(x, x + 3.2, '--', lw=1, dashes=(3, 1), c='black')
 # ax.text(1.1, 2.3, r'$\Delta$G$_{\sf OOH}$=$\Delta$G$_{\sf OH}$+3.2 eV', color='black', fontsize=10)
-ax.scatter([], [], label=f'Mn: {dfs['Mn']['overpotential']:.2f} V', s=24, marker='X', linewidths=0.5, facecolor=colors[0], edgecolor='black')
-ax.scatter([], [], label=f'Fe: {dfs['Fe']['overpotential']:.2f} V', s=24, marker='X', linewidths=0.5, facecolor=colors[0], edgecolor='black')
-ax.scatter([], [], label=f'Co: {dfs['Co']['overpotential']:.2f} V', s=24, marker='X', linewidths=0.5, facecolor=colors[0], edgecolor='black')
-ax.scatter([], [], label=f'Ni: {dfs['Ni']['overpotential']:.2f} V', s=24, marker='X', linewidths=0.5, facecolor=colors[0], edgecolor='black')
+for m, metal in enumerate(['Mn', 'Fe', 'Co', 'Ni']):
+    overpotential = dfs[metal]['overpotential']
+    ax.scatter([], [], label=f'{metal}: {overpotential:.2f} V', 
+               s=24, marker='X', linewidths=0.5, 
+               facecolor=colors[m], edgecolor='black')
 ax.scatter([], [], label='relaxed', s=24, marker='X', linewidths=0.5, facecolor='black', edgecolor='black')
 ax.scatter([], [], label='z-fixed', s=24, marker='o', linewidths=0.5, facecolor='black', edgecolor='black')
 
