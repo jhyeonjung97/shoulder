@@ -152,7 +152,7 @@ for m, metal in enumerate(metals):
 # ax.plot(x, x + 3.2, '--', lw=1, dashes=(3, 1), c='black')
 # ax.text(1.1, 2.3, r'$\Delta$G$_{\sf OOH}$=$\Delta$G$_{\sf OH}$+3.2 eV', color='black', fontsize=10)
 for row_num, row in enumerate(df.itertuples(), 1):
-    if row_num < 5
+    if row_num < 5:
         ax.scatter(row.dG_O - row.dG_OH, row.dG_OH, 
                    label=f'{row.Index}: {row.overpotential:.2f} V',               
                    s=24, marker='X', 
