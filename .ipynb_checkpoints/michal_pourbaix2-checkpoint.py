@@ -179,8 +179,10 @@ for i in range(len(uniquesurf)):
     plt.plot([], [], color=color[k], alpha=0.3, linewidth=5, label=label)
 
 plt.plot(pH2, 1.23 - pH2 * const, '--', color='blue', lw=1, dashes=(3, 1))
-ax.text(0.2, 0.8, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9, fontsize=10)
-plt.legend(bbox_to_anchor=(0.35, 1.4), loc=2, borderaxespad=0.5, ncol=1, fancybox=True, shadow=True, fontsize=10, handlelength=2)
+ax.text(0.2, 0.6, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9, fontsize=10)
+plt.legend(loc='lower center', borderaxespad=0.5, 
+           ncol=1, labelspacing=0.3, handlelength=2, fontsize=10,
+           fancybox=True, shadow=True)
 plt.savefig(f'pourbaix_full.png', bbox_inches='tight')
 print(f"Figure saved as pourbaix_full.png")
 plt.close()
