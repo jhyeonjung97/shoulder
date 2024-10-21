@@ -71,7 +71,12 @@ def addH(x, y):
     return -0.5 * h2 + 1 * (y + x * const) + dsh
 
 def dg(i, x, y):
-    return surfs[i][0] - surfs[0][0] + surfs[i][1] * addH(x, y) + surfs[i][2] * addO(x, y) + surfs[i][3] * addOH(x, y) + surfs[i][4] * addOOH(x, y)
+    return (surfs[i][0] 
+            - surfs[0][0] 
+            + surfs[i][1] * addH(x, y) 
+            + surfs[i][2] * addO(x, y) 
+            + surfs[i][3] * addOH(x, y) 
+            + surfs[i][4] * addOOH(x, y))
 
 data = pd.read_csv('/pscratch/sd/j/jiuy97/6_MNC/figure/scaling_relationship.tsv', sep='\t', header=0, index_col=0)
 

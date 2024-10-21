@@ -93,8 +93,13 @@ def addH(x, y):
     return -0.5 * h2 + 1 * (y + x * const) + dsh
 
 def dg(i, x, y):
-    return surfs[i][0] - surfs[0][0] + surfs[i][1] * addH(x, y) + surfs[i][2] * addO(x, y) + surfs[i][3] * addOH(x, y) + surfs[i][4] * addOOH(x, y)
-
+    return (surfs[i][0] 
+            - surfs[0][0] 
+            + surfs[i][1] * addH(x, y) 
+            + surfs[i][2] * addO(x, y) 
+            + surfs[i][3] * addOH(x, y) 
+            + surfs[i][4] * addOOH(x, y))
+    
 min_e0_values = {}
 # Iterate through each main directory to extract E0 values and plot
 for main_dir in main_dirs:
@@ -146,6 +151,9 @@ uniquesurf = [lowest_surfaces[0]]
 old_value = lowest_surfaces[0]
 crossover.append(Umin)
 
+print(lowest_surfaces)
+print(uniquesurf)
+
 for j in range(len(U2)):
     if lowest_surfaces[j] != old_value:
         uniquesurf.append(lowest_surfaces[j])
@@ -155,7 +163,7 @@ for j in range(len(U2)):
 crossover.append(Umax2)
 
 plt.clf()
-fig = plt.figure(figsize=(8, 6), dpi=300)
+fig = plt.figure(figsize=fig_size, dpi=300)
 ax = fig.add_axes([0.2, 0.2, 0.6, 0.6])
 ax.axis([0, 14, Umin, Umax])
 ax.set_xlabel(r'pH', fontsize='large')
