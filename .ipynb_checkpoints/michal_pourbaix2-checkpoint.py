@@ -183,3 +183,22 @@ plt.legend(loc='lower left', bbox_to_anchor=(0.01, 1.02), # borderaxespad=17,
 plt.savefig(f'pourbaix_full.png', bbox_inches='tight')
 print(f"Figure saved as pourbaix_full.png")
 plt.close()
+
+plt.clf()
+fig = plt.figure(figsize=fig_size, dpi=300)
+ax = fig.add_axes([0.2, 0.2, 0.6, 0.6])
+ax.axis([-1.0, 2.5, -800, 200])
+ax.set_xlabel(r'RHE (V)', fontsize='large')
+ax.set_ylabel(r'$\Delta$G (kJ/mol)', fontsize='large')
+xx = np.arange(-1.00, 2.55, 0.05)
+for k in range(nsurfs):
+    label = r"S$_{%i}$(H: %i O: %i OH: %i OOH: %i)" % (k, surfs[k][1], surfs[k][2], surfs[k][3], surfs[k][4])
+    ax.plot(xx, dg(k, 0, xx) * kjmol, '-', lw=1, c=color[k], label=label)
+plt.xlim(-1.0, 2.5)
+plt.legend(loc='lower left', bbox_to_anchor=(0.01, 1.02), # borderaxespad=17, 
+           ncol=1, labelspacing=0.3, handlelength=2, fontsize=10,
+           fancybox=True, shadow=True)
+plt.savefig(f'pourbaix.png', bbox_inches='tight')
+print(f"Figure saved as pourbaix.png")
+# plt.show()
+plt.close()
