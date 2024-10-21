@@ -61,6 +61,7 @@ def dg(i, x, y):
 # Iterate through each main directory to extract E0 values and plot
 for main_dir in main_dirs:
     min_e0_values = find_min_e0(main_dir, ["HS1", "HS5", "IS1", "IS5", "LS1", "LS5"])
+    print(main_dir, min_e0_values)
 
     if len(min_e0_values) < 3:
         print(f"Not enough data in directory '{main_dir}' for plotting.")
