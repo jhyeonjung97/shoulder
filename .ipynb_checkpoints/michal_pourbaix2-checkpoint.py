@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 main_dirs = ["clean", "h", "o", "oh", "oh-o", "oho", "oh-oh", "ohoh", "o-o", "oo", "o-oh", "ooh"]
 
 # Regular expression to match E0 values in scientific notation
-e0_pattern = re.compile(r"E0=\s*(-?\d+\.\d+E[+-]?\d+)")
+e0_pattern = re.compile(r"E0=\s*(-?\.\d+E[+-]?\d+)")
 
 # Function to find the lowest E0 value in each subdirectory
 def find_min_e0(main_dir, sub_dirs):
