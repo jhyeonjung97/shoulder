@@ -1,6 +1,8 @@
 import os
 import re
 import numpy as np
+import pandas as pd
+from matplotlib import rc
 import matplotlib.pyplot as plt
 
 # List of main directories
@@ -24,6 +26,26 @@ def find_min_e0(main_dir, sub_dirs):
                             min_e0 = e0_value
     return min_e0
 
+fig_width_pt = 1.8 * 246.0  # LaTeX column width
+inches_per_pt = 1.0 / 72.27  # Convert pt to inches
+golden_mean = (np.sqrt(5) - 1.0) / 2.0  # Aesthetic ratio
+fig_width = fig_width_pt * inches_per_pt  # Width in inches
+fig_height = fig_width * golden_mean  # Height in inches
+fig_size = [fig_width, fig_height]
+
+font_size = 10
+tick_font_size = 10
+
+plt.rcParams['font.family'] = 'sans-serif'
+plt.rcParams['font.sans-serif'] = ['DejaVu Sans']
+plt.rcParams['font.size'] = font_size
+plt.rcParams['axes.labelsize'] = 2 * font_size
+plt.rcParams['legend.fontsize'] = font_size
+plt.rcParams['xtick.labelsize'] = tick_font_size
+plt.rcParams['ytick.labelsize'] = tick_font_size
+plt.rcParams['mathtext.default'] = 'regular'
+plt.rcParams['lines.linewidth'] = 1.0
+
 # Constants and variables for plotting
 Umin, Umax = -0.5, 2.5
 kbt = 0.0256 
@@ -34,6 +56,24 @@ pH = np.arange(0, 14, 0.10)
 U = np.arange(Umin, Umax, 0.05)
 Umax2 = Umax + 0.06 * 14
 U2 = np.arange(Umin, Umax2, 0.05)
+
+h2 = -6.77149190
+h2o = -14.23091949
+
+zpeh2o = 0.560
+zpeh2 = 0.268
+cvh2o = 0.103
+cvh2 = 0.0905
+tsh2o = 0.675
+tsh2 = 0.408
+
+dgh2o = zpeh2o + cvh2o - tsh2o
+dgh2 = zpeh2 + cvh2 - tsh2
+
+dso = 0.064 + 0.034 - 0.060 - (dgh2o - dgh2)
+dsoh = 0.376 + 0.042 - 0.066 - (dgh2o - 0.5 * dgh2)
+dsooh = 0.471 + 0.077 - 0.134 - (2 * dgh2o - 1.5 * dgh2)
+dsh = dsoh - dso
 
 color = ['turquoise', 'green', 'red', 'blue', 'gray', 'gold', 'purple', 'pink', 'darkorange',
          'lime', 'olive', 'yellowgreen', 'violet', 'navy', 'brown', 'teal', 'deeppink',
