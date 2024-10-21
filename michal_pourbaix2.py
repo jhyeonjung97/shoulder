@@ -151,9 +151,6 @@ uniquesurf = [lowest_surfaces[0]]
 old_value = lowest_surfaces[0]
 crossover.append(Umin)
 
-print(lowest_surfaces)
-print(uniquesurf)
-
 for j in range(len(U2)):
     if lowest_surfaces[j] != old_value:
         uniquesurf.append(lowest_surfaces[j])
@@ -180,7 +177,7 @@ for i in range(len(uniquesurf)):
 
 plt.plot(pH2, 1.23 - pH2 * const, '--', color='blue', lw=1, dashes=(3, 1))
 ax.text(0.2, 0.6, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9, fontsize=10)
-plt.legend(loc='lower center', borderaxespad=1.5, 
+plt.legend(loc='lower center', borderaxespad=15, 
            ncol=1, labelspacing=0.3, handlelength=2, fontsize=10,
            fancybox=True, shadow=True)
 plt.savefig(f'pourbaix_full.png', bbox_inches='tight')
