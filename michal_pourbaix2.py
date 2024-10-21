@@ -196,7 +196,7 @@ for k in range(nsurfs):
     ax.plot(xx, dg(k, 0, xx) * kjmol, '-', lw=1, c=color[k], label=label)
 plt.xlim(-1.0, 2.5)
 plt.legend(loc='lower left', bbox_to_anchor=(0.01, 1.02), # borderaxespad=17, 
-           ncol=2, columnspacing=0.0, labelspacing=0.3, handlelength=2, fontsize=10,
+           ncol=2, columnspacing=1.0, labelspacing=0.3, handlelength=2, fontsize=10,
            fancybox=True, shadow=True)
 plt.savefig(f'pourbaix.png', bbox_inches='tight')
 print(f"Figure saved as pourbaix.png")
