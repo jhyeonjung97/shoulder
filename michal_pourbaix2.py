@@ -177,7 +177,7 @@ for i in range(len(uniquesurf)):
 
 plt.plot(pH2, 1.23 - pH2 * const, '--', color='blue', lw=1, dashes=(3, 1))
 ax.text(0.2, 0.6, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9, fontsize=10)
-plt.legend(loc='lower left', bbox_to_anchor=(0.01, 1.02), # borderaxespad=17, 
+plt.legend(loc='lower left', bbox_to_anchor=(0.0, 1.02), # borderaxespad=17, 
            ncol=1, labelspacing=0.3, handlelength=2, fontsize=10,
            fancybox=True, shadow=True)
 plt.savefig(f'pourbaix_full.png', bbox_inches='tight')
@@ -195,7 +195,7 @@ for k in range(nsurfs):
     label = r"S$_{%i}$(H: %i O: %i OH: %i OOH: %i)" % (k, surfs[k][1], surfs[k][2], surfs[k][3], surfs[k][4])
     ax.plot(xx, dg(k, 0, xx) * kjmol, '-', lw=1, c=color[k], label=label)
 plt.xlim(-1.0, 2.5)
-plt.legend(loc='lower left', bbox_to_anchor=(0.01, 1.02), # borderaxespad=17, 
+plt.legend(loc='lower left', bbox_to_anchor=(0.0, 1.02), # borderaxespad=17, 
            ncol=2, columnspacing=1.0, labelspacing=0.3, handlelength=2, fontsize=10,
            fancybox=True, shadow=True)
 plt.savefig(f'pourbaix.png', bbox_inches='tight')
