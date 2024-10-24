@@ -94,7 +94,7 @@ def addH(x, y):
 
 def dg(i, x, y):
     if surfs[i][0] is None:
-        return Nonef
+        return None
     return (surfs[i][0] 
             - surfs[0][0] 
             + surfs[i][1] * addH(x, y) 
