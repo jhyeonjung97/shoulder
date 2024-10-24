@@ -94,7 +94,7 @@ def addH(x, y):
 
 def dg(i, x, y):
     if surfs[i][0] is None:
-        return None
+        return Nonef
     return (surfs[i][0] 
             - surfs[0][0] 
             + surfs[i][1] * addH(x, y) 
@@ -195,7 +195,11 @@ ax.set_ylabel(r'$\Delta$G (kJ/mol)', fontsize='large')
 xx = np.arange(-1.00, 2.55, 0.05)
 for k in range(nsurfs):
     label = r"S$_{%i}$(H: %i O: %i OH: %i OOH: %i)" % (k, surfs[k][1], surfs[k][2], surfs[k][3], surfs[k][4])
-    ax.plot(xx, dg(k, 0, xx) * kjmol, '-', lw=1, c=color[k], label=label)
+    dg_value = dg(k, 0, xx)
+    if dg_value is not None:
+        ax.plot(xx, dg_value * kjmol, '-', lw=1, c=color[k], label=label)
+    else:
+        print(f"Skipping plot for surface {k} due to missing data.")
 plt.xlim(-1.0, 2.5)
 plt.legend(loc='lower left', bbox_to_anchor=(0.0, 1.02), # borderaxespad=17, 
            ncol=2, columnspacing=1.0, labelspacing=0.3, handlelength=2, fontsize=10,
