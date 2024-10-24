@@ -143,7 +143,7 @@ nsurfs = len(surfs)
 lowest_surfaces = []
 
 for j in U2:
-    values = [dg(k, 0, j) for k in range(nsurfs)]
+    values = [dg(k, 0, j) for k in range(nsurfs) if dg(k, 0, j) is not None]
     lowest_surfaces.append(np.argmin(values))
 
 crossover = []
