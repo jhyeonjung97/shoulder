@@ -120,8 +120,8 @@ G_OH_O = min_e0_values.get("oh-o", None)
 G_O_OH = min_e0_values.get("o-oh", None)
 G_OH_OH = min_e0_values.get("oh-oh", None)
 G_OHOH = min_e0_values.get("ohoh", None)
-G_O_O = min_e0_values.get("o-o", None)
-G_OO = min_e0_values.get("oo", None)
+# G_O_O = min_e0_values.get("o-o", None)
+# G_OO = min_e0_values.get("oo", None)
 G_OOH = min_e0_values.get("ooh", None)
 
 # Define surfaces with extracted E0 values
@@ -134,8 +134,8 @@ surfs = [
     [G_O_OH, 0, 1, 1, 0],
     [G_OH_OH, 0, 0, 2, 0],
     [G_OHOH, 0, 0, 2, 0],
-    [G_O_O, 0, 2, 0, 0],
-    [G_OO, 0, 2, 0, 0],
+    # [G_O_O, 0, 2, 0, 0],
+    # [G_OO, 0, 2, 0, 0],
     [G_O_OH, 0, 1, 1, 0],
     [G_OOH, 0, 0, 0, 1],
 ]
