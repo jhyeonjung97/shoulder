@@ -6,7 +6,7 @@ from matplotlib import rc
 import matplotlib.pyplot as plt
 
 # List of main directories
-main_dirs = ["clean", "h", "o", "oh", "oh-o", "oho", "oh-oh", "ohoh", "o-o", "oo", "o-oh", "ooh"]
+main_dirs = ["clean", "h", "o", "oh", "oh-o", "oho", "oh-oh", "ohoh", "o-oh", "ooh"]
 
 # Regular expression to match E0 values in scientific notation
 e0_pattern = re.compile(r"E0=\s*(-?\.\d+E[+-]?\d+)")
