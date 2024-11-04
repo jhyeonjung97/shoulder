@@ -234,7 +234,7 @@ for dir in dirs:
     ax.set_xlabel(r'pH', fontsize='large')
     ax.set_ylabel(r'U/V', fontsize='large')
     current_yticks = list(plt.yticks()[0])  # Get the current y-ticks
-    extraticks = [1.23, overpotential_oho, overpotential_ooh]
+    extraticks = [1.23]
     combined_ticks = sorted(set(current_yticks) | set(extraticks))
     plt.yticks(combined_ticks)
     plt.gca().yaxis.set_major_formatter(FormatStrFormatter('%.2f'))
@@ -252,11 +252,13 @@ for dir in dirs:
     plt.plot(pH2, overpotential_oho - pH2 * const, '--', color='gray', lw=1, dashes=(3, 1))
     plt.plot(pH2, overpotential_ooh - pH2 * const, '--', color='black', lw=1, dashes=(3, 1))
     ax.text(0.2, 1.23 - 0.35, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
+    ax.text(0.2, overpotential_oho - 0.35, f'$S_8: {overpotential_oho}$', color='darkorange', rotation=-9.5, fontsize=10)
+    ax.text(0.2, overpotential_ooh - 0.35, f'$S_9: {overpotential_ooh}$', color='lime', rotation=-9.5, fontsize=10)
     plt.legend(loc='lower left', bbox_to_anchor=(0.0, 1.02), # borderaxespad=17, 
                ncol=1, labelspacing=0.3, handlelength=2, fontsize=10,
                fancybox=True, shadow=True)
     plt.savefig(f'{A}{B}_pourbaix_full.png', bbox_inches='tight')
-    print(f"Figure saved as pourbaix_full.png")
+    print(f"Figure saved as {A}{B}_pourbaix_full.png")
     plt.close()
     
     plt.clf()
@@ -281,6 +283,6 @@ for dir in dirs:
     #            ncol=2, columnspacing=1.0, labelspacing=0.3, handlelength=2, fontsize=10,
     #            fancybox=True, shadow=True)
     plt.savefig(f'{A}{B}_pourbaix.png', bbox_inches='tight')
-    print(f"Figure saved as pourbaix.png")
+    print(f"Figure saved as {A}{B}_pourbaix.png")
     # plt.show()
     plt.close()
