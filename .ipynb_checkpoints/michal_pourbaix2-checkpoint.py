@@ -183,10 +183,10 @@ for dir in dirs:
     G_OOH = E_OOH + dgooh
     G_OHO = E_OHO + dgo + dgoh
     
-    dG_O = G_O - G_clean - go
-    dG_OH = G_OH - G_clean - goh
-    dG_OOH = G_OOH - G_clean - gooh
-    dG_OHO = G_OHO - G_clean - go - goh
+    dG_O = G_O - E_clean - go
+    dG_OH = G_OH - E_clean - goh
+    dG_OOH = G_OOH - E_clean - gooh
+    dG_OHO = G_OHO - E_clean - go - goh
 
     print(dG_OH, dG_O, dG_OOH, dG_OHO)
     overpotential_oho = overpotential_oer(dG_OH, dG_O, dG_OHO)
