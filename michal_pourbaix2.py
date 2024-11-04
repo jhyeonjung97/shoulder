@@ -47,6 +47,7 @@ U = np.arange(Umin, Umax, 0.05)
 Umax2 = Umax + 0.06 * 14
 U2 = np.arange(Umin, Umax2, 0.05)
 
+# gas
 h2 = -6.77149190
 h2o = -14.23091949
 
@@ -58,6 +59,17 @@ zpeh2 = 0.268
 cvh2 = 0.0905
 tsh2 = 0.408
 
+gh2o = h2o + cvh2o - tsh2o + zpeh2o
+gh2 = h2 + cvh2 - tsh2 + zpeh2
+
+gh = gh2 / 2
+go = gh2o - gh2
+goh = gh2o - gh2 / 2
+
+dgh2o = zpeh2o + cvh2o - tsh2o
+dgh2 = zpeh2 + cvh2 - tsh2
+
+# ads
 zpeoh = 0.376
 cvoh = 0.042
 tsoh = 0.066
@@ -70,14 +82,6 @@ zpeooh = 0.471
 cvooh = 0.077
 tsooh = 0.134
 
-gh2o = h2o + cvh2o - tsh2o + zpeh2o
-gh2 = h2 + cvh2 - tsh2 + zpeh2
-gh = gh2 / 2
-go = gh2o - gh2
-goh = gh2o - gh2 / 2
-
-dgh2o = zpeh2o + cvh2o - tsh2o
-dgh2 = zpeh2 + cvh2 - tsh2
 dgo = zpeo + cvo - tso
 dgoh = zpeoh + cvoh - tsoh
 dgooh = zpeooh + cvooh - tsooh
@@ -161,23 +165,28 @@ for dir in dirs:
         else:
             min_e0_values[main_dir] = min_e0
     
-    G_clean = min_e0_values.get("clean", None)
-    G_H = min_e0_values.get("h", None)
-    G_OH = min_e0_values.get("oh", None)
-    G_O = min_e0_values.get("o", None)
-    G_OHOH = min_e0_values.get("ohoh", None)
-    G_OH_OH = min_e0_values.get("oh-oh", None)
-    G_OH_O = min_e0_values.get("oh-o", None)
-    G_O_OH = min_e0_values.get("o-oh", None)
-    # G_O_O = min_e0_values.get("o-o", None)
-    # G_OO = min_e0_values.get("oo", None)
-    G_OHO = min_e0_values.get("oho", None)
-    G_OOH = min_e0_values.get("ooh", None)
+    E_clean = min_e0_values.get("clean", None)
+    E_H = min_e0_values.get("h", None)
+    E_OH = min_e0_values.get("oh", None)
+    E_O = min_e0_values.get("o", None)
+    E_OHOH = min_e0_values.get("ohoh", None)
+    E_OH_OH = min_e0_values.get("oh-oh", None)
+    E_OH_O = min_e0_values.get("oh-o", None)
+    E_O_OH = min_e0_values.get("o-oh", None)
+    # E_O_O = min_e0_values.get("o-o", None)
+    # E_OO = min_e0_values.get("oo", None)
+    E_OHO = min_e0_values.get("oho", None)
+    E_OOH = min_e0_values.get("ooh", None)
 
-    dG_OH = G_OH - G_clean
-    dG_O = G_O - G_clean
-    dG_OHO = G_OHO - G_clean
-    dG_OOH = G_OOH - G_clean
+    G_O = E_O + dgo
+    G_OH = E_OH + dgoh
+    G_OOH = E_OOH + dgooh
+    G_OHO = E_OHO + dgo + dgoh
+    
+    dG_O = G_O - G_clean - go
+    dG_OH = G_OH - G_clean - goh
+    dG_OOH = G_OOH - G_clean - gooh
+    dG_OHO = G_OHO - G_clean - go - goh
 
     print(dG_OH, dG_O, dG_OOH, dG_OHO)
     overpotential_oho = overpotential_oer(dG_OH, dG_O, dG_OHO)
@@ -185,18 +194,18 @@ for dir in dirs:
 
     # Define surfaces with extracted E0 values
     surfs = [
-        [G_clean, 0, 0, 0, 0],  # [energy, #Hs, #Os, #OHs, #OOHs]
-        [G_H, 1, 0, 0, 0],
-        [G_OH, 0, 0, 1, 0],
-        [G_O, 0, 1, 0, 0],
-        [G_OHOH, 0, 0, 2, 0],
-        [G_OH_OH, 0, 0, 2, 0],
-        [G_OH_O, 0, 1, 1, 0],
-        [G_O_OH, 0, 1, 1, 0],
-        # [G_O_O, 0, 2, 0, 0],
-        # [G_OO, 0, 2, 0, 0],
-        [G_OHO, 0, 1, 1, 0],
-        [G_OOH, 0, 0, 0, 1]
+        [E_clean, 0, 0, 0, 0],  # [energy, #Hs, #Os, #OHs, #OOHs]
+        [E_H, 1, 0, 0, 0],
+        [E_OH, 0, 0, 1, 0],
+        [E_O, 0, 1, 0, 0],
+        [E_OHOH, 0, 0, 2, 0],
+        [E_OH_OH, 0, 0, 2, 0],
+        [E_OH_O, 0, 1, 1, 0],
+        [E_O_OH, 0, 1, 1, 0],
+        # [E_O_O, 0, 2, 0, 0],
+        # [E_OO, 0, 2, 0, 0],
+        [E_OHO, 0, 1, 1, 0],
+        [E_OOH, 0, 0, 0, 1]
     ]
     nsurfs = len(surfs)
     lowest_surfaces = []
