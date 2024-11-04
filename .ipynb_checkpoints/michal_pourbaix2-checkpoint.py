@@ -251,8 +251,8 @@ for dir in dirs:
         plt.plot([], [], color=color[k], alpha=0.3, linewidth=5, label=label)
 
     plt.plot(pH2, 1.23 - pH2 * const, '--', color='blue', lw=1, dashes=(3, 1))
-    plt.plot(pH2, overpotential_oho - pH2 * const, '--', color='darkorange', lw=1, dashes=(3, 1))
-    plt.plot(pH2, overpotential_ooh - pH2 * const, '--', color='lime', lw=1, dashes=(3, 1))
+    plt.plot(pH2, onsetpotential_oho - pH2 * const, '--', color='darkorange', lw=1, dashes=(3, 1))
+    plt.plot(pH2, onsetpotential_ooh - pH2 * const, '--', color='lime', lw=1, dashes=(3, 1))
     ax.text(0.2, 1.23 - 0.35, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
     ax.text(0.2, onsetpotential_oho - 0.65, f'$S_8: {overpotential_oho:.2f}$', color='darkorange', rotation=-9.5, fontsize=10)
     ax.text(0.2, onsetpotential_ooh - 0.65, f'$S_9: {overpotential_ooh:.2f}$', color='lime', rotation=-9.5, fontsize=10)
