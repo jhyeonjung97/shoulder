@@ -10,6 +10,7 @@ main_dirs = ["clean", "h", "o", "oh", "oh-o", "oho", "oh-oh", "ohoh", "o-oh", "o
 
 # Regular expression to match E0 values in scientific notation
 e0_pattern = re.compile(r"E0=\s*(-?\.\d+E[+-]?\d+)")
+energy_pattern = re.compile(r"energy\s*=\s*(-?\d+\.\d+)")
 
 # Function to find the lowest E0 value in each subdirectory
 def find_min_e0(main_dir, sub_dirs):
@@ -25,7 +26,20 @@ def find_min_e0(main_dir, sub_dirs):
                         if min_e0 is None or e0_value < min_e0:
                             min_e0 = e0_value
     return min_e0
-
+    
+# Function to extract energy from DONE in most_stable or find min_e0 as fallback
+def get_energy(main_dir, sub_dirs):
+    most_stable_dir = os.path.join(main_dir, "most_stable")
+    done_path = os.path.join(most_stable_dir, "DONE")
+    if os.path.isfile(done_path):
+        with open(done_path, 'r') as file:
+            for line in file:
+                match = energy_pattern.search(line)
+                if match:
+                    return float(match.group(1))
+    # Fallback to finding minimum E0 value
+    return find_min_e0(main_dir, sub_dirs)
+    
 fig_width_pt = 1.8 * 246.0  # LaTeX column width
 inches_per_pt = 1.0 / 72.27  # Convert pt to inches
 golden_mean = (np.sqrt(5) - 1.0) / 2.0  # Aesthetic ratio
@@ -105,7 +119,7 @@ def dg(i, x, y):
 min_e0_values = {}
 # Iterate through each main directory to extract E0 values and plot
 for main_dir in main_dirs:
-    min_e0 = find_min_e0(main_dir, ["HS1", "HS5", "IS1", "IS5", "LS1", "LS5"])
+    min_e0 = get_energy(main_dir, ["HS1", "HS5", "IS1", "IS5", "LS1", "LS5"])
     print(main_dir, min_e0)
 
     if min_e0 is None:
