@@ -7,10 +7,10 @@ from matplotlib import rc
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FormatStrFormatter
 
-# dirs = glob.glob("/pscratch/sd/j/jiuy97/6_MNC/pourbaix/*_*/")
-dirs = ["/pscratch/sd/j/jiuy97/6_MNC/pourbaix/1_Fe/",
-        "/pscratch/sd/j/jiuy97/6_MNC/pourbaix/2_Co/",
-        "/pscratch/sd/j/jiuy97/6_MNC/pourbaix/3_Mo/"]
+dirs = glob.glob("/pscratch/sd/j/jiuy97/6_MNC/pourbaix/*_*/")
+# dirs = ["/pscratch/sd/j/jiuy97/6_MNC/pourbaix/1_Fe/",
+#         "/pscratch/sd/j/jiuy97/6_MNC/pourbaix/2_Co/",
+#         "/pscratch/sd/j/jiuy97/6_MNC/pourbaix/3_Mo/"]
 main_dirs = ["clean", "h", "o", "oh", "oh-o", "oho", "oh-oh", "ohoh", "o-oh", "ooh"]
 
 # Regular expression to match E0 values in scientific notation
@@ -262,7 +262,7 @@ for dir in dirs:
         ax.text(7.7, onsetpotential_oho - 0.71, f'$S_8$ (*OH+*O): {overpotential_oho:.2f} eV', color='darkorange', rotation=-9.5, fontsize=10)
         ax.text(7.7, onsetpotential_ooh - 0.65, f'$S_9$ (*OOH): {overpotential_ooh:.2f} eV', color='lime', rotation=-9.5, fontsize=10)
     elif A=='3' and B=='Mo':
-        ax.text(0.2, 1.23 - 0.35, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
+        ax.text(0.2, 0.88, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
     #     ax.text(7.7, onsetpotential_oho - 0.71, f'S$_8$ (*OH+*O): {overpotential_oho:.2f} eV', color='darkorange', rotation=-9.5, fontsize=10)
     #     ax.text(7.7, onsetpotential_ooh - 0.65, f'S$_9$ (*OOH): {overpotential_ooh:.2f} eV', color='lime', rotation=-9.5, fontsize=10)
     plt.legend(loc='lower left', bbox_to_anchor=(0.0, 1.02), # borderaxespad=17, 
