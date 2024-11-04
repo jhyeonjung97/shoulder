@@ -6,7 +6,10 @@ import pandas as pd
 from matplotlib import rc
 import matplotlib.pyplot as plt
         
-dirs = glob.glob("/pscratch/sd/j/jiuy97/6_MNC/pourbaix/*_*/")
+# dirs = glob.glob("/pscratch/sd/j/jiuy97/6_MNC/pourbaix/*_*/")
+dirs = ["/pscratch/sd/j/jiuy97/6_MNC/pourbaix/1_Co/",
+        "/pscratch/sd/j/jiuy97/6_MNC/pourbaix/2_Fe/",
+        "/pscratch/sd/j/jiuy97/6_MNC/pourbaix/3_Mo/"]
 main_dirs = ["clean", "h", "o", "oh", "oh-o", "oho", "oh-oh", "ohoh", "o-oh", "ooh"]
 
 # Regular expression to match E0 values in scientific notation
