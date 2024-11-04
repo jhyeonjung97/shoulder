@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
         
 # dirs = glob.glob("/pscratch/sd/j/jiuy97/6_MNC/pourbaix/*_*/")
 dirs = ["/pscratch/sd/j/jiuy97/6_MNC/pourbaix/1_Fe/",
-        "/pscratch/sd/j/jiuy97/6_MNC/pourbaix/2_CO/",
+        "/pscratch/sd/j/jiuy97/6_MNC/pourbaix/2_Co/",
         "/pscratch/sd/j/jiuy97/6_MNC/pourbaix/3_Mo/"]
 main_dirs = ["clean", "h", "o", "oh", "oh-o", "oho", "oh-oh", "ohoh", "o-oh", "ooh"]
 
@@ -122,6 +122,7 @@ def dg(i, x, y):
     
 for dir in dirs:
     os.chdir(dir)
+    print(dir)
     min_e0_values = {}
     # Iterate through each main directory to extract E0 values and plot
     for main_dir in main_dirs:
