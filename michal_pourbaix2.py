@@ -124,10 +124,9 @@ def oer_step(index):
     steps = ["OH -> O", "O -> OOH", "OOH -> O2"]
     return steps[index] if index < len(steps) else "Unknown Step"
 
-def overpotential_oer_full(doh, do, dooh):
+def overpotential_oer(doh, do, dooh):
     dg14 = [doh, do - doh, dooh - do, 4.92 - dooh]
-    m = max(dg14)
-    return [round(m - 1.23, 2), round(-m, 2), oer_step(dg14.index(m))]
+    return max(dg14) - 1.23
     
 for dir in dirs:
     os.chdir(dir)
@@ -161,8 +160,8 @@ for dir in dirs:
     do = G_O - G_clean
     doho = G_OHO - G_clean
     dooh = G_OOH - G_clean
-    overpotential_oho = overpotential_oer_full(G_OH, G_O, G_OHO)
-    overpotential_ooh = overpotential_oer_full(G_OH, G_O, G_OOH)
+    overpotential_oho = overpotential_oer(G_OH, G_O, G_OHO)
+    overpotential_ooh = overpotential_oer(G_OH, G_O, G_OOH)
 
     # Define surfaces with extracted E0 values
     surfs = [
@@ -206,17 +205,8 @@ for dir in dirs:
     ax.set_xlabel(r'pH', fontsize='large')
     ax.set_ylabel(r'U/V', fontsize='large')
     current_yticks = list(plt.yticks()[0])  # Get the current y-ticks
-    print(1.23, overpotential_oho, overpotential_ooh)
-    extraticks_flat = []
-    for tick in extraticks:
-        if isinstance(tick, list):
-            extraticks_flat.extend(tick)
-        else:
-            extraticks_flat.append(tick)
-    current_yticks_flat = [tick for tick in plt.yticks()[0]]
-    combined_ticks = sorted(set(current_yticks_flat + extraticks_flat))
-    plt.yticks(combined_ticks)
-
+    extraticks = [1.23, overpotential_oho, overpotential_ooh]
+    plt.yticks(list(plt.yticks()[0]) + extraticks)
     basename = os.path.basename(os.path.normpath(dir))
     A, B = basename.split('_', 1)
 
