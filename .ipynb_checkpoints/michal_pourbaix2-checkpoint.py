@@ -215,9 +215,12 @@ for k in range(nsurfs):
     else:
         print(f"Skipping plot for surface {k} due to missing data.")
 plt.xlim(-1.0, 2.5)
-plt.legend(loc='lower left', bbox_to_anchor=(0.0, 1.02), # borderaxespad=17, 
-           ncol=2, columnspacing=1.0, labelspacing=0.3, handlelength=2, fontsize=10,
+plt.legend(loc='lower left', bbox_to_anchor=(1.0, 1.0), # borderaxespad=17, 
+           ncol=1, labelspacing=0.3, handlelength=2, fontsize=10,
            fancybox=True, shadow=True)
+# plt.legend(loc='lower left', bbox_to_anchor=(0.0, 1.02), # borderaxespad=17, 
+#            ncol=2, columnspacing=1.0, labelspacing=0.3, handlelength=2, fontsize=10,
+#            fancybox=True, shadow=True)
 plt.savefig(f'pourbaix.png', bbox_inches='tight')
 print(f"Figure saved as pourbaix.png")
 # plt.show()
