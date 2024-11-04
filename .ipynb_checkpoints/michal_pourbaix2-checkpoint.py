@@ -51,18 +51,40 @@ h2 = -6.77149190
 h2o = -14.23091949
 
 zpeh2o = 0.560
-zpeh2 = 0.268
 cvh2o = 0.103
-cvh2 = 0.0905
 tsh2o = 0.675
+
+zpeh2 = 0.268
+cvh2 = 0.0905
 tsh2 = 0.408
+
+zpeoh = 0.376
+cvoh = 0.042
+tsoh = 0.066
+
+zpeo = 0.064
+cvo = 0.034
+tso = 0.060
+
+zpeooh = 0.471
+cvooh = 0.077
+tsooh = 0.134
+
+gh2o = h2o + cvh2o - tsh2o + zpeh2o
+gh2 = h2 + cvh2 - tsh2 + zpeh2
+gh = gh2 / 2
+go = gh2o - gh2
+goh = gh2o - gh2 / 2
 
 dgh2o = zpeh2o + cvh2o - tsh2o
 dgh2 = zpeh2 + cvh2 - tsh2
+dgo = zpeo + cvo - tso
+dgoh = zpeoh + cvoh - tsoh
+dgooh = zpeooh + cvooh - tsooh
 
-dso = 0.064 + 0.034 - 0.060 - (dgh2o - dgh2)
-dsoh = 0.376 + 0.042 - 0.066 - (dgh2o - 0.5 * dgh2)
-dsooh = 0.471 + 0.077 - 0.134 - (2 * dgh2o - 1.5 * dgh2)
+dso = dgo - (dgh2o - dgh2)
+dsoh = dgoh - (dgh2o - 0.5 * dgh2)
+dsooh = dgooh - (2 * dgh2o - 1.5 * dgh2)
 dsh = dsoh - dso
 
 color = ['turquoise', 'green', 'red', 'blue', 'gray', 'gold', 'purple', 'pink', 'darkorange',
@@ -119,14 +141,10 @@ def dg(i, x, y):
             + surfs[i][2] * addO(x, y) 
             + surfs[i][3] * addOH(x, y) 
             + surfs[i][4] * addOOH(x, y))
-    
-def oer_step(index):
-    steps = ["OH -> O", "O -> OOH", "OOH -> O2"]
-    return steps[index] if index < len(steps) else "Unknown Step"
 
-def overpotential_oer(doh, do, dooh):
-    dg14 = [doh, do - doh, dooh - do, 4.92 - dooh]
-    return max(dg14) - 1.23
+def overpotential_oer(dG_OH, dG_O, dG_OOH):
+    dG14 = [dG_OH, dG_O - dG_OH, dG_OOH - dG_O, 4.92 - dG_OOH]
+    return max(dG14) - 1.23
     
 for dir in dirs:
     os.chdir(dir)
@@ -156,12 +174,14 @@ for dir in dirs:
     G_OHO = min_e0_values.get("oho", None)
     G_OOH = min_e0_values.get("ooh", None)
 
-    doh = G_OH - G_clean
-    do = G_O - G_clean
-    doho = G_OHO - G_clean
-    dooh = G_OOH - G_clean
-    overpotential_oho = overpotential_oer(doh, do, doho)
-    overpotential_ooh = overpotential_oer(doh, do, dooh)
+    dG_OH = G_OH - G_clean
+    dG_O = G_O - G_clean
+    dG_OHO = G_OHO - G_clean
+    dG_OOH = G_OOH - G_clean
+
+    print(dG_OH, dG_O, dG_OOH, dG_OHO)
+    overpotential_oho = overpotential_oer(dG_OH, dG_O, dG_OHO)
+    overpotential_ooh = overpotential_oer(dG_OH, dG_O, dG_OOH)
 
     # Define surfaces with extracted E0 values
     surfs = [
