@@ -160,8 +160,8 @@ for dir in dirs:
     do = G_O - G_clean
     doho = G_OHO - G_clean
     dooh = G_OOH - G_clean
-    overpotential_oho = overpotential_oer(G_OH, G_O, G_OHO)
-    overpotential_ooh = overpotential_oer(G_OH, G_O, G_OOH)
+    overpotential_oho = overpotential_oer(doh, do, doho)
+    overpotential_ooh = overpotential_oer(doh, do, dooh)
 
     # Define surfaces with extracted E0 values
     surfs = [
@@ -206,6 +206,7 @@ for dir in dirs:
     ax.set_ylabel(r'U/V', fontsize='large')
     current_yticks = list(plt.yticks()[0])  # Get the current y-ticks
     extraticks = [1.23, overpotential_oho, overpotential_ooh]
+    print(extraticks)
     plt.yticks(list(plt.yticks()[0]) + extraticks)
     basename = os.path.basename(os.path.normpath(dir))
     A, B = basename.split('_', 1)
