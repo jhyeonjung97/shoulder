@@ -120,6 +120,15 @@ def dg(i, x, y):
             + surfs[i][3] * addOH(x, y) 
             + surfs[i][4] * addOOH(x, y))
     
+def oer_step(index):
+    steps = ["OH -> O", "O -> OOH", "OOH -> O2"]
+    return steps[index] if index < len(steps) else "Unknown Step"
+
+def overpotential_oer_full(doh, do, dooh):
+    dg14 = [doh, do - doh, dooh - do, 4.92 - dooh]
+    m = max(dg14)
+    return [round(m - 1.23, 2), round(-m, 2), oer_step(dg14.index(m))]
+    
 for dir in dirs:
     os.chdir(dir)
     print(dir)
@@ -137,30 +146,38 @@ for dir in dirs:
     
     G_clean = min_e0_values.get("clean", None)
     G_H = min_e0_values.get("h", None)
-    G_O = min_e0_values.get("o", None)
     G_OH = min_e0_values.get("oh", None)
+    G_O = min_e0_values.get("o", None)
+    G_OHOH = min_e0_values.get("ohoh", None)
+    G_OH_OH = min_e0_values.get("oh-oh", None)
     G_OH_O = min_e0_values.get("oh-o", None)
     G_O_OH = min_e0_values.get("o-oh", None)
-    G_OH_OH = min_e0_values.get("oh-oh", None)
-    G_OHOH = min_e0_values.get("ohoh", None)
     # G_O_O = min_e0_values.get("o-o", None)
     # G_OO = min_e0_values.get("oo", None)
+    G_OHO = min_e0_values.get("oho", None)
     G_OOH = min_e0_values.get("ooh", None)
-    
+
+    doh = G_OH - G_clean
+    do = G_O - G_clean
+    doho = G_OHO - G_clean
+    dooh = G_OOH - G_clean
+    overpotential_oho = overpotential_oer_full(G_OH, G_O, G_OHO)
+    overpotential_ooh = overpotential_oer_full(G_OH, G_O, G_OOH)
+
     # Define surfaces with extracted E0 values
     surfs = [
         [G_clean, 0, 0, 0, 0],  # [energy, #Hs, #Os, #OHs, #OOHs]
         [G_H, 1, 0, 0, 0],
-        [G_O, 0, 1, 0, 0],
         [G_OH, 0, 0, 1, 0],
+        [G_O, 0, 1, 0, 0],
+        [G_OHOH, 0, 0, 2, 0],
+        [G_OH_OH, 0, 0, 2, 0],
         [G_OH_O, 0, 1, 1, 0],
         [G_O_OH, 0, 1, 1, 0],
-        [G_OH_OH, 0, 0, 2, 0],
-        [G_OHOH, 0, 0, 2, 0],
         # [G_O_O, 0, 2, 0, 0],
         # [G_OO, 0, 2, 0, 0],
-        [G_O_OH, 0, 1, 1, 0],
-        [G_OOH, 0, 0, 0, 1],
+        [G_OHO, 0, 1, 1, 0],
+        [G_OOH, 0, 0, 0, 1]
     ]
     nsurfs = len(surfs)
     lowest_surfaces = []
@@ -188,7 +205,7 @@ for dir in dirs:
     ax.axis([0, 14, Umin, Umax])
     ax.set_xlabel(r'pH', fontsize='large')
     ax.set_ylabel(r'U/V', fontsize='large')
-    extraticks = [1.23]
+    extraticks = [1.23, overpotential_oho, overpotential_ooh]
     plt.yticks(list(plt.yticks()[0]) + extraticks)
 
     basename = os.path.basename(os.path.normpath(dir))
@@ -200,8 +217,10 @@ for dir in dirs:
         plt.fill_between(pH2, crossover[i] - pH2 * const, crossover[i + 1] - pH2 * const, 
                          facecolor=color[k], alpha=0.3, lw=0.5, edgecolor='black')
         plt.plot([], [], color=color[k], alpha=0.3, linewidth=5, label=label)
-    
+
     plt.plot(pH2, 1.23 - pH2 * const, '--', color='blue', lw=1, dashes=(3, 1))
+    plt.plot(pH2, overpotential_oho - pH2 * const, '--', color='black', lw=1, dashes=(3, 1))
+    plt.plot(pH2, overpotential_ooh - pH2 * const, '--', color='black', lw=1, dashes=(3, 1))
     ax.text(0.2, 0.65, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
     plt.legend(loc='lower left', bbox_to_anchor=(0.0, 1.02), # borderaxespad=17, 
                ncol=1, labelspacing=0.3, handlelength=2, fontsize=10,
