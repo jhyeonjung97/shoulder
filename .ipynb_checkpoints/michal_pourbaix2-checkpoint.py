@@ -185,7 +185,7 @@ for dir in dirs:
     
     dG_O = G_O - E_clean - go
     dG_OH = G_OH - E_clean - goh
-    dG_OOH = G_OOH - E_clean - gooh
+    dG_OOH = G_OOH - E_clean - go - goh
     dG_OHO = G_OHO - E_clean - go - goh
 
     print(dG_OH, dG_O, dG_OOH, dG_OHO)
