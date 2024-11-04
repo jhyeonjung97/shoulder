@@ -234,7 +234,8 @@ for dir in dirs:
     ax.set_ylabel(r'U/V', fontsize='large')
     current_yticks = list(plt.yticks()[0])  # Get the current y-ticks
     extraticks = [1.23, overpotential_oho, overpotential_ooh]
-    plt.yticks(list(plt.yticks()[0]), extraticks)
+    combined_ticks = sorted(set(current_yticks) | set(extraticks))
+    plt.yticks(combined_ticks)
     plt.gca().yaxis.set_major_formatter(FormatStrFormatter('%.2f'))
     basename = os.path.basename(os.path.normpath(dir))
     A, B = basename.split('_', 1)
