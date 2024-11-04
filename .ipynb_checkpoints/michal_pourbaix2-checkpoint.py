@@ -192,7 +192,7 @@ for i in range(len(uniquesurf)):
     plt.plot([], [], color=color[k], alpha=0.3, linewidth=5, label=label)
 
 plt.plot(pH2, 1.23 - pH2 * const, '--', color='blue', lw=1, dashes=(3, 1))
-ax.text(0.2, 0.6, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9, fontsize=10)
+ax.text(0.2, 0.65, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9, fontsize=10)
 plt.legend(loc='lower left', bbox_to_anchor=(0.0, 1.02), # borderaxespad=17, 
            ncol=1, labelspacing=0.3, handlelength=2, fontsize=10,
            fancybox=True, shadow=True)
