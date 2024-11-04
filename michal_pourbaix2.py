@@ -188,7 +188,6 @@ for dir in dirs:
     dG_OOH = G_OOH - E_clean - go - goh
     dG_OHO = G_OHO - E_clean - go - goh
 
-    print(dG_OH, dG_O, dG_OOH, dG_OHO)
     overpotential_oho = overpotential_oer(dG_OH, dG_O, dG_OHO)
     overpotential_ooh = overpotential_oer(dG_OH, dG_O, dG_OOH)
 
@@ -235,7 +234,9 @@ for dir in dirs:
     ax.set_ylabel(r'U/V', fontsize='large')
     current_yticks = list(plt.yticks()[0])  # Get the current y-ticks
     extraticks = [1.23, overpotential_oho, overpotential_ooh]
-    plt.yticks(list(plt.yticks()[0]) + extraticks)
+    plt.yticks(list(plt.yticks()[0]))
+    ax2 = ax.twinx()
+    ax2.set_yticks(extraticks)
     basename = os.path.basename(os.path.normpath(dir))
     A, B = basename.split('_', 1)
 
@@ -249,7 +250,7 @@ for dir in dirs:
     plt.plot(pH2, 1.23 - pH2 * const, '--', color='blue', lw=1, dashes=(3, 1))
     plt.plot(pH2, overpotential_oho - pH2 * const, '--', color='gray', lw=1, dashes=(3, 1))
     plt.plot(pH2, overpotential_ooh - pH2 * const, '--', color='black', lw=1, dashes=(3, 1))
-    ax.text(0.2, 0.85, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
+    ax.text(0.2, 1.23 - 0.35, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
     plt.legend(loc='lower left', bbox_to_anchor=(0.0, 1.02), # borderaxespad=17, 
                ncol=1, labelspacing=0.3, handlelength=2, fontsize=10,
                fancybox=True, shadow=True)
