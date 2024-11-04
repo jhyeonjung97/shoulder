@@ -205,8 +205,10 @@ for dir in dirs:
     ax.axis([0, 14, Umin, Umax])
     ax.set_xlabel(r'pH', fontsize='large')
     ax.set_ylabel(r'U/V', fontsize='large')
-    extraticks = [1.23, overpotential_oho, overpotential_ooh]
-    plt.yticks(list(plt.yticks()[0]) + extraticks)
+    current_yticks = list(plt.yticks()[0])  # Get the current y-ticks
+    extraticks = [1.23, overpotential_oho, overpotential_ooh]  # Ensure these are numeric
+    combined_ticks = sorted(set(current_yticks + extraticks))
+    plt.yticks(combined_ticks)
 
     basename = os.path.basename(os.path.normpath(dir))
     A, B = basename.split('_', 1)
