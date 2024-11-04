@@ -5,7 +5,8 @@ import numpy as np
 import pandas as pd
 from matplotlib import rc
 import matplotlib.pyplot as plt
-        
+from matplotlib.ticker import FormatStrFormatter
+
 # dirs = glob.glob("/pscratch/sd/j/jiuy97/6_MNC/pourbaix/*_*/")
 dirs = ["/pscratch/sd/j/jiuy97/6_MNC/pourbaix/1_Fe/",
         "/pscratch/sd/j/jiuy97/6_MNC/pourbaix/2_Co/",
