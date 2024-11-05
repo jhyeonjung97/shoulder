@@ -7,10 +7,10 @@ from matplotlib import rc
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FormatStrFormatter
 
-dirs = glob.glob("/pscratch/sd/j/jiuy97/6_MNC/pourbaix/*_*/")
-# dirs = ["/pscratch/sd/j/jiuy97/6_MNC/pourbaix/1_Fe/",
-#         "/pscratch/sd/j/jiuy97/6_MNC/pourbaix/2_Co/",
-#         "/pscratch/sd/j/jiuy97/6_MNC/pourbaix/3_Mo/"]
+# dirs = glob.glob("/pscratch/sd/j/jiuy97/6_MNC/pourbaix/*_*/")
+dirs = ["/pscratch/sd/j/jiuy97/6_MNC/pourbaix/1_Fe/",
+        "/pscratch/sd/j/jiuy97/6_MNC/pourbaix/2_Co/",
+        "/pscratch/sd/j/jiuy97/6_MNC/pourbaix/3_Mo/"]
 main_dirs = ["clean", "h", "o", "oh", "oh-o", "oho", "oh-oh", "ohoh", "o-oh", "ooh"]
 
 # Regular expression to match E0 values in scientific notation
@@ -158,7 +158,6 @@ for dir in dirs:
     # Iterate through each main directory to extract E0 values and plot
     for main_dir in main_dirs:
         min_e0 = get_energy(main_dir, ["HS1", "HS5", "IS1", "IS5", "LS1", "LS5"])
-        print(main_dir, min_e0)
     
         if min_e0 is None:
             print(f"Missing data in directory '{main_dir}' for plotting.")
@@ -268,7 +267,7 @@ for dir in dirs:
     plt.legend(loc='lower left', bbox_to_anchor=(0.0, 1.02), # borderaxespad=17, 
                ncol=1, labelspacing=0.3, handlelength=2, fontsize=10,
                fancybox=True, shadow=True)
-    plt.savefig(f'{A}{B}_pourbaix_full.png', bbox_inches='tight')
+    plt.savefig(f'/pscratch/sd/j/jiuy97/6_MNC/figures/{A}{B}_pourbaix_full.png', bbox_inches='tight')
     print(f"Figure saved as {A}{B}_pourbaix_full.png")
     plt.close()
     
@@ -293,7 +292,7 @@ for dir in dirs:
     # plt.legend(loc='lower left', bbox_to_anchor=(0.0, 1.02), # borderaxespad=17, 
     #            ncol=2, columnspacing=1.0, labelspacing=0.3, handlelength=2, fontsize=10,
     #            fancybox=True, shadow=True)
-    plt.savefig(f'{A}{B}_pourbaix.png', bbox_inches='tight')
+    plt.savefig(f'/pscratch/sd/j/jiuy97/6_MNC/figures/{A}{B}_pourbaix.png', bbox_inches='tight')
     print(f"Figure saved as {A}{B}_pourbaix.png")
     # plt.show()
     plt.close()
