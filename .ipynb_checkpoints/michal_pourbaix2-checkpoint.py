@@ -259,7 +259,7 @@ for dir in dirs:
     elif A=='2' and B=='Co':
         ax.text(0.2, 0.88, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
         ax.text(7.7, onsetpotential_oho - 0.71, f'$S_8$ (*OH+*O): {overpotential_oho:.2f} eV', color='darkorange', rotation=-9.5, fontsize=10)
-        ax.text(7.7, onsetpotential_ooh - 0.65, f'$S_9$ (*OOH): {overpotential_ooh:.2f} eV', color='lime', rotation=-9.5, fontsize=10)
+        ax.text(7.7, onsetpotential_ooh - 0.95, f'$S_9$ (*OOH): {overpotential_ooh:.2f} eV', color='lime', rotation=-9.5, fontsize=10)
     elif A=='3' and B=='Mo':
         ax.text(0.2, 0.88, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
     #     ax.text(7.7, onsetpotential_oho - 0.71, f'S$_8$ (*OH+*O): {overpotential_oho:.2f} eV', color='darkorange', rotation=-9.5, fontsize=10)
