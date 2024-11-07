@@ -11,7 +11,7 @@ from matplotlib.ticker import FormatStrFormatter
 dirs = ["/pscratch/sd/j/jiuy97/6_MNC/pourbaix/1_Fe/",
         "/pscratch/sd/j/jiuy97/6_MNC/pourbaix/2_Co/",
         "/pscratch/sd/j/jiuy97/6_MNC/pourbaix/3_Mo/"]
-main_dirs = ["clean", "h", "o", "oh", "oh-o", "oho", "oh-oh", "ohoh", "o-oh", "ooh"]
+main_dirs = ["clean", "h", "o", "oh", "oh-o", "oho", "oh-oh", "ohoh", "oh-ooh", "ohooh", "o-o", "oo", "o-oh", "ooh", "ooh-oh", "oohoh"]
 
 # Regular expression to match E0 values in scientific notation
 e0_pattern = re.compile(r"E0=\s*(-?\.\d+E[+-]?\d+)")
@@ -154,6 +154,9 @@ def overpotential_oer(dG_OH, dG_O, dG_OOH):
 for dir in dirs:
     os.chdir(dir)
     print(dir)
+    basename = os.path.basename(os.path.normpath(dir))
+    A, B = basename.split('_', 1)
+    
     min_e0_values = {}
     # Iterate through each main directory to extract E0 values and plot
     for main_dir in main_dirs:
@@ -177,6 +180,10 @@ for dir in dirs:
     # E_OO = min_e0_values.get("oo", None)
     E_OHO = min_e0_values.get("oho", None)
     E_OOH = min_e0_values.get("ooh", None)
+    E_OHOOH = min_e0_values.get("ohooh", None)
+    E_OOHOH = min_e0_values.get("oohoh", None)
+    E_OH_OOH = min_e0_values.get("oh-ooh", None)
+    E_OOH_OH = min_e0_values.get("ooh-oh", None)
 
     G_O = E_O + dgo
     G_OH = E_OH + dgoh
@@ -203,11 +210,20 @@ for dir in dirs:
         [E_OH_OH, 0, 0, 2, 0],
         [E_OH_O, 0, 1, 1, 0],
         [E_O_OH, 0, 1, 1, 0],
-        # [E_O_O, 0, 2, 0, 0],
+        [E_O_O, 0, 2, 0, 0],
         # [E_OO, 0, 2, 0, 0],
         [E_OHO, 0, 1, 1, 0],
         [E_OOH, 0, 0, 0, 1]
     ]
+
+    if A == '1' and B == 'Fe':
+        surfs.append([E_OOH_OH, 0, 0, 1, 1])
+    elif A == '2' and B == 'Co':
+        surfs.append([E_OOH_OH, 0, 0, 1, 1])
+    elif A == '3' and B == 'Mo':
+        surfs.append([E_OOHOH, 0, 0, 1, 1])
+        surfs.append([E_OHOOH, 0, 0, 1, 1])
+    
     nsurfs = len(surfs)
     lowest_surfaces = []
     
@@ -239,8 +255,6 @@ for dir in dirs:
     combined_ticks = sorted(set(current_yticks) | set(extraticks))
     plt.yticks(combined_ticks)
     plt.gca().yaxis.set_major_formatter(FormatStrFormatter('%.2f'))
-    basename = os.path.basename(os.path.normpath(dir))
-    A, B = basename.split('_', 1)
 
     for i in range(len(uniquesurf)):
         k = uniquesurf[i]
