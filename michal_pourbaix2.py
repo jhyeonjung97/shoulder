@@ -292,9 +292,8 @@ for dir in dirs:
         surfs.append(df.loc['oooh', ['E', '#H', '#O', '#OH', '#OOH']].tolist())
         surfs.append(df.loc['ooho', ['E', '#H', '#O', '#OH', '#OOH']].tolist())
         surfs.append(df.loc['oohooh', ['E', '#H', '#O', '#OH', '#OOH']].tolist())
-
     surfs = [surf for surf in surfs if not any(pd.isna(x) for x in surf)]
-    print(surfs)
+    
     nsurfs = len(surfs)
     lowest_surfaces = []
     
@@ -346,8 +345,7 @@ for dir in dirs:
         plt.plot(pH2, overpotentials['onsetP'][3] - pH2 * const, '--', color='cyan', lw=1, dashes=(3, 1))
         ax.text(0.2, 0.65, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
         ax.text(7.7, overpotentials['onsetP'][0] - 0.65, 
-                r"*$\rightarrow$*OH$\rightarrow$*O$\rightarrow$*OOH: {overpotentials['overP'][1]:.2f} eV", 
-                # r"$\rightarrow$ OH $\rightarrow$ O $\rightarrow$ OOH: {overpotentials['overP'][1]:.2f} eV", 
+                r"*$\rightarrow$*OH$\rightarrow$*O$\rightarrow$*OOH: "+f"{overpotentials['overP'][1]:.2f} eV", 
                 color='red', rotation=-9.5, fontsize=10)
         ax.text(7.7, overpotentials['onsetP'][1] - 0.96, f"$S_8$ (*OH+*O): {overpotentials['overP'][1]:.2f} eV", color='darkorange', rotation=-9.5, fontsize=10)
         ax.text(7.7, overpotentials['onsetP'][2] - 0.65, f"$S_9$ (*OOH): {overpotentials['overP'][2]:.2f} eV", color='lime', rotation=-9.5, fontsize=10)
