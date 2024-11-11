@@ -168,20 +168,20 @@ def overpotential_oer(int1, int2, int3, int4, df, overpotentials):
             else:
                 ints[i] = int[1] 
     int1, int2, int3, int4 = ints
-    print(int1, int2, int3, int4)
     dG1 = df.loc[int2, 'dG'] - df.loc[int1, 'dG']
     dG2 = df.loc[int3, 'dG'] - df.loc[int2, 'dG']
     dG3 = df.loc[int4, 'dG'] - df.loc[int3, 'dG']
     dG4 = 4.92 - dG1 - dG2 - dG3
     onsetP = max(dG1, dG2, dG3, dG4)
     overP = onsetP - 1.23
+    print(int1, int2, int3, int4, overP, onsetP)
+
     overpotentials['int1'].append(int1)
     overpotentials['int2'].append(int2)
     overpotentials['int3'].append(int3)
     overpotentials['int4'].append(int4)
     overpotentials['overP'].append(overP)
     overpotentials['onsetP'].append(onsetP)
-    print(f"Updated overpotentials: {overpotentials}")
 
 for dir in dirs:
     os.chdir(dir)
