@@ -369,7 +369,7 @@ for dir in dirs:
     elif A == '3' and B == 'Mo':
         plt.plot(pH2, overpotentials['onsetP'][2] - pH2 * const, '--', color='brown', lw=1, dashes=(3, 1))
         ax.text(0.2, 0.88, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
-        ax.text(6.5, overpotentials['onsetP'][2] - 0.96, 
+        ax.text(6.6, overpotentials['onsetP'][2] - 0.74, 
                 r"S$_3$$\rightarrow$S$_9$$\rightarrow$S$_{11}$$\rightarrow$S$_{14}$: " + f"{overpotentials['overP'][2]:.2f} eV", 
                 color='brown', rotation=-9.5, fontsize=10)
         
