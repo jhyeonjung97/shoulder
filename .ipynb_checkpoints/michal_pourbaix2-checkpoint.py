@@ -164,15 +164,20 @@ def overpotential_oer(int1, int2, int3, int4, df, overpotentials):
     ints = [int1, int2, int3, int4]
     for i, int in enumerate(ints):
         if isinstance(int, tuple):
+            print(df.loc[int[0], 'E'])
+            print(df.loc[int[1], 'E'])
             if np.isnan(df.loc[int[1], 'E']):
                 ints[i] = int[0]
-            if np.isnan(df.loc[int[0], 'E']):
+                print('1')
+            elif np.isnan(df.loc[int[0], 'E']):
                 ints[i] = int[1]
+                print('2')
             elif df.loc[int[0], 'E'] < df.loc[int[1], 'E']:
                 ints[i] = int[0]
+                print('3')
             else:
                 ints[i] = int[1]
-                print('why')
+                print('4')
 
     int1, int2, int3, int4 = ints
     dG1 = df.loc[int2, 'dG'] - df.loc[int1, 'dG']
@@ -201,7 +206,7 @@ for dir in dirs:
         min_e0 = get_energy(main_dir, sub_dirs)
     
         if min_e0 is None:
-            print(f"Missing data in directory '{main_dir}' for plotting.")
+            # print(f"Missing data in directory '{main_dir}' for plotting.")
             df.loc[main_dir, 'E'] = np.nan
             continue
         else:
