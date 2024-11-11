@@ -11,10 +11,15 @@ from matplotlib.ticker import FormatStrFormatter
 dirs = ["/pscratch/sd/j/jiuy97/6_MNC/pourbaix/1_Fe/",
         "/pscratch/sd/j/jiuy97/6_MNC/pourbaix/2_Co/",
         "/pscratch/sd/j/jiuy97/6_MNC/pourbaix/3_Mo/"]
+# main_dirs = ["clean", "h", "oh", "o", 
+#              "ohoh", "oh-oh", "ohooh", "oohoh", "oh-ooh", "ooh-oh",
+#              "ooh", "oho", "oh-o", "o-oh", "oo", "o-o",
+#              "oooh", "ooho", "o-ooh", "ooh-o", "oohooh", "ooh-ooh"]
 main_dirs = ["clean", "h", "oh", "o", 
-             "ohoh", "oh-oh", "ohooh", "oohoh", "oh-ooh", "ooh-oh",
-             "ooh", "oho", "oh-o", "o-oh", "oo", "o-o",
-             "oooh", "ooho", "o-ooh", "ooh-o", "oohooh", "ooh-ooh",]
+             "ohoh", "oh-oh", "ohooh", "oohoh", "ooh-oh", # "oh-ooh"
+             "ooh", "oho", "o-oh", "o-o", # "oh-o", "oo",
+             "oooh", "ooho", "ooh-o", "oohooh", "ooh-ooh"] # "o-ooh"
+sub_dirs = ["HS1", "HS5", "IS1", "IS5", "LS1", "LS5"]
 
 # Regular expression to match E0 values in scientific notation
 e0_pattern = re.compile(r"E0=\s*(-?\.\d+E[+-]?\d+)")
@@ -69,6 +74,7 @@ gh2 = h2 + cvh2 - tsh2 + zpeh2
 gh = gh2 / 2
 go = gh2o - gh2
 goh = gh2o - gh2 / 2
+gooh = go + goh
 
 dgh2o = zpeh2o + cvh2o - tsh2o
 dgh2 = zpeh2 + cvh2 - tsh2
@@ -127,7 +133,10 @@ def get_energy(main_dir, sub_dirs):
                     return float(match.group(1))
     # Fallback to finding minimum E0 value
     return find_min_e0(main_dir, sub_dirs)
-
+    if min_e0 is None:
+        print(f"Warning: No valid energy found in {main_dir}.")
+    return min_e0
+    
 def addO(x, y):
     return -(h2o - h2) - 2 * (y + x * const) + dso
 
@@ -149,111 +158,121 @@ def dg(i, x, y):
             + surfs[i][2] * addO(x, y) 
             + surfs[i][3] * addOH(x, y) 
             + surfs[i][4] * addOOH(x, y))
-
-def overpotential_oer(dG_OH, dG_O, dG_OOH):
-    dG14 = [dG_OH, dG_O - dG_OH, dG_OOH - dG_O, 4.92 - dG_OOH]
-    return max(dG14) - 1.23
+    
+def overpotential_oer(int1, int2, int3, int4, df, overpotentials):
+    for int in (int1, int2, int3, int4):
+        if isinstance(int, tuple):  # Check if it's a tuple
+            int = min(int, key=lambda x: df.loc[x, 'E'])  # Pick the lowest energy
+    dG1 = df.loc[int2, 'dG'] - df.loc[int1, 'dG']
+    dG2 = df.loc[int3, 'dG'] - df.loc[int2, 'dG']
+    dG3 = df.loc[int4, 'dG'] - df.loc[int3, 'dG']
+    dG4 = 4.92 - dG1 - dG2 - dG3
+    onsetP = max(dG1, dG2, dG3, dG4)
+    overP = onsetP - 1.23
+    overpotentials.update({'int1': int1, 'int2': int2, 'int3': int3, 'int4': int4, 'overP': overP, 'onsetP': onsetP})
     
 for dir in dirs:
     os.chdir(dir)
     print(dir)
     basename = os.path.basename(os.path.normpath(dir))
     A, B = basename.split('_', 1)
+    df = pd.DataFrame()
+    overpotentials = {'int1': {}, 'int2': {}, 'int3': {}, 'int4': {}, 'overP': {}, 'onsetP': {}}
     
-    min_e0_values = {}
     # Iterate through each main directory to extract E0 values and plot
     for main_dir in main_dirs:
-        min_e0 = get_energy(main_dir, ["HS1", "HS5", "IS1", "IS5", "LS1", "LS5"])
+        min_e0 = get_energy(main_dir, sub_dirs)
     
         if min_e0 is None:
             print(f"Missing data in directory '{main_dir}' for plotting.")
+            df.loc[main_dir, 'E'] = np.nan
             continue
         else:
-            min_e0_values[main_dir] = min_e0
-    
-    E_clean = min_e0_values.get("clean", None)
-    E_H = min_e0_values.get("h", None)
-    E_OH = min_e0_values.get("oh", None)
-    E_O = min_e0_values.get("o", None)
-    E_OHOH = min_e0_values.get("ohoh", None)
-    E_OH_OH = min_e0_values.get("oh-oh", None)
-    E_OHOOH = min_e0_values.get("ohooh", None)
-    E_OOHOH = min_e0_values.get("oohoh", None)
-    E_OH_OOH = min_e0_values.get("oh-ooh", None)
-    E_OOH_OH = min_e0_values.get("ooh-oh", None)
-    E_OOH = min_e0_values.get("ooh", None)
-    E_OHO = min_e0_values.get("oho", None)
-    E_OH_O = min_e0_values.get("oh-o", None)
-    E_O_OH = min_e0_values.get("o-oh", None)
-    E_OO = min_e0_values.get("oo", None)
-    E_O_O = min_e0_values.get("o-o", None)
-    E_OOOH = min_e0_values.get("oooh", None)
-    E_OOHO = min_e0_values.get("ooho", None)
-    E_O_OOH = min_e0_values.get("o-ooh", None)
-    E_OOH_O = min_e0_values.get("ooh-o", None)
-    E_OOHOOH = min_e0_values.get("oohooh", None)
-    E_OOH_OOH = min_e0_values.get("ooh-ooh", None)
-    
-    G_O = E_O + dgo
-    G_OH = E_OH + dgoh
-    G_OOH = E_OOH + dgooh
-    G_OHO = E_OHO + dgo + dgoh
-    
-    dG_O = G_O - E_clean - go
-    dG_OH = G_OH - E_clean - goh
-    dG_OOH = G_OOH - E_clean - go - goh
-    dG_OHO = G_OHO - E_clean - go - goh
+            df.loc[main_dir, 'E'] = min_e0
 
-    overpotential_oho = overpotential_oer(dG_OH, dG_O, dG_OHO)
-    overpotential_ooh = overpotential_oer(dG_OH, dG_O, dG_OOH)
-    onsetpotential_oho = overpotential_oho + 1.23
-    onsetpotential_ooh = overpotential_ooh + 1.23
+    df.loc['clean', ['#H', '#O', '#OH', '#OOH']] = [0, 0, 0, 0] # [energy, #Hs, #Os, #OHs, #OOHs]
+    df.loc['h', ['#H', '#O', '#OH', '#OOH']] = [1, 0, 0, 0]
+    df.loc['o', ['#H', '#O', '#OH', '#OOH']] = [0, 0, 1, 0]
+    df.loc['oh', ['#H', '#O', '#OH', '#OOH']] = [0, 1, 0, 0]
+    df.loc['ohoh', ['#H', '#O', '#OH', '#OOH']] = [0, 0, 2, 0]
+    df.loc['oh-oh', ['#H', '#O', '#OH', '#OOH']] = [0, 0, 2, 0]
+    df.loc['ohooh', ['#H', '#O', '#OH', '#OOH']] = [0, 0, 1, 1]
+    df.loc['oohoh', ['#H', '#O', '#OH', '#OOH']] = [0, 0, 1, 1]
+    df.loc['oh-ooh', ['#H', '#O', '#OH', '#OOH']] = [0, 0, 1, 1]
+    df.loc['ooh-oh', ['#H', '#O', '#OH', '#OOH']] = [0, 0, 1, 1]
+    df.loc['ooh', ['#H', '#O', '#OH', '#OOH']] = [0, 0, 0, 1]
+    df.loc['oho', ['#H', '#O', '#OH', '#OOH']] = [0, 1, 1, 0]
+    df.loc['oh-o', ['#H', '#O', '#OH', '#OOH']] = [0, 1, 1, 0]
+    df.loc['o-oh', ['#H', '#O', '#OH', '#OOH']] = [0, 1, 1, 0]
+    df.loc['oo', ['#H', '#O', '#OH', '#OOH']] = [0, 2, 0, 0]
+    df.loc['o-o', ['#H', '#O', '#OH', '#OOH']] = [0, 2, 0, 0]
+    df.loc['oooh', ['#H', '#O', '#OH', '#OOH']] = [0, 1, 0, 1]
+    df.loc['ooho', ['#H', '#O', '#OH', '#OOH']] = [0, 1, 0, 1]
+    df.loc['o-ooh', ['#H', '#O', '#OH', '#OOH']] = [0, 1, 0, 1]
+    df.loc['ooh-o', ['#H', '#O', '#OH', '#OOH']] = [0, 1, 0, 1]
+    df.loc['oohooh', ['#H', '#O', '#OH', '#OOH']] = [0, 0, 0, 2]
+    df.loc['ooh-ooh', ['#H', '#O', '#OH', '#OOH']] = [0, 0, 0, 2]
+
+    df['G'] = df['E'] + dgh * df['#H'] + dgoh * df['#OH'] + dgo * df['#O'] + dgooh * df['#OOH']
+    df['dG'] = df['G'] - df['clean', 'E'] - gh * df['#H'] - goh * df['#OH'] - go * df['#O'] - gooh * df['#OOH']
+
+    overpotential_oer('clean', 'oh', 'o', 'ooh', df, overpotentials)
+    if A == '1' and B == 'Fe':
+        overpotential_oer('oh', 'o', ('o-oh', 'oh-o'), ('ooh-oh', 'oh-ooh'), df, overpotentials)
+        overpotential_oer('o', ('o-oh', 'oh-o'), 'o-o', ('ooh-o', 'o-ooh'), df, overpotentials)
+        overpotential_oer('o', ('o-oh', 'oh-o'), ('ooh-oh', 'oh-ooh'), ('ooh-o', 'o-ooh'), df, overpotentials)
+    elif A == '2' and B == 'Co':
+        overpotential_oer('oh', 'oh-oh', ('o-oh', 'oh-o'), ('ooh-oh', 'oh-ooh'), df, overpotentials)
+        overpotential_oer('o', ('o-oh', 'oh-o'), 'o-o', ('ooh-o', 'o-ooh'), df, overpotentials)
+    elif A == '3' and B == 'Mo':
+        overpotential_oer('oh', 'o', 'oho', ('oohoh', 'ohooh'), df, overpotentials)
+        overpotential_oer('o', 'oho', 'oo', ('oooh', 'ooho'), df, overpotentials)
 
     # Define surfaces with extracted E0 values
     surfs = [
-        [E_clean, 0, 0, 0, 0],  # [energy, #Hs, #Os, #OHs, #OOHs]
-        [E_H, 1, 0, 0, 0],
-        [E_OH, 0, 0, 1, 0],
-        [E_O, 0, 1, 0, 0],
-        [E_OHOH, 0, 0, 2, 0],
-        [E_OH_OH, 0, 0, 2, 0],
-        [E_OHOOH, 0, 0, 1, 1],
-        [E_OOHOH, 0, 0, 1, 1],
-        # [E_OH_OOH, 0, 0, 1, 1],
-        # [E_OOH_OH, 0, 0, 1, 1],
-        [E_OOH, 0, 0, 0, 1],
-        [E_OHO, 0, 1, 1, 0],
-        # [E_OH_O, 0, 1, 1, 0],
-        [E_O_OH, 0, 1, 1, 0],
-        # [E_OO, 0, 2, 0, 0],
-        [E_O_O, 0, 2, 0, 0],
-        # [E_OOOH, 0, 1, 0, 1],
-        # [E_OOHO, 0, 1, 0, 1],
-        # [E_O_OOH, 0, 1, 0, 1],
-        # [E_OOH_O, 0, 1, 0, 1],
-        # [E_OOHOOH, 0, 0, 0, 2],
-        # [E_OOH_OOH, 0, 0, 0, 2],
+        df.loc['clean', ['E', '#H', '#O', '#OH', '#OOH']].values,
+        df.loc['h', ['E', '#H', '#O', '#OH', '#OOH']].values,
+        df.loc['o', ['E', '#H', '#O', '#OH', '#OOH']].values,
+        df.loc['oh', ['E', '#H', '#O', '#OH', '#OOH']].values,
+        df.loc['ohoh', ['E', '#H', '#O', '#OH', '#OOH']].values,
+        df.loc['oh-oh', ['E', '#H', '#O', '#OH', '#OOH']].values,
+        df.loc['ohooh', ['E', '#H', '#O', '#OH', '#OOH']].values,
+        df.loc['oohoh', ['E', '#H', '#O', '#OH', '#OOH']].values,
+        # df.loc['oh-ooh', ['E', '#H', '#O', '#OH', '#OOH']].values,
+        # df.loc['ooh-oh', ['E', '#H', '#O', '#OH', '#OOH']].values,  
+        df.loc['ooh', ['E', '#H', '#O', '#OH', '#OOH']].values,
+        df.loc['oho', ['E', '#H', '#O', '#OH', '#OOH']].values,
+        # df.loc['oh-o', ['E', '#H', '#O', '#OH', '#OOH']].values,  
+        df.loc['o-oh', ['E', '#H', '#O', '#OH', '#OOH']].values,
+        # df.loc['oo', ['E', '#H', '#O', '#OH', '#OOH']].values,  
+        df.loc['o-o', ['E', '#H', '#O', '#OH', '#OOH']].values,
+        # df.loc['oooh', ['E', '#H', '#O', '#OH', '#OOH']].values,  
+        # df.loc['ooho', ['E', '#H', '#O', '#OH', '#OOH']].values,  
+        # df.loc['o-ooh', ['E', '#H', '#O', '#OH', '#OOH']].values,  
+        # df.loc['ooh-o', ['E', '#H', '#O', '#OH', '#OOH']].values,  
+        # df.loc['oohooh', ['E', '#H', '#O', '#OH', '#OOH']].values,  
+        # df.loc['ooh-ooh', ['E', '#H', '#O', '#OH', '#OOH']].values,  
     ]
 
     if A == '1' and B == 'Fe':
-        surfs.append([E_OH_OOH, 0, 0, 1, 1])
-        surfs.append([E_OOH_OH, 0, 0, 1, 1])
-        surfs.append([E_O_OOH, 0, 1, 0, 1])
-        surfs.append([E_OOH_O, 0, 1, 0, 1])
-        surfs.append([E_OOH_OOH, 0, 0, 0, 2])
+        # surfs.append(df.loc['oh-ooh', ['E', '#H', '#O', '#OH', '#OOH']].values)
+        surfs.append(df.loc['ooh-oh', ['E', '#H', '#O', '#OH', '#OOH']].values)
+        # surfs.append(df.loc['o-ooh', ['E', '#H', '#O', '#OH', '#OOH']].values)
+        surfs.append(df.loc['ooh-o', ['E', '#H', '#O', '#OH', '#OOH']].values)
+        surfs.append(df.loc['ooh-ooh', ['E', '#H', '#O', '#OH', '#OOH']].values)
     elif A == '2' and B == 'Co':
-        surfs.append([E_OH_OOH, 0, 0, 1, 1])
-        surfs.append([E_OOH_OH, 0, 0, 1, 1])
-        surfs.append([E_O_OOH, 0, 1, 0, 1])
-        surfs.append([E_OOH_O, 0, 1, 0, 1])
-        surfs.append([E_OOH_OOH, 0, 0, 0, 2])
+        # surfs.append(df.loc['oh-ooh', ['E', '#H', '#O', '#OH', '#OOH']].values)
+        surfs.append(df.loc['ooh-oh', ['E', '#H', '#O', '#OH', '#OOH']].values)
+        # surfs.append(df.loc['o-ooh', ['E', '#H', '#O', '#OH', '#OOH']].values)
+        surfs.append(df.loc['ooh-o', ['E', '#H', '#O', '#OH', '#OOH']].values)
+        surfs.append(df.loc['ooh-ooh', ['E', '#H', '#O', '#OH', '#OOH']].values)
     elif A == '3' and B == 'Mo':
-        surfs.append([E_OOHOH, 0, 0, 1, 1])
-        surfs.append([E_OHOOH, 0, 0, 1, 1])
-        surfs.append([E_OOOH, 0, 1, 0, 1])
-        surfs.append([E_OOHO, 0, 1, 0, 1])
-        surfs.append([E_OOHOOH, 0, 0, 0, 2])
-
+        surfs.append(df.loc['ohooh', ['E', '#H', '#O', '#OH', '#OOH']].values)
+        surfs.append(df.loc['oohoh', ['E', '#H', '#O', '#OH', '#OOH']].values)
+        surfs.append(df.loc['oooh', ['E', '#H', '#O', '#OH', '#OOH']].values)
+        surfs.append(df.loc['ooho', ['E', '#H', '#O', '#OH', '#OOH']].values)
+        surfs.append(df.loc['oohooh', ['E', '#H', '#O', '#OH', '#OOH']].values)
+        
     nsurfs = len(surfs)
     lowest_surfaces = []
     
@@ -294,20 +313,28 @@ for dir in dirs:
         plt.plot([], [], color=color[k], alpha=0.3, linewidth=5, label=label)
 
     plt.plot(pH2, 1.23 - pH2 * const, '--', color='blue', lw=1, dashes=(3, 1))
-    plt.plot(pH2, onsetpotential_oho - pH2 * const, '--', color='darkorange', lw=1, dashes=(3, 1))
-    plt.plot(pH2, onsetpotential_ooh - pH2 * const, '--', color='lime', lw=1, dashes=(3, 1))
-    if A=='1' and B=='Fe':
+    plt.plot(pH2, onsetpotential_oer['overP'][0] - pH2 * const, '--', color='black', lw=1, dashes=(3, 1))
+    if A == '1' and B == 'Fe':
+        plt.plot(pH2, onsetpotential_oer['overP'][1] - pH2 * const, '--', color='darkorange', lw=1, dashes=(3, 1))
+        plt.plot(pH2, onsetpotential_oer['overP'][2] - pH2 * const, '--', color='lime', lw=1, dashes=(3, 1))
+        plt.plot(pH2, onsetpotential_oer['overP'][3] - pH2 * const, '--', color='cyan', lw=1, dashes=(3, 1))
         ax.text(0.2, 0.65, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
-        ax.text(7.7, onsetpotential_oho - 0.96, f'$S_8$ (*OH+*O): {overpotential_oho:.2f} eV', color='darkorange', rotation=-9.5, fontsize=10)
-        ax.text(7.7, onsetpotential_ooh - 0.65, f'$S_9$ (*OOH): {overpotential_ooh:.2f} eV', color='lime', rotation=-9.5, fontsize=10)
-    elif A=='2' and B=='Co':
+        ax.text(7.7, onsetpotential_oer['overP'][1] - 0.96, f'$S_8$ (*OH+*O): {onsetpotential_oer['overP'][1]:.2f} eV', color='darkorange', rotation=-9.5, fontsize=10)
+        ax.text(7.7, onsetpotential_oer['overP'][2] - 0.65, f'$S_9$ (*OOH): {onsetpotential_oer['overP'][2]:.2f} eV', color='lime', rotation=-9.5, fontsize=10)
+        ax.text(7.7, onsetpotential_oer['overP'][3] - 0.65, f'$S_9$ (*OOH): {onsetpotential_oer['overP'][3]:.2f} eV', color='cyan', rotation=-9.5, fontsize=10)
+    elif A == '2' and B == 'Co':
+        plt.plot(pH2, onsetpotential_oer['overP'][1] - pH2 * const, '--', color='darkorange', lw=1, dashes=(3, 1))
+        plt.plot(pH2, onsetpotential_oer['overP'][2] - pH2 * const, '--', color='lime', lw=1, dashes=(3, 1))
         ax.text(0.2, 0.88, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
-        ax.text(7.7, onsetpotential_oho - 0.71, f'$S_8$ (*OH+*O): {overpotential_oho:.2f} eV', color='darkorange', rotation=-9.5, fontsize=10)
-        ax.text(7.7, onsetpotential_ooh - 0.95, f'$S_9$ (*OOH): {overpotential_ooh:.2f} eV', color='lime', rotation=-9.5, fontsize=10)
-    elif A=='3' and B=='Mo':
+        ax.text(7.7, onsetpotential_oer['overP'][1] - 0.71, f'$S_8$ (*OH+*O): {onsetpotential_oer['overP'][1]:.2f} eV', color='darkorange', rotation=-9.5, fontsize=10)
+        ax.text(7.7, onsetpotential_oer['overP'][2] - 0.95, f'$S_9$ (*OOH): {onsetpotential_oer['overP'][2]:.2f} eV', color='lime', rotation=-9.5, fontsize=10)
+    elif A == '3' and B == 'Mo':
+        plt.plot(pH2, onsetpotential_oer['overP'][1] - pH2 * const, '--', color='darkorange', lw=1, dashes=(3, 1))
+        plt.plot(pH2, onsetpotential_oer['overP'][2] - pH2 * const, '--', color='lime', lw=1, dashes=(3, 1))
         ax.text(0.2, 0.88, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
-    #     ax.text(7.7, onsetpotential_oho - 0.71, f'S$_8$ (*OH+*O): {overpotential_oho:.2f} eV', color='darkorange', rotation=-9.5, fontsize=10)
-    #     ax.text(7.7, onsetpotential_ooh - 0.65, f'S$_9$ (*OOH): {overpotential_ooh:.2f} eV', color='lime', rotation=-9.5, fontsize=10)
+        ax.text(7.7, onsetpotential_oer['overP'][1] - 0.71, f'$S_8$ (*OH+*O): {onsetpotential_oer['overP'][1]:.2f} eV', color='darkorange', rotation=-9.5, fontsize=10)
+        ax.text(7.7, onsetpotential_oer['overP'][2] - 0.65, f'$S_9$ (*OOH): {onsetpotential_oer['overP'][2]:.2f} eV', color='lime', rotation=-9.5, fontsize=10)
+    
     plt.legend(loc='lower left', bbox_to_anchor=(0.0, 1.02), # borderaxespad=17, 
                ncol=1, labelspacing=0.3, handlelength=2, fontsize=10,
                fancybox=True, shadow=True)
