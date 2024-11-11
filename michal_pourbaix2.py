@@ -308,10 +308,7 @@ for dir in dirs:
     plt.clf()
     fig = plt.figure(figsize=fig_size, dpi=300)
     ax = fig.add_axes([0.2, 0.2, 0.6, 0.6])
-    if A=='3' and B=='Mo':
-        ax.axis([-1.0, 2.5, -900, 300])
-    else:
-        ax.axis([-1.0, 2.5, -600, 200])
+    ax.axis([-1.0, 2.5, -600, 200])
     ax.set_xlabel(r'RHE (V)', fontsize='large')
     ax.set_ylabel(r'$\Delta$G (kJ/mol)', fontsize='large')
     xx = np.arange(-1.00, 2.55, 0.05)
