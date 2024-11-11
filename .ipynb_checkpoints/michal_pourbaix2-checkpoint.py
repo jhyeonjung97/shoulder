@@ -250,48 +250,48 @@ for dir in dirs:
 
     # Define surfaces with extracted E0 values
     surfs = [
-        df.loc['clean', ['E', '#H', '#O', '#OH', '#OOH']].tolist,
-        df.loc['h', ['E', '#H', '#O', '#OH', '#OOH']].tolist,
-        df.loc['oh', ['E', '#H', '#O', '#OH', '#OOH']].tolist,
-        df.loc['o', ['E', '#H', '#O', '#OH', '#OOH']].tolist,
-        df.loc['ohoh', ['E', '#H', '#O', '#OH', '#OOH']].tolist,
-        df.loc['oh-oh', ['E', '#H', '#O', '#OH', '#OOH']].tolist,
-        df.loc['ohooh', ['E', '#H', '#O', '#OH', '#OOH']].tolist,
-        df.loc['oohoh', ['E', '#H', '#O', '#OH', '#OOH']].tolist,
-        # df.loc['oh-ooh', ['E', '#H', '#O', '#OH', '#OOH']].tolist,
-        # df.loc['ooh-oh', ['E', '#H', '#O', '#OH', '#OOH']].tolist,  
-        df.loc['ooh', ['E', '#H', '#O', '#OH', '#OOH']].tolist,
-        df.loc['oho', ['E', '#H', '#O', '#OH', '#OOH']].tolist,
-        # df.loc['oh-o', ['E', '#H', '#O', '#OH', '#OOH']].tolist,  
-        df.loc['o-oh', ['E', '#H', '#O', '#OH', '#OOH']].tolist,
-        # df.loc['oo', ['E', '#H', '#O', '#OH', '#OOH']].tolist,  
-        df.loc['o-o', ['E', '#H', '#O', '#OH', '#OOH']].tolist,
-        # df.loc['oooh', ['E', '#H', '#O', '#OH', '#OOH']].tolist,  
-        # df.loc['ooho', ['E', '#H', '#O', '#OH', '#OOH']].tolist,  
-        # df.loc['o-ooh', ['E', '#H', '#O', '#OH', '#OOH']].tolist,  
-        # df.loc['ooh-o', ['E', '#H', '#O', '#OH', '#OOH']].tolist,  
-        # df.loc['oohooh', ['E', '#H', '#O', '#OH', '#OOH']].tolist,  
-        # df.loc['ooh-ooh', ['E', '#H', '#O', '#OH', '#OOH']].tolist,  
+        df.loc['clean', ['E', '#H', '#O', '#OH', '#OOH']].tolist(),
+        df.loc['h', ['E', '#H', '#O', '#OH', '#OOH']].tolist(),
+        df.loc['oh', ['E', '#H', '#O', '#OH', '#OOH']].tolist(),
+        df.loc['o', ['E', '#H', '#O', '#OH', '#OOH']].tolist(),
+        df.loc['ohoh', ['E', '#H', '#O', '#OH', '#OOH']].tolist(),
+        df.loc['oh-oh', ['E', '#H', '#O', '#OH', '#OOH']].tolist(),
+        df.loc['ohooh', ['E', '#H', '#O', '#OH', '#OOH']].tolist(),
+        df.loc['oohoh', ['E', '#H', '#O', '#OH', '#OOH']].tolist(),
+        # df.loc['oh-ooh', ['E', '#H', '#O', '#OH', '#OOH']].tolist(),
+        # df.loc['ooh-oh', ['E', '#H', '#O', '#OH', '#OOH']].tolist(),  
+        df.loc['ooh', ['E', '#H', '#O', '#OH', '#OOH']].tolist(),
+        df.loc['oho', ['E', '#H', '#O', '#OH', '#OOH']].tolist(),
+        # df.loc['oh-o', ['E', '#H', '#O', '#OH', '#OOH']].tolist(),  
+        df.loc['o-oh', ['E', '#H', '#O', '#OH', '#OOH']].tolist(),
+        # df.loc['oo', ['E', '#H', '#O', '#OH', '#OOH']].tolist(),  
+        df.loc['o-o', ['E', '#H', '#O', '#OH', '#OOH']].tolist(),
+        # df.loc['oooh', ['E', '#H', '#O', '#OH', '#OOH']].tolist(),  
+        # df.loc['ooho', ['E', '#H', '#O', '#OH', '#OOH']].tolist(),  
+        # df.loc['o-ooh', ['E', '#H', '#O', '#OH', '#OOH']].tolist(),  
+        # df.loc['ooh-o', ['E', '#H', '#O', '#OH', '#OOH']].tolist(),  
+        # df.loc['oohooh', ['E', '#H', '#O', '#OH', '#OOH']].tolist(),  
+        # df.loc['ooh-ooh', ['E', '#H', '#O', '#OH', '#OOH']].tolist(),  
     ]
 
     if A == '1' and B == 'Fe':
-        # surfs.append(df.loc['oh-ooh', ['E', '#H', '#O', '#OH', '#OOH']].tolist)
-        surfs.append(df.loc['ooh-oh', ['E', '#H', '#O', '#OH', '#OOH']].tolist)
-        # surfs.append(df.loc['o-ooh', ['E', '#H', '#O', '#OH', '#OOH']].tolist)
-        surfs.append(df.loc['ooh-o', ['E', '#H', '#O', '#OH', '#OOH']].tolist)
-        surfs.append(df.loc['ooh-ooh', ['E', '#H', '#O', '#OH', '#OOH']].tolist)
+        # surfs.append(df.loc['oh-ooh', ['E', '#H', '#O', '#OH', '#OOH']].tolist())
+        surfs.append(df.loc['ooh-oh', ['E', '#H', '#O', '#OH', '#OOH']].tolist())
+        # surfs.append(df.loc['o-ooh', ['E', '#H', '#O', '#OH', '#OOH']].tolist())
+        surfs.append(df.loc['ooh-o', ['E', '#H', '#O', '#OH', '#OOH']].tolist())
+        surfs.append(df.loc['ooh-ooh', ['E', '#H', '#O', '#OH', '#OOH']].tolist())
     elif A == '2' and B == 'Co':
-        # surfs.append(df.loc['oh-ooh', ['E', '#H', '#O', '#OH', '#OOH']].tolist)
-        surfs.append(df.loc['ooh-oh', ['E', '#H', '#O', '#OH', '#OOH']].tolist)
-        # surfs.append(df.loc['o-ooh', ['E', '#H', '#O', '#OH', '#OOH']].tolist)
-        surfs.append(df.loc['ooh-o', ['E', '#H', '#O', '#OH', '#OOH']].tolist)
-        surfs.append(df.loc['ooh-ooh', ['E', '#H', '#O', '#OH', '#OOH']].tolist)
+        # surfs.append(df.loc['oh-ooh', ['E', '#H', '#O', '#OH', '#OOH']].tolist())
+        surfs.append(df.loc['ooh-oh', ['E', '#H', '#O', '#OH', '#OOH']].tolist())
+        # surfs.append(df.loc['o-ooh', ['E', '#H', '#O', '#OH', '#OOH']].tolist())
+        surfs.append(df.loc['ooh-o', ['E', '#H', '#O', '#OH', '#OOH']].tolist())
+        surfs.append(df.loc['ooh-ooh', ['E', '#H', '#O', '#OH', '#OOH']].tolist())
     elif A == '3' and B == 'Mo':
-        surfs.append(df.loc['ohooh', ['E', '#H', '#O', '#OH', '#OOH']].tolist)
-        surfs.append(df.loc['oohoh', ['E', '#H', '#O', '#OH', '#OOH']].tolist)
-        surfs.append(df.loc['oooh', ['E', '#H', '#O', '#OH', '#OOH']].tolist)
-        surfs.append(df.loc['ooho', ['E', '#H', '#O', '#OH', '#OOH']].tolist)
-        surfs.append(df.loc['oohooh', ['E', '#H', '#O', '#OH', '#OOH']].tolist)
+        surfs.append(df.loc['ohooh', ['E', '#H', '#O', '#OH', '#OOH']].tolist())
+        surfs.append(df.loc['oohoh', ['E', '#H', '#O', '#OH', '#OOH']].tolist())
+        surfs.append(df.loc['oooh', ['E', '#H', '#O', '#OH', '#OOH']].tolist())
+        surfs.append(df.loc['ooho', ['E', '#H', '#O', '#OH', '#OOH']].tolist())
+        surfs.append(df.loc['oohooh', ['E', '#H', '#O', '#OH', '#OOH']].tolist())
 
     print(surfs)
     nsurfs = len(surfs)
