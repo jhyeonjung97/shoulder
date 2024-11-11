@@ -248,6 +248,9 @@ for dir in dirs:
         overpotential_oer('oh', 'o', 'oho', ('oohoh', 'ohooh'), df, overpotentials)
         overpotential_oer('o', 'oho', 'oo', ('oooh', 'ooho'), df, overpotentials)
 
+    print(df.loc['clean', ['E', '#H', '#O', '#OH', '#OOH']].values)
+    print([df.loc['clean', ['E', '#H', '#O', '#OH', '#OOH']].values])
+    
     # Define surfaces with extracted E0 values
     surfs = [
         df.loc['clean', ['E', '#H', '#O', '#OH', '#OOH']].values,
