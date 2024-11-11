@@ -189,7 +189,7 @@ for dir in dirs:
     basename = os.path.basename(os.path.normpath(dir))
     A, B = basename.split('_', 1)
     df = pd.DataFrame()
-    overpotentials = {'int1': {}, 'int2': {}, 'int3': {}, 'int4': {}, 'overP': {}, 'onsetP': {}}
+    overpotentials = {'int1': [], 'int2': [], 'int3': [], 'int4': [], 'overP': [], 'onsetP': []}
     
     # Iterate through each main directory to extract E0 values and plot
     for main_dir in main_dirs:
