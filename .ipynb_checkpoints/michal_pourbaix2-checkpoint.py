@@ -184,6 +184,7 @@ def overpotential_oer(int1, int2, int3, int4, df, overpotentials):
     dG2 = df.loc[int3, 'dG'] - df.loc[int2, 'dG']
     dG3 = df.loc[int4, 'dG'] - df.loc[int3, 'dG']
     dG4 = 4.92 - dG1 - dG2 - dG3
+    print(dG1, dG2, dG3, dG4)
     onsetP = max(dG1, dG2, dG3, dG4)
     overP = onsetP - 1.23
     overpotentials['int1'].append(int1)
