@@ -11,14 +11,14 @@ from matplotlib.ticker import FormatStrFormatter
 dirs = ["/pscratch/sd/j/jiuy97/6_MNC/pourbaix/1_Fe/",
         "/pscratch/sd/j/jiuy97/6_MNC/pourbaix/2_Co/",
         "/pscratch/sd/j/jiuy97/6_MNC/pourbaix/3_Mo/"]
-# main_dirs = ["clean", "h", "oh", "o", 
-#              "ohoh", "oh-oh", "ohooh", "oohoh", "oh-ooh", "ooh-oh",
-#              "ooh", "oho", "oh-o", "o-oh", "oo", "o-o",
-#              "oooh", "ooho", "o-ooh", "ooh-o", "oohooh", "ooh-ooh"]
 main_dirs = ["clean", "h", "oh", "o", 
-             "ohoh", "oh-oh", "ohooh", "oohoh", "ooh-oh", # "oh-ooh"
-             "ooh", "oho", "o-oh", "o-o", "oo", # "oh-o"
-             "oooh", "ooho", "ooh-o", "oohooh", "ooh-ooh"] # "o-ooh"
+             "ohoh", "oh-oh", "ohooh", "oohoh", "oh-ooh", "ooh-oh",
+             "ooh", "oho", "oh-o", "o-oh", "oo", "o-o",
+             "oooh", "ooho", "o-ooh", "ooh-o", "oohooh", "ooh-ooh"]
+# main_dirs = ["clean", "h", "oh", "o", 
+#              "ohoh", "oh-oh", "ohooh", "oohoh", "ooh-oh", # "oh-ooh"
+#              "ooh", "oho", "o-oh", "o-o", "oo", # "oh-o"
+#              "oooh", "ooho", "ooh-o", "oohooh", "ooh-ooh"] # "o-ooh"
 sub_dirs = ["HS1", "HS5", "IS1", "IS5", "LS1", "LS5"]
 
 # Regular expression to match E0 values in scientific notation
