@@ -164,7 +164,11 @@ def overpotential_oer(int1, int2, int3, int4, df, overpotentials):
     ints = [int1, int2, int3, int4]
     for i, int in enumerate(ints):
         if isinstance(int, tuple):
-            if df.loc[int[0], 'E'] < df.loc[int[1], 'E']:
+            if df.loc[int[0], 'E'] == np.nan:
+                ints[i] = int[1]
+            elif df.loc[int[1], 'E'] == np.nan:
+                ints[i] = int[0]
+            elif df.loc[int[0], 'E'] < df.loc[int[1], 'E']:
                 ints[i] = int[0]
             else:
                 ints[i] = int[1] 
@@ -207,8 +211,8 @@ for dir in dirs:
 
     df.loc['clean', ['#H', '#O', '#OH', '#OOH']] = [0, 0, 0, 0] # [energy, #Hs, #Os, #OHs, #OOHs]
     df.loc['h', ['#H', '#O', '#OH', '#OOH']] = [1, 0, 0, 0]
-    df.loc['o', ['#H', '#O', '#OH', '#OOH']] = [0, 0, 1, 0]
-    df.loc['oh', ['#H', '#O', '#OH', '#OOH']] = [0, 1, 0, 0]
+    df.loc['o', ['#H', '#O', '#OH', '#OOH']] = [0, 1, 0, 0]
+    df.loc['oh', ['#H', '#O', '#OH', '#OOH']] = [0, 0, 1, 0]
     df.loc['ohoh', ['#H', '#O', '#OH', '#OOH']] = [0, 0, 2, 0]
     df.loc['oh-oh', ['#H', '#O', '#OH', '#OOH']] = [0, 0, 2, 0]
     df.loc['ohooh', ['#H', '#O', '#OH', '#OOH']] = [0, 0, 1, 1]
