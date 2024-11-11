@@ -163,7 +163,7 @@ def overpotential_oer(int1, int2, int3, int4, df, overpotentials):
     ints = [int1, int2, int3, int4]
     for i, int in enumerate(ints):
         if isinstance(int, tuple):
-            if df.loc[int[0], 'E'] < df.loc[int_value[1], 'E']:
+            if df.loc[int[0], 'E'] < df.loc[int[1], 'E']:
                 ints[i] = int[0]
             else:
                 ints[i] = int[1] 
