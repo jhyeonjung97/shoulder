@@ -333,28 +333,38 @@ for dir in dirs:
                          facecolor=color[k], alpha=0.3, lw=0.5, edgecolor='black')
         plt.plot([], [], color=color[k], alpha=0.3, linewidth=5, label=label)
 
+
+    color = ['turquoise', 'green', 'red', 'blue', 'gray', 'gold', 'purple', 'pink', 'darkorange',
+         'lime', 'olive', 'yellowgreen', 'violet', 'navy', 'brown', 'teal', 'deeppink',
+         'cyan', 'dodgerblue', 'steelblue', 'darkslategrey']
+    
     plt.plot(pH2, 1.23 - pH2 * const, '--', color='blue', lw=1, dashes=(3, 1))
-    plt.plot(pH2, overpotentials['onsetP'][0] - pH2 * const, '--', color='black', lw=1, dashes=(3, 1))
     if A == '1' and B == 'Fe':
+        plt.plot(pH2, overpotentials['onsetP'][0] - pH2 * const, '--', color='red', lw=1, dashes=(3, 1))
         plt.plot(pH2, overpotentials['onsetP'][1] - pH2 * const, '--', color='darkorange', lw=1, dashes=(3, 1))
         plt.plot(pH2, overpotentials['onsetP'][2] - pH2 * const, '--', color='lime', lw=1, dashes=(3, 1))
         plt.plot(pH2, overpotentials['onsetP'][3] - pH2 * const, '--', color='cyan', lw=1, dashes=(3, 1))
         ax.text(0.2, 0.65, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
-        ax.text(7.7, overpotentials['onsetP'][1] - 0.96, f"$S_8$ (*OH+*O): {overpotentials['onsetP'][1]:.2f} eV", color='darkorange', rotation=-9.5, fontsize=10)
-        ax.text(7.7, overpotentials['onsetP'][2] - 0.65, f"$S_9$ (*OOH): {overpotentials['onsetP'][2]:.2f} eV", color='lime', rotation=-9.5, fontsize=10)
-        ax.text(7.7, overpotentials['onsetP'][3] - 0.65, f"$S_9$ (*OOH): {overpotentials['onsetP'][3]:.2f} eV", color='cyan', rotation=-9.5, fontsize=10)
+        ax.text(7.7, overpotentials['onsetP'][0] - 0.65, f"*$\rightarrow$*OH$\rightarrow$*O$\rightarrow$*OOH: {overpotentials['overP'][1]:.2f} eV", color='red', rotation=-9.5, fontsize=10)
+        ax.text(7.7, overpotentials['onsetP'][1] - 0.96, f"$S_8$ (*OH+*O): {overpotentials['overP'][1]:.2f} eV", color='darkorange', rotation=-9.5, fontsize=10)
+        ax.text(7.7, overpotentials['onsetP'][2] - 0.65, f"$S_9$ (*OOH): {overpotentials['overP'][2]:.2f} eV", color='lime', rotation=-9.5, fontsize=10)
+        ax.text(7.7, overpotentials['onsetP'][3] - 0.65, f"$S_9$ (*OOH): {overpotentials['overP'][3]:.2f} eV", color='cyan', rotation=-9.5, fontsize=10)
     elif A == '2' and B == 'Co':
+        plt.plot(pH2, overpotentials['onsetP'][0] - pH2 * const, '--', color='red', lw=1, dashes=(3, 1))
         plt.plot(pH2, overpotentials['onsetP'][1] - pH2 * const, '--', color='darkorange', lw=1, dashes=(3, 1))
         plt.plot(pH2, overpotentials['onsetP'][2] - pH2 * const, '--', color='lime', lw=1, dashes=(3, 1))
         ax.text(0.2, 0.88, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
-        ax.text(7.7, overpotentials['onsetP'][1] - 0.71, f"$S_8$ (*OH+*O): {overpotentials['onsetP'][1]:.2f} eV", color='darkorange', rotation=-9.5, fontsize=10)
-        ax.text(7.7, overpotentials['onsetP'][2] - 0.95, f"$S_9$ (*OOH): {overpotentials['onsetP'][2]:.2f} eV", color='lime', rotation=-9.5, fontsize=10)
+        ax.text(7.7, overpotentials['onsetP'][0] - 0.71, f"$S_8$ (*OH+*O): {overpotentials['overP'][1]:.2f} eV", color='red', rotation=-9.5, fontsize=10)
+        ax.text(7.7, overpotentials['onsetP'][1] - 0.71, f"$S_8$ (*OH+*O): {overpotentials['overP'][1]:.2f} eV", color='darkorange', rotation=-9.5, fontsize=10)
+        ax.text(7.7, overpotentials['onsetP'][2] - 0.95, f"$S_9$ (*OOH): {overpotentials['overP'][2]:.2f} eV", color='lime', rotation=-9.5, fontsize=10)
     elif A == '3' and B == 'Mo':
+        plt.plot(pH2, overpotentials['onsetP'][0] - pH2 * const, '--', color='red', lw=1, dashes=(3, 1))
         plt.plot(pH2, overpotentials['onsetP'][1] - pH2 * const, '--', color='darkorange', lw=1, dashes=(3, 1))
         plt.plot(pH2, overpotentials['onsetP'][2] - pH2 * const, '--', color='lime', lw=1, dashes=(3, 1))
         ax.text(0.2, 0.88, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
-        ax.text(7.7, overpotentials['onsetP'][1] - 0.71, f"$S_8$ (*OH+*O): {overpotentials['onsetP'][1]:.2f} eV", color='darkorange', rotation=-9.5, fontsize=10)
-        ax.text(7.7, overpotentials['onsetP'][2] - 0.65, f"$S_9$ (*OOH): {overpotentials['onsetP'][2]:.2f} eV", color='lime', rotation=-9.5, fontsize=10)
+        ax.text(7.7, overpotentials['onsetP'][0] - 0.71, f"S$_8$ (*OH+*O): {overpotentials['overP'][1]:.2f} eV", color='red', rotation=-9.5, fontsize=10)
+        ax.text(7.7, overpotentials['onsetP'][1] - 0.71, f"S$_8$ (*OH+*O): {overpotentials['overP'][1]:.2f} eV", color='darkorange', rotation=-9.5, fontsize=10)
+        ax.text(7.7, overpotentials['onsetP'][2] - 0.65, f"S$_9$ (*OOH): {overpotentials['overP'][2]:.2f} eV", color='lime', rotation=-9.5, fontsize=10)
     
     plt.legend(loc='lower left', bbox_to_anchor=(0.0, 1.02), # borderaxespad=17, 
                ncol=1, labelspacing=0.3, handlelength=2, fontsize=10,
