@@ -164,6 +164,8 @@ def overpotential_oer(int1, int2, int3, int4, df, overpotentials):
     ints = [int1, int2, int3, int4]
     for i, int in enumerate(ints):
         if isinstance(int, tuple):
+            print(df.loc[int[0], 'E'])
+            print(df.loc[int[1], 'E'])
             if df.loc[int[0], 'E'] is None:
                 ints[i] = int[1]
             elif df.loc[int[1], 'E'] is None:
@@ -228,11 +230,8 @@ for dir in dirs:
     df.loc['oohooh', ['#H', '#O', '#OH', '#OOH']] = [0, 0, 0, 2]
     df.loc['ooh-ooh', ['#H', '#O', '#OH', '#OOH']] = [0, 0, 0, 2]
 
-    if df['E'] is np.nan:
-        df['G'], df['dG'] = np.nan, np.nan
-    else:
-        df['G'] = df['E'] + dgh * df['#H'] + dgoh * df['#OH'] + dgo * df['#O'] + dgooh * df['#OOH']
-        df['dG'] = df['G'] - df.loc['clean', 'G'] - gh * df['#H'] - goh * df['#OH'] - go * df['#O'] - gooh * df['#OOH']
+    df['G'] = df['E'] + dgh * df['#H'] + dgoh * df['#OH'] + dgo * df['#O'] + dgooh * df['#OOH']
+    df['dG'] = df['G'] - df.loc['clean', 'G'] - gh * df['#H'] - goh * df['#OH'] - go * df['#O'] - gooh * df['#OOH']
 
     overpotential_oer('clean', 'oh', 'o', 'ooh', df, overpotentials)
     if A == '1' and B == 'Fe':
