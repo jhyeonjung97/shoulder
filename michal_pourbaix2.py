@@ -11,10 +11,14 @@ from matplotlib.ticker import FormatStrFormatter
 dirs = ["/pscratch/sd/j/jiuy97/6_MNC/pourbaix/1_Fe/",
         "/pscratch/sd/j/jiuy97/6_MNC/pourbaix/2_Co/",
         "/pscratch/sd/j/jiuy97/6_MNC/pourbaix/3_Mo/"]
+# main_dirs = ["clean", "h", "oh", "o", 
+#              "ohoh", "oh-oh", "ohooh", "oohoh", "oh-ooh", "ooh-oh",
+#              "ooh", "oho", "oh-o", "o-oh", "oo", "o-o",
+#              "oooh", "ooho", "o-ooh", "ooh-o", "oohooh", "ooh-ooh"]
 main_dirs = ["clean", "h", "oh", "o", 
-             "ohoh", "oh-oh", "ohooh", "oohoh", "oh-ooh", "ooh-oh",
-             "ooh", "oho", "oh-o", "o-oh", "oo", "o-o",
-             "oooh", "ooho", "o-ooh", "ooh-o", "oohooh", "ooh-ooh"]
+             "ohoh", "oh-oh", "ohooh", "oohoh", "ooh-oh", # "oh-ooh"
+             "ooh", "oho", "o-oh", "o-o", # "oh-o", "oo",
+             "oooh", "ooho", "ooh-o", "oohooh", "ooh-ooh"] # "o-ooh"
 sub_dirs = ["HS1", "HS5", "IS1", "IS5", "LS1", "LS5"]
 
 # Regular expression to match E0 values in scientific notation
@@ -173,12 +177,8 @@ def overpotential_oer(int1, int2, int3, int4, df, overpotentials):
     dG2 = df.loc[int3, 'dG'] - df.loc[int2, 'dG']
     dG3 = df.loc[int4, 'dG'] - df.loc[int3, 'dG']
     dG4 = 4.92 - dG1 - dG2 - dG3
-
-    print(df.loc[int1, 'dG'], df.loc[int2, 'dG'], df.loc[int3, 'dG'], df.loc[int4, 'dG'])
     onsetP = max(dG1, dG2, dG3, dG4)
     overP = onsetP - 1.23
-    print(int1, int2, int3, int4, overP, onsetP)
-
     overpotentials['int1'].append(int1)
     overpotentials['int2'].append(int2)
     overpotentials['int3'].append(int3)
@@ -230,7 +230,8 @@ for dir in dirs:
 
     df['G'] = df['E'] + dgh * df['#H'] + dgoh * df['#OH'] + dgo * df['#O'] + dgooh * df['#OOH']
     df['dG'] = df['G'] - df.loc['clean', 'G'] - gh * df['#H'] - goh * df['#OH'] - go * df['#O'] - gooh * df['#OOH']
-    
+    df.to_csv(f'/pscratch/sd/j/jiuy97/6_MNC/figures/pourbaix/{A}{B}_energies.csv') #, index=False)
+
     overpotential_oer('clean', 'oh', 'o', 'ooh', df, overpotentials)
     if A == '1' and B == 'Fe':
         overpotential_oer('oh', 'o', ('o-oh', 'oh-o'), ('ooh-oh', 'oh-ooh'), df, overpotentials)
@@ -242,6 +243,8 @@ for dir in dirs:
     elif A == '3' and B == 'Mo':
         overpotential_oer('oh', 'o', 'oho', ('oohoh', 'ohooh'), df, overpotentials)
         overpotential_oer('o', 'oho', 'oo', ('oooh', 'ooho'), df, overpotentials)
+    overpotentials_df = pd.DataFrame(overpotentials)
+    overpotentials_df.to_csv(f'/pscratch/sd/j/jiuy97/6_MNC/figures/pourbaix/{A}{B}_potentials.csv') #, index=False)
 
     # Define surfaces with extracted E0 values
     surfs = [
@@ -353,17 +356,18 @@ for dir in dirs:
     plt.legend(loc='lower left', bbox_to_anchor=(0.0, 1.02), # borderaxespad=17, 
                ncol=1, labelspacing=0.3, handlelength=2, fontsize=10,
                fancybox=True, shadow=True)
-    plt.savefig(f'/pscratch/sd/j/jiuy97/6_MNC/figures/{A}{B}_pourbaix_full.png', bbox_inches='tight')
+    plt.savefig(f'/pscratch/sd/j/jiuy97/6_MNC/figures/pourbaix/{A}{B}_pourbaix_full.png', bbox_inches='tight')
     print(f"Figure saved as {A}{B}_pourbaix_full.png")
     plt.close()
     
     plt.clf()
     fig = plt.figure(figsize=fig_size, dpi=300)
     ax = fig.add_axes([0.2, 0.2, 0.6, 0.6])
-    if A=='3' and B=='Mo':
-        ax.axis([-1.0, 2.5, -900, 300])
-    else:
-        ax.axis([-1.0, 2.5, -600, 200])
+    ax.axis([-1.0, 2.5, -600, 200])
+    # if A=='3' and B=='Mo':
+    #     ax.axis([-1.0, 2.5, -900, 300])
+    # else:
+    #     ax.axis([-1.0, 2.5, -600, 200])
     ax.set_xlabel(r'RHE (V)', fontsize='large')
     ax.set_ylabel(r'$\Delta$G (kJ/mol)', fontsize='large')
     xx = np.arange(-1.00, 2.55, 0.05)
@@ -381,7 +385,7 @@ for dir in dirs:
     # plt.legend(loc='lower left', bbox_to_anchor=(0.0, 1.02), # borderaxespad=17, 
     #            ncol=2, columnspacing=1.0, labelspacing=0.3, handlelength=2, fontsize=10,
     #            fancybox=True, shadow=True)
-    plt.savefig(f'/pscratch/sd/j/jiuy97/6_MNC/figures/{A}{B}_pourbaix.png', bbox_inches='tight')
+    plt.savefig(f'/pscratch/sd/j/jiuy97/6_MNC/figures/pourbaix/{A}{B}_pourbaix.png', bbox_inches='tight')
     print(f"Figure saved as {A}{B}_pourbaix.png")
     # plt.show()
     plt.close()
