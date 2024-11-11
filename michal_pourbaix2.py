@@ -214,7 +214,7 @@ for dir in dirs:
     df.loc['ooh-ooh', ['#H', '#O', '#OH', '#OOH']] = [0, 0, 0, 2]
 
     df['G'] = df['E'] + dgoh * df['#OH'] + dgo * df['#O'] + dgooh * df['#OOH'] # + dgh * df['#H']
-    df['dG'] = df['G'] - df['clean', 'E'] - gh * df['#H'] - goh * df['#OH'] - go * df['#O'] - gooh * df['#OOH']
+    df['dG'] = df['G'] - df.loc['clean', 'E'] - gh * df['#H'] - goh * df['#OH'] - go * df['#O'] - gooh * df['#OOH']
 
     overpotential_oer('clean', 'oh', 'o', 'ooh', df, overpotentials)
     if A == '1' and B == 'Fe':
