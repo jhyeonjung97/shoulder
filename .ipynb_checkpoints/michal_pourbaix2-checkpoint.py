@@ -364,7 +364,7 @@ for dir in dirs:
         ax.text(5.2, overpotentials['onsetP'][2] - 0.65, 
                 r"S$_3$$\rightarrow$S$_8$$\rightarrow$S$_9$$\rightarrow$S$_11$: " + f"{overpotentials['overP'][2]:.2f} eV", 
                 color='lime', rotation=-9.5, fontsize=10)
-        ax.text(5.2, overpotentials['onsetP'][3] - 0.84,
+        ax.text(5.2, overpotentials['onsetP'][3] - 0.88,
                 r"S$_3$$\rightarrow$S$_8$$\rightarrow$S$_10$$\rightarrow$S$_11$: " + f"{overpotentials['overP'][3]:.2f} eV", 
                 color='violet', rotation=-9.5, fontsize=10)
     elif A == '2' and B == 'Co':
