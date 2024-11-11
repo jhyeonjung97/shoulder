@@ -163,7 +163,7 @@ for dir in dirs:
         min_e0 = get_energy(main_dir, ["HS1", "HS5", "IS1", "IS5", "LS1", "LS5"])
     
         if min_e0 is None:
-            # print(f"Missing data in directory '{main_dir}' for plotting.")
+            print(f"Missing data in directory '{main_dir}' for plotting.")
             continue
         else:
             min_e0_values[main_dir] = min_e0
@@ -324,8 +324,8 @@ for dir in dirs:
         dg_value = dg(k, 0, xx)
         if dg_value is not None:
             ax.plot(xx, dg_value * kjmol, '-', lw=1, c=color[k], label=label)
-        # else:
-        #     print(f"Skipping plot for surface {k} due to missing data.")
+        else:
+            print(f"Skipping plot for surface {k} due to missing data.")
     plt.xlim(-1.0, 2.5)
     plt.legend(loc='upper left', bbox_to_anchor=(1.0, 1.0), # borderaxespad=17, 
                ncol=1, labelspacing=0.3, handlelength=2, fontsize=10,
