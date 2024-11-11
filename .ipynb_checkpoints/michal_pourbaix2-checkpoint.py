@@ -381,16 +381,21 @@ for dir in dirs:
         ax.text(6.5, overpotentials['onsetP'][2] - 0.92, 
                 r"S$_3$$\rightarrow$S$_8$$\rightarrow$S$_9$$\rightarrow$S$_{11}$: " + f"{overpotentials['overP'][2]:.2f} eV", 
                 color='lime', rotation=-9.5, fontsize=10)
-
     elif A == '3' and B == 'Mo':
         plt.plot(pH2, overpotentials['onsetP'][0] - pH2 * const, '--', color='red', lw=1, dashes=(3, 1))
         plt.plot(pH2, overpotentials['onsetP'][1] - pH2 * const, '--', color='darkorange', lw=1, dashes=(3, 1))
         plt.plot(pH2, overpotentials['onsetP'][2] - pH2 * const, '--', color='lime', lw=1, dashes=(3, 1))
         ax.text(0.2, 0.88, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
-        ax.text(7.7, overpotentials['onsetP'][0] - 0.71, f"S$_8$ (*OH+*O): {overpotentials['overP'][1]:.2f} eV", color='red', rotation=-9.5, fontsize=10)
-        ax.text(7.7, overpotentials['onsetP'][1] - 0.71, f"S$_8$ (*OH+*O): {overpotentials['overP'][1]:.2f} eV", color='darkorange', rotation=-9.5, fontsize=10)
-        ax.text(7.7, overpotentials['onsetP'][2] - 0.65, f"S$_9$ (*OOH): {overpotentials['overP'][2]:.2f} eV", color='lime', rotation=-9.5, fontsize=10)
-    
+        ax.text(6.5, overpotentials['onsetP'][0] - 0.72, 
+                r"S$_0$$\rightarrow$S$_2$$\rightarrow$S$_3$$\rightarrow$S$_6$: " + f"{overpotentials['overP'][0]:.2f} eV", 
+                color='red', rotation=-9.5, fontsize=10)
+        ax.text(6.5, overpotentials['onsetP'][1] - 0.72, 
+                r"S$_2$$\rightarrow$S$_5$$\rightarrow$S$_8$$\rightarrow$S$_{10}$: " + f"{overpotentials['overP'][1]:.2f} eV", 
+                color='darkorange', rotation=-9.5, fontsize=10)
+        ax.text(6.5, overpotentials['onsetP'][2] - 0.94, 
+                r"S$_3$$\rightarrow$S$_8$$\rightarrow$S$_9$$\rightarrow$S$_{11}$: " + f"{overpotentials['overP'][2]:.2f} eV", 
+                color='lime', rotation=-9.5, fontsize=10)
+        
     plt.legend(loc='lower left', bbox_to_anchor=(0.0, 1.02), # borderaxespad=17, 
                ncol=1, labelspacing=0.3, handlelength=2, fontsize=10,
                fancybox=True, shadow=True)
