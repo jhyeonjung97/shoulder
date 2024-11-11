@@ -17,7 +17,7 @@ dirs = ["/pscratch/sd/j/jiuy97/6_MNC/pourbaix/1_Fe/",
 #              "oooh", "ooho", "o-ooh", "ooh-o", "oohooh", "ooh-ooh"]
 main_dirs = ["clean", "h", "oh", "o", 
              "ohoh", "oh-oh", "ohooh", "oohoh", "ooh-oh", # "oh-ooh"
-             "ooh", "oho", "o-oh", "o-o", # "oh-o", "oo",
+             "ooh", "oho", "o-oh", "o-o", "oo", # "oh-o"
              "oooh", "ooho", "ooh-o", "oohooh", "ooh-ooh"] # "o-ooh"
 sub_dirs = ["HS1", "HS5", "IS1", "IS5", "LS1", "LS5"]
 
@@ -164,29 +164,26 @@ def overpotential_oer(int1, int2, int3, int4, df, overpotentials):
     ints = [int1, int2, int3, int4]
     for i, int in enumerate(ints):
         if isinstance(int, tuple):
-            print(df.loc[int[0], 'E'])
-            print(df.loc[int[1], 'E'])
             if np.isnan(df.loc[int[1], 'E']):
                 ints[i] = int[0]
-                print('1')
             elif np.isnan(df.loc[int[0], 'E']):
                 ints[i] = int[1]
-                print('2')
             elif df.loc[int[0], 'E'] < df.loc[int[1], 'E']:
                 ints[i] = int[0]
-                print('3')
             else:
                 ints[i] = int[1]
-                print('4')
-
     int1, int2, int3, int4 = ints
+    
     dG1 = df.loc[int2, 'dG'] - df.loc[int1, 'dG']
     dG2 = df.loc[int3, 'dG'] - df.loc[int2, 'dG']
     dG3 = df.loc[int4, 'dG'] - df.loc[int3, 'dG']
     dG4 = 4.92 - dG1 - dG2 - dG3
-    print(dG1, dG2, dG3, dG4)
-    onsetP = max(dG1, dG2, dG3, dG4)
-    overP = onsetP - 1.23
+    if any(np.isnan(value) for value in [dG1, dG2, dG3, dG4]):
+        onsetP = np.nan
+        overP = np.nan
+    else
+        onsetP = max(dG1, dG2, dG3, dG4)
+        overP = onsetP - 1.23
     overpotentials['int1'].append(int1)
     overpotentials['int2'].append(int2)
     overpotentials['int3'].append(int3)
