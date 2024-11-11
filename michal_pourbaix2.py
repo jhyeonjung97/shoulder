@@ -372,13 +372,13 @@ for dir in dirs:
         plt.plot(pH2, overpotentials['onsetP'][1] - pH2 * const, '--', color='darkorange', lw=1, dashes=(3, 1))
         plt.plot(pH2, overpotentials['onsetP'][2] - pH2 * const, '--', color='lime', lw=1, dashes=(3, 1))
         ax.text(0.2, 0.88, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
-        ax.text(6.5, overpotentials['onsetP'][0] - 0.92, 
+        ax.text(6.5, overpotentials['onsetP'][0] - 0.72, 
                 r"S$_0$$\rightarrow$S$_2$$\rightarrow$S$_3$$\rightarrow$S$_6$: " + f"{overpotentials['overP'][0]:.2f} eV", 
                 color='red', rotation=-9.5, fontsize=10)
-        ax.text(6.5, overpotentials['onsetP'][1] - 1.12, 
+        ax.text(6.5, overpotentials['onsetP'][1] - 0.72, 
                 r"S$_2$$\rightarrow$S$_5$$\rightarrow$S$_8$$\rightarrow$S$_{10}$: " + f"{overpotentials['overP'][1]:.2f} eV", 
                 color='darkorange', rotation=-9.5, fontsize=10)
-        ax.text(6.5, overpotentials['onsetP'][2] - 0.72, 
+        ax.text(6.5, overpotentials['onsetP'][2] - 0.92, 
                 r"S$_3$$\rightarrow$S$_8$$\rightarrow$S$_9$$\rightarrow$S$_{11}$: " + f"{overpotentials['overP'][2]:.2f} eV", 
                 color='lime', rotation=-9.5, fontsize=10)
 
