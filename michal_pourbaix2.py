@@ -332,22 +332,6 @@ for dir in dirs:
         plt.fill_between(pH2, crossover[i] - pH2 * const, crossover[i + 1] - pH2 * const, 
                          facecolor=color[k], alpha=0.3, lw=0.5, edgecolor='black')
         plt.plot([], [], color=color[k], alpha=0.3, linewidth=5, label=label)
-
-    # color = ['turquoise', 'green', 'red', 'blue', 'gray', 'gold', 'purple', 'pink', 'darkorange',
-    #      'lime', 'olive', 'yellowgreen', 'violet', 'navy', 'brown', 'teal', 'deeppink',
-    #      'cyan', 'dodgerblue', 'steelblue', 'darkslategrey']
-
-    # overpotential_oer('clean', 'oh', 'o', 'ooh', df, overpotentials)
-    # if A == '1' and B == 'Fe':
-    #     overpotential_oer('oh', 'o', ('o-oh', 'oh-o'), ('ooh-oh', 'oh-ooh'), df, overpotentials)
-    #     overpotential_oer('o', ('o-oh', 'oh-o'), 'o-o', ('ooh-o', 'o-ooh'), df, overpotentials)
-    #     overpotential_oer('o', ('o-oh', 'oh-o'), ('ooh-oh', 'oh-ooh'), ('ooh-o', 'o-ooh'), df, overpotentials)
-    # elif A == '2' and B == 'Co':
-    #     overpotential_oer('oh', 'oh-oh', ('o-oh', 'oh-o'), ('ooh-oh', 'oh-ooh'), df, overpotentials)
-    #     overpotential_oer('o', ('o-oh', 'oh-o'), 'o-o', ('ooh-o', 'o-ooh'), df, overpotentials)
-    # elif A == '3' and B == 'Mo':
-    #     overpotential_oer('oh', 'o', 'oho', ('oohoh', 'ohooh'), df, overpotentials)
-    #     overpotential_oer('o', 'oho', 'oo', ('oooh', 'ooho'), df, overpotentials)
     
     plt.plot(pH2, 1.23 - pH2 * const, '--', color='blue', lw=1, dashes=(3, 1))
     if A == '1' and B == 'Fe':
@@ -383,11 +367,11 @@ for dir in dirs:
                 r"S$_3$$\rightarrow$S$_8$$\rightarrow$S$_9$$\rightarrow$S$_{11}$: " + f"{overpotentials['overP'][2]:.2f} eV", 
                 color='lime', rotation=-9.5, fontsize=10)
     elif A == '3' and B == 'Mo':
-        plt.plot(pH2, overpotentials['onsetP'][2] - pH2 * const, '--', color='darkorange', lw=1, dashes=(3, 1))
+        plt.plot(pH2, overpotentials['onsetP'][2] - pH2 * const, '--', color='brown', lw=1, dashes=(3, 1))
         ax.text(0.2, 0.88, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
         ax.text(6.5, overpotentials['onsetP'][2] - 0.72, 
-                r"S$_3$$\rightarrow$S$_9$$\rightarrow$S$_8$$\rightarrow$S$_{10}$: " + f"{overpotentials['overP'][1]:.2f} eV", 
-                color='darkorange', rotation=-9.5, fontsize=10)
+                r"S$_3$$\rightarrow$S$_9$$\rightarrow$S$_{11}$$\rightarrow$S$_{14}$: " + f"{overpotentials['overP'][1]:.2f} eV", 
+                color='brown', rotation=-9.5, fontsize=10)
         
     plt.legend(loc='lower left', bbox_to_anchor=(0.0, 1.02), # borderaxespad=17, 
                ncol=1, labelspacing=0.3, handlelength=2, fontsize=10,
