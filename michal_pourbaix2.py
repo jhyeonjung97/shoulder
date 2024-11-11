@@ -226,6 +226,8 @@ for dir in dirs:
         # [E_OOHO, 0, 1, 0, 1],
         # [E_O_OOH, 0, 1, 0, 1],
         # [E_OOH_O, 0, 1, 0, 1],
+        # [E_OOHOOH, 0, 0, 0, 2],
+        # [E_OOH_OOH, 0, 0, 0, 2],
     ]
 
     if A == '1' and B == 'Fe':
@@ -233,17 +235,20 @@ for dir in dirs:
         surfs.append([E_OOH_OH, 0, 0, 1, 1])
         surfs.append([E_O_OOH, 0, 1, 0, 1])
         surfs.append([E_OOH_O, 0, 1, 0, 1])
+        surfs.append([E_OOH_OOH, 0, 0, 0, 2])
     elif A == '2' and B == 'Co':
         surfs.append([E_OH_OOH, 0, 0, 1, 1])
         surfs.append([E_OOH_OH, 0, 0, 1, 1])
         surfs.append([E_O_OOH, 0, 1, 0, 1])
         surfs.append([E_OOH_O, 0, 1, 0, 1])
+        surfs.append([E_OOH_OOH, 0, 0, 0, 2])
     elif A == '3' and B == 'Mo':
         surfs.append([E_OOHOH, 0, 0, 1, 1])
         surfs.append([E_OHOOH, 0, 0, 1, 1])
         surfs.append([E_OOOH, 0, 1, 0, 1])
         surfs.append([E_OOHO, 0, 1, 0, 1])
-        
+        surfs.append([E_OOHOOH, 0, 0, 0, 2])
+
     nsurfs = len(surfs)
     lowest_surfaces = []
     
