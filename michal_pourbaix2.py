@@ -166,14 +166,19 @@ def overpotential_oer(int1, int2, int3, int4, df, overpotentials):
         if isinstance(int, tuple):
             print(df.loc[int[0], 'E'])
             print(df.loc[int[1], 'E'])
-            if df.loc[int[0], 'E'] is None:
+            if df.loc[int[0], 'E'] is np.nan:
                 ints[i] = int[1]
-            elif df.loc[int[1], 'E'] is None:
+                print(1)
+            elif df.loc[int[1], 'E'] is np.nan:
                 ints[i] = int[0]
+                print(2)
             elif df.loc[int[0], 'E'] < df.loc[int[1], 'E']:
                 ints[i] = int[0]
+                print(3)
             else:
-                ints[i] = int[1] 
+                ints[i] = int[1]
+                print(4)
+
     int1, int2, int3, int4 = ints
     dG1 = df.loc[int2, 'dG'] - df.loc[int1, 'dG']
     dG2 = df.loc[int3, 'dG'] - df.loc[int2, 'dG']
