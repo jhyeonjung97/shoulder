@@ -378,7 +378,7 @@ for dir in dirs:
         ax.text(6.5, overpotentials['onsetP'][1] - 0.72, 
                 r"S$_2$$\rightarrow$S$_5$$\rightarrow$S$_8$$\rightarrow$S$_{10}$: " + f"{overpotentials['overP'][1]:.2f} eV", 
                 color='darkorange', rotation=-9.5, fontsize=10)
-        ax.text(6.5, overpotentials['onsetP'][2] - 0.92, 
+        ax.text(6.5, overpotentials['onsetP'][2] - 0.94, 
                 r"S$_3$$\rightarrow$S$_8$$\rightarrow$S$_9$$\rightarrow$S$_{11}$: " + f"{overpotentials['overP'][2]:.2f} eV", 
                 color='lime', rotation=-9.5, fontsize=10)
     elif A == '3' and B == 'Mo':
