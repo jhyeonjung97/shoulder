@@ -72,6 +72,9 @@ go = gh2o - gh2
 goh = gh2o - gh2 / 2
 gooh = go + goh
 
+dgh2o = zpeh2o + cvh2o - tsh2o
+dgh2 = zpeh2 + cvh2 - tsh2
+
 # ads
 zpeoh = 0.376
 cvoh = 0.042
