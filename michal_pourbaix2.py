@@ -293,6 +293,7 @@ for dir in dirs:
         surfs.append(df.loc['ooho', ['E', '#H', '#O', '#OH', '#OOH']].tolist())
         surfs.append(df.loc['oohooh', ['E', '#H', '#O', '#OH', '#OOH']].tolist())
 
+    surfs = [surf for surf in surfs if not any(pd.isna(x) for x in surf)]
     print(surfs)
     nsurfs = len(surfs)
     lowest_surfaces = []
