@@ -161,11 +161,11 @@ def dg(i, x, y):
     
 def overpotential_oer(int1, int2, int3, int4, df, overpotentials):
     for int in (int1, int2, int3, int4):
-        if int not in df.index:
-            print(f"Invalid indice: int={int} not found in DataFrame.")
-            return
         if isinstance(int, tuple):  # Check if it's a tuple
-            int = min(int, key=lambda x: df.loc[x, 'E'])  # Pick the lowest energy
+            if df.loc[int[0], 'E'] < df.loc[int[1], 'E']:
+                int = int[0]
+            else:
+                int = int[1]
     dG1 = df.loc[int2, 'dG'] - df.loc[int1, 'dG']
     dG2 = df.loc[int3, 'dG'] - df.loc[int2, 'dG']
     dG3 = df.loc[int4, 'dG'] - df.loc[int3, 'dG']
