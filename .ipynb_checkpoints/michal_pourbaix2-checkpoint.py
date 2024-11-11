@@ -344,7 +344,7 @@ for dir in dirs:
         plt.plot(pH2, overpotentials['onsetP'][2] - pH2 * const, '--', color='lime', lw=1, dashes=(3, 1))
         plt.plot(pH2, overpotentials['onsetP'][3] - pH2 * const, '--', color='cyan', lw=1, dashes=(3, 1))
         ax.text(0.2, 0.65, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
-        ax.text(7.7, overpotentials['onsetP'][0] - 0.65, 
+        ax.text(5.2, overpotentials['onsetP'][0] - 0.95, 
                 r"*$\rightarrow$*OH$\rightarrow$*O$\rightarrow$*OOH: "+f"{overpotentials['overP'][1]:.2f} eV", 
                 color='red', rotation=-9.5, fontsize=10)
         ax.text(7.7, overpotentials['onsetP'][1] - 0.96, f"$S_8$ (*OH+*O): {overpotentials['overP'][1]:.2f} eV", color='darkorange', rotation=-9.5, fontsize=10)
