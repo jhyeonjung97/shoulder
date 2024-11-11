@@ -160,12 +160,14 @@ def dg(i, x, y):
             + surfs[i][4] * addOOH(x, y))
     
 def overpotential_oer(int1, int2, int3, int4, df, overpotentials):
-    for int in (int1, int2, int3, int4):
-        if isinstance(int, tuple):  # Check if it's a tuple
-            if df.loc[int[0], 'E'] < df.loc[int[1], 'E']:
-                int = int[0]
+    ints = [int1, int2, int3, int4]
+    for i, int in enumerate(ints):
+        if isinstance(int, tuple):
+            if df.loc[int[0], 'E'] < df.loc[int_value[1], 'E']:
+                ints[i] = int[0]
             else:
-                int = int[1]
+                ints[i] = int[1] 
+    int1, int2, int3, int4 = ints
     print(int1, int2, int3, int4)
     dG1 = df.loc[int2, 'dG'] - df.loc[int1, 'dG']
     dG2 = df.loc[int3, 'dG'] - df.loc[int2, 'dG']
