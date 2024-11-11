@@ -320,7 +320,7 @@ for dir in dirs:
         plt.plot([], [], color=color[k], alpha=0.3, linewidth=5, label=label)
 
     plt.plot(pH2, 1.23 - pH2 * const, '--', color='blue', lw=1, dashes=(3, 1))
-    plt.plot(pH2, onsetpotential_oer['overP'][0] - pH2 * const, '--', color='black', lw=1, dashes=(3, 1))
+    plt.plot(pH2, overpotentials['overP'][0] - pH2 * const, '--', color='black', lw=1, dashes=(3, 1))
     if A == '1' and B == 'Fe':
         plt.plot(pH2, overpotentials['overP'][1] - pH2 * const, '--', color='darkorange', lw=1, dashes=(3, 1))
         plt.plot(pH2, overpotentials['overP'][2] - pH2 * const, '--', color='lime', lw=1, dashes=(3, 1))
