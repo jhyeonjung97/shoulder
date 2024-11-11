@@ -163,7 +163,7 @@ for dir in dirs:
         min_e0 = get_energy(main_dir, ["HS1", "HS5", "IS1", "IS5", "LS1", "LS5"])
     
         if min_e0 is None:
-            print(f"Missing data in directory '{main_dir}' for plotting.")
+            # print(f"Missing data in directory '{main_dir}' for plotting.")
             continue
         else:
             min_e0_values[main_dir] = min_e0
@@ -174,17 +174,21 @@ for dir in dirs:
     E_O = min_e0_values.get("o", None)
     E_OHOH = min_e0_values.get("ohoh", None)
     E_OH_OH = min_e0_values.get("oh-oh", None)
-    E_OH_O = min_e0_values.get("oh-o", None)
-    E_O_OH = min_e0_values.get("o-oh", None)
-    E_O_O = min_e0_values.get("o-o", None)
-    E_OO = min_e0_values.get("oo", None)
-    E_OHO = min_e0_values.get("oho", None)
-    E_OOH = min_e0_values.get("ooh", None)
     E_OHOOH = min_e0_values.get("ohooh", None)
     E_OOHOH = min_e0_values.get("oohoh", None)
     E_OH_OOH = min_e0_values.get("oh-ooh", None)
     E_OOH_OH = min_e0_values.get("ooh-oh", None)
-
+    E_OOH = min_e0_values.get("ooh", None)
+    E_OHO = min_e0_values.get("oho", None)
+    E_OH_O = min_e0_values.get("oh-o", None)
+    E_O_OH = min_e0_values.get("o-oh", None)
+    E_OO = min_e0_values.get("oo", None)
+    E_O_O = min_e0_values.get("o-o", None)
+    E_OOOH = min_e0_values.get("oooh", None)
+    E_OOHO = min_e0_values.get("ooho", None)
+    E_O_OOH = min_e0_values.get("o-ooh", None)
+    E_OOH_O = min_e0_values.get("ooh-o", None)
+    
     G_O = E_O + dgo
     G_OH = E_OH + dgoh
     G_OOH = E_OOH + dgooh
@@ -208,22 +212,38 @@ for dir in dirs:
         [E_O, 0, 1, 0, 0],
         [E_OHOH, 0, 0, 2, 0],
         [E_OH_OH, 0, 0, 2, 0],
+        [E_OHOOH, 0, 0, 1, 1],
+        [E_OOHOH, 0, 0, 1, 1],
+        # [E_OH_OOH, 0, 0, 1, 1],
+        # [E_OOH_OH, 0, 0, 1, 1],
+        [E_OOH, 0, 0, 0, 1]
+        [E_OHO, 0, 1, 1, 0],
         # [E_OH_O, 0, 1, 1, 0],
         [E_O_OH, 0, 1, 1, 0],
-        [E_O_O, 0, 2, 0, 0],
         # [E_OO, 0, 2, 0, 0],
-        [E_OHO, 0, 1, 1, 0],
-        [E_OOH, 0, 0, 0, 1]
+        [E_O_O, 0, 2, 0, 0],
+        # [E_OOOH, 0, 1, 0, 1],
+        # [E_OOHO, 0, 1, 0, 1],
+        # [E_O_OOH, 0, 1, 0, 1],
+        # [E_OOH_O, 0, 1, 0, 1],
     ]
 
     if A == '1' and B == 'Fe':
+        surfs.append([E_OH_OOH, 0, 0, 1, 1])
         surfs.append([E_OOH_OH, 0, 0, 1, 1])
+        surfs.append([E_O_OOH, 0, 1, 0, 1])
+        surfs.append([E_OOH_O, 0, 1, 0, 1])
     elif A == '2' and B == 'Co':
+        surfs.append([E_OH_OOH, 0, 0, 1, 1])
         surfs.append([E_OOH_OH, 0, 0, 1, 1])
+        surfs.append([E_O_OOH, 0, 1, 0, 1])
+        surfs.append([E_OOH_O, 0, 1, 0, 1])
     elif A == '3' and B == 'Mo':
         surfs.append([E_OOHOH, 0, 0, 1, 1])
         surfs.append([E_OHOOH, 0, 0, 1, 1])
-    
+        surfs.append([E_OOOH, 0, 1, 0, 1])
+        surfs.append([E_OOHO, 0, 1, 0, 1])
+        
     nsurfs = len(surfs)
     lowest_surfaces = []
     
