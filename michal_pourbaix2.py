@@ -355,6 +355,23 @@ for dir in dirs:
         plt.plot(pH2, overpotentials['onsetP'][2] - pH2 * const, '--', color='lime', lw=1, dashes=(3, 1))
         plt.plot(pH2, overpotentials['onsetP'][3] - pH2 * const, '--', color='violet', lw=1, dashes=(3, 1))
         ax.text(0.2, 0.65, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
+        ax.text(6.5, overpotentials['onsetP'][0] - 0.92, 
+                r"S$_0$$\rightarrow$S$_2$$\rightarrow$S$_3$$\rightarrow$S$_6$: " + f"{overpotentials['overP'][0]:.2f} eV", 
+                color='red', rotation=-9.5, fontsize=10)
+        ax.text(6.5, overpotentials['onsetP'][1] - 1.12, 
+                r"S$_2$$\rightarrow$S$_3$$\rightarrow$S$_8$$\rightarrow$S$_{10}$: " + f"{overpotentials['overP'][1]:.2f} eV", 
+                color='darkorange', rotation=-9.5, fontsize=10)
+        ax.text(6.5, overpotentials['onsetP'][2] - 0.72, 
+                r"S$_3$$\rightarrow$S$_8$$\rightarrow$S$_9$$\rightarrow$S$_{11}$: " + f"{overpotentials['overP'][2]:.2f} eV", 
+                color='lime', rotation=-9.5, fontsize=10)
+        ax.text(6.5, overpotentials['onsetP'][3] - 0.96,
+                r"S$_3$$\rightarrow$S$_8$$\rightarrow$S$_{10}$$\rightarrow$S$_{11}$: " + f"{overpotentials['overP'][3]:.2f} eV", 
+                color='violet', rotation=-9.5, fontsize=10)
+    elif A == '2' and B == 'Co':
+        plt.plot(pH2, overpotentials['onsetP'][0] - pH2 * const, '--', color='red', lw=1, dashes=(3, 1))
+        plt.plot(pH2, overpotentials['onsetP'][1] - pH2 * const, '--', color='darkorange', lw=1, dashes=(3, 1))
+        plt.plot(pH2, overpotentials['onsetP'][2] - pH2 * const, '--', color='lime', lw=1, dashes=(3, 1))
+        ax.text(0.2, 0.88, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
         ax.text(6.5, overpotentials['onsetP'][0] - 0.93, 
                 r"S$_0$$\rightarrow$S$_2$$\rightarrow$S$_3$$\rightarrow$S$_6$: " + f"{overpotentials['overP'][0]:.2f} eV", 
                 color='red', rotation=-9.5, fontsize=10)
@@ -364,17 +381,7 @@ for dir in dirs:
         ax.text(6.5, overpotentials['onsetP'][2] - 0.73, 
                 r"S$_3$$\rightarrow$S$_8$$\rightarrow$S$_9$$\rightarrow$S$_{11}$: " + f"{overpotentials['overP'][2]:.2f} eV", 
                 color='lime', rotation=-9.5, fontsize=10)
-        ax.text(6.5, overpotentials['onsetP'][3] - 0.97,
-                r"S$_3$$\rightarrow$S$_8$$\rightarrow$S$_{10}$$\rightarrow$S$_{11}$: " + f"{overpotentials['overP'][3]:.2f} eV", 
-                color='violet', rotation=-9.5, fontsize=10)
-    elif A == '2' and B == 'Co':
-        plt.plot(pH2, overpotentials['onsetP'][0] - pH2 * const, '--', color='red', lw=1, dashes=(3, 1))
-        plt.plot(pH2, overpotentials['onsetP'][1] - pH2 * const, '--', color='darkorange', lw=1, dashes=(3, 1))
-        plt.plot(pH2, overpotentials['onsetP'][2] - pH2 * const, '--', color='lime', lw=1, dashes=(3, 1))
-        ax.text(0.2, 0.88, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
-        ax.text(7.7, overpotentials['onsetP'][0] - 0.71, f"$S_8$ (*OH+*O): {overpotentials['overP'][1]:.2f} eV", color='red', rotation=-9.5, fontsize=10)
-        ax.text(7.7, overpotentials['onsetP'][1] - 0.71, f"$S_8$ (*OH+*O): {overpotentials['overP'][1]:.2f} eV", color='darkorange', rotation=-9.5, fontsize=10)
-        ax.text(7.7, overpotentials['onsetP'][2] - 0.95, f"$S_9$ (*OOH): {overpotentials['overP'][2]:.2f} eV", color='lime', rotation=-9.5, fontsize=10)
+
     elif A == '3' and B == 'Mo':
         plt.plot(pH2, overpotentials['onsetP'][0] - pH2 * const, '--', color='red', lw=1, dashes=(3, 1))
         plt.plot(pH2, overpotentials['onsetP'][1] - pH2 * const, '--', color='darkorange', lw=1, dashes=(3, 1))
