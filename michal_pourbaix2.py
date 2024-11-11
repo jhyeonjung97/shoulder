@@ -230,7 +230,6 @@ for dir in dirs:
 
     df['G'] = df['E'] + dgh * df['#H'] + dgoh * df['#OH'] + dgo * df['#O'] + dgooh * df['#OOH']
     df['dG'] = df['G'] - df.loc['clean', 'G'] - gh * df['#H'] - goh * df['#OH'] - go * df['#O'] - gooh * df['#OOH']
-    df.to_csv(f'/pscratch/sd/j/jiuy97/6_MNC/figures/pourbaix/{A}{B}_energies.tsv', sep='\t') #, index=False)
 
     overpotential_oer('clean', 'oh', 'o', 'ooh', df, overpotentials)
     if A == '1' and B == 'Fe':
@@ -243,8 +242,6 @@ for dir in dirs:
     elif A == '3' and B == 'Mo':
         overpotential_oer('oh', 'o', 'oho', ('oohoh', 'ohooh'), df, overpotentials)
         overpotential_oer('o', 'oho', 'oo', ('oooh', 'ooho'), df, overpotentials)
-    overpotentials_df = pd.DataFrame(overpotentials)
-    overpotentials_df.to_csv(f'/pscratch/sd/j/jiuy97/6_MNC/figures/pourbaix/{A}{B}_potentials.tsv', sep='\t') #, index=False)
 
     # Define surfaces with extracted E0 values
     surfs = [
@@ -389,3 +386,23 @@ for dir in dirs:
     print(f"Figure saved as {A}{B}_pourbaix.png")
     # plt.show()
     plt.close()
+
+    df['#H'] = overpotentials_df['#H'].round(0)
+    df['#O'] = overpotentials_df['#O'].round(0)
+    df['#OH'] = overpotentials_df['#OH'].round(0)
+    df['#OOH'] = overpotentials_df['#OOH'].round(0)
+    df['E'] = overpotentials_df['E'].round(2)
+    df['G'] = overpotentials_df['G'].round(2)
+    df['dG'] = overpotentials_df['dG'].round(2)
+    df.to_csv(f'/pscratch/sd/j/jiuy97/6_MNC/figures/pourbaix/{A}{B}_energies.tsv', sep='\t') #, index=False)
+    print(f"Data saved as {A}{B}_energies.png")
+
+    overpotentials_df = pd.DataFrame(overpotentials)
+    overpotentials_df['int1'] = overpotentials_df['int1'].round(0)
+    overpotentials_df['int2'] = overpotentials_df['int2'].round(0)
+    overpotentials_df['int3'] = overpotentials_df['int3'].round(0)
+    overpotentials_df['int4'] = overpotentials_df['int4'].round(0)
+    overpotentials_df['overP'] = overpotentials_df['overP'].round(2)
+    overpotentials_df['onsetP'] = overpotentials_df['onsetP'].round(2)
+    overpotentials_df.to_csv(f'/pscratch/sd/j/jiuy97/6_MNC/figures/pourbaix/{A}{B}_potentials.tsv', sep='\t') #, index=False)
+    print(f"Data saved as {A}{B}_potentials.png")
