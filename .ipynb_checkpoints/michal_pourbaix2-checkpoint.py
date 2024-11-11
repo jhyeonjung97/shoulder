@@ -251,6 +251,7 @@ for dir in dirs:
         surfs.append([E_OOHO, 0, 1, 0, 1])
         surfs.append([E_OOHOOH, 0, 0, 0, 2])
 
+    print(surfs)
     nsurfs = len(surfs)
     lowest_surfaces = []
     
