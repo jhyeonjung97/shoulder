@@ -332,24 +332,41 @@ for dir in dirs:
                          facecolor=color[k], alpha=0.3, lw=0.5, edgecolor='black')
         plt.plot([], [], color=color[k], alpha=0.3, linewidth=5, label=label)
 
+    # color = ['turquoise', 'green', 'red', 'blue', 'gray', 'gold', 'purple', 'pink', 'darkorange',
+    #      'lime', 'olive', 'yellowgreen', 'violet', 'navy', 'brown', 'teal', 'deeppink',
+    #      'cyan', 'dodgerblue', 'steelblue', 'darkslategrey']
 
-    color = ['turquoise', 'green', 'red', 'blue', 'gray', 'gold', 'purple', 'pink', 'darkorange',
-         'lime', 'olive', 'yellowgreen', 'violet', 'navy', 'brown', 'teal', 'deeppink',
-         'cyan', 'dodgerblue', 'steelblue', 'darkslategrey']
+    # overpotential_oer('clean', 'oh', 'o', 'ooh', df, overpotentials)
+    # if A == '1' and B == 'Fe':
+    #     overpotential_oer('oh', 'o', ('o-oh', 'oh-o'), ('ooh-oh', 'oh-ooh'), df, overpotentials)
+    #     overpotential_oer('o', ('o-oh', 'oh-o'), 'o-o', ('ooh-o', 'o-ooh'), df, overpotentials)
+    #     overpotential_oer('o', ('o-oh', 'oh-o'), ('ooh-oh', 'oh-ooh'), ('ooh-o', 'o-ooh'), df, overpotentials)
+    # elif A == '2' and B == 'Co':
+    #     overpotential_oer('oh', 'oh-oh', ('o-oh', 'oh-o'), ('ooh-oh', 'oh-ooh'), df, overpotentials)
+    #     overpotential_oer('o', ('o-oh', 'oh-o'), 'o-o', ('ooh-o', 'o-ooh'), df, overpotentials)
+    # elif A == '3' and B == 'Mo':
+    #     overpotential_oer('oh', 'o', 'oho', ('oohoh', 'ohooh'), df, overpotentials)
+    #     overpotential_oer('o', 'oho', 'oo', ('oooh', 'ooho'), df, overpotentials)
     
     plt.plot(pH2, 1.23 - pH2 * const, '--', color='blue', lw=1, dashes=(3, 1))
     if A == '1' and B == 'Fe':
         plt.plot(pH2, overpotentials['onsetP'][0] - pH2 * const, '--', color='red', lw=1, dashes=(3, 1))
         plt.plot(pH2, overpotentials['onsetP'][1] - pH2 * const, '--', color='darkorange', lw=1, dashes=(3, 1))
         plt.plot(pH2, overpotentials['onsetP'][2] - pH2 * const, '--', color='lime', lw=1, dashes=(3, 1))
-        plt.plot(pH2, overpotentials['onsetP'][3] - pH2 * const, '--', color='cyan', lw=1, dashes=(3, 1))
+        plt.plot(pH2, overpotentials['onsetP'][3] - pH2 * const, '--', color='violet', lw=1, dashes=(3, 1))
         ax.text(0.2, 0.65, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
-        ax.text(5.2, overpotentials['onsetP'][0] - 0.95, 
-                r"*$\rightarrow$*OH$\rightarrow$*O$\rightarrow$*OOH: "+f"{overpotentials['overP'][1]:.2f} eV", 
+        ax.text(5.2, overpotentials['onsetP'][0] - 0.94, 
+                r"S$_0$$\rightarrow$S$_2$$\rightarrow$S$_3$$\rightarrow$S$_6$: " + f"{overpotentials['overP'][0]:.2f} eV", 
                 color='red', rotation=-9.5, fontsize=10)
-        ax.text(7.7, overpotentials['onsetP'][1] - 0.96, f"$S_8$ (*OH+*O): {overpotentials['overP'][1]:.2f} eV", color='darkorange', rotation=-9.5, fontsize=10)
-        ax.text(7.7, overpotentials['onsetP'][2] - 0.65, f"$S_9$ (*OOH): {overpotentials['overP'][2]:.2f} eV", color='lime', rotation=-9.5, fontsize=10)
-        ax.text(7.7, overpotentials['onsetP'][3] - 0.65, f"$S_9$ (*OOH): {overpotentials['overP'][3]:.2f} eV", color='cyan', rotation=-9.5, fontsize=10)
+        ax.text(5.2, overpotentials['onsetP'][1] - 1.26, 
+                r"S$_2$$\rightarrow$S$_3$$\rightarrow$S$_8$$\rightarrow$S$_10$: " + f"{overpotentials['overP'][1]:.2f} eV", 
+                color='darkorange', rotation=-9.5, fontsize=10)
+        ax.text(5.2, overpotentials['onsetP'][2] - 0.65, 
+                r"S$_3$$\rightarrow$S$_8$$\rightarrow$S$_9$$\rightarrow$S$_11$: " + f"{overpotentials['overP'][2]:.2f} eV", 
+                color='lime', rotation=-9.5, fontsize=10)
+        ax.text(5.2, overpotentials['onsetP'][3] - 0.65,
+                r"S$_3$$\rightarrow$S$_8$$\rightarrow$S$_10$$\rightarrow$S$_11$: " + f"{overpotentials['overP'][3]:.2f} eV", 
+                color='violet', rotation=-9.5, fontsize=10)
     elif A == '2' and B == 'Co':
         plt.plot(pH2, overpotentials['onsetP'][0] - pH2 * const, '--', color='red', lw=1, dashes=(3, 1))
         plt.plot(pH2, overpotentials['onsetP'][1] - pH2 * const, '--', color='darkorange', lw=1, dashes=(3, 1))
