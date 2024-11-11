@@ -399,7 +399,7 @@ for dir in dirs:
         else:
             print(f"Skipping plot for surface {k} due to missing data.")
     plt.xlim(-1.0, 2.5)
-    plt.legend(loc='upper left', bbox_to_anchor=(1.05, 1.02), # borderaxespad=17, 
+    plt.legend(loc='upper left', bbox_to_anchor=(1.03, 1.02), # borderaxespad=17, 
                ncol=1, labelspacing=0.3, handlelength=2, fontsize=10,
                fancybox=True, shadow=True)
     # plt.legend(loc='lower left', bbox_to_anchor=(0.0, 1.02), # borderaxespad=17, 
