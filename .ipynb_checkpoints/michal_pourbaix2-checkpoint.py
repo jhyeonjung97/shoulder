@@ -11,7 +11,33 @@ from matplotlib.ticker import FormatStrFormatter
 dirs = ["/pscratch/sd/j/jiuy97/6_MNC/pourbaix/1_Fe/",
         "/pscratch/sd/j/jiuy97/6_MNC/pourbaix/2_Co/",
         "/pscratch/sd/j/jiuy97/6_MNC/pourbaix/3_Mo/"]
-main_dirs = ["clean", "h", "o", "oh", "oh-o", "oho", "oh-oh", "ohoh", "oh-ooh", "ohooh", "o-o", "oo", "o-oh", "ooh", "ooh-oh", "oohoh"]
+main_dirs = ["clean", "h", "oh", "o", 
+             "ohoh", "oh-oh", "ohooh", "oohoh", "oh-ooh", "ooh-oh",
+             "ooh", "oho", "oh-o", "o-oh", "oo", "o-o",
+             "oooh", "ooho", "o-ooh", "ooh-o", "oohooh", "ooh-ooh",]
+
+    E_clean = min_e0_values.get("clean", None)
+    E_H = min_e0_values.get("h", None)
+    E_OH = min_e0_values.get("oh", None)
+    E_O = min_e0_values.get("o", None)
+    E_OHOH = min_e0_values.get("ohoh", None)
+    E_OH_OH = min_e0_values.get("oh-oh", None)
+    E_OHOOH = min_e0_values.get("ohooh", None)
+    E_OOHOH = min_e0_values.get("oohoh", None)
+    E_OH_OOH = min_e0_values.get("oh-ooh", None)
+    E_OOH_OH = min_e0_values.get("ooh-oh", None)
+    E_OOH = min_e0_values.get("ooh", None)
+    E_OHO = min_e0_values.get("oho", None)
+    E_OH_O = min_e0_values.get("oh-o", None)
+    E_O_OH = min_e0_values.get("o-oh", None)
+    E_OO = min_e0_values.get("oo", None)
+    E_O_O = min_e0_values.get("o-o", None)
+    E_OOOH = min_e0_values.get("oooh", None)
+    E_OOHO = min_e0_values.get("ooho", None)
+    E_O_OOH = min_e0_values.get("o-ooh", None)
+    E_OOH_O = min_e0_values.get("ooh-o", None)
+    E_OOHOOH = min_e0_values.get("oohooh", None)
+    E_OOH_OOH = min_e0_values.get("ooh-ooh", None)
 
 # Regular expression to match E0 values in scientific notation
 e0_pattern = re.compile(r"E0=\s*(-?\.\d+E[+-]?\d+)")
