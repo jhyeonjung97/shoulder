@@ -172,6 +172,7 @@ def overpotential_oer(int1, int2, int3, int4, df, overpotentials):
                 ints[i] = int[0]
             else:
                 ints[i] = int[1]
+                print('why')
 
     int1, int2, int3, int4 = ints
     dG1 = df.loc[int2, 'dG'] - df.loc[int1, 'dG']
