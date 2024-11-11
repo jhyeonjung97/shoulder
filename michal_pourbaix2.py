@@ -252,8 +252,8 @@ for dir in dirs:
     surfs = [
         df.loc['clean', ['E', '#H', '#O', '#OH', '#OOH']].values,
         df.loc['h', ['E', '#H', '#O', '#OH', '#OOH']].values,
-        df.loc['o', ['E', '#H', '#O', '#OH', '#OOH']].values,
         df.loc['oh', ['E', '#H', '#O', '#OH', '#OOH']].values,
+        df.loc['o', ['E', '#H', '#O', '#OH', '#OOH']].values,
         df.loc['ohoh', ['E', '#H', '#O', '#OH', '#OOH']].values,
         df.loc['oh-oh', ['E', '#H', '#O', '#OH', '#OOH']].values,
         df.loc['ohooh', ['E', '#H', '#O', '#OH', '#OOH']].values,
