@@ -230,7 +230,7 @@ for dir in dirs:
 
     df['G'] = df['E'] + dgh * df['#H'] + dgoh * df['#OH'] + dgo * df['#O'] + dgooh * df['#OOH']
     df['dG'] = df['G'] - df.loc['clean', 'G'] - gh * df['#H'] - goh * df['#OH'] - go * df['#O'] - gooh * df['#OOH']
-    df.to_csv(f'/pscratch/sd/j/jiuy97/6_MNC/figures/pourbaix/{A}{B}_energies.csv') #, index=False)
+    df.to_csv(f'/pscratch/sd/j/jiuy97/6_MNC/figures/pourbaix/{A}{B}_energies.tsv', sep='\t') #, index=False)
 
     overpotential_oer('clean', 'oh', 'o', 'ooh', df, overpotentials)
     if A == '1' and B == 'Fe':
@@ -244,7 +244,7 @@ for dir in dirs:
         overpotential_oer('oh', 'o', 'oho', ('oohoh', 'ohooh'), df, overpotentials)
         overpotential_oer('o', 'oho', 'oo', ('oooh', 'ooho'), df, overpotentials)
     overpotentials_df = pd.DataFrame(overpotentials)
-    overpotentials_df.to_csv(f'/pscratch/sd/j/jiuy97/6_MNC/figures/pourbaix/{A}{B}_potentials.csv') #, index=False)
+    overpotentials_df.to_csv(f'/pscratch/sd/j/jiuy97/6_MNC/figures/pourbaix/{A}{B}_potentials.tsv', sep='\t') #, index=False)
 
     # Define surfaces with extracted E0 values
     surfs = [
