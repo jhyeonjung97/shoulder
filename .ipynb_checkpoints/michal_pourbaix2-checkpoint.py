@@ -11,14 +11,10 @@ from matplotlib.ticker import FormatStrFormatter
 dirs = ["/pscratch/sd/j/jiuy97/6_MNC/pourbaix/1_Fe/",
         "/pscratch/sd/j/jiuy97/6_MNC/pourbaix/2_Co/",
         "/pscratch/sd/j/jiuy97/6_MNC/pourbaix/3_Mo/"]
-# main_dirs = ["clean", "h", "oh", "o", 
-#              "ohoh", "oh-oh", "ohooh", "oohoh", "oh-ooh", "ooh-oh",
-#              "ooh", "oho", "oh-o", "o-oh", "oo", "o-o",
-#              "oooh", "ooho", "o-ooh", "ooh-o", "oohooh", "ooh-ooh"]
 main_dirs = ["clean", "h", "oh", "o", 
-             "ohoh", "oh-oh", "ohooh", "oohoh", "ooh-oh", # "oh-ooh"
-             "ooh", "oho", "o-oh", "o-o", # "oh-o", "oo",
-             "oooh", "ooho", "ooh-o", "oohooh", "ooh-ooh"] # "o-ooh"
+             "ohoh", "oh-oh", "ohooh", "oohoh", "oh-ooh", "ooh-oh",
+             "ooh", "oho", "oh-o", "o-oh", "oo", "o-o",
+             "oooh", "ooho", "o-ooh", "ooh-o", "oohooh", "ooh-ooh"]
 sub_dirs = ["HS1", "HS5", "IS1", "IS5", "LS1", "LS5"]
 
 # Regular expression to match E0 values in scientific notation
@@ -75,9 +71,6 @@ gh = gh2 / 2
 go = gh2o - gh2
 goh = gh2o - gh2 / 2
 gooh = go + goh
-
-dgh2o = zpeh2o + cvh2o - tsh2o
-dgh2 = zpeh2 + cvh2 - tsh2
 
 # ads
 zpeoh = 0.376
@@ -234,8 +227,6 @@ for dir in dirs:
 
     df['G'] = df['E'] + dgh * df['#H'] + dgoh * df['#OH'] + dgo * df['#O'] + dgooh * df['#OOH']
     df['dG'] = df['G'] - df.loc['clean', 'G'] - gh * df['#H'] - goh * df['#OH'] - go * df['#O'] - gooh * df['#OOH']
-
-    print(df)
     
     overpotential_oer('clean', 'oh', 'o', 'ooh', df, overpotentials)
     if A == '1' and B == 'Fe':
