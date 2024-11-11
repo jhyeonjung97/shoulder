@@ -175,7 +175,12 @@ def overpotential_oer(int1, int2, int3, int4, df, overpotentials):
     dG4 = 4.92 - dG1 - dG2 - dG3
     onsetP = max(dG1, dG2, dG3, dG4)
     overP = onsetP - 1.23
-    overpotentials.update({'int1': int1, 'int2': int2, 'int3': int3, 'int4': int4, 'overP': overP, 'onsetP': onsetP})
+    overpotentials.setdefault('int1', []).append(int1)
+    overpotentials.setdefault('int2', []).append(int2)
+    overpotentials.setdefault('int3', []).append(int3)
+    overpotentials.setdefault('int4', []).append(int4)
+    overpotentials.setdefault('overP', []).append(overP)
+    overpotentials.setdefault('onsetP', []).append(onsetP)
     print(f"Updated overpotentials: {overpotentials}")
 
 for dir in dirs:
