@@ -188,6 +188,8 @@ for dir in dirs:
     E_OOHO = min_e0_values.get("ooho", None)
     E_O_OOH = min_e0_values.get("o-ooh", None)
     E_OOH_O = min_e0_values.get("ooh-o", None)
+    E_OOHOOH = min_e0_values.get("oohooh", None)
+    E_OOH_OOH = min_e0_values.get("ooh-ooh", None)
     
     G_O = E_O + dgo
     G_OH = E_OH + dgoh
