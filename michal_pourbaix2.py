@@ -308,7 +308,10 @@ for dir in dirs:
     plt.clf()
     fig = plt.figure(figsize=fig_size, dpi=300)
     ax = fig.add_axes([0.2, 0.2, 0.6, 0.6])
-    ax.axis([-1.0, 2.5, -600, 200])
+    if A=='3' and B=='Mo':
+        ax.axis([-1.0, 2.5, -600, 200])
+    else:
+        ax.axis([-1.0, 2.5, -900, 300])
     ax.set_xlabel(r'RHE (V)', fontsize='large')
     ax.set_ylabel(r'$\Delta$G (kJ/mol)', fontsize='large')
     xx = np.arange(-1.00, 2.55, 0.05)
@@ -317,8 +320,8 @@ for dir in dirs:
         dg_value = dg(k, 0, xx)
         if dg_value is not None:
             ax.plot(xx, dg_value * kjmol, '-', lw=1, c=color[k], label=label)
-        else:
-            print(f"Skipping plot for surface {k} due to missing data.")
+        # else:
+        #     print(f"Skipping plot for surface {k} due to missing data.")
     plt.xlim(-1.0, 2.5)
     plt.legend(loc='upper left', bbox_to_anchor=(1.0, 1.0), # borderaxespad=17, 
                ncol=1, labelspacing=0.3, handlelength=2, fontsize=10,
