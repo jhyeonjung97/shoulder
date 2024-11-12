@@ -359,7 +359,7 @@ for dir in dirs:
         ax.text(6.5, overpotentials['onsetP'][3] - 0.96,
                 r"S$_3$$\rightarrow$S$_8$$\rightarrow$S$_{10}$$\rightarrow$S$_{11}$: " + f"{overpotentials['overP'][3]:.2f} eV", 
                 color='violet', rotation=-9.5, fontsize=10)
-        ax.text(6.5, overpotentials['onsetP'][4] - 1.16,
+        ax.text(6.5, overpotentials['onsetP'][4] - 1.28,
                 r"S$_2$$\rightarrow$S$_5$$\rightarrow$S$_8$$\rightarrow$S$_{10}$: " + f"{overpotentials['overP'][3]:.2f} eV", 
                 color='gold', rotation=-9.5, fontsize=10)
     elif A == '2' and B == 'Co':
