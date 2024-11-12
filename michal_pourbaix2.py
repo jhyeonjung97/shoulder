@@ -427,6 +427,10 @@ for dir in dirs:
     print(f"Data saved as {A}{B}_energies.png")
 
     overpotentials_df = pd.DataFrame(overpotentials)
+    overpotentials_df['dg1'] = overpotentials_df['dg1'].round(2)
+    overpotentials_df['dg2'] = overpotentials_df['dg2'].round(2)
+    overpotentials_df['dg3'] = overpotentials_df['dg3'].round(2)
+    overpotentials_df['dg4'] = overpotentials_df['dg4'].round(2)
     overpotentials_df['overP'] = overpotentials_df['overP'].round(2)
     overpotentials_df['onsetP'] = overpotentials_df['onsetP'].round(2)
     overpotentials_df.to_csv(f'/pscratch/sd/j/jiuy97/6_MNC/figures/pourbaix/{A}{B}_potentials.tsv', sep='\t') #, index=False)
