@@ -356,14 +356,14 @@ for dir in dirs:
         ax.text(6.5, overpotentials['onsetP'][0] - 0.92, 
                 r"S$_0$$\rightarrow$S$_2$$\rightarrow$S$_3$$\rightarrow$S$_6$: " + f"{overpotentials['overP'][0]:.2f} eV", 
                 color='black', rotation=-9.5, fontsize=10)
-        ax.text(6.5, overpotentials['onsetP'][1] - 0.72,
-                r"S$_2$$\rightarrow$S$_5$$\rightarrow$S$_8$$\rightarrow$S$_{10}$: " + f"{overpotentials['overP'][3]:.2f} eV", 
+        ax.text(6.5, overpotentials['onsetP'][1] - 0.92,
+                r"S$_2$$\rightarrow$S$_5$$\rightarrow$S$_8$$\rightarrow$S$_{10}$: " + f"{overpotentials['overP'][1]:.2f} eV", 
                 color='red', rotation=-9.5, fontsize=10)
-        ax.text(6.5, overpotentials['onsetP'][2] - 0.72, 
+        ax.text(6.5, overpotentials['onsetP'][2] - 0.62, 
                 r"S$_3$$\rightarrow$S$_8$$\rightarrow$S$_9$$\rightarrow$S$_{11}$: " + f"{overpotentials['overP'][2]:.2f} eV", 
                 color='blue', rotation=-9.5, fontsize=10)
-        ax.text(6.5, overpotentials['onsetP'][3] - 0.72, 
-                r"S$_6$$\rightarrow$S$_{10}$$\rightarrow$S$_{11}$$\rightarrow$S$_{12}$: " + f"{overpotentials['overP'][1]:.2f} eV", 
+        ax.text(6.5, overpotentials['onsetP'][3] - 0.62, 
+                r"S$_6$$\rightarrow$S$_{10}$$\rightarrow$S$_{11}$$\rightarrow$S$_{12}$: " + f"{overpotentials['overP'][3]:.2f} eV", 
                 color='green', rotation=-9.5, fontsize=10)    
     elif A == '2' and B == 'Co':
         plt.plot(pH2, overpotentials['onsetP'][0] - pH2 * const, '--', color='black', lw=1, dashes=(3, 1))
