@@ -379,7 +379,7 @@ for dir in dirs:
         ax.text(6.5, overpotentials['onsetP'][0] - 0.72, 
                 r"S$_0$$\rightarrow$S$_2$$\rightarrow$S$_3$$\rightarrow$S$_6$: " + f"{overpotentials['overP'][0]:.2f} eV", 
                 color='black', rotation=-9.5, fontsize=10)
-        ax.text(6.5, overpotentials['onsetP'][1] - 0.54,
+        ax.text(6.5, overpotentials['onsetP'][1] - 0.72, # 0.54
                 r"S$_2$$\rightarrow$S$_5$$\rightarrow$S$_8$$\rightarrow$S$_{10}$: " + f"{overpotentials['overP'][1]:.2f} eV", 
                 color='violet', rotation=-9.5, fontsize=10)
         # ax.text(6.5, overpotentials['onsetP'][2] - 0.94, 
@@ -388,7 +388,7 @@ for dir in dirs:
         # ax.text(6.5, overpotentials['onsetP'][3] - 0.72, 
         #         r"S$_6$$\rightarrow$S$_{10}$$\rightarrow$S$_{11}$$\rightarrow$S$_{12}$: " + f"{overpotentials['overP'][3]:.2f} eV", 
         #         color='orange', rotation=-9.5, fontsize=10)
-        ax.text(6.5, overpotentials['onsetP'][5] - 0.54,
+        ax.text(6.5, overpotentials['onsetP'][5] - 0.94,
                 r"S$_2$$\rightarrow$S$_3$$\rightarrow$S$_8$$\rightarrow$S$_{10}$: " + f"{overpotentials['overP'][5]:.2f} eV", 
                 color='red', rotation=-9.5, fontsize=10)
     elif A == '3' and B == 'Mo':
