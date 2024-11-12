@@ -182,7 +182,7 @@ def overpotential_oer(int1, int2, int3, int4, df, overpotentials):
         onsetP = np.nan
         overP = np.nan
     else:
-        onsetP = max(dG1, dG2, dG3, dG4)
+        onsetP = max(dG12, dG23, dG34, dG41)
         overP = onsetP - 1.23
     overpotentials['int1'].append(int1)
     overpotentials['int2'].append(int2)
