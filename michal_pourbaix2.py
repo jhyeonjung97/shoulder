@@ -188,6 +188,10 @@ def overpotential_oer(int1, int2, int3, int4, df, overpotentials):
     overpotentials['int2'].append(int2)
     overpotentials['int3'].append(int3)
     overpotentials['int4'].append(int4)
+    overpotentials['dg1'].append(dG1)
+    overpotentials['dg2'].append(dG2)
+    overpotentials['dg3'].append(dG3)
+    overpotentials['dg4'].append(dG4)
     overpotentials['overP'].append(overP)
     overpotentials['onsetP'].append(onsetP)
 
@@ -197,7 +201,7 @@ for dir in dirs:
     basename = os.path.basename(os.path.normpath(dir))
     A, B = basename.split('_', 1)
     df = pd.DataFrame()
-    overpotentials = {'int1': [], 'int2': [], 'int3': [], 'int4': [], 'overP': [], 'onsetP': []}
+    overpotentials = {'int1': [], 'int2': [], 'int3': [], 'int4': [], 'dg1': [], 'dg2': [], 'dg3': [], 'dg4': [], 'overP': [], 'onsetP': []}
     
     # Iterate through each main directory to extract E0 values and plot
     for main_dir in main_dirs:
