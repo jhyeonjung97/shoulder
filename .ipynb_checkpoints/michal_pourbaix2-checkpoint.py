@@ -242,14 +242,21 @@ for dir in dirs:
 
     overpotential_oer('clean', 'oh', 'o', 'ooh', df, overpotentials)
     if A == '1' and B == 'Fe':
-        overpotential_oer('oh', 'o', ('o-oh', 'oh-o'), ('ooh-oh', 'oh-ooh'), df, overpotentials)
-        overpotential_oer('o', ('o-oh', 'oh-o'), 'o-o', ('ooh-o', 'o-ooh'), df, overpotentials)
-        overpotential_oer('o', ('o-oh', 'oh-o'), ('ooh-oh', 'oh-ooh'), ('ooh-o', 'o-ooh'), df, overpotentials)
         overpotential_oer('oh', 'oh-oh', ('o-oh', 'oh-o'), ('ooh-oh', 'oh-ooh'), df, overpotentials)
         overpotential_oer('o', ('o-oh', 'oh-o'), 'o-o', ('ooh-o', 'o-ooh'), df, overpotentials)
+        overpotential_oer('ooh', ('oh-ooh', 'ooh-oh'), ('ooh-o', 'o-ooh'), 'ooh-ooh', df, overpotentials)
+        overpotential_oer('oh', 'o', 'ooh', ('ooh-oh', 'oh-ooh'), df, overpotentials)
+        overpotential_oer('oh', 'o', ('o-oh', 'oh-o'), ('ooh-oh', 'oh-ooh'), df, overpotentials)
+        overpotential_oer('o', 'ooh', ('ooh-oh', 'oh-ooh'), ('ooh-o', 'o-ooh'), df, overpotentials)        
+        overpotential_oer('o', ('o-oh', 'oh-o'), ('ooh-oh', 'oh-ooh'), ('ooh-o', 'o-ooh'), df, overpotentials)
     elif A == '2' and B == 'Co':
         overpotential_oer('oh', 'oh-oh', ('o-oh', 'oh-o'), ('ooh-oh', 'oh-ooh'), df, overpotentials)
         overpotential_oer('o', ('o-oh', 'oh-o'), 'o-o', ('ooh-o', 'o-ooh'), df, overpotentials)
+        overpotential_oer('ooh', ('oh-ooh', 'ooh-oh'), ('ooh-o', 'o-ooh'), 'ooh-ooh', df, overpotentials)
+        overpotential_oer('oh', 'o', 'ooh', ('ooh-oh', 'oh-ooh'), df, overpotentials)
+        overpotential_oer('oh', 'o', ('o-oh', 'oh-o'), ('ooh-oh', 'oh-ooh'), df, overpotentials)
+        overpotential_oer('o', 'ooh', ('ooh-oh', 'oh-ooh'), ('ooh-o', 'o-ooh'), df, overpotentials)        
+        overpotential_oer('o', ('o-oh', 'oh-o'), ('ooh-oh', 'oh-ooh'), ('ooh-o', 'o-ooh'), df, overpotentials)
     elif A == '3' and B == 'Mo':
         overpotential_oer('oh', 'o', 'oho', ('oohoh', 'ohooh'), df, overpotentials)
         overpotential_oer('o', 'oho', 'oo', ('oooh', 'ooho'), df, overpotentials)
@@ -341,29 +348,25 @@ for dir in dirs:
     
     plt.plot(pH2, 1.23 - pH2 * const, '--', color='blue', lw=1, dashes=(3, 1))
     if A == '1' and B == 'Fe':
-        plt.plot(pH2, overpotentials['onsetP'][0] - pH2 * const, '--', color='red', lw=1, dashes=(3, 1))
-        plt.plot(pH2, overpotentials['onsetP'][1] - pH2 * const, '--', color='darkorange', lw=1, dashes=(3, 1))
-        plt.plot(pH2, overpotentials['onsetP'][2] - pH2 * const, '--', color='lime', lw=1, dashes=(3, 1))
-        plt.plot(pH2, overpotentials['onsetP'][3] - pH2 * const, '--', color='violet', lw=1, dashes=(3, 1))
-        plt.plot(pH2, overpotentials['onsetP'][4] - pH2 * const, '--', color='gold', lw=1, dashes=(3, 1))
+        plt.plot(pH2, overpotentials['onsetP'][0] - pH2 * const, '--', color='black', lw=1, dashes=(3, 1))
+        plt.plot(pH2, overpotentials['onsetP'][1] - pH2 * const, '--', color='red', lw=1, dashes=(3, 1))
+        plt.plot(pH2, overpotentials['onsetP'][2] - pH2 * const, '--', color='blue', lw=1, dashes=(3, 1))
+        plt.plot(pH2, overpotentials['onsetP'][3] - pH2 * const, '--', color='green', lw=1, dashes=(3, 1))
         ax.text(0.2, 0.65, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
         ax.text(6.5, overpotentials['onsetP'][0] - 0.92, 
                 r"S$_0$$\rightarrow$S$_2$$\rightarrow$S$_3$$\rightarrow$S$_6$: " + f"{overpotentials['overP'][0]:.2f} eV", 
+                color='black', rotation=-9.5, fontsize=10)
+        ax.text(6.5, overpotentials['onsetP'][1] - 0.72,
+                r"S$_2$$\rightarrow$S$_5$$\rightarrow$S$_8$$\rightarrow$S$_{10}$: " + f"{overpotentials['overP'][3]:.2f} eV", 
                 color='red', rotation=-9.5, fontsize=10)
-        ax.text(6.5, overpotentials['onsetP'][1] - 1.12, 
-                r"S$_2$$\rightarrow$S$_3$$\rightarrow$S$_8$$\rightarrow$S$_{10}$: " + f"{overpotentials['overP'][1]:.2f} eV", 
-                color='darkorange', rotation=-9.5, fontsize=10)
         ax.text(6.5, overpotentials['onsetP'][2] - 0.72, 
                 r"S$_3$$\rightarrow$S$_8$$\rightarrow$S$_9$$\rightarrow$S$_{11}$: " + f"{overpotentials['overP'][2]:.2f} eV", 
-                color='lime', rotation=-9.5, fontsize=10)
-        ax.text(6.5, overpotentials['onsetP'][3] - 0.96,
-                r"S$_3$$\rightarrow$S$_8$$\rightarrow$S$_{10}$$\rightarrow$S$_{11}$: " + f"{overpotentials['overP'][3]:.2f} eV", 
-                color='violet', rotation=-9.5, fontsize=10)
-        ax.text(6.5, overpotentials['onsetP'][4] - 1.28,
-                r"S$_2$$\rightarrow$S$_5$$\rightarrow$S$_8$$\rightarrow$S$_{10}$: " + f"{overpotentials['overP'][3]:.2f} eV", 
-                color='gold', rotation=-9.5, fontsize=10)
+                color='blue', rotation=-9.5, fontsize=10)
+        ax.text(6.5, overpotentials['onsetP'][3] - 0.72, 
+                r"S$_6$$\rightarrow$S$_{10}$$\rightarrow$S$_{11}$$\rightarrow$S$_{12}$: " + f"{overpotentials['overP'][1]:.2f} eV", 
+                color='green', rotation=-9.5, fontsize=10)    
     elif A == '2' and B == 'Co':
-        plt.plot(pH2, overpotentials['onsetP'][0] - pH2 * const, '--', color='red', lw=1, dashes=(3, 1))
+        plt.plot(pH2, overpotentials['onsetP'][0] - pH2 * const, '--', color='black', lw=1, dashes=(3, 1))
         plt.plot(pH2, overpotentials['onsetP'][1] - pH2 * const, '--', color='gold', lw=1, dashes=(3, 1))
         plt.plot(pH2, overpotentials['onsetP'][2] - pH2 * const, '--', color='lime', lw=1, dashes=(3, 1))
         ax.text(0.2, 0.88, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
