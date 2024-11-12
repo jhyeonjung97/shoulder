@@ -241,6 +241,8 @@ for dir in dirs:
         overpotential_oer('oh', 'o', ('o-oh', 'oh-o'), ('ooh-oh', 'oh-ooh'), df, overpotentials)
         overpotential_oer('o', ('o-oh', 'oh-o'), 'o-o', ('ooh-o', 'o-ooh'), df, overpotentials)
         overpotential_oer('o', ('o-oh', 'oh-o'), ('ooh-oh', 'oh-ooh'), ('ooh-o', 'o-ooh'), df, overpotentials)
+        overpotential_oer('oh', 'oh-oh', ('o-oh', 'oh-o'), ('ooh-oh', 'oh-ooh'), df, overpotentials)
+        overpotential_oer('o', ('o-oh', 'oh-o'), 'o-o', ('ooh-o', 'o-ooh'), df, overpotentials)
     elif A == '2' and B == 'Co':
         overpotential_oer('oh', 'oh-oh', ('o-oh', 'oh-o'), ('ooh-oh', 'oh-ooh'), df, overpotentials)
         overpotential_oer('o', ('o-oh', 'oh-o'), 'o-o', ('ooh-o', 'o-ooh'), df, overpotentials)
