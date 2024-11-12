@@ -174,11 +174,11 @@ def overpotential_oer(int1, int2, int3, int4, df, overpotentials):
                 ints[i] = int[1]
     int1, int2, int3, int4 = ints
     
-    dG1 = df.loc[int2, 'dG'] - df.loc[int1, 'dG']
-    dG2 = df.loc[int3, 'dG'] - df.loc[int2, 'dG']
-    dG3 = df.loc[int4, 'dG'] - df.loc[int3, 'dG']
-    dG4 = 4.92 - dG1 - dG2 - dG3
-    if any(np.isnan(value) for value in [dG1, dG2, dG3, dG4]):
+    dG12 = df.loc[int2, 'dG'] - df.loc[int1, 'dG']
+    dG23 = df.loc[int3, 'dG'] - df.loc[int2, 'dG']
+    dG34 = df.loc[int4, 'dG'] - df.loc[int3, 'dG']
+    dG41 = 4.92 - dG12 - dG23 - dG34
+    if any(np.isnan(value) for value in [dG12, dG23, dG34, dG41]):
         onsetP = np.nan
         overP = np.nan
     else:
@@ -188,10 +188,10 @@ def overpotential_oer(int1, int2, int3, int4, df, overpotentials):
     overpotentials['int2'].append(int2)
     overpotentials['int3'].append(int3)
     overpotentials['int4'].append(int4)
-    overpotentials['dg1'].append(dG1)
-    overpotentials['dg2'].append(dG2)
-    overpotentials['dg3'].append(dG3)
-    overpotentials['dg4'].append(dG4)
+    overpotentials['dg12'].append(dG12)
+    overpotentials['dg23'].append(dG23)
+    overpotentials['dg34'].append(dG34)
+    overpotentials['dg41'].append(dG41)
     overpotentials['overP'].append(overP)
     overpotentials['onsetP'].append(onsetP)
 
@@ -201,7 +201,7 @@ for dir in dirs:
     basename = os.path.basename(os.path.normpath(dir))
     A, B = basename.split('_', 1)
     df = pd.DataFrame()
-    overpotentials = {'int1': [], 'int2': [], 'int3': [], 'int4': [], 'dg1': [], 'dg2': [], 'dg3': [], 'dg4': [], 'overP': [], 'onsetP': []}
+    overpotentials = {'int1': [], 'int2': [], 'int3': [], 'int4': [], 'dg12': [], 'dg23': [], 'dg34': [], 'dg41': [], 'overP': [], 'onsetP': []}
     
     # Iterate through each main directory to extract E0 values and plot
     for main_dir in main_dirs:
@@ -438,10 +438,10 @@ for dir in dirs:
     print(f"Data saved as {A}{B}_energies.png")
 
     overpotentials_df = pd.DataFrame(overpotentials)
-    overpotentials_df['dg1'] = overpotentials_df['dg1'].round(2)
-    overpotentials_df['dg2'] = overpotentials_df['dg2'].round(2)
-    overpotentials_df['dg3'] = overpotentials_df['dg3'].round(2)
-    overpotentials_df['dg4'] = overpotentials_df['dg4'].round(2)
+    overpotentials_df['dg12'] = overpotentials_df['dg12'].round(2)
+    overpotentials_df['dg23'] = overpotentials_df['dg23'].round(2)
+    overpotentials_df['dg34'] = overpotentials_df['dg34'].round(2)
+    overpotentials_df['dg41'] = overpotentials_df['dg41'].round(2)
     overpotentials_df['overP'] = overpotentials_df['overP'].round(2)
     overpotentials_df['onsetP'] = overpotentials_df['onsetP'].round(2)
     overpotentials_df.to_csv(f'/pscratch/sd/j/jiuy97/6_MNC/figures/pourbaix/{A}{B}_potentials.tsv', sep='\t') #, index=False)
