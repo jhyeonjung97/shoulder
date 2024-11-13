@@ -160,7 +160,7 @@ def dg(i, x, y):
             + surfs[i][3] * addOH(x, y) 
             + surfs[i][4] * addOOH(x, y))
     
-def overpotential_oer(int1, int2, int3, int4, df, overpotentials):
+def overpotential(int1, int2, int3, int4, df, OER, ORR):
     ints = [int1, int2, int3, int4]
     for i, int in enumerate(ints):
         if isinstance(int, tuple):
@@ -179,29 +179,88 @@ def overpotential_oer(int1, int2, int3, int4, df, overpotentials):
     dG34 = df.loc[int4, 'dG'] - df.loc[int3, 'dG']
     dG41 = 4.92 - dG12 - dG23 - dG34
     if any(np.isnan(value) for value in [dG12, dG23, dG34, dG41]):
-        onsetP = np.nan
-        overP = np.nan
+        onsetP_oer = np.nan
+        overP_oer = np.nan
+        onsetP_orr = np.nan
+        overP_orr = np.nan
     else:
-        onsetP = max(dG12, dG23, dG34, dG41)
-        overP = onsetP - 1.23
-    overpotentials['int1'].append(int1)
-    overpotentials['int2'].append(int2)
-    overpotentials['int3'].append(int3)
-    overpotentials['int4'].append(int4)
-    overpotentials['dg12'].append(dG12)
-    overpotentials['dg23'].append(dG23)
-    overpotentials['dg34'].append(dG34)
-    overpotentials['dg41'].append(dG41)
-    overpotentials['overP'].append(overP)
-    overpotentials['onsetP'].append(onsetP)
-
+        onsetP_oer = max(dG12, dG23, dG34, dG41)
+        overP_oer = onsetP - 1.23
+        onsetP_oer = min(dG12, dG23, dG34, dG41)
+        overP_oer = 1.23 - min(dG12, dG23, dG34, dG41)
+        
+    OER['int1'].append(int1); OER['int2'].append(int2); OER['int3'].append(int3); OER['int4'].append(int4)
+    OER['dg12'].append(dG12); OER['dg23'].append(dG23); OER['dg34'].append(dG34); OER['dg41'].append(dG41)
+    OER['overP'].append(overP_oer); OER['onsetP'].append(onsetP_oer)
+    
+    ORR['int1'].append(int4); OER['int2'].append(int3); OER['int3'].append(int2); OER['int4'].append(int1)
+    ORR['dg12'].append(-dG43); ORR['dg23'].append(-dG32); ORR['dg34'].append(-dG21); ORR['dg41'].append(-dG14)
+    ORR['overP'].append(overP_orr); ORR['onsetP'].append(onsetP_orr)
+    
+# def overpotential_oer(int1, int2, int3, int4, df, OER):
+#     ints = [int1, int2, int3, int4]
+#     for i, int in enumerate(ints):
+#         if isinstance(int, tuple):
+#             if np.isnan(df.loc[int[1], 'E']):
+#                 ints[i] = int[0]
+#             elif np.isnan(df.loc[int[0], 'E']):
+#                 ints[i] = int[1]
+#             elif df.loc[int[0], 'E'] < df.loc[int[1], 'E']:
+#                 ints[i] = int[0]
+#             else:
+#                 ints[i] = int[1]
+#     int1, int2, int3, int4 = ints
+    
+#     dG12 = df.loc[int2, 'dG'] - df.loc[int1, 'dG']
+#     dG23 = df.loc[int3, 'dG'] - df.loc[int2, 'dG']
+#     dG34 = df.loc[int4, 'dG'] - df.loc[int3, 'dG']
+#     dG41 = 4.92 - dG12 - dG23 - dG34
+#     if any(np.isnan(value) for value in [dG12, dG23, dG34, dG41]):
+#         onsetP = np.nan
+#         overP = np.nan
+#     else:
+#         onsetP = max(dG12, dG23, dG34, dG41)
+#         overP = onsetP - 1.23
+#     OER['int1'].append(int1); OER['int2'].append(int2); OER['int3'].append(int3); OER['int4'].append(int4)
+#     OER['dg12'].append(dG12); OER['dg23'].append(dG23); OER['dg34'].append(dG34); OER['dg41'].append(dG41)
+#     OER['overP'].append(overP); OER['onsetP'].append(onsetP)
+    
+# def overpotential_orr(int1, int2, int3, int4, df, ORR):
+#     ints = [int1, int2, int3, int4]
+#     for i, int in enumerate(ints):
+#         if isinstance(int, tuple):
+#             if np.isnan(df.loc[int[1], 'E']):
+#                 ints[i] = int[0]
+#             elif np.isnan(df.loc[int[0], 'E']):
+#                 ints[i] = int[1]
+#             elif df.loc[int[0], 'E'] < df.loc[int[1], 'E']:
+#                 ints[i] = int[0]
+#             else:
+#                 ints[i] = int[1]
+#     int1, int2, int3, int4 = ints
+    
+#     dG12 = df.loc[int2, 'dG'] - df.loc[int1, 'dG']
+#     dG23 = df.loc[int3, 'dG'] - df.loc[int2, 'dG']
+#     dG34 = df.loc[int4, 'dG'] - df.loc[int3, 'dG']
+#     dG41 = -4.92 - dG12 - dG23 - dG34
+#     if any(np.isnan(value) for value in [dG43, dG32, dG34, dG41]):
+#         onsetP = np.nan
+#         overP = np.nan
+#     else:
+#         onsetP = -max(dG12, dG23, dG34, dG41)
+#         overP = 1.23 + max(dG12, dG23, dG34, dG41)
+#     ORR['int1'].append(int1); ORR['int2'].append(int2); ORR['int3'].append(int3); ORR['int4'].append(int4)
+#     ORR['dg12'].append(dG12); ORR['dg23'].append(dG23); ORR['dg34'].append(dG34); ORR['dg41'].append(dG41)
+#     ORR['overP'].append(overP); ORR['onsetP'].append(onsetP)
+    
 for dir in dirs:
     os.chdir(dir)
     print(dir)
     basename = os.path.basename(os.path.normpath(dir))
     A, B = basename.split('_', 1)
     df = pd.DataFrame()
-    overpotentials = {'int1': [], 'int2': [], 'int3': [], 'int4': [], 'dg12': [], 'dg23': [], 'dg34': [], 'dg41': [], 'overP': [], 'onsetP': []}
+    OER = {'int1': [], 'int2': [], 'int3': [], 'int4': [], 'dg12': [], 'dg23': [], 'dg34': [], 'dg41': [], 'overP': [], 'onsetP': []}
+    ORR = {'int1': [], 'int2': [], 'int3': [], 'int4': [], 'dg12': [], 'dg23': [], 'dg34': [], 'dg41': [], 'overP': [], 'onsetP': []}
     
     # Iterate through each main directory to extract E0 values and plot
     for main_dir in main_dirs:
@@ -240,27 +299,48 @@ for dir in dirs:
     df['G'] = df['E'] + dgh * df['#H'] + dgoh * df['#OH'] + dgo * df['#O'] + dgooh * df['#OOH']
     df['dG'] = df['G'] - df.loc['clean', 'G'] - gh * df['#H'] - goh * df['#OH'] - go * df['#O'] - gooh * df['#OOH']
 
-    overpotential_oer('clean', 'oh', 'o', 'ooh', df, overpotentials)
+    overpotential('clean', 'oh', 'o', 'ooh', df, OER, ORR)
     if A == '1' and B == 'Fe':
-        overpotential_oer('oh', 'oh-oh', ('o-oh', 'oh-o'), ('ooh-oh', 'oh-ooh'), df, overpotentials)
-        overpotential_oer('o', ('o-oh', 'oh-o'), 'o-o', ('ooh-o', 'o-ooh'), df, overpotentials)
-        overpotential_oer('ooh', ('oh-ooh', 'ooh-oh'), ('ooh-o', 'o-ooh'), 'ooh-ooh', df, overpotentials)
-        overpotential_oer('oh', 'o', 'ooh', ('ooh-oh', 'oh-ooh'), df, overpotentials)
-        overpotential_oer('oh', 'o', ('o-oh', 'oh-o'), ('ooh-oh', 'oh-ooh'), df, overpotentials)
-        overpotential_oer('o', 'ooh', ('ooh-oh', 'oh-ooh'), ('ooh-o', 'o-ooh'), df, overpotentials)        
-        overpotential_oer('o', ('o-oh', 'oh-o'), ('ooh-oh', 'oh-ooh'), ('ooh-o', 'o-ooh'), df, overpotentials)
+        overpotential('oh', 'oh-oh', ('o-oh', 'oh-o'), ('ooh-oh', 'oh-ooh'), df, OER, ORR)
+        overpotential('o', ('o-oh', 'oh-o'), 'o-o', ('ooh-o', 'o-ooh'), df, OER, ORR)
+        overpotential('ooh', ('oh-ooh', 'ooh-oh'), ('ooh-o', 'o-ooh'), 'ooh-ooh', df, OER, ORR)
+        overpotential('oh', 'o', 'ooh', ('ooh-oh', 'oh-ooh'), df, OER, ORR)
+        overpotential('oh', 'o', ('o-oh', 'oh-o'), ('ooh-oh', 'oh-ooh'), df, OER, ORR)
+        overpotential('o', 'ooh', ('ooh-oh', 'oh-ooh'), ('ooh-o', 'o-ooh'), df, OER, ORR)        
+        overpotential('o', ('o-oh', 'oh-o'), ('ooh-oh', 'oh-ooh'), ('ooh-o', 'o-ooh'), df, OER, ORR)
     elif A == '2' and B == 'Co':
-        overpotential_oer('oh', 'oh-oh', ('o-oh', 'oh-o'), ('ooh-oh', 'oh-ooh'), df, overpotentials)
-        overpotential_oer('o', ('o-oh', 'oh-o'), 'o-o', ('ooh-o', 'o-ooh'), df, overpotentials)
-        overpotential_oer('ooh', ('oh-ooh', 'ooh-oh'), ('ooh-o', 'o-ooh'), 'ooh-ooh', df, overpotentials)
-        overpotential_oer('oh', 'o', 'ooh', ('ooh-oh', 'oh-ooh'), df, overpotentials)
-        overpotential_oer('oh', 'o', ('o-oh', 'oh-o'), ('ooh-oh', 'oh-ooh'), df, overpotentials)
-        overpotential_oer('o', 'ooh', ('ooh-oh', 'oh-ooh'), ('ooh-o', 'o-ooh'), df, overpotentials)        
-        overpotential_oer('o', ('o-oh', 'oh-o'), ('ooh-oh', 'oh-ooh'), ('ooh-o', 'o-ooh'), df, overpotentials)
+        overpotential('oh', 'oh-oh', ('o-oh', 'oh-o'), ('ooh-oh', 'oh-ooh'), df, OER, ORR)
+        overpotential('o', ('o-oh', 'oh-o'), 'o-o', ('ooh-o', 'o-ooh'), df, OER, ORR)
+        overpotential('ooh', ('oh-ooh', 'ooh-oh'), ('ooh-o', 'o-ooh'), 'ooh-ooh', df, OER, ORR)
+        overpotential('oh', 'o', 'ooh', ('ooh-oh', 'oh-ooh'), df, OER, ORR)
+        overpotential('oh', 'o', ('o-oh', 'oh-o'), ('ooh-oh', 'oh-ooh'), df, OER, ORR)
+        overpotential('o', 'ooh', ('ooh-oh', 'oh-ooh'), ('ooh-o', 'o-ooh'), df, OER, ORR)        
+        overpotential('o', ('o-oh', 'oh-o'), ('ooh-oh', 'oh-ooh'), ('ooh-o', 'o-ooh'), df, OER, ORR)
     elif A == '3' and B == 'Mo':
-        overpotential_oer('oh', 'o', 'oho', ('oohoh', 'ohooh'), df, overpotentials)
-        overpotential_oer('o', 'oho', 'oo', ('oooh', 'ooho'), df, overpotentials)
+        overpotential('oh', 'o', 'oho', ('oohoh', 'ohooh'), df, OER, ORR)
+        overpotential('o', 'oho', 'oo', ('oooh', 'ooho'), df, OER, ORR)
 
+    # overpotential_orr('clean', 'oh', 'o', 'ooh', df, ORR)
+    # if A == '1' and B == 'Fe':
+    #     overpotential_orr('oh', 'oh-oh', ('o-oh', 'oh-o'), ('ooh-oh', 'oh-ooh'), df, ORR)
+    #     overpotential_orr('o', ('o-oh', 'oh-o'), 'o-o', ('ooh-o', 'o-ooh'), df, ORR)
+    #     overpotential_orr('ooh', ('oh-ooh', 'ooh-oh'), ('ooh-o', 'o-ooh'), 'ooh-ooh', df, ORR)
+    #     overpotential_orr('oh', 'o', 'ooh', ('ooh-oh', 'oh-ooh'), df, ORR)
+    #     overpotential_orr('oh', 'o', ('o-oh', 'oh-o'), ('ooh-oh', 'oh-ooh'), df, ORR)
+    #     overpotential_orr('o', 'ooh', ('ooh-oh', 'oh-ooh'), ('ooh-o', 'o-ooh'), df, ORR)        
+    #     overpotential_orr('o', ('o-oh', 'oh-o'), ('ooh-oh', 'oh-ooh'), ('ooh-o', 'o-ooh'), df, ORR)
+    # elif A == '2' and B == 'Co':
+    #     overpotential_orr('oh', 'oh-oh', ('o-oh', 'oh-o'), ('ooh-oh', 'oh-ooh'), df, ORR)
+    #     overpotential_orr('o', ('o-oh', 'oh-o'), 'o-o', ('ooh-o', 'o-ooh'), df, ORR)
+    #     overpotential_orr('ooh', ('oh-ooh', 'ooh-oh'), ('ooh-o', 'o-ooh'), 'ooh-ooh', df, ORR)
+    #     overpotential_orr('oh', 'o', 'ooh', ('ooh-oh', 'oh-ooh'), df, ORR)
+    #     overpotential_orr('oh', 'o', ('o-oh', 'oh-o'), ('ooh-oh', 'oh-ooh'), df, ORR)
+    #     overpotential_orr('o', 'ooh', ('ooh-oh', 'oh-ooh'), ('ooh-o', 'o-ooh'), df, ORR)        
+    #     overpotential_orr('o', ('o-oh', 'oh-o'), ('ooh-oh', 'oh-ooh'), ('ooh-o', 'o-ooh'), df, ORR)
+    # elif A == '3' and B == 'Mo':
+    #     overpotential_orr('oh', 'o', 'oho', ('oohoh', 'ohooh'), df, ORR)
+    #     overpotential_orr('o', 'oho', 'oo', ('oooh', 'ooho'), df, ORR)
+        
     # Define surfaces with extracted E0 values
     surfs = [
         df.loc['clean', ['E', '#H', '#O', '#OH', '#OOH']].tolist(),
@@ -348,54 +428,54 @@ for dir in dirs:
     
     plt.plot(pH2, 1.23 - pH2 * const, '--', color='blue', lw=1, dashes=(3, 1))
     if A == '1' and B == 'Fe':
-        plt.plot(pH2, overpotentials['onsetP'][0] - pH2 * const, '--', color='black', lw=1, dashes=(3, 1))
-        # plt.plot(pH2, overpotentials['onsetP'][1] - pH2 * const, '--', color='red', lw=1, dashes=(3, 1))
-        # plt.plot(pH2, overpotentials['onsetP'][2] - pH2 * const, '--', color='green', lw=1, dashes=(3, 1))
-        # plt.plot(pH2, overpotentials['onsetP'][3] - pH2 * const, '--', color='orange', lw=1, dashes=(3, 1))
-        plt.plot(pH2, overpotentials['onsetP'][7] - pH2 * const, '--', color='lime', lw=1, dashes=(3, 1))
+        plt.plot(pH2, OER['onsetP'][0] - pH2 * const, '--', color='black', lw=1, dashes=(3, 1))
+        # plt.plot(pH2, OER['onsetP'][1] - pH2 * const, '--', color='red', lw=1, dashes=(3, 1))
+        # plt.plot(pH2, OER['onsetP'][2] - pH2 * const, '--', color='green', lw=1, dashes=(3, 1))
+        # plt.plot(pH2, OER['onsetP'][3] - pH2 * const, '--', color='orange', lw=1, dashes=(3, 1))
+        plt.plot(pH2, OER['onsetP'][7] - pH2 * const, '--', color='lime', lw=1, dashes=(3, 1))
         ax.text(0.2, 0.65, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
-        ax.text(6.5, overpotentials['onsetP'][0] - 0.92, 
-                r"S$_0$$\rightarrow$S$_2$$\rightarrow$S$_3$$\rightarrow$S$_6$: " + f"{overpotentials['overP'][0]:.2f} eV", 
+        ax.text(6.5, OER['onsetP'][0] - 0.92, 
+                r"S$_0$$\rightarrow$S$_2$$\rightarrow$S$_3$$\rightarrow$S$_6$: " + f"{OER['overP'][0]:.2f} eV", 
                 color='black', rotation=-9.5, fontsize=10)
-        # ax.text(6.5, overpotentials['onsetP'][1] - 0.94,
-        #         r"S$_2$$\rightarrow$S$_5$$\rightarrow$S$_8$$\rightarrow$S$_{10}$: " + f"{overpotentials['overP'][1]:.2f} eV", 
+        # ax.text(6.5, OER['onsetP'][1] - 0.94,
+        #         r"S$_2$$\rightarrow$S$_5$$\rightarrow$S$_8$$\rightarrow$S$_{10}$: " + f"{OER['overP'][1]:.2f} eV", 
         #         color='red', rotation=-9.5, fontsize=10)
-        # ax.text(6.5, overpotentials['onsetP'][2] - 0.60, 
-        #         r"S$_3$$\rightarrow$S$_8$$\rightarrow$S$_9$$\rightarrow$S$_{11}$: " + f"{overpotentials['overP'][2]:.2f} eV", 
+        # ax.text(6.5, OER['onsetP'][2] - 0.60, 
+        #         r"S$_3$$\rightarrow$S$_8$$\rightarrow$S$_9$$\rightarrow$S$_{11}$: " + f"{OER['overP'][2]:.2f} eV", 
         #         color='green', rotation=-9.5, fontsize=10)
-        # ax.text(6.5, overpotentials['onsetP'][3] - 0.58, 
-        #         r"S$_6$$\rightarrow$S$_{10}$$\rightarrow$S$_{11}$$\rightarrow$S$_{12}$: " + f"{overpotentials['overP'][3]:.2f} eV", 
+        # ax.text(6.5, OER['onsetP'][3] - 0.58, 
+        #         r"S$_6$$\rightarrow$S$_{10}$$\rightarrow$S$_{11}$$\rightarrow$S$_{12}$: " + f"{OER['overP'][3]:.2f} eV", 
         #         color='orange', rotation=-9.5, fontsize=10)
-        ax.text(6.5, overpotentials['onsetP'][7] - 0.96, # 1.14, 
-                r"S$_3$$\rightarrow$S$_8$$\rightarrow$S$_{10}$$\rightarrow$S$_{11}$: " + f"{overpotentials['overP'][7]:.2f} eV", 
+        ax.text(6.5, OER['onsetP'][7] - 0.96, # 1.14, 
+                r"S$_3$$\rightarrow$S$_8$$\rightarrow$S$_{10}$$\rightarrow$S$_{11}$: " + f"{OER['overP'][7]:.2f} eV", 
                 color='lime', rotation=-9.5, fontsize=10)
     elif A == '2' and B == 'Co':
-        plt.plot(pH2, overpotentials['onsetP'][0] - pH2 * const, '--', color='black', lw=1, dashes=(3, 1))
-        plt.plot(pH2, overpotentials['onsetP'][1] - pH2 * const, '--', color='violet', lw=1, dashes=(3, 1))
-        # plt.plot(pH2, overpotentials['onsetP'][2] - pH2 * const, '--', color='green', lw=1, dashes=(3, 1))
-        # plt.plot(pH2, overpotentials['onsetP'][3] - pH2 * const, '--', color='orange', lw=1, dashes=(3, 1))
-        plt.plot(pH2, overpotentials['onsetP'][5] - pH2 * const, '--', color='red', lw=1, dashes=(3, 1))
+        plt.plot(pH2, OER['onsetP'][0] - pH2 * const, '--', color='black', lw=1, dashes=(3, 1))
+        plt.plot(pH2, OER['onsetP'][1] - pH2 * const, '--', color='violet', lw=1, dashes=(3, 1))
+        # plt.plot(pH2, OER['onsetP'][2] - pH2 * const, '--', color='green', lw=1, dashes=(3, 1))
+        # plt.plot(pH2, OER['onsetP'][3] - pH2 * const, '--', color='orange', lw=1, dashes=(3, 1))
+        plt.plot(pH2, OER['onsetP'][5] - pH2 * const, '--', color='red', lw=1, dashes=(3, 1))
         ax.text(0.2, 0.88, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
-        ax.text(6.5, overpotentials['onsetP'][0] - 0.72, 
-                r"S$_0$$\rightarrow$S$_2$$\rightarrow$S$_3$$\rightarrow$S$_6$: " + f"{overpotentials['overP'][0]:.2f} eV", 
+        ax.text(6.5, OER['onsetP'][0] - 0.72, 
+                r"S$_0$$\rightarrow$S$_2$$\rightarrow$S$_3$$\rightarrow$S$_6$: " + f"{OER['overP'][0]:.2f} eV", 
                 color='black', rotation=-9.5, fontsize=10)
-        ax.text(6.5, overpotentials['onsetP'][1] - 0.72, # 0.54
-                r"S$_2$$\rightarrow$S$_5$$\rightarrow$S$_8$$\rightarrow$S$_{10}$: " + f"{overpotentials['overP'][1]:.2f} eV", 
+        ax.text(6.5, OER['onsetP'][1] - 0.72, # 0.54
+                r"S$_2$$\rightarrow$S$_5$$\rightarrow$S$_8$$\rightarrow$S$_{10}$: " + f"{OER['overP'][1]:.2f} eV", 
                 color='violet', rotation=-9.5, fontsize=10)
-        # ax.text(6.5, overpotentials['onsetP'][2] - 0.94, 
-        #         r"S$_3$$\rightarrow$S$_8$$\rightarrow$S$_9$$\rightarrow$S$_{11}$: " + f"{overpotentials['overP'][2]:.2f} eV", 
+        # ax.text(6.5, OER['onsetP'][2] - 0.94, 
+        #         r"S$_3$$\rightarrow$S$_8$$\rightarrow$S$_9$$\rightarrow$S$_{11}$: " + f"{OER['overP'][2]:.2f} eV", 
         #         color='green', rotation=-9.5, fontsize=10)
-        # ax.text(6.5, overpotentials['onsetP'][3] - 0.72, 
-        #         r"S$_6$$\rightarrow$S$_{10}$$\rightarrow$S$_{11}$$\rightarrow$S$_{12}$: " + f"{overpotentials['overP'][3]:.2f} eV", 
+        # ax.text(6.5, OER['onsetP'][3] - 0.72, 
+        #         r"S$_6$$\rightarrow$S$_{10}$$\rightarrow$S$_{11}$$\rightarrow$S$_{12}$: " + f"{OER['overP'][3]:.2f} eV", 
         #         color='orange', rotation=-9.5, fontsize=10)
-        ax.text(6.5, overpotentials['onsetP'][5] - 0.94,
-                r"S$_2$$\rightarrow$S$_3$$\rightarrow$S$_8$$\rightarrow$S$_{10}$: " + f"{overpotentials['overP'][5]:.2f} eV", 
+        ax.text(6.5, OER['onsetP'][5] - 0.94,
+                r"S$_2$$\rightarrow$S$_3$$\rightarrow$S$_8$$\rightarrow$S$_{10}$: " + f"{OER['overP'][5]:.2f} eV", 
                 color='red', rotation=-9.5, fontsize=10)
     elif A == '3' and B == 'Mo':
-        plt.plot(pH2, overpotentials['onsetP'][2] - pH2 * const, '--', color='brown', lw=1, dashes=(3, 1))
+        plt.plot(pH2, OER['onsetP'][2] - pH2 * const, '--', color='brown', lw=1, dashes=(3, 1))
         ax.text(0.2, 0.88, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
-        ax.text(6.8, overpotentials['onsetP'][2] - 0.76, 
-                r"S$_3$$\rightarrow$S$_9$$\rightarrow$S$_{11}$$\rightarrow$S$_{14}$: " + f"{overpotentials['overP'][2]:.2f} eV", 
+        ax.text(6.8, OER['onsetP'][2] - 0.76, 
+                r"S$_3$$\rightarrow$S$_9$$\rightarrow$S$_{11}$$\rightarrow$S$_{14}$: " + f"{OER['overP'][2]:.2f} eV", 
                 color='brown', rotation=-9.5, fontsize=10)
         
     plt.legend(loc='lower left', bbox_to_anchor=(0.0, 1.02), # borderaxespad=17, 
@@ -445,12 +525,23 @@ for dir in dirs:
     df.to_csv(f'/pscratch/sd/j/jiuy97/6_MNC/figures/pourbaix/{A}{B}_energies.tsv', sep='\t') #, index=False)
     print(f"Data saved as {A}{B}_energies.png")
 
-    overpotentials_df = pd.DataFrame(overpotentials)
-    overpotentials_df['dg12'] = overpotentials_df['dg12'].round(2)
-    overpotentials_df['dg23'] = overpotentials_df['dg23'].round(2)
-    overpotentials_df['dg34'] = overpotentials_df['dg34'].round(2)
-    overpotentials_df['dg41'] = overpotentials_df['dg41'].round(2)
-    overpotentials_df['overP'] = overpotentials_df['overP'].round(2)
-    overpotentials_df['onsetP'] = overpotentials_df['onsetP'].round(2)
-    overpotentials_df.to_csv(f'/pscratch/sd/j/jiuy97/6_MNC/figures/pourbaix/{A}{B}_potentials.tsv', sep='\t') #, index=False)
-    print(f"Data saved as {A}{B}_potentials.png")
+    OER_df = pd.DataFrame(OER)
+    OER_df['dg12'] = OER_df['dg12'].round(2)
+    OER_df['dg23'] = OER_df['dg23'].round(2)
+    OER_df['dg34'] = OER_df['dg34'].round(2)
+    OER_df['dg41'] = OER_df['dg41'].round(2)
+    OER_df['overP'] = OER_df['overP'].round(2)
+    OER_df['onsetP'] = OER_df['onsetP'].round(2)
+    OER_df.to_csv(f'/pscratch/sd/j/jiuy97/6_MNC/figures/pourbaix/{A}{B}_potentials.tsv', sep='\t') #, index=False)
+    print(f"Data saved as {A}{B}_oer.png")
+
+    ORR_df = pd.DataFrame(ORR)
+    ORR_df['dg12'] = ORR_df['dg12'].round(2)
+    ORR_df['dg23'] = ORR_df['dg23'].round(2)
+    ORR_df['dg34'] = ORR_df['dg34'].round(2)
+    ORR_df['dg41'] = ORR_df['dg41'].round(2)
+    ORR_df['overP'] = ORR_df['overP'].round(2)
+    ORR_df['onsetP'] = ORR_df['onsetP'].round(2)
+    ORR_df.to_csv(f'/pscratch/sd/j/jiuy97/6_MNC/figures/pourbaix/{A}{B}_potentials.tsv', sep='\t') #, index=False)
+    print(f"Data saved as {A}{B}_orr.png")
+    
