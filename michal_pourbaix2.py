@@ -418,14 +418,12 @@ for dir in dirs:
     combined_ticks = sorted(set(current_yticks) | set(extraticks))
     plt.yticks(combined_ticks)
     plt.gca().yaxis.set_major_formatter(FormatStrFormatter('%.2f'))
-
     for i in range(len(uniquesurf)):
         k = uniquesurf[i]
         label = r"S$_{%i}$(H-%i O-%i OH-%i OOH-%i)" % (k, surfs[k][1], surfs[k][2], surfs[k][3], surfs[k][4])
         plt.fill_between(pH2, crossover[i] - pH2 * const, crossover[i + 1] - pH2 * const, 
                          facecolor=color[k], alpha=0.3, lw=0.5, edgecolor='black')
         plt.plot([], [], color=color[k], alpha=0.3, linewidth=5, label=label)
-    
     plt.plot(pH2, 1.23 - pH2 * const, '--', color='blue', lw=1, dashes=(3, 1))
     if A == '1' and B == 'Fe':
         plt.plot(pH2, OER['onsetP'][0] - pH2 * const, '--', color='black', lw=1, dashes=(3, 1))
@@ -477,12 +475,58 @@ for dir in dirs:
         ax.text(6.8, OER['onsetP'][2] - 0.76, 
                 r"S$_3$$\rightarrow$S$_9$$\rightarrow$S$_{11}$$\rightarrow$S$_{14}$: " + f"{OER['overP'][2]:.2f} eV", 
                 color='brown', rotation=-9.5, fontsize=10)
-        
     plt.legend(loc='lower left', bbox_to_anchor=(0.0, 1.02), # borderaxespad=17, 
                ncol=1, labelspacing=0.3, handlelength=2, fontsize=10,
                fancybox=True, shadow=True)
-    plt.savefig(f'/pscratch/sd/j/jiuy97/6_MNC/figures/pourbaix/{A}{B}_pourbaix_full.png', bbox_inches='tight')
-    print(f"Figure saved as {A}{B}_pourbaix_full.png")
+    plt.savefig(f'/pscratch/sd/j/jiuy97/6_MNC/figures/pourbaix/{A}{B}_pourbaix_oer.png', bbox_inches='tight')
+    print(f"Figure saved as {A}{B}_pourbaix_oer.png")
+    plt.close()
+
+    plt.clf()
+    fig = plt.figure(figsize=fig_size, dpi=300)
+    ax = fig.add_axes([0.2, 0.2, 0.6, 0.6])
+    ax.axis([0, 14, Umin, Umax])
+    ax.set_xlabel(r'pH', fontsize='large')
+    ax.set_ylabel(r'U/V', fontsize='large')
+    current_yticks = list(plt.yticks()[0])  # Get the current y-ticks
+    extraticks = [1.23]
+    combined_ticks = sorted(set(current_yticks) | set(extraticks))
+    plt.yticks(combined_ticks)
+    plt.gca().yaxis.set_major_formatter(FormatStrFormatter('%.2f'))
+    for i in range(len(uniquesurf)):
+        k = uniquesurf[i]
+        label = r"S$_{%i}$(H-%i O-%i OH-%i OOH-%i)" % (k, surfs[k][1], surfs[k][2], surfs[k][3], surfs[k][4])
+        plt.fill_between(pH2, crossover[i] - pH2 * const, crossover[i + 1] - pH2 * const, 
+                         facecolor=color[k], alpha=0.3, lw=0.5, edgecolor='black')
+        plt.plot([], [], color=color[k], alpha=0.3, linewidth=5, label=label)
+    plt.plot(pH2, 1.23 - pH2 * const, '--', color='blue', lw=1, dashes=(3, 1))
+    if A == '1' and B == 'Fe':
+        plt.plot(pH2, ORR['onsetP'][0] - pH2 * const, '--', color='black', lw=1, dashes=(3, 1))
+        ax.text(0.2, 0.65, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
+        ax.text(6.5, ORR['onsetP'][0] - 0.92, 
+                r"S$_0$$\rightarrow$S$_2$$\rightarrow$S$_3$$\rightarrow$S$_6$: " + f"{ORR['overP'][0]:.2f} eV", 
+                color='black', rotation=-9.5, fontsize=10)
+    elif A == '2' and B == 'Co':
+        plt.plot(pH2, ORR['onsetP'][0] - pH2 * const, '--', color='black', lw=1, dashes=(3, 1))
+        plt.plot(pH2, ORR['onsetP'][5] - pH2 * const, '--', color='red', lw=1, dashes=(3, 1))
+        ax.text(0.2, 0.88, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
+        ax.text(6.5, ORR['onsetP'][0] - 0.72, 
+                r"S$_0$$\rightarrow$S$_2$$\rightarrow$S$_3$$\rightarrow$S$_6$: " + f"{ORR['overP'][0]:.2f} eV", 
+                color='black', rotation=-9.5, fontsize=10)
+        ax.text(6.5, ORR['onsetP'][5] - 0.94,
+                r"S$_2$$\rightarrow$S$_3$$\rightarrow$S$_8$$\rightarrow$S$_{10}$: " + f"{ORR['overP'][5]:.2f} eV", 
+                color='red', rotation=-9.5, fontsize=10)
+    elif A == '3' and B == 'Mo':
+        plt.plot(pH2, ORR['onsetP'][2] - pH2 * const, '--', color='brown', lw=1, dashes=(3, 1))
+        ax.text(0.2, 0.88, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
+        ax.text(6.8, ORR['onsetP'][2] - 0.76,
+                r"S$_3$$\rightarrow$S$_9$$\rightarrow$S$_{11}$$\rightarrow$S$_{14}$: " + f"{ORR['overP'][2]:.2f} eV", 
+                color='brown', rotation=-9.5, fontsize=10)
+    plt.legend(loc='lower left', bbox_to_anchor=(0.0, 1.02), # borderaxespad=17, 
+               ncol=1, labelspacing=0.3, handlelength=2, fontsize=10,
+               fancybox=True, shadow=True)
+    plt.savefig(f'/pscratch/sd/j/jiuy97/6_MNC/figures/pourbaix/{A}{B}_pourbaix_orr.png', bbox_inches='tight')
+    print(f"Figure saved as {A}{B}_pourbaix_orr.png")
     plt.close()
     
     plt.clf()
