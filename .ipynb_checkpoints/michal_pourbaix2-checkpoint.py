@@ -472,8 +472,8 @@ for dir in dirs:
     elif A == '3' and B == 'Mo':
         plt.plot(pH2, OER['onsetP'][2] - pH2 * const, '--', color='brown', lw=1, dashes=(3, 1))
         ax.text(0.2, 0.88, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
-        ax.text(6.8, OER['onsetP'][2] - 0.86, 
-                r"S$_3$$\rightarrow$S$_9$$\rightarrow$S$_{11}$$\rightarrow$S$_{14}$: " + f"{OER['overP'][2]:.2f} eV", 
+        ax.text(6.8, OER['onsetP'][2] - 0.96, 
+                r"S$_3$$\rightarrow$S$_6$$\rightarrow$S$_8$\rightarrow$S$_{10}$: " + f"{OER['overP'][2]:.2f} eV", 
                 color='brown', rotation=-9.5, fontsize=10)
     plt.legend(loc='lower left', bbox_to_anchor=(0.0, 1.02), # borderaxespad=17, 
                ncol=1, labelspacing=0.3, handlelength=2, fontsize=10,
@@ -519,7 +519,7 @@ for dir in dirs:
     elif A == '3' and B == 'Mo':
         plt.plot(pH2, ORR['onsetP'][2] - pH2 * const, '--', color='brown', lw=1, dashes=(3, 1))
         ax.text(0.2, 0.88, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
-        ax.text(0.2, ORR['onsetP'][2] - 0.44,
+        ax.text(0.2, ORR['onsetP'][2] - 0.54,
                 r"S$_{10}$$\rightarrow$S$_8$$\rightarrow$S$_6$$\rightarrow$S$_3$: " + f"{ORR['overP'][2]:.2f} eV", 
                 color='brown', rotation=-9.5, fontsize=10)
     plt.legend(loc='lower left', bbox_to_anchor=(0.0, 1.02), # borderaxespad=17, 
