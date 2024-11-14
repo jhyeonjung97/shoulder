@@ -454,9 +454,9 @@ for dir in dirs:
         plt.plot(pH2, OER['onsetP'][3] - pH2 * const, '--', color='orange', lw=1, dashes=(3, 1))
         # plt.plot(pH2, OER['onsetP'][5] - pH2 * const, '--', color='red', lw=1, dashes=(3, 1))
         ax.text(0.2, 0.88, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
-        # ax.text(6.5, OER['onsetP'][0] - 0.72, 
-        #         r"S$_0$$\rightarrow$S$_2$$\rightarrow$S$_3$$\rightarrow$S$_6$: " + f"{OER['overP'][0]:.2f} eV", 
-        #         color='black', rotation=-9.5, fontsize=10)
+        ax.text(6.5, OER['onsetP'][0] - 0.72, 
+                r"S$_0$$\rightarrow$S$_2$$\rightarrow$S$_3$$\rightarrow$S$_6$: " + f"{OER['overP'][0]:.2f} eV", 
+                color='black', rotation=-9.5, fontsize=10)
         # ax.text(6.5, OER['onsetP'][1] - 0.72, # 0.54
         #         r"S$_2$$\rightarrow$S$_5$$\rightarrow$S$_8$$\rightarrow$S$_{10}$: " + f"{OER['overP'][1]:.2f} eV", 
         #         color='violet', rotation=-9.5, fontsize=10)
