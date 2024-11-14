@@ -428,21 +428,21 @@ for dir in dirs:
     if A == '1' and B == 'Fe':
         for i in range(8):
             plt.plot(pH2, OER['onsetP'][i] - pH2 * const, '--', color=color[i], lw=1, dashes=(3, 1))
-            ax.text(0.2, OER['onsetP'][i] - 0.58, 
+            ax.text(0.2, OER['onsetP'][i], 
                     f"{OER['int1'][i]} > {OER['int2'][i]} > {OER['int3'][i]} > {OER['int4'][i]}", 
                     color=color[i], rotation=-9.5, fontsize=5)    
         ax.text(0.2, 0.65, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
     elif A == '2' and B == 'Co':
         for i in range(8):
             plt.plot(pH2, OER['onsetP'][i] - pH2 * const, '--', color=color[i], lw=1, dashes=(3, 1))
-            ax.text(0.2, OER['onsetP'][i] - 0.58, 
+            ax.text(0.2, OER['onsetP'][i], 
                     f"{OER['int1'][i]} > {OER['int2'][i]} > {OER['int3'][i]} > {OER['int4'][i]}", 
                     color=color[i], rotation=-9.5, fontsize=5)    
         ax.text(0.2, 0.88, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
     elif A == '3' and B == 'Mo':
         for i in range(3):
             plt.plot(pH2, OER['onsetP'][i] - pH2 * const, '--', color=color[i], lw=1, dashes=(3, 1))
-            ax.text(0.2, OER['onsetP'][i] - 0.58, 
+            ax.text(0.2, OER['onsetP'][i], 
                     f"{OER['int1'][i]} > {OER['int2'][i]} > {OER['int3'][i]} > {OER['int4'][i]}", 
                     color=color[i], rotation=-9.5, fontsize=5)
         ax.text(0.2, 0.88, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
@@ -474,21 +474,21 @@ for dir in dirs:
     if A == '1' and B == 'Fe':
         for i in range(8):
             plt.plot(pH2, ORR['onsetP'][i] - pH2 * const, '--', color=color[i], lw=1, dashes=(3, 1))
-            ax.text(0.2, ORR['onsetP'][i] - 0.58, 
+            ax.text(0.2, ORR['onsetP'][i], 
                     f"{ORR['int1'][i]} > {ORR['int2'][i]} > {ORR['int3'][i]} > {ORR['int4'][i]}", 
                     color=color[i], rotation=-9.5, fontsize=5)    
         ax.text(0.2, 0.65, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
     elif A == '2' and B == 'Co':
         for i in range(8):
             plt.plot(pH2, ORR['onsetP'][i] - pH2 * const, '--', color=color[i], lw=1, dashes=(3, 1))
-            ax.text(0.2, ORR['onsetP'][i] - 0.58, 
+            ax.text(0.2, ORR['onsetP'][i], 
                     f"{ORR['int1'][i]} > {ORR['int2'][i]} > {ORR['int3'][i]} > {ORR['int4'][i]}", 
                     color=color[i], rotation=-9.5, fontsize=5)    
         ax.text(0.2, 0.88, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
     elif A == '3' and B == 'Mo':
         for i in range(3):
             plt.plot(pH2, ORR['onsetP'][i] - pH2 * const, '--', color=color[i], lw=1, dashes=(3, 1))
-            ax.text(0.2, ORR['onsetP'][i] - 0.58, 
+            ax.text(0.2, ORR['onsetP'][i], 
                     f"{ORR['int1'][i]} > {ORR['int2'][i]} > {ORR['int3'][i]} > {ORR['int4'][i]}", 
                     color=color[i], rotation=-9.5, fontsize=5)        
         ax.text(0.2, 0.88, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
