@@ -11,7 +11,7 @@ from matplotlib.ticker import FormatStrFormatter
 dirs = ["/pscratch/sd/j/jiuy97/6_MNC/pourbaix/1_Fe/",
         "/pscratch/sd/j/jiuy97/6_MNC/pourbaix/2_Co/",
         "/pscratch/sd/j/jiuy97/6_MNC/pourbaix/3_Mo/"]
-main_dirs = ["clean", "h", "oh", "o", 
+main_dirs = ["clean", "mh", "nh", "oh", "o", 
              "ohoh", "oh-oh", "ohooh", "oohoh", "oh-ooh", "ooh-oh",
              "ooh", "oho", "oh-o", "o-oh", "oo", "o-o",
              "oooh", "ooho", "o-ooh", "ooh-o", "oohooh", "ooh-ooh"]
@@ -274,7 +274,8 @@ for dir in dirs:
             df.loc[main_dir, 'E'] = min_e0
 
     df.loc['clean', ['#H', '#O', '#OH', '#OOH']] = [0, 0, 0, 0] # [energy, #Hs, #Os, #OHs, #OOHs]
-    df.loc['h', ['#H', '#O', '#OH', '#OOH']] = [1, 0, 0, 0]
+    df.loc['mh', ['#H', '#O', '#OH', '#OOH']] = [1, 0, 0, 0]
+    df.loc['nh', ['#H', '#O', '#OH', '#OOH']] = [1, 0, 0, 0]
     df.loc['o', ['#H', '#O', '#OH', '#OOH']] = [0, 1, 0, 0]
     df.loc['oh', ['#H', '#O', '#OH', '#OOH']] = [0, 0, 1, 0]
     df.loc['ohoh', ['#H', '#O', '#OH', '#OOH']] = [0, 0, 2, 0]
@@ -344,7 +345,8 @@ for dir in dirs:
     # Define surfaces with extracted E0 values
     surfs = [
         df.loc['clean', ['E', '#H', '#O', '#OH', '#OOH']].tolist(),
-        df.loc['h', ['E', '#H', '#O', '#OH', '#OOH']].tolist(),
+        df.loc['mh', ['E', '#H', '#O', '#OH', '#OOH']].tolist(),
+        df.loc['nh', ['E', '#H', '#O', '#OH', '#OOH']].tolist(),
         df.loc['oh', ['E', '#H', '#O', '#OH', '#OOH']].tolist(),
         df.loc['o', ['E', '#H', '#O', '#OH', '#OOH']].tolist(),
         df.loc['ohoh', ['E', '#H', '#O', '#OH', '#OOH']].tolist(),
