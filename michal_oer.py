@@ -50,8 +50,8 @@ ax = fig.add_axes([0.2, 0.2, 0.6, 0.6])
 # xcenter, ycenter = 1.60, 0.81
 # x1, x2 = xcenter - 1.2, xcenter + 1.2 # 3.2
 # y1, y2 = ycenter - 2.0, ycenter + 2.0 # 3.6
-x1, x2 = 0.0, 3.0
-y1, y2 = -1.2, 2.7
+x1, x2 = 0.2, 2.7
+y1, y2 = -1.1, 2.7
 
 ax.axis([x1, x2, y1, y2])
 ax.set_xlabel(r'$\Delta$G$_{\sf O}$ - $\Delta$G$_{\sf OH}$(eV)', fontsize='large')
@@ -192,8 +192,6 @@ for m, metal in enumerate(metals):
                facecolor=colors[m],
                edgecolor='black',
                zorder=10)
-    ax.set_xlim(0.2, 2.7)
-    ax.set_ylim(-1.1, 2.7)
     ax.set_xticks([0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0])
     ax.set_yticks([-1.0, -0.5, 0.0, 0.5, 1.0, 1.5, 2.0, 2.5])
     for row_num, row in enumerate(dfs[metal].itertuples(), 1):
