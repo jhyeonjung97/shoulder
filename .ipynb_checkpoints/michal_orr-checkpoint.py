@@ -84,9 +84,8 @@ df = pd.read_csv('/pscratch/sd/j/jiuy97/6_MNC/figures/scaling_relationship.tsv',
 # Extract values from the dataframe
 doh_values = df['dG_OH']
 do_values = df['dG_O']
-
-# Add `dG_OOH` and calculate overpotential for each entry
-df['dG_OOH'] = doh_values.apply(ooh_oh_scaling)
+dooh_values = df['dG_OOH']
+# df['dG_OOH'] = doh_values.apply(ooh_oh_scaling)
 df['overpotential'] = df.apply(lambda row: overpotential_orr(row['dG_OH'], row['dG_O'], row['dG_OOH']), axis=1)
 
 # Prepare separate data for each metal
@@ -149,7 +148,7 @@ for m, metal in enumerate(metals):
                    edgecolors='black',
                    zorder=9)
 
-ax.plot(x, x + 3.2, '--', lw=1, dashes=(3, 1), c='black')
+ax.plot(x, 0.90 * x + 3.07, '--', lw=1, dashes=(3, 1), c='black')
 ax.text(1.2, 2.5, r'$\Delta$G$_{\sf OOH}$=', color=(0.8,0.8,0.8), fontsize=10)
 ax.text(1.2, 2.3, r'$\Delta$G$_{\sf OH}$+3.2 eV', color=(0.8,0.8,0.8), fontsize=10)
 ax.legend(bbox_to_anchor=(0.5, 1.1), loc='center', borderaxespad=0.5,
