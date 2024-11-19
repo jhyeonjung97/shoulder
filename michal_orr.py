@@ -79,7 +79,7 @@ def overpotential_orr_full(doh, do, dooh):
     return [round(m + 1.23, 2), round(-m, 2), orr_step(dg14.index(m))]
     
 # Read data from the TSV file
-df = pd.read_csv('/pscratch/sd/j/jiuy97/6_MNC/figure/scaling_relationship.tsv', sep='\t', header=0, index_col=0)
+df = pd.read_csv('/pscratch/sd/j/jiuy97/6_MNC/figures/scaling_relationship.tsv', sep='\t', header=0, index_col=0)
 
 # Extract values from the dataframe
 doh_values = df['dG_OH']
@@ -94,7 +94,7 @@ dfs = {}
 for m, metal in enumerate(metals):
     row = rows[m]
     group = groups[m]
-    dfs[metal] = pd.read_csv(f'/pscratch/sd/j/jiuy97/6_MNC/figure/{row}_{group}{metal}_gibbs.tsv', sep='\t', header=0, index_col=0)
+    dfs[metal] = pd.read_csv(f'/pscratch/sd/j/jiuy97/6_MNC/figures/{row}_{group}{metal}_gibbs.tsv', sep='\t', header=0, index_col=0)
     doh_values = dfs[metal]['dG_OH']
     do_values = dfs[metal]['dG_O']
     dfs[metal]['dG_OOH'] = doh_values.apply(ooh_oh_scaling)
