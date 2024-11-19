@@ -72,7 +72,6 @@ def overpotential_orr_for_contour(doh, dooh):
     dg14 = [-doh, -do + doh, -dooh + do, -4.92 + dooh]
     return max(dg14) + 1.23
 
-
 def overpotential_orr_full(doh, do, dooh):
     dg14 = [-doh, -do + doh, -dooh + do, -4.92 + dooh]
     m = max(dg14)
@@ -82,9 +81,9 @@ def overpotential_orr_full(doh, do, dooh):
 df = pd.read_csv('/pscratch/sd/j/jiuy97/6_MNC/figures/scaling_relationship.tsv', sep='\t', header=0, index_col=0)
 
 # Extract values from the dataframe
-doh_values = df['dG_OH']
-do_values = df['dG_O']
-dooh_values = df['dG_OOH']
+# doh_values = df['dG_OH']
+# do_values = df['dG_O']
+# dooh_values = df['dG_OOH']
 # df['dG_OOH'] = doh_values.apply(ooh_oh_scaling)
 df['overpotential'] = df.apply(lambda row: overpotential_orr(row['dG_OH'], row['dG_O'], row['dG_OOH']), axis=1)
 
@@ -94,9 +93,9 @@ for m, metal in enumerate(metals):
     row = rows[m]
     group = groups[m]
     dfs[metal] = pd.read_csv(f'/pscratch/sd/j/jiuy97/6_MNC/figures/{row}_{group}{metal}_gibbs.tsv', sep='\t', header=0, index_col=0)
-    doh_values = dfs[metal]['dG_OH']
-    do_values = dfs[metal]['dG_O']
-    dooh_values = dfs[metal]['dG_OOH']
+    # doh_values = dfs[metal]['dG_OH']
+    # do_values = dfs[metal]['dG_O']
+    # dooh_values = dfs[metal]['dG_OOH']
     # dfs[metal]['dG_OOH'] = doh_values.apply(ooh_oh_scaling)
     dfs[metal]['overpotential'] = dfs[metal].apply(lambda row: overpotential_orr(row['dG_OH'], row['dG_O'], row['dG_OOH']), axis=1)
 
@@ -151,7 +150,7 @@ for m, metal in enumerate(metals):
 
 ax.plot(x, 0.90 * x + 3.07, '--', lw=1, dashes=(3, 1), c='black')
 ax.text(1.2, 2.5, r'$\Delta$G$_{\sf OOH}$=', color=(0.8,0.8,0.8), fontsize=10)
-ax.text(1.2, 2.3, r'$\Delta$G$_{\sf OH}$+3.2 eV', color=(0.8,0.8,0.8), fontsize=10)
+ax.text(1.2, 2.3, r'0.90*$\Delta$G$_{\sf OH}$+3.07 eV', color=(0.8,0.8,0.8), fontsize=10)
 ax.legend(bbox_to_anchor=(0.5, 1.1), loc='center', borderaxespad=0.5,
           ncol=3, columnspacing=1.0, handletextpad=0.4,
           fancybox=True, shadow=False, fontsize='small', handlelength=2)

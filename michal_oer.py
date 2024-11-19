@@ -84,9 +84,9 @@ def overpotential_oer_full(doh, do, dooh):
 df = pd.read_csv('/pscratch/sd/j/jiuy97/6_MNC/figures/scaling_relationship.tsv', sep='\t', index_col=0)
 
 # Extract values from the dataframe
-doh_values = df['dG_OH']
-do_values = df['dG_O']
-dooh_values = df['dG_OOH']
+# doh_values = df['dG_OH']
+# do_values = df['dG_O']
+# dooh_values = df['dG_OOH']
 # df['dG_OOH'] = doh_values.apply(ooh_oh_scaling)
 df['overpotential'] = df.apply(lambda row: overpotential_oer(row['dG_OH'], row['dG_O'], row['dG_OOH']), axis=1)
 
@@ -96,9 +96,9 @@ for m, metal in enumerate(metals):
     row = rows[m]
     group = groups[m]
     dfs[metal] = pd.read_csv(f'/pscratch/sd/j/jiuy97/6_MNC/figures/{row}_{group}{metal}_gibbs.tsv', sep='\t', header=0, index_col=0)
-    doh_values = dfs[metal]['dG_OH']
-    do_values = dfs[metal]['dG_O']
-    dooh_values = dfs[metal]['dG_OOH']
+    # doh_values = dfs[metal]['dG_OH']
+    # do_values = dfs[metal]['dG_O']
+    # dooh_values = dfs[metal]['dG_OOH']
     # dfs[metal]['dG_OOH'] = doh_values.apply(ooh_oh_scaling)
     dfs[metal]['overpotential'] = dfs[metal].apply(lambda row: overpotential_oer(row['dG_OH'], row['dG_O'], row['dG_OOH']), axis=1)
 
