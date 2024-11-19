@@ -435,7 +435,7 @@ for dir in dirs:
         plt.plot(pH2, OER['onsetP'][7] - pH2 * const, '--', color='lime', lw=1, dashes=(3, 1))
         ax.text(0.2, 0.65, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
         ax.text(6.5, OER['onsetP'][0] - 0.92, 
-                r"S$_0$$\rightarrow$S$_2$$\rightarrow$S$_3$$\rightarrow$S$_6$: " + f"{OER['overP'][0]:.2f} eV", 
+                r"S$_0$$\rightarrow$S$_3$$\rightarrow$S$_4$$\rightarrow$S$_7$: " + f"{OER['overP'][0]:.2f} eV", 
                 color='black', rotation=-9.5, fontsize=10)
         # ax.text(6.5, OER['onsetP'][1] - 0.94,
         #         r"S$_2$$\rightarrow$S$_5$$\rightarrow$S$_8$$\rightarrow$S$_{10}$: " + f"{OER['overP'][1]:.2f} eV", 
@@ -447,7 +447,7 @@ for dir in dirs:
         #         r"S$_6$$\rightarrow$S$_{10}$$\rightarrow$S$_{11}$$\rightarrow$S$_{12}$: " + f"{OER['overP'][3]:.2f} eV", 
         #         color='orange', rotation=-9.5, fontsize=10)
         ax.text(6.5, OER['onsetP'][7] - 0.96, # 1.14, 
-                r"S$_3$$\rightarrow$S$_8$$\rightarrow$S$_{10}$$\rightarrow$S$_{11}$: " + f"{OER['overP'][7]:.2f} eV", 
+                r"S$_4$$\rightarrow$S$_9$$\rightarrow$S$_{11}$$\rightarrow$S$_{12}$: " + f"{OER['overP'][7]:.2f} eV", 
                 color='lime', rotation=-9.5, fontsize=10)
     elif A == '2' and B == 'Co':
         plt.plot(pH2, OER['onsetP'][0] - pH2 * const, '--', color='black', lw=1, dashes=(3, 1))
@@ -457,7 +457,7 @@ for dir in dirs:
         # plt.plot(pH2, OER['onsetP'][5] - pH2 * const, '--', color='red', lw=1, dashes=(3, 1))
         ax.text(0.2, 0.88, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
         ax.text(6.5, OER['onsetP'][0] - 0.94, 
-                r"S$_0$$\rightarrow$S$_2$$\rightarrow$S$_3$$\rightarrow$S$_6$: " + f"{OER['overP'][0]:.2f} eV", 
+                r"S$_0$$\rightarrow$S$_3$$\rightarrow$S$_4$$\rightarrow$S$_7$: " + f"{OER['overP'][0]:.2f} eV", 
                 color='black', rotation=-9.5, fontsize=10)
         # ax.text(6.5, OER['onsetP'][1] - 0.72, # 0.54
         #         r"S$_2$$\rightarrow$S$_5$$\rightarrow$S$_8$$\rightarrow$S$_{10}$: " + f"{OER['overP'][1]:.2f} eV", 
@@ -466,7 +466,7 @@ for dir in dirs:
         #         r"S$_3$$\rightarrow$S$_8$$\rightarrow$S$_9$$\rightarrow$S$_{11}$: " + f"{OER['overP'][2]:.2f} eV", 
         #         color='green', rotation=-9.5, fontsize=10)
         ax.text(6.5, OER['onsetP'][3] - 0.74, 
-                r"S$_6$$\rightarrow$S$_{10}$$\rightarrow$S$_{11}$$\rightarrow$S$_{12}$: " + f"{OER['overP'][3]:.2f} eV", 
+                r"S$_7$$\rightarrow$S$_{11}$$\rightarrow$S$_{12}$$\rightarrow$S$_{13}$: " + f"{OER['overP'][3]:.2f} eV", 
                 color='orange', rotation=-9.5, fontsize=10)
         # ax.text(6.5, OER['onsetP'][5] - 0.94,
         #         r"S$_2$$\rightarrow$S$_3$$\rightarrow$S$_8$$\rightarrow$S$_{10}$: " + f"{OER['overP'][5]:.2f} eV", 
@@ -475,7 +475,7 @@ for dir in dirs:
         plt.plot(pH2, OER['onsetP'][2] - pH2 * const, '--', color='brown', lw=1, dashes=(3, 1))
         ax.text(0.2, 0.88, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
         ax.text(6.8, OER['onsetP'][2] - 0.98, 
-                r"S$_3$$\rightarrow$S$_6$$\rightarrow$S$_8$$\rightarrow$S$_{10}$: " + f"{OER['overP'][2]:.2f} eV", 
+                r"S$_4$$\rightarrow$S$_7$$\rightarrow$S$_9$$\rightarrow$S$_{10}$: " + f"{OER['overP'][2]:.2f} eV", 
                 color='brown', rotation=-9.5, fontsize=10)
     plt.legend(loc='lower left', bbox_to_anchor=(0.0, 1.02), # borderaxespad=17, 
                ncol=1, labelspacing=0.3, handlelength=2, fontsize=10,
