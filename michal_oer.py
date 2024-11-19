@@ -47,9 +47,11 @@ setfont()
 
 # Plot settings
 ax = fig.add_axes([0.2, 0.2, 0.6, 0.6])
-xcenter, ycenter = 1.60, 0.81
-x1, x2 = xcenter - 1.2, xcenter + 1.2 # 3.2
-y1, y2 = ycenter - 2.0, ycenter + 2.0 # 3.6
+# xcenter, ycenter = 1.60, 0.81
+# x1, x2 = xcenter - 1.2, xcenter + 1.2 # 3.2
+# y1, y2 = ycenter - 2.0, ycenter + 2.0 # 3.6
+x1, x2 = 0.0, 3.0
+y1, y2 = -1.2, 2.7
 
 ax.axis([x1, x2, y1, y2])
 ax.set_xlabel(r'$\Delta$G$_{\sf O}$ - $\Delta$G$_{\sf OH}$(eV)', fontsize='large')
