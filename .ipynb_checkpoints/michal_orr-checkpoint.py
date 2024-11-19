@@ -57,7 +57,7 @@ ax.set_ylabel(r'$\Delta$G$_{\sf OOH}$ (eV)', fontsize='large')
 
 # Define functions for overpotential calculations
 def ooh_oh_scaling(doh):
-    return doh + 3.2
+    return 0.90 * doh + 3.07
 
 def orr_step(i):
     steps = ['O2->OOH*', 'OOH*->O*', 'O*->OH*', 'OH*->H2O']
