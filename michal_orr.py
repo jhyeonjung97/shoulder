@@ -96,7 +96,8 @@ for m, metal in enumerate(metals):
     dfs[metal] = pd.read_csv(f'/pscratch/sd/j/jiuy97/6_MNC/figures/{row}_{group}{metal}_gibbs.tsv', sep='\t', header=0, index_col=0)
     doh_values = dfs[metal]['dG_OH']
     do_values = dfs[metal]['dG_O']
-    dfs[metal]['dG_OOH'] = doh_values.apply(ooh_oh_scaling)
+    dooh_values = dfs[metal]['dG_OOH']
+    # dfs[metal]['dG_OOH'] = doh_values.apply(ooh_oh_scaling)
     dfs[metal]['overpotential'] = dfs[metal].apply(lambda row: overpotential_orr(row['dG_OH'], row['dG_O'], row['dG_OOH']), axis=1)
 
 # Generate data for contour plot
