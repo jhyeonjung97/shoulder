@@ -192,8 +192,6 @@ for m, metal in enumerate(metals):
                facecolor=colors[m],
                edgecolor='black',
                zorder=10)
-    ax.set_xticks([0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0])
-    ax.set_yticks([-1.0, -0.5, 0.0, 0.5, 1.0, 1.5, 2.0, 2.5])
     for row_num, row in enumerate(dfs[metal].itertuples(), 1):
         ax.scatter(row.dG_O - row.dG_OH, row.dG_OH, 
                    s=36, marker='o',
