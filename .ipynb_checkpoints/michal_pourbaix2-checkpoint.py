@@ -309,7 +309,6 @@ for dir in dirs:
         overpotential('oh', 'o', ('o-oh', 'oh-o'), ('ooh-oh', 'oh-ooh'), df, OER, ORR)
         overpotential('o', 'ooh', ('ooh-oh', 'oh-ooh'), ('ooh-o', 'o-ooh'), df, OER, ORR)        
         overpotential('o', ('o-oh', 'oh-o'), ('ooh-oh', 'oh-ooh'), ('ooh-o', 'o-ooh'), df, OER, ORR)
-        overpotential('oh', 'o', 'oho', 'oo', df, OER, ORR)
     elif A == '2' and B == 'Co':
         overpotential('oh', 'oh-oh', ('o-oh', 'oh-o'), ('ooh-oh', 'oh-ooh'), df, OER, ORR)
         overpotential('o', ('o-oh', 'oh-o'), 'o-o', ('ooh-o', 'o-ooh'), df, OER, ORR)
@@ -318,10 +317,10 @@ for dir in dirs:
         overpotential('oh', 'o', ('o-oh', 'oh-o'), ('ooh-oh', 'oh-ooh'), df, OER, ORR)
         overpotential('o', 'ooh', ('ooh-oh', 'oh-ooh'), ('ooh-o', 'o-ooh'), df, OER, ORR)        
         overpotential('o', ('o-oh', 'oh-o'), ('ooh-oh', 'oh-ooh'), ('ooh-o', 'o-ooh'), df, OER, ORR)
-        overpotential('oh', 'o', 'oho', 'oo', df, OER, ORR)
     elif A == '3' and B == 'Mo':
         overpotential('oh', 'o', 'oho', ('oohoh', 'ohooh'), df, OER, ORR)
         overpotential('o', 'oho', 'oo', ('oooh', 'ooho'), df, OER, ORR)
+        overpotential('oh', 'ohoh', 'oho', 'oo', df, OER, ORR)
         overpotential('oh', 'o', 'oho', 'oo', df, OER, ORR)
         
     # Define surfaces with extracted E0 values
