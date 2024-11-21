@@ -453,7 +453,7 @@ for dir in dirs:
     elif A == '3' and B == 'Mo':
         plt.plot(pH2, OER['onsetP'][2] - pH2 * const, '--', color='brown', lw=1, dashes=(3, 1))
         ax.text(0.2, 0.88, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
-        ax.text(6.8, OER['onsetP'][2] - 1.00, 
+        ax.text(6.8, OER['onsetP'][2] - 1.30, 
                 r"S$_4$$\rightarrow$S$_7$$\rightarrow$S$_9$$\rightarrow$S$_{10}$: " + f"{OER['overP'][2]:.2f} eV", 
                 color='brown', rotation=-9.5, fontsize=10)
     plt.legend(loc='lower left', bbox_to_anchor=(0.0, 1.02), # borderaxespad=17, 
