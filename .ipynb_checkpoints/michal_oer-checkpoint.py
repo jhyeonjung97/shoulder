@@ -215,7 +215,7 @@ for m, metal in enumerate(metals):
     fig.clf()
 
 # CSV writing for overpotential results
-with open(os.path.join(myfile, 'contour_OER.csv'), 'w', newline='') as myfile:
+with open(os.path.join(save_path, 'contour_OER.csv'), 'w', newline='') as myfile:
     fieldnames = ['Surface name', 'dOH', 'dO', 'dOOH', 'overpotential', 'onset potential', 'PLS']
     writer = csv.DictWriter(myfile, fieldnames=fieldnames)
     writer.writeheader()
@@ -230,7 +230,7 @@ with open(os.path.join(myfile, 'contour_OER.csv'), 'w', newline='') as myfile:
         })
 
 # TSV writing for overpotential results
-with open(os.path.join(myfile, 'contour_OER.tsv'), 'w', newline='') as myfile:
+with open(os.path.join(save_path, 'contour_OER.tsv'), 'w', newline='') as myfile:
     fieldnames = ['Surf.', 'dOH', 'dO', 'dO*', 'diff', 'dOOH', 'overP', 'onsetP', 'PLS']
     writer = csv.DictWriter(myfile, fieldnames=fieldnames, delimiter='\t')  # Change delimiter to '\t'
     writer.writeheader()
@@ -250,7 +250,7 @@ with open(os.path.join(myfile, 'contour_OER.tsv'), 'w', newline='') as myfile:
 
 # Write results for each metal
 for m, metal in enumerate(metals):
-    with open(os.path.join(myfile, f'contour_OER_{m+1}{metal}.tsv'), 'w', newline='') as myfile:
+    with open(os.path.join(save_path, f'contour_OER_{m+1}{metal}.tsv'), 'w', newline='') as myfile:
         fieldnames = ['Surf.', 'dOH', 'dO', 'dO*', 'diff', 'dOOH', 'overP', 'onsetP', 'PLS']
         writer = csv.DictWriter(myfile, fieldnames=fieldnames, delimiter='\t')
         writer.writeheader()
