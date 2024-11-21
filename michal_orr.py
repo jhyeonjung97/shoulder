@@ -8,6 +8,8 @@ import matplotlib.colors as mcolors
 from matplotlib.colors import ListedColormap
 from matplotlib.markers import MarkerStyle
 
+a = 0.90, b = 3.07
+
 rows = ['3d', '3d', '3d', '3d', '4d', '5d']
 groups = ['5', '6', '7', '8', '4', '4']
 metals = ['Mn', 'Fe', 'Co', 'Ni', 'Mo', 'W']
@@ -57,7 +59,7 @@ ax.set_ylabel(r'$\Delta$G$_{\sf OOH}$ (eV)', fontsize='large')
 
 # Define functions for overpotential calculations
 def ooh_oh_scaling(doh):
-    return 0.90 * doh + 3.07
+    return a * doh + b
 
 def orr_step(i):
     steps = ['O2->OOH*', 'OOH*->O*', 'O*->OH*', 'OH*->H2O']
@@ -148,9 +150,9 @@ for m, metal in enumerate(metals):
                    edgecolors='black',
                    zorder=9)
 
-ax.plot(x, 0.90 * x + 3.07, '--', lw=1, dashes=(3, 1), c='black')
+ax.plot(x, a * x + b, '--', lw=1, dashes=(3, 1), c='black')
 ax.text(1.2, 2.5, r'$\Delta$G$_{\sf OOH}$=', color=(0.8,0.8,0.8), fontsize=10)
-ax.text(1.2, 2.3, r'0.90*$\Delta$G$_{\sf OH}$+3.07 eV', color=(0.8,0.8,0.8), fontsize=10)
+ax.text(1.2, 2.3, rf'{a}*$\Delta$G$_{{\sf OH}}$+{b} eV', color=(0.8,0.8,0.8), fontsize=10)
 ax.legend(bbox_to_anchor=(0.5, 1.1), loc='center', borderaxespad=0.5,
           ncol=3, columnspacing=1.0, handletextpad=0.4,
           fancybox=True, shadow=False, fontsize='small', handlelength=2)
@@ -191,9 +193,9 @@ for m, metal in enumerate(metals):
     cbar2 = plt.colorbar(sm, ax=ax, ticks=np.arange(0.0, 1.4, 0.2), extend='max')
     cbar2.ax.set_ylabel(r'$\Delta z$ (Å)')
     cbar2.ax.tick_params(size=3, labelsize=6, labelcolor='black', width=0.5, color='black')
-    ax.plot(x, x + 3.2, '--', lw=1, dashes=(3, 1), c='black')
+    ax.plot(x, a * x + b, '--', lw=1, dashes=(3, 1), c='black')
     ax.text(1.2, 2.5, r'$\Delta$G$_{\sf OOH}$=', color=(0.8,0.8,0.8), fontsize=10)
-    ax.text(1.2, 2.3, r'$\Delta$G$_{\sf OH}$+3.2 eV', color=(0.8,0.8,0.8), fontsize=10)    
+    ax.text(1.2, 2.3, rf'{a}*$\Delta$G$_{{\sf OH}}$+{b} eV', color=(0.8,0.8,0.8), fontsize=10)    
     fig.savefig(f"contour_ORR_{m+1}{metal}.png", bbox_inches='tight')
     print(f"Figure saved as contour_ORR_{m+1}{metal}.png")
     fig.clf()
