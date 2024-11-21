@@ -320,27 +320,6 @@ for dir in dirs:
     elif A == '3' and B == 'Mo':
         overpotential('oh', 'o', 'oho', ('oohoh', 'ohooh'), df, OER, ORR)
         overpotential('o', 'oho', 'oo', ('oooh', 'ooho'), df, OER, ORR)
-
-    # overpotential_orr('clean', 'oh', 'o', 'ooh', df, ORR)
-    # if A == '1' and B == 'Fe':
-    #     overpotential_orr('oh', 'oh-oh', ('o-oh', 'oh-o'), ('ooh-oh', 'oh-ooh'), df, ORR)
-    #     overpotential_orr('o', ('o-oh', 'oh-o'), 'o-o', ('ooh-o', 'o-ooh'), df, ORR)
-    #     overpotential_orr('ooh', ('oh-ooh', 'ooh-oh'), ('ooh-o', 'o-ooh'), 'ooh-ooh', df, ORR)
-    #     overpotential_orr('oh', 'o', 'ooh', ('ooh-oh', 'oh-ooh'), df, ORR)
-    #     overpotential_orr('oh', 'o', ('o-oh', 'oh-o'), ('ooh-oh', 'oh-ooh'), df, ORR)
-    #     overpotential_orr('o', 'ooh', ('ooh-oh', 'oh-ooh'), ('ooh-o', 'o-ooh'), df, ORR)        
-    #     overpotential_orr('o', ('o-oh', 'oh-o'), ('ooh-oh', 'oh-ooh'), ('ooh-o', 'o-ooh'), df, ORR)
-    # elif A == '2' and B == 'Co':
-    #     overpotential_orr('oh', 'oh-oh', ('o-oh', 'oh-o'), ('ooh-oh', 'oh-ooh'), df, ORR)
-    #     overpotential_orr('o', ('o-oh', 'oh-o'), 'o-o', ('ooh-o', 'o-ooh'), df, ORR)
-    #     overpotential_orr('ooh', ('oh-ooh', 'ooh-oh'), ('ooh-o', 'o-ooh'), 'ooh-ooh', df, ORR)
-    #     overpotential_orr('oh', 'o', 'ooh', ('ooh-oh', 'oh-ooh'), df, ORR)
-    #     overpotential_orr('oh', 'o', ('o-oh', 'oh-o'), ('ooh-oh', 'oh-ooh'), df, ORR)
-    #     overpotential_orr('o', 'ooh', ('ooh-oh', 'oh-ooh'), ('ooh-o', 'o-ooh'), df, ORR)        
-    #     overpotential_orr('o', ('o-oh', 'oh-o'), ('ooh-oh', 'oh-ooh'), ('ooh-o', 'o-ooh'), df, ORR)
-    # elif A == '3' and B == 'Mo':
-    #     overpotential_orr('oh', 'o', 'oho', ('oohoh', 'ohooh'), df, ORR)
-    #     overpotential_orr('o', 'oho', 'oo', ('oooh', 'ooho'), df, ORR)
         
     # Define surfaces with extracted E0 values
     surfs = [
@@ -434,7 +413,7 @@ for dir in dirs:
         # plt.plot(pH2, OER['onsetP'][3] - pH2 * const, '--', color='orange', lw=1, dashes=(3, 1))
         plt.plot(pH2, OER['onsetP'][7] - pH2 * const, '--', color='lime', lw=1, dashes=(3, 1))
         ax.text(0.2, 0.65, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
-        ax.text(6.5, OER['onsetP'][0] - 0.72, 
+        ax.text(6.5, OER['onsetP'][0] - 0.70, 
                 r"S$_0$$\rightarrow$S$_3$$\rightarrow$S$_4$$\rightarrow$S$_7$: " + f"{OER['overP'][0]:.2f} eV", 
                 color='black', rotation=-9.5, fontsize=10)
         # ax.text(6.5, OER['onsetP'][1] - 0.94,
@@ -474,7 +453,7 @@ for dir in dirs:
     elif A == '3' and B == 'Mo':
         plt.plot(pH2, OER['onsetP'][2] - pH2 * const, '--', color='brown', lw=1, dashes=(3, 1))
         ax.text(0.2, 0.88, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
-        ax.text(6.8, OER['onsetP'][2] - 0.68, 
+        ax.text(6.8, OER['onsetP'][2] - 1.68, 
                 r"S$_4$$\rightarrow$S$_7$$\rightarrow$S$_9$$\rightarrow$S$_{10}$: " + f"{OER['overP'][2]:.2f} eV", 
                 color='brown', rotation=-9.5, fontsize=10)
     plt.legend(loc='lower left', bbox_to_anchor=(0.0, 1.02), # borderaxespad=17, 
@@ -521,7 +500,7 @@ for dir in dirs:
     elif A == '3' and B == 'Mo':
         plt.plot(pH2, ORR['onsetP'][2] - pH2 * const, '--', color='brown', lw=1, dashes=(3, 1))
         ax.text(0.2, 0.88, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
-        ax.text(0.2, ORR['onsetP'][2] - 0.38,
+        ax.text(0.2, ORR['onsetP'][2] - 0.36,
                 r"S$_{10}$$\rightarrow$S$_9$$\rightarrow$S$_7$$\rightarrow$S$_4$: " + f"{ORR['overP'][2]:.2f} eV", 
                 color='brown', rotation=-9.5, fontsize=10)
     plt.legend(loc='lower left', bbox_to_anchor=(0.0, 1.02), # borderaxespad=17, 
@@ -531,63 +510,63 @@ for dir in dirs:
     print(f"Figure saved as {A}{B}_pourbaix_orr.png")
     plt.close()
     
-    plt.clf()
-    fig = plt.figure(figsize=fig_size, dpi=300)
-    ax = fig.add_axes([0.2, 0.2, 0.6, 0.6])
-    ax.axis([-1.0, 2.5, -600, 200])
-    # if A=='3' and B=='Mo':
-    #     ax.axis([-1.0, 2.5, -900, 300])
-    # else:
-    #     ax.axis([-1.0, 2.5, -600, 200])
-    ax.set_xlabel(r'RHE (V)', fontsize='large')
-    ax.set_ylabel(r'$\Delta$G (kJ/mol)', fontsize='large')
-    xx = np.arange(-1.00, 2.55, 0.05)
-    for k in range(nsurfs):
-        label = r"S$_{%i}$(H: %i O: %i OH: %i OOH: %i)" % (k, surfs[k][1], surfs[k][2], surfs[k][3], surfs[k][4])
-        dg_value = dg(k, 0, xx)
-        if dg_value is not None:
-            ax.plot(xx, dg_value * kjmol, '-', lw=1, c=color[k], label=label)
-        else:
-            print(f"Skipping plot for surface {k} due to missing data.")
-    plt.xlim(-1.0, 2.5)
-    plt.legend(loc='upper left', bbox_to_anchor=(1.02, 1.02), # borderaxespad=17, 
-               ncol=1, labelspacing=0.3, handlelength=2, fontsize=10,
-               fancybox=True, shadow=True)
-    # plt.legend(loc='lower left', bbox_to_anchor=(0.0, 1.02), # borderaxespad=17, 
-    #            ncol=2, columnspacing=1.0, labelspacing=0.3, handlelength=2, fontsize=10,
+    # plt.clf()
+    # fig = plt.figure(figsize=fig_size, dpi=300)
+    # ax = fig.add_axes([0.2, 0.2, 0.6, 0.6])
+    # ax.axis([-1.0, 2.5, -600, 200])
+    # # if A=='3' and B=='Mo':
+    # #     ax.axis([-1.0, 2.5, -900, 300])
+    # # else:
+    # #     ax.axis([-1.0, 2.5, -600, 200])
+    # ax.set_xlabel(r'RHE (V)', fontsize='large')
+    # ax.set_ylabel(r'$\Delta$G (kJ/mol)', fontsize='large')
+    # xx = np.arange(-1.00, 2.55, 0.05)
+    # for k in range(nsurfs):
+    #     label = r"S$_{%i}$(H: %i O: %i OH: %i OOH: %i)" % (k, surfs[k][1], surfs[k][2], surfs[k][3], surfs[k][4])
+    #     dg_value = dg(k, 0, xx)
+    #     if dg_value is not None:
+    #         ax.plot(xx, dg_value * kjmol, '-', lw=1, c=color[k], label=label)
+    #     else:
+    #         print(f"Skipping plot for surface {k} due to missing data.")
+    # plt.xlim(-1.0, 2.5)
+    # plt.legend(loc='upper left', bbox_to_anchor=(1.02, 1.02), # borderaxespad=17, 
+    #            ncol=1, labelspacing=0.3, handlelength=2, fontsize=10,
     #            fancybox=True, shadow=True)
-    plt.savefig(f'/pscratch/sd/j/jiuy97/6_MNC/figures/pourbaix/{A}{B}_pourbaix.png', bbox_inches='tight')
-    print(f"Figure saved as {A}{B}_pourbaix.png")
-    # plt.show()
-    plt.close()
+    # # plt.legend(loc='lower left', bbox_to_anchor=(0.0, 1.02), # borderaxespad=17, 
+    # #            ncol=2, columnspacing=1.0, labelspacing=0.3, handlelength=2, fontsize=10,
+    # #            fancybox=True, shadow=True)
+    # plt.savefig(f'/pscratch/sd/j/jiuy97/6_MNC/figures/pourbaix/{A}{B}_pourbaix.png', bbox_inches='tight')
+    # print(f"Figure saved as {A}{B}_pourbaix.png")
+    # # plt.show()
+    # plt.close()
 
-    df['#H'] = df['#H'].astype(int)
-    df['#O'] = df['#O'].astype(int)
-    df['#OH'] = df['#OH'].astype(int)
-    df['#OOH'] = df['#OOH'].astype(int)
-    df['E'] = df['E'].round(2)
-    df['G'] = df['G'].round(2)
-    df['dG'] = df['dG'].round(2)
-    df.to_csv(f'/pscratch/sd/j/jiuy97/6_MNC/figures/pourbaix/{A}{B}_energies.tsv', sep='\t') #, index=False)
-    print(f"Data saved as {A}{B}_energies.png")
+    # df['#H'] = df['#H'].astype(int)
+    # df['#O'] = df['#O'].astype(int)
+    # df['#OH'] = df['#OH'].astype(int)
+    # df['#OOH'] = df['#OOH'].astype(int)
+    # df['E'] = df['E'].round(2)
+    # df['G'] = df['G'].round(2)
+    # df['dG'] = df['dG'].round(2)
+    # df.to_csv(f'/pscratch/sd/j/jiuy97/6_MNC/figures/pourbaix/{A}{B}_energies.tsv', sep='\t') #, index=False)
+    # print(f"Data saved as {A}{B}_energies.png")
 
-    OER_df = pd.DataFrame(OER)
-    OER_df['dg12'] = OER_df['dg12'].round(2)
-    OER_df['dg23'] = OER_df['dg23'].round(2)
-    OER_df['dg34'] = OER_df['dg34'].round(2)
-    OER_df['dg41'] = OER_df['dg41'].round(2)
-    OER_df['overP'] = OER_df['overP'].round(2)
-    OER_df['onsetP'] = OER_df['onsetP'].round(2)
-    OER_df.to_csv(f'/pscratch/sd/j/jiuy97/6_MNC/figures/pourbaix/{A}{B}_oer.tsv', sep='\t') #, index=False)
-    print(f"Data saved as {A}{B}_oer.png")
+    # OER_df = pd.DataFrame(OER)
+    # OER_df['dg12'] = OER_df['dg12'].round(2)
+    # OER_df['dg23'] = OER_df['dg23'].round(2)
+    # OER_df['dg34'] = OER_df['dg34'].round(2)
+    # OER_df['dg41'] = OER_df['dg41'].round(2)
+    # OER_df['overP'] = OER_df['overP'].round(2)
+    # OER_df['onsetP'] = OER_df['onsetP'].round(2)
+    # OER_df.to_csv(f'/pscratch/sd/j/jiuy97/6_MNC/figures/pourbaix/{A}{B}_oer.tsv', sep='\t') #, index=False)
+    # print(f"Data saved as {A}{B}_oer.png")
 
-    ORR_df = pd.DataFrame(ORR)
-    ORR_df['dg12'] = ORR_df['dg12'].round(2)
-    ORR_df['dg23'] = ORR_df['dg23'].round(2)
-    ORR_df['dg34'] = ORR_df['dg34'].round(2)
-    ORR_df['dg41'] = ORR_df['dg41'].round(2)
-    ORR_df['overP'] = ORR_df['overP'].round(2)
-    ORR_df['onsetP'] = ORR_df['onsetP'].round(2)
-    ORR_df.to_csv(f'/pscratch/sd/j/jiuy97/6_MNC/figures/pourbaix/{A}{B}_orr.tsv', sep='\t') #, index=False)
-    print(f"Data saved as {A}{B}_orr.png")
+    # ORR_df = pd.DataFrame(ORR)
+    # ORR_df['dg12'] = ORR_df['dg12'].round(2)
+    # ORR_df['dg23'] = ORR_df['dg23'].round(2)
+    # ORR_df['dg34'] = ORR_df['dg34'].round(2)
+    # ORR_df['dg41'] = ORR_df['dg41'].round(2)
+    # ORR_df['overP'] = ORR_df['overP'].round(2)
+    # ORR_df['onsetP'] = ORR_df['onsetP'].round(2)
+    # ORR_df.to_csv(f'/pscratch/sd/j/jiuy97/6_MNC/figures/pourbaix/{A}{B}_orr.tsv', sep='\t') #, index=False)
+    # print(f"Data saved as {A}{B}_orr.png")
     
