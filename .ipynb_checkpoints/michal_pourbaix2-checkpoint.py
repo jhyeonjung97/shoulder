@@ -3,6 +3,7 @@ import re
 import glob
 import numpy as np
 import pandas as pd
+from ase.io import read
 from matplotlib import rc
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FormatStrFormatter
@@ -126,12 +127,11 @@ def find_min_e0(main_dir, sub_dirs):
 def get_energy(main_dir, sub_dirs):
     most_stable_dir = os.path.join(main_dir, "most_stable")
     done_path = os.path.join(most_stable_dir, "DONE")
-    if os.path.isfile(done_path):
-        with open(done_path, 'r') as file:
-            for line in file:
-                match = energy_pattern.search(line)
-                if match:
-                    return float(match.group(1))
+    json_path = os.path.join(most_stable_dir, "final_with_calculator.json")
+    if os.path.isfile(done_path) and os.path.isfile(json_path):
+        atoms = read(json_path)
+        min_e0 = atoms.get_potential_energy()
+        return min_e0
     # Fallback to finding minimum E0 value
     return find_min_e0(main_dir, sub_dirs)
     if min_e0 is None:
