@@ -98,7 +98,7 @@ dfs = {}
 for m, metal in enumerate(metals):
     row = rows[m]
     group = groups[m]
-    dfs[metal] = pd.read_csv(f'/pscratch/sd/j/jiuy97/6_MNC/figures/contour/{row}_{group}{metal}_gibbs.tsv', sep='\t', header=0, index_col=0)
+    dfs[metal] = pd.read_csv(f'/pscratch/sd/j/jiuy97/6_MNC/figures/formation_energy/{row}_{group}{metal}_gibbs.tsv', sep='\t', header=0, index_col=0)
     # doh_values = dfs[metal]['dG_OH']
     # do_values = dfs[metal]['dG_O']
     # dooh_values = dfs[metal]['dG_OOH']

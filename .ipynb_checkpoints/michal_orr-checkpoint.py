@@ -80,7 +80,8 @@ def overpotential_orr_full(doh, do, dooh):
     return [round(m + 1.23, 2), round(-m, 2), orr_step(dg14.index(m))]
     
 # Read data from the TSV file
-df = pd.read_csv('/pscratch/sd/j/jiuy97/6_MNC/figures/scaling_relationship.tsv', sep='\t', header=0, index_col=0)
+save_path='/pscratch/sd/j/jiuy97/6_MNC/figures/contour'
+df = pd.read_csv('/pscratch/sd/j/jiuy97/6_MNC/figures/contour/scaling_relationship.tsv', sep='\t', header=0, index_col=0)
 
 # Extract values from the dataframe
 # doh_values = df['dG_OH']
@@ -94,7 +95,7 @@ dfs = {}
 for m, metal in enumerate(metals):
     row = rows[m]
     group = groups[m]
-    dfs[metal] = pd.read_csv(f'/pscratch/sd/j/jiuy97/6_MNC/figures/{row}_{group}{metal}_gibbs.tsv', sep='\t', header=0, index_col=0)
+    dfs[metal] = pd.read_csv(f'/pscratch/sd/j/jiuy97/6_MNC/figures/formation_energy/{row}_{group}{metal}_gibbs.tsv', sep='\t', header=0, index_col=0)
     # doh_values = dfs[metal]['dG_OH']
     # do_values = dfs[metal]['dG_O']
     # dooh_values = dfs[metal]['dG_OOH']
@@ -156,7 +157,7 @@ ax.text(1.2, 2.3, rf'{a}*$\Delta$G$_{{\sf OH}}$+{b} eV', color=(0.8,0.8,0.8), fo
 ax.legend(bbox_to_anchor=(0.5, 1.1), loc='center', borderaxespad=0.5,
           ncol=3, columnspacing=1.0, handletextpad=0.4,
           fancybox=True, shadow=False, fontsize='small', handlelength=2)
-fig.savefig('contour_ORR.png', bbox_inches='tight')
+fig.savefig(os.path.join(save_path, 'contour_ORR.png'), bbox_inches='tight')
 print("Figure saved as contour_ORR.png")
 fig.clf()
 
@@ -196,12 +197,12 @@ for m, metal in enumerate(metals):
     ax.plot(x, a * x + b, '--', lw=1, dashes=(3, 1), c='black')
     ax.text(1.2, 2.5, r'$\Delta$G$_{\sf OOH}$=', color=(0.8,0.8,0.8), fontsize=10)
     ax.text(1.2, 2.3, rf'{a}*$\Delta$G$_{{\sf OH}}$+{b} eV', color=(0.8,0.8,0.8), fontsize=10)    
-    fig.savefig(f"contour_ORR_{m+1}{metal}.png", bbox_inches='tight')
+    fig.savefig(os.path.join(save_path, f"contour_ORR_{m+1}{metal}.png"), bbox_inches='tight')
     print(f"Figure saved as contour_ORR_{m+1}{metal}.png")
     fig.clf()
 
 # CSV writing for overpotential results
-with open('contour_ORR.csv', 'w', newline='') as myfile:
+with open(os.path.join(save_path, 'contour_ORR.csv'), 'w', newline='') as myfile:
     fieldnames = ['Surface name', 'dOH', 'dO', 'dOOH', 'overpotential', 'onset potential', 'PLS']
     writer = csv.DictWriter(myfile, fieldnames=fieldnames)
     writer.writeheader()
@@ -216,7 +217,7 @@ with open('contour_ORR.csv', 'w', newline='') as myfile:
         })
 
 # TSV writing for overpotential results
-with open('contour_ORR.tsv', 'w', newline='') as myfile:
+with open(os.path.join(save_path, 'contour_ORR.tsv'), 'w', newline='') as myfile:
     fieldnames = ['Surf.', 'dOH', 'dO', 'dO*', 'diff', 'dOOH', 'overP', 'onsetP', 'PLS']
     writer = csv.DictWriter(myfile, fieldnames=fieldnames, delimiter='\t')  # Change delimiter to '\t'
     writer.writeheader()
@@ -236,7 +237,7 @@ with open('contour_ORR.tsv', 'w', newline='') as myfile:
 
 # Write results for each metal
 for m, metal in enumerate(metals):
-    with open(f'contour_ORR_{m+1}{metal}.tsv', 'w', newline='') as myfile:
+    with open(os.path.join(save_path, f'contour_ORR_{m+1}{metal}.tsv'), 'w', newline='') as myfile:
         fieldnames = ['Surf.', 'dOH', 'dO', 'dO*', 'diff', 'dOOH', 'overP', 'onsetP', 'PLS']
         writer = csv.DictWriter(myfile, fieldnames=fieldnames, delimiter='\t')
         writer.writeheader()
