@@ -413,11 +413,16 @@ for dir in dirs:
         plt.plot([], [], color=color[k], alpha=0.3, linewidth=5, label=label)
     plt.plot(pH2, 1.23 - pH2 * const, '--', color='blue', lw=1, dashes=(3, 1))
     if A == '1' and B == 'Fe':
-        plt.plot(pH2, OER['onsetP'][0] - pH2 * const, '--', color='black', lw=1, dashes=(3, 1))
-        # plt.plot(pH2, OER['onsetP'][1] - pH2 * const, '--', color='red', lw=1, dashes=(3, 1))
-        # plt.plot(pH2, OER['onsetP'][2] - pH2 * const, '--', color='green', lw=1, dashes=(3, 1))
-        # plt.plot(pH2, OER['onsetP'][3] - pH2 * const, '--', color='orange', lw=1, dashes=(3, 1))
-        plt.plot(pH2, OER['onsetP'][7] - pH2 * const, '--', color='lime', lw=1, dashes=(3, 1))
+        # plt.plot(pH2, OER['onsetP'][0] - pH2 * const, '--', color='black', lw=1, dashes=(3, 1))
+        # plt.plot(pH2, OER['onsetP'][7] - pH2 * const, '--', color='lime', lw=1, dashes=(3, 1))
+        plt.plot(pH2, OER['onsetP'][0] - pH2 * const, '--', color=color[0], lw=1, dashes=(3, 1))
+        plt.plot(pH2, OER['onsetP'][1] - pH2 * const, '--', color=color[1], lw=1, dashes=(3, 1))
+        plt.plot(pH2, OER['onsetP'][2] - pH2 * const, '--', color=color[2], lw=1, dashes=(3, 1))
+        plt.plot(pH2, OER['onsetP'][3] - pH2 * const, '--', color=color[3], lw=1, dashes=(3, 1))
+        plt.plot(pH2, OER['onsetP'][4] - pH2 * const, '--', color=color[4], lw=1, dashes=(3, 1))
+        plt.plot(pH2, OER['onsetP'][5] - pH2 * const, '--', color=color[5], lw=1, dashes=(3, 1))
+        plt.plot(pH2, OER['onsetP'][6] - pH2 * const, '--', color=color[6], lw=1, dashes=(3, 1))
+        plt.plot(pH2, OER['onsetP'][7] - pH2 * const, '--', color=color[7], lw=1, dashes=(3, 1))
         ax.text(0.2, 0.65, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
         ax.text(6.5, OER['onsetP'][0] - 0.70, 
                 r"S$_0$$\rightarrow$S$_3$$\rightarrow$S$_4$$\rightarrow$S$_7$: " + f"{OER['overP'][0]:.2f} eV", 
