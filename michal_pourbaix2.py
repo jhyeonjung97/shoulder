@@ -580,7 +580,7 @@ for dir in dirs:
                 r"S$_0$$\rightarrow$S$_3$$\rightarrow$S$_4$$\rightarrow$S$_7$: " + f"{OER['overP'][0]:.2f} eV", 
                 color='black', rotation=-9.5, fontsize=10)
         ax.text(6.5, OER['onsetP'][1] - 0.96, # 1.14, 
-                r"S$_3$$\rightarrow$S$_6$$\rightarrow$S$_9$$\rightarrow$S$_{12}$: " + f"{OER['overP'][1]:.2f} eV", 
+                r"S$_3$$\rightarrow$S$_6$$\rightarrow$S$_9$$\rightarrow$S$_{11}$: " + f"{OER['overP'][1]:.2f} eV", 
                 color='red', rotation=-9.5, fontsize=10)
         ax.text(0.2, ORR['onsetP'][0] - 0.58, 
                 r"S$_7$$\rightarrow$S$_4$$\rightarrow$S$_3$$\rightarrow$S$_0$: " + f"{ORR['overP'][0]:.2f} eV", 
