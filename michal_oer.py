@@ -162,8 +162,8 @@ for row_num, row in enumerate(df.itertuples(), 1):
                    linewidths=0.5,
                    facecolor=colors[row_num-1],
                    edgecolor='black')
-ax.scatter([], [], label='relaxed dz', s=24, marker='X', linewidths=0.5, facecolor='black', edgecolor='black')
-ax.scatter([], [], label='fixed dz', s=24, marker='o', linewidths=0.5, facecolor='black', edgecolor='black')
+ax.scatter([], [], label='relaxed Δz', s=24, marker='X', linewidths=0.5, facecolor='black', edgecolor='black')
+ax.scatter([], [], label='fixed Δz', s=24, marker='o', linewidths=0.5, facecolor='black', edgecolor='black')
 
 # ax.plot(x, x + 3.2, '--', lw=1, dashes=(3, 1), c='black')
 # ax.text(1.1, 2.3, r'$\Delta$G$_{\sf OOH}$=$\Delta$G$_{\sf OH}$+3.2 eV', color='black', fontsize=10)
