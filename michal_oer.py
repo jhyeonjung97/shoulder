@@ -11,9 +11,9 @@ from matplotlib.markers import MarkerStyle
 
 # a, b = 0.87, 3.09
 
-rows = ['3d', '3d', '3d', '3d', '4d', '5d']
-groups = ['5', '6', '7', '8', '4', '4']
-metals = ['Mn', 'Fe', 'Co', 'Ni', 'Mo', 'W']
+rows = ['3d', '3d', '3d', '3d'] #, '4d', '5d']
+groups = ['5', '6', '7', '8'] #, '4', '4']
+metals = ['Mn', 'Fe', 'Co', 'Ni'] #, 'Mo', 'W']
 
 # Figure and font settings
 fig_width_pt = 1.8 * 246.0
