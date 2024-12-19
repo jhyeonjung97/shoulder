@@ -60,7 +60,7 @@ ax.axis([x1, x2, y1, y2])
 ax.set_xlabel(r'$\Delta$G$_{\sf O}$ - $\Delta$G$_{\sf OH}$(eV)', fontsize='large')
 ax.set_ylabel(r'$\Delta$G$_{\sf OH}$ (eV)', fontsize='large')
 
-Define functions for overpotential calculations
+# Define functions for overpotential calculations
 def ooh_oh_scaling(doh):
     return a * doh + b
 
