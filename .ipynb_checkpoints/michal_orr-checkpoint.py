@@ -11,9 +11,9 @@ from matplotlib.markers import MarkerStyle
 
 a, b = 0.87, 3.09
 
-rows = ['3d', '3d', '3d', '3d', '4d', '5d']
-groups = ['5', '6', '7', '8', '4', '4']
-metals = ['Mn', 'Fe', 'Co', 'Ni', 'Mo', 'W']
+rows = ['3d', '3d', '3d', '3d'] #, '4d', '5d']
+groups = ['5', '6', '7', '8'] #, '4', '4']
+metals = ['Mn', 'Fe', 'Co', 'Ni'] #, 'Mo', 'W']
 
 # Figure and font settings
 fig_width_pt = 1.8 * 246.0
@@ -141,6 +141,8 @@ for row_num, row in enumerate(df.itertuples(), 1):
                facecolors=colors[row_num-1],
                edgecolors='black',
                zorder=10)
+ax.scatter([], [], label='relaxed Δz', s=24, marker='X', linewidths=0.5, facecolor='black', edgecolor='black')
+ax.scatter([], [], label='fixed Δz', s=24, marker='o', linewidths=0.5, facecolor='black', edgecolor='black')
 
 # Plot the metal-specific data points with colormaps
 for m, metal in enumerate(metals):
