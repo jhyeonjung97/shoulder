@@ -614,35 +614,35 @@ for dir in dirs:
     print(f"Figure saved as {A}{B}_pourbaix_full.png")
     plt.close()
     
-    # plt.clf()
-    # fig = plt.figure(figsize=fig_size, dpi=300)
-    # ax = fig.add_axes([0.2, 0.2, 0.6, 0.6])
-    # ax.axis([-1.0, 2.5, -600, 200])
-    # # if A=='3' and B=='Mo':
-    # #     ax.axis([-1.0, 2.5, -900, 300])
-    # # else:
-    # #     ax.axis([-1.0, 2.5, -600, 200])
-    # ax.set_xlabel(r'RHE (V)', fontsize='large')
-    # ax.set_ylabel(r'$\Delta$G (kJ/mol)', fontsize='large')
-    # xx = np.arange(-1.00, 2.55, 0.05)
-    # for k in range(nsurfs):
-    #     label = r"S$_{%i}$(H: %i O: %i OH: %i OOH: %i)" % (k, surfs[k][1], surfs[k][2], surfs[k][3], surfs[k][4])
-    #     dg_value = dg(k, 0, xx)
-    #     if dg_value is not None:
-    #         ax.plot(xx, dg_value * kjmol, '-', lw=1, c=color[k], label=label)
-    #     else:
-    #         print(f"Skipping plot for surface {k} due to missing data.")
-    # plt.xlim(-1.0, 2.5)
-    # plt.legend(loc='upper left', bbox_to_anchor=(1.02, 1.02), # borderaxespad=17, 
-    #            ncol=1, labelspacing=0.3, handlelength=2, fontsize=10,
+    plt.clf()
+    fig = plt.figure(figsize=fig_size, dpi=300)
+    ax = fig.add_axes([0.2, 0.2, 0.6, 0.6])
+    ax.axis([-1.0, 2.5, -600, 200])
+    # if A=='3' and B=='Mo':
+    #     ax.axis([-1.0, 2.5, -900, 300])
+    # else:
+    #     ax.axis([-1.0, 2.5, -600, 200])
+    ax.set_xlabel(r'RHE (V)', fontsize='large')
+    ax.set_ylabel(r'$\Delta$G (kJ/mol)', fontsize='large')
+    xx = np.arange(-1.00, 2.55, 0.05)
+    for k in range(nsurfs):
+        label = r"S$_{%i}$(H: %i O: %i OH: %i OOH: %i)" % (k, surfs[k][1], surfs[k][2], surfs[k][3], surfs[k][4])
+        dg_value = dg(k, 0, xx)
+        if dg_value is not None:
+            ax.plot(xx, dg_value * kjmol, '-', lw=1, c=color[k], label=label)
+        else:
+            print(f"Skipping plot for surface {k} due to missing data.")
+    plt.xlim(-1.0, 2.5)
+    plt.legend(loc='upper left', bbox_to_anchor=(1.02, 1.02), # borderaxespad=17, 
+               ncol=1, labelspacing=0.3, handlelength=2, fontsize=10,
+               fancybox=True, shadow=True)
+    # plt.legend(loc='lower left', bbox_to_anchor=(0.0, 1.02), # borderaxespad=17, 
+    #            ncol=2, columnspacing=1.0, labelspacing=0.3, handlelength=2, fontsize=10,
     #            fancybox=True, shadow=True)
-    # # plt.legend(loc='lower left', bbox_to_anchor=(0.0, 1.02), # borderaxespad=17, 
-    # #            ncol=2, columnspacing=1.0, labelspacing=0.3, handlelength=2, fontsize=10,
-    # #            fancybox=True, shadow=True)
-    # plt.savefig(f'/pscratch/sd/j/jiuy97/6_MNC/figures/pourbaix/{A}{B}_pourbaix.png', bbox_inches='tight')
-    # print(f"Figure saved as {A}{B}_pourbaix.png")
-    # # plt.show()
-    # plt.close()
+    plt.savefig(f'/pscratch/sd/j/jiuy97/6_MNC/figures/pourbaix/{A}{B}_pourbaix.png', bbox_inches='tight')
+    print(f"Figure saved as {A}{B}_pourbaix.png")
+    # plt.show()
+    plt.close()
 
     df['#H'] = df['#H'].astype(int)
     df['#O'] = df['#O'].astype(int)
