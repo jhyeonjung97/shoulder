@@ -61,8 +61,8 @@ ax.set_xlabel(r'$\Delta$G$_{\sf O}$ - $\Delta$G$_{\sf OH}$(eV)', fontsize='large
 ax.set_ylabel(r'$\Delta$G$_{\sf OH}$ (eV)', fontsize='large')
 
 # Define functions for overpotential calculations
-def ooh_oh_scaling(doh):
-    return a * doh + b
+# def ooh_oh_scaling(doh):
+#     return a * doh + b
 
 def oer_step(i):
     steps = ['H2O->OH*', 'OH*->O*', 'O*->OOH*', 'OOH*->O2']
@@ -72,11 +72,11 @@ def overpotential_oer(doh, do, dooh):
     dg14 = [doh, do - doh, dooh - do, 4.92 - dooh]
     return max(dg14) - 1.23
     
-def overpotential_oer_for_contour(do_doh, doh):
-    do = do_doh + doh
-    dooh = ooh_oh_scaling(doh)
-    dg14 = [doh, do - doh, dooh - do, 4.92 - dooh]
-    return max(dg14) - 1.23
+# def overpotential_oer_for_contour(do_doh, doh):
+#     do = do_doh + doh
+#     dooh = ooh_oh_scaling(doh)
+#     dg14 = [doh, do - doh, dooh - do, 4.92 - dooh]
+#     return max(dg14) - 1.23
     
 def overpotential_oer_full(doh, do, dooh):
     dg14 = [doh, do - doh, dooh - do, 4.92 - dooh]
