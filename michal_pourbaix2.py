@@ -197,61 +197,61 @@ def overpotential(int1, int2, int3, int4, df, OER, ORR):
     ORR['dg12'].append(1.23-dG34); ORR['dg23'].append(1.23-dG23); ORR['dg34'].append(1.23-dG12); ORR['dg41'].append(1.23-dG41)
     ORR['overP'].append(overP_orr); ORR['onsetP'].append(onsetP_orr)
     
-# def overpotential_oer(int1, int2, int3, int4, df, OER):
-#     ints = [int1, int2, int3, int4]
-#     for i, int in enumerate(ints):
-#         if isinstance(int, tuple):
-#             if np.isnan(df.loc[int[1], 'E']):
-#                 ints[i] = int[0]
-#             elif np.isnan(df.loc[int[0], 'E']):
-#                 ints[i] = int[1]
-#             elif df.loc[int[0], 'E'] < df.loc[int[1], 'E']:
-#                 ints[i] = int[0]
-#             else:
-#                 ints[i] = int[1]
-#     int1, int2, int3, int4 = ints
+def overpotential_oer(int1, int2, int3, int4, df, OER):
+    ints = [int1, int2, int3, int4]
+    for i, int in enumerate(ints):
+        if isinstance(int, tuple):
+            if np.isnan(df.loc[int[1], 'E']):
+                ints[i] = int[0]
+            elif np.isnan(df.loc[int[0], 'E']):
+                ints[i] = int[1]
+            elif df.loc[int[0], 'E'] < df.loc[int[1], 'E']:
+                ints[i] = int[0]
+            else:
+                ints[i] = int[1]
+    int1, int2, int3, int4 = ints
     
-#     dG12 = df.loc[int2, 'dG'] - df.loc[int1, 'dG']
-#     dG23 = df.loc[int3, 'dG'] - df.loc[int2, 'dG']
-#     dG34 = df.loc[int4, 'dG'] - df.loc[int3, 'dG']
-#     dG41 = 4.92 - dG12 - dG23 - dG34
-#     if any(np.isnan(value) for value in [dG12, dG23, dG34, dG41]):
-#         onsetP = np.nan
-#         overP = np.nan
-#     else:
-#         onsetP = max(dG12, dG23, dG34, dG41)
-#         overP = onsetP - 1.23
-#     OER['int1'].append(int1); OER['int2'].append(int2); OER['int3'].append(int3); OER['int4'].append(int4)
-#     OER['dg12'].append(dG12); OER['dg23'].append(dG23); OER['dg34'].append(dG34); OER['dg41'].append(dG41)
-#     OER['overP'].append(overP); OER['onsetP'].append(onsetP)
+    dG12 = df.loc[int2, 'dG'] - df.loc[int1, 'dG']
+    dG23 = df.loc[int3, 'dG'] - df.loc[int2, 'dG']
+    dG34 = df.loc[int4, 'dG'] - df.loc[int3, 'dG']
+    dG41 = 4.92 - dG12 - dG23 - dG34
+    if any(np.isnan(value) for value in [dG12, dG23, dG34, dG41]):
+        onsetP = np.nan
+        overP = np.nan
+    else:
+        onsetP = max(dG12, dG23, dG34, dG41)
+        overP = onsetP - 1.23
+    OER['int1'].append(int1); OER['int2'].append(int2); OER['int3'].append(int3); OER['int4'].append(int4)
+    OER['dg12'].append(dG12); OER['dg23'].append(dG23); OER['dg34'].append(dG34); OER['dg41'].append(dG41)
+    OER['overP'].append(overP); OER['onsetP'].append(onsetP)
     
-# def overpotential_orr(int1, int2, int3, int4, df, ORR):
-#     ints = [int1, int2, int3, int4]
-#     for i, int in enumerate(ints):
-#         if isinstance(int, tuple):
-#             if np.isnan(df.loc[int[1], 'E']):
-#                 ints[i] = int[0]
-#             elif np.isnan(df.loc[int[0], 'E']):
-#                 ints[i] = int[1]
-#             elif df.loc[int[0], 'E'] < df.loc[int[1], 'E']:
-#                 ints[i] = int[0]
-#             else:
-#                 ints[i] = int[1]
-#     int1, int2, int3, int4 = ints
+def overpotential_orr(int1, int2, int3, int4, df, ORR):
+    ints = [int1, int2, int3, int4]
+    for i, int in enumerate(ints):
+        if isinstance(int, tuple):
+            if np.isnan(df.loc[int[1], 'E']):
+                ints[i] = int[0]
+            elif np.isnan(df.loc[int[0], 'E']):
+                ints[i] = int[1]
+            elif df.loc[int[0], 'E'] < df.loc[int[1], 'E']:
+                ints[i] = int[0]
+            else:
+                ints[i] = int[1]
+    int1, int2, int3, int4 = ints
     
-#     dG12 = df.loc[int2, 'dG'] - df.loc[int1, 'dG']
-#     dG23 = df.loc[int3, 'dG'] - df.loc[int2, 'dG']
-#     dG34 = df.loc[int4, 'dG'] - df.loc[int3, 'dG']
-#     dG41 = -4.92 - dG12 - dG23 - dG34
-#     if any(np.isnan(value) for value in [dG43, dG32, dG34, dG41]):
-#         onsetP = np.nan
-#         overP = np.nan
-#     else:
-#         onsetP = -max(dG12, dG23, dG34, dG41)
-#         overP = 1.23 + max(dG12, dG23, dG34, dG41)
-#     ORR['int1'].append(int1); ORR['int2'].append(int2); ORR['int3'].append(int3); ORR['int4'].append(int4)
-#     ORR['dg12'].append(dG12); ORR['dg23'].append(dG23); ORR['dg34'].append(dG34); ORR['dg41'].append(dG41)
-#     ORR['overP'].append(overP); ORR['onsetP'].append(onsetP)
+    dG12 = df.loc[int2, 'dG'] - df.loc[int1, 'dG']
+    dG23 = df.loc[int3, 'dG'] - df.loc[int2, 'dG']
+    dG34 = df.loc[int4, 'dG'] - df.loc[int3, 'dG']
+    dG41 = -4.92 - dG12 - dG23 - dG34
+    if any(np.isnan(value) for value in [dG43, dG32, dG34, dG41]):
+        onsetP = np.nan
+        overP = np.nan
+    else:
+        onsetP = -max(dG12, dG23, dG34, dG41)
+        overP = 1.23 + max(dG12, dG23, dG34, dG41)
+    ORR['int1'].append(int1); ORR['int2'].append(int2); ORR['int3'].append(int3); ORR['int4'].append(int4)
+    ORR['dg12'].append(dG12); ORR['dg23'].append(dG23); ORR['dg34'].append(dG34); ORR['dg41'].append(dG41)
+    ORR['overP'].append(overP); ORR['onsetP'].append(onsetP)
     
 for dir in dirs:
     os.chdir(dir)
@@ -338,7 +338,7 @@ for dir in dirs:
         # df.loc['ooh-oh', ['E', '#H', '#O', '#OH', '#OOH']].tolist(),  
         df.loc['ooh', ['E', '#H', '#O', '#OH', '#OOH']].tolist(),
         df.loc['oho', ['E', '#H', '#O', '#OH', '#OOH']].tolist(),
-        # df.loc['oh-o', ['E', '#H', '#O', '#OH', '#OOH']].tolist(),  
+        df.loc['oh-o', ['E', '#H', '#O', '#OH', '#OOH']].tolist(),  
         df.loc['o-oh', ['E', '#H', '#O', '#OH', '#OOH']].tolist(),
         # df.loc['oo', ['E', '#H', '#O', '#OH', '#OOH']].tolist(),  
         df.loc['o-o', ['E', '#H', '#O', '#OH', '#OOH']].tolist(),
@@ -394,165 +394,165 @@ for dir in dirs:
             old_value = lowest_surfaces[j]
     crossover.append(Umax2)
     
-    # plt.clf()
-    # fig = plt.figure(figsize=fig_size, dpi=300)
-    # ax = fig.add_axes([0.2, 0.2, 0.6, 0.6])
-    # ax.axis([0, 14, Umin, Umax])
-    # ax.set_xlabel(r'pH', fontsize='large')
-    # ax.set_ylabel(r'U/V', fontsize='large')
-    # current_yticks = list(plt.yticks()[0])  # Get the current y-ticks
-    # extraticks = [1.23]
-    # combined_ticks = sorted(set(current_yticks) | set(extraticks))
-    # plt.yticks(combined_ticks)
-    # plt.gca().yaxis.set_major_formatter(FormatStrFormatter('%.2f'))
-    # for i in range(len(uniquesurf)):
-    #     k = uniquesurf[i]
-    #     label = r"S$_{%i}$(H-%i O-%i OH-%i OOH-%i)" % (k, surfs[k][1], surfs[k][2], surfs[k][3], surfs[k][4])
-    #     plt.fill_between(pH2, crossover[i] - pH2 * const, crossover[i + 1] - pH2 * const, 
-    #                      facecolor=color[k], alpha=0.3, lw=0.5, edgecolor='black')
-    #     plt.plot([], [], color=color[k], alpha=0.3, linewidth=5, label=label)
-    # plt.plot(pH2, 1.23 - pH2 * const, '--', color='blue', lw=1, dashes=(3, 1))
-    # if A == '1' and B == 'Fe':
-    #     plt.plot(pH2, OER['onsetP'][0] - pH2 * const, '--', color='black', lw=1, dashes=(3, 1))
-    #     plt.plot(pH2, OER['onsetP'][1] - pH2 * const, '--', color='red', lw=1, dashes=(3, 1))
-    #     ax.text(0.2, 0.65, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
-    #     ax.text(6.5, OER['onsetP'][0] - 0.70, 
-    #             r"S$_0$$\rightarrow$S$_3$$\rightarrow$S$_4$$\rightarrow$S$_7$: " + f"{OER['overP'][0]:.2f} eV", 
-    #             color='black', rotation=-9.5, fontsize=10)
-    #     ax.text(6.5, OER['onsetP'][1] - 0.96, # 1.14, 
-    #             r"S$_3$$\rightarrow$S$_6$$\rightarrow$S$_9$$\rightarrow$S$_{12}$: " + f"{OER['overP'][7]:.2f} eV", 
-    #             color='red', rotation=-9.5, fontsize=10)
-    # elif A == '2' and B == 'Co':
-    #     plt.plot(pH2, OER['onsetP'][0] - pH2 * const, '--', color='black', lw=1, dashes=(3, 1))
-    #     plt.plot(pH2, OER['onsetP'][3] - pH2 * const, '--', color='red', lw=1, dashes=(3, 1))
-    #     plt.plot(pH2, OER['onsetP'][3] - pH2 * const, '--', color='red', lw=1, dashes=(3, 1))
-    #     ax.text(0.2, 0.88, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
-    #     ax.text(6.5, OER['onsetP'][0] - 0.94, 
-    #             r"S$_0$$\rightarrow$S$_3$$\rightarrow$S$_4$$\rightarrow$S$_7$: " + f"{OER['overP'][0]:.2f} eV", 
-    #             color='black', rotation=-9.5, fontsize=10)
-    #     ax.text(6.5, OER['onsetP'][3] - 0.74, 
-    #             r"S$_7$$\rightarrow$S$_{11}$$\rightarrow$S$_{12}$$\rightarrow$S$_{13}$: " + f"{OER['overP'][3]:.2f} eV", 
-    #             color='red', rotation=-9.5, fontsize=10)
-    # elif A == '3' and B == 'Mo':
-    #     plt.plot(pH2, OER['onsetP'][2] - pH2 * const, '--', color='red', lw=1, dashes=(3, 1))
-    #     ax.text(0.2, 0.88, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
-    #     ax.text(6.8, OER['onsetP'][2] - 1.30, 
-    #             r"S$_4$$\rightarrow$S$_7$$\rightarrow$S$_9$$\rightarrow$S$_{10}$: " + f"{OER['overP'][2]:.2f} eV", 
-    #             color='red', rotation=-9.5, fontsize=10)
-    # plt.legend(loc='lower left', bbox_to_anchor=(0.0, 1.02), # borderaxespad=17, 
-    #            ncol=1, labelspacing=0.3, handlelength=2, fontsize=10,
-    #            fancybox=True, shadow=True)
-    # plt.savefig(f'/pscratch/sd/j/jiuy97/6_MNC/figures/pourbaix/{A}{B}_pourbaix_oer.png', bbox_inches='tight')
-    # print(f"Figure saved as {A}{B}_pourbaix_oer.png")
-    # plt.close()
+    plt.clf()
+    fig = plt.figure(figsize=fig_size, dpi=300)
+    ax = fig.add_axes([0.2, 0.2, 0.6, 0.6])
+    ax.axis([0, 14, Umin, Umax])
+    ax.set_xlabel(r'pH', fontsize='large')
+    ax.set_ylabel(r'U/V', fontsize='large')
+    current_yticks = list(plt.yticks()[0])  # Get the current y-ticks
+    extraticks = [1.23]
+    combined_ticks = sorted(set(current_yticks) | set(extraticks))
+    plt.yticks(combined_ticks)
+    plt.gca().yaxis.set_major_formatter(FormatStrFormatter('%.2f'))
+    for i in range(len(uniquesurf)):
+        k = uniquesurf[i]
+        label = r"S$_{%i}$(H-%i O-%i OH-%i OOH-%i)" % (k, surfs[k][1], surfs[k][2], surfs[k][3], surfs[k][4])
+        plt.fill_between(pH2, crossover[i] - pH2 * const, crossover[i + 1] - pH2 * const, 
+                         facecolor=color[k], alpha=0.3, lw=0.5, edgecolor='black')
+        plt.plot([], [], color=color[k], alpha=0.3, linewidth=5, label=label)
+    plt.plot(pH2, 1.23 - pH2 * const, '--', color='blue', lw=1, dashes=(3, 1))
+    if A == '1' and B == 'Fe':
+        plt.plot(pH2, OER['onsetP'][0] - pH2 * const, '--', color='black', lw=1, dashes=(3, 1))
+        plt.plot(pH2, OER['onsetP'][1] - pH2 * const, '--', color='red', lw=1, dashes=(3, 1))
+        ax.text(0.2, 0.65, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
+        ax.text(6.5, OER['onsetP'][0] - 0.70, 
+                r"S$_0$$\rightarrow$S$_3$$\rightarrow$S$_4$$\rightarrow$S$_7$: " + f"{OER['overP'][0]:.2f} eV", 
+                color='black', rotation=-9.5, fontsize=10)
+        ax.text(6.5, OER['onsetP'][1] - 0.96, # 1.14, 
+                r"S$_3$$\rightarrow$S$_6$$\rightarrow$S$_9$$\rightarrow$S$_{12}$: " + f"{OER['overP'][7]:.2f} eV", 
+                color='red', rotation=-9.5, fontsize=10)
+    elif A == '2' and B == 'Co':
+        plt.plot(pH2, OER['onsetP'][0] - pH2 * const, '--', color='black', lw=1, dashes=(3, 1))
+        plt.plot(pH2, OER['onsetP'][3] - pH2 * const, '--', color='red', lw=1, dashes=(3, 1))
+        plt.plot(pH2, OER['onsetP'][3] - pH2 * const, '--', color='red', lw=1, dashes=(3, 1))
+        ax.text(0.2, 0.88, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
+        ax.text(6.5, OER['onsetP'][0] - 0.94, 
+                r"S$_0$$\rightarrow$S$_3$$\rightarrow$S$_4$$\rightarrow$S$_7$: " + f"{OER['overP'][0]:.2f} eV", 
+                color='black', rotation=-9.5, fontsize=10)
+        ax.text(6.5, OER['onsetP'][3] - 0.74, 
+                r"S$_7$$\rightarrow$S$_{11}$$\rightarrow$S$_{12}$$\rightarrow$S$_{13}$: " + f"{OER['overP'][3]:.2f} eV", 
+                color='red', rotation=-9.5, fontsize=10)
+    elif A == '3' and B == 'Mo':
+        plt.plot(pH2, OER['onsetP'][2] - pH2 * const, '--', color='red', lw=1, dashes=(3, 1))
+        ax.text(0.2, 0.88, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
+        ax.text(6.8, OER['onsetP'][2] - 1.30, 
+                r"S$_4$$\rightarrow$S$_7$$\rightarrow$S$_9$$\rightarrow$S$_{10}$: " + f"{OER['overP'][2]:.2f} eV", 
+                color='red', rotation=-9.5, fontsize=10)
+    plt.legend(loc='lower left', bbox_to_anchor=(0.0, 1.02), # borderaxespad=17, 
+               ncol=1, labelspacing=0.3, handlelength=2, fontsize=10,
+               fancybox=True, shadow=True)
+    plt.savefig(f'/pscratch/sd/j/jiuy97/6_MNC/figures/pourbaix/{A}{B}_pourbaix_oer.png', bbox_inches='tight')
+    print(f"Figure saved as {A}{B}_pourbaix_oer.png")
+    plt.close()
 
-    # plt.clf()
-    # fig = plt.figure(figsize=fig_size, dpi=300)
-    # ax = fig.add_axes([0.2, 0.2, 0.6, 0.6])
-    # ax.axis([0, 14, Umin, Umax])
-    # ax.set_xlabel(r'pH', fontsize='large')
-    # ax.set_ylabel(r'U/V', fontsize='large')
-    # current_yticks = list(plt.yticks()[0])  # Get the current y-ticks
-    # extraticks = [1.23]
-    # combined_ticks = sorted(set(current_yticks) | set(extraticks))
-    # plt.yticks(combined_ticks)
-    # plt.gca().yaxis.set_major_formatter(FormatStrFormatter('%.2f'))
-    # for i in range(len(uniquesurf)):
-    #     k = uniquesurf[i]
-    #     label = r"S$_{%i}$(H-%i O-%i OH-%i OOH-%i)" % (k, surfs[k][1], surfs[k][2], surfs[k][3], surfs[k][4])
-    #     plt.fill_between(pH2, crossover[i] - pH2 * const, crossover[i + 1] - pH2 * const, 
-    #                      facecolor=color[k], alpha=0.3, lw=0.5, edgecolor='black')
-    #     plt.plot([], [], color=color[k], alpha=0.3, linewidth=5, label=label)
-    # plt.plot(pH2, 1.23 - pH2 * const, '--', color='blue', lw=1, dashes=(3, 1))
-    # if A == '1' and B == 'Fe':
-    #     plt.plot(pH2, ORR['onsetP'][0] - pH2 * const, '--', color='black', lw=1, dashes=(3, 1))
-    #     ax.text(0.2, 0.65, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
-    #     ax.text(0.2, ORR['onsetP'][0] - 0.58, 
-    #             r"S$_7$$\rightarrow$S$_4$$\rightarrow$S$_3$$\rightarrow$S$_0$: " + f"{ORR['overP'][0]:.2f} eV", 
-    #             color='black', rotation=-9.5, fontsize=10)
-    # elif A == '2' and B == 'Co':
-    #     plt.plot(pH2, ORR['onsetP'][0] - pH2 * const, '--', color='black', lw=1, dashes=(3, 1))
-    #     # plt.plot(pH2, ORR['onsetP'][5] - pH2 * const, '--', color='red', lw=1, dashes=(3, 1))
-    #     ax.text(0.2, 0.88, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
-    #     ax.text(0.2, ORR['onsetP'][0] - 0.58, 
-    #             r"S$_7$$\rightarrow$S$_4$$\rightarrow$S$_3$$\rightarrow$S$_0$: " + f"{ORR['overP'][0]:.2f} eV", 
-    #             color='black', rotation=-9.5, fontsize=10)
-    # elif A == '3' and B == 'Mo':
-    #     plt.plot(pH2, ORR['onsetP'][2] - pH2 * const, '--', color='brown', lw=1, dashes=(3, 1))
-    #     ax.text(0.2, 0.88, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
-    #     ax.text(0.2, ORR['onsetP'][2] - 0.34,
-    #             r"S$_{10}$$\rightarrow$S$_9$$\rightarrow$S$_7$$\rightarrow$S$_4$: " + f"{ORR['overP'][2]:.2f} eV", 
-    #             color='brown', rotation=-9.5, fontsize=10)
-    # plt.legend(loc='lower left', bbox_to_anchor=(0.0, 1.02), # borderaxespad=17, 
-    #            ncol=1, labelspacing=0.3, handlelength=2, fontsize=10,
-    #            fancybox=True, shadow=True)
-    # plt.savefig(f'/pscratch/sd/j/jiuy97/6_MNC/figures/pourbaix/{A}{B}_pourbaix_orr.png', bbox_inches='tight')
-    # print(f"Figure saved as {A}{B}_pourbaix_orr.png")
-    # plt.close()
+    plt.clf()
+    fig = plt.figure(figsize=fig_size, dpi=300)
+    ax = fig.add_axes([0.2, 0.2, 0.6, 0.6])
+    ax.axis([0, 14, Umin, Umax])
+    ax.set_xlabel(r'pH', fontsize='large')
+    ax.set_ylabel(r'U/V', fontsize='large')
+    current_yticks = list(plt.yticks()[0])  # Get the current y-ticks
+    extraticks = [1.23]
+    combined_ticks = sorted(set(current_yticks) | set(extraticks))
+    plt.yticks(combined_ticks)
+    plt.gca().yaxis.set_major_formatter(FormatStrFormatter('%.2f'))
+    for i in range(len(uniquesurf)):
+        k = uniquesurf[i]
+        label = r"S$_{%i}$(H-%i O-%i OH-%i OOH-%i)" % (k, surfs[k][1], surfs[k][2], surfs[k][3], surfs[k][4])
+        plt.fill_between(pH2, crossover[i] - pH2 * const, crossover[i + 1] - pH2 * const, 
+                         facecolor=color[k], alpha=0.3, lw=0.5, edgecolor='black')
+        plt.plot([], [], color=color[k], alpha=0.3, linewidth=5, label=label)
+    plt.plot(pH2, 1.23 - pH2 * const, '--', color='blue', lw=1, dashes=(3, 1))
+    if A == '1' and B == 'Fe':
+        plt.plot(pH2, ORR['onsetP'][0] - pH2 * const, '--', color='black', lw=1, dashes=(3, 1))
+        ax.text(0.2, 0.65, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
+        ax.text(0.2, ORR['onsetP'][0] - 0.58, 
+                r"S$_7$$\rightarrow$S$_4$$\rightarrow$S$_3$$\rightarrow$S$_0$: " + f"{ORR['overP'][0]:.2f} eV", 
+                color='black', rotation=-9.5, fontsize=10)
+    elif A == '2' and B == 'Co':
+        plt.plot(pH2, ORR['onsetP'][0] - pH2 * const, '--', color='black', lw=1, dashes=(3, 1))
+        # plt.plot(pH2, ORR['onsetP'][5] - pH2 * const, '--', color='red', lw=1, dashes=(3, 1))
+        ax.text(0.2, 0.88, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
+        ax.text(0.2, ORR['onsetP'][0] - 0.58, 
+                r"S$_7$$\rightarrow$S$_4$$\rightarrow$S$_3$$\rightarrow$S$_0$: " + f"{ORR['overP'][0]:.2f} eV", 
+                color='black', rotation=-9.5, fontsize=10)
+    elif A == '3' and B == 'Mo':
+        plt.plot(pH2, ORR['onsetP'][2] - pH2 * const, '--', color='brown', lw=1, dashes=(3, 1))
+        ax.text(0.2, 0.88, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
+        ax.text(0.2, ORR['onsetP'][2] - 0.34,
+                r"S$_{10}$$\rightarrow$S$_9$$\rightarrow$S$_7$$\rightarrow$S$_4$: " + f"{ORR['overP'][2]:.2f} eV", 
+                color='brown', rotation=-9.5, fontsize=10)
+    plt.legend(loc='lower left', bbox_to_anchor=(0.0, 1.02), # borderaxespad=17, 
+               ncol=1, labelspacing=0.3, handlelength=2, fontsize=10,
+               fancybox=True, shadow=True)
+    plt.savefig(f'/pscratch/sd/j/jiuy97/6_MNC/figures/pourbaix/{A}{B}_pourbaix_orr.png', bbox_inches='tight')
+    print(f"Figure saved as {A}{B}_pourbaix_orr.png")
+    plt.close()
     
-    # plt.clf()
-    # fig = plt.figure(figsize=fig_size, dpi=300)
-    # ax = fig.add_axes([0.2, 0.2, 0.6, 0.6])
-    # ax.axis([0, 14, Umin, Umax])
-    # ax.set_xlabel(r'pH', fontsize='large')
-    # ax.set_ylabel(r'U/V', fontsize='large')
-    # current_yticks = list(plt.yticks()[0])  # Get the current y-ticks
-    # extraticks = [1.23]
-    # combined_ticks = sorted(set(current_yticks) | set(extraticks))
-    # plt.yticks(combined_ticks)
-    # plt.gca().yaxis.set_major_formatter(FormatStrFormatter('%.2f'))
-    # for i in range(len(uniquesurf)):
-    #     k = uniquesurf[i]
-    #     label = r"S$_{%i}$(H-%i O-%i OH-%i OOH-%i)" % (k, surfs[k][1], surfs[k][2], surfs[k][3], surfs[k][4])
-    #     plt.fill_between(pH2, crossover[i] - pH2 * const, crossover[i + 1] - pH2 * const, 
-    #                      facecolor=color[k], alpha=0.3, lw=0.5, edgecolor='black')
-    #     plt.plot([], [], color=color[k], alpha=0.3, linewidth=5, label=label)
-    # plt.plot(pH2, 1.23 - pH2 * const, '--', color='blue', lw=1, dashes=(3, 1))
-    # if A == '1' and B == 'Fe':
-    #     plt.plot(pH2, OER['onsetP'][0] - pH2 * const, '--', color='black', lw=1, dashes=(3, 1))
-    #     plt.plot(pH2, OER['onsetP'][1] - pH2 * const, '--', color='red', lw=1, dashes=(3, 1))
-    #     plt.plot(pH2, ORR['onsetP'][0] - pH2 * const, '--', color='gray', lw=1, dashes=(3, 1))
-    #     ax.text(0.2, 0.65, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
-    #     ax.text(6.5, OER['onsetP'][0] - 0.70, 
-    #             r"S$_0$$\rightarrow$S$_3$$\rightarrow$S$_4$$\rightarrow$S$_7$: " + f"{OER['overP'][0]:.2f} eV", 
-    #             color='black', rotation=-9.5, fontsize=10)
-    #     ax.text(6.5, OER['onsetP'][1] - 0.96, # 1.14, 
-    #             r"S$_3$$\rightarrow$S$_6$$\rightarrow$S$_9$$\rightarrow$S$_{12}$: " + f"{OER['overP'][1]:.2f} eV", 
-    #             color='red', rotation=-9.5, fontsize=10)
-    #     ax.text(0.2, ORR['onsetP'][0] - 0.58, 
-    #             r"S$_7$$\rightarrow$S$_4$$\rightarrow$S$_3$$\rightarrow$S$_0$: " + f"{ORR['overP'][0]:.2f} eV", 
-    #             color='gray', rotation=-9.5, fontsize=10)
-    # elif A == '2' and B == 'Co':
-    #     plt.plot(pH2, OER['onsetP'][0] - pH2 * const, '--', color='black', lw=1, dashes=(3, 1))
-    #     plt.plot(pH2, OER['onsetP'][2] - pH2 * const, '--', color='red', lw=1, dashes=(3, 1))
-    #     plt.plot(pH2, ORR['onsetP'][0] - pH2 * const, '--', color='gray', lw=1, dashes=(3, 1))
-    #     ax.text(0.2, 0.88, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
-    #     ax.text(6.5, OER['onsetP'][0] - 0.70,
-    #             r"S$_0$$\rightarrow$S$_3$$\rightarrow$S$_4$$\rightarrow$S$_7$: " + f"{OER['overP'][0]:.2f} eV", 
-    #             color='black', rotation=-9.5, fontsize=10)
-    #     ax.text(6.5, OER['onsetP'][2] - 0.98, 
-    #             r"S$_4$$\rightarrow$S$_9$$\rightarrow$S$_{10}$$\rightarrow$S$_{12}$: " + f"{OER['overP'][2]:.2f} eV", 
-    #             color='red', rotation=-9.5, fontsize=10)
-    #     ax.text(0.2, ORR['onsetP'][0] - 0.58, 
-    #             r"S$_7$$\rightarrow$S$_4$$\rightarrow$S$_3$$\rightarrow$S$_0$: " + f"{ORR['overP'][0]:.2f} eV", 
-    #             color='gray', rotation=-9.5, fontsize=10)
-    # elif A == '3' and B == 'Mo':
-    #     plt.plot(pH2, OER['onsetP'][2] - pH2 * const, '--', color='red', lw=1, dashes=(3, 1))
-    #     plt.plot(pH2, ORR['onsetP'][2] - pH2 * const, '--', color='green', lw=1, dashes=(3, 1))
-    #     ax.text(0.2, 0.88, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
-    #     ax.text(6.8, OER['onsetP'][2] - 1.30, 
-    #             r"S$_4$$\rightarrow$S$_7$$\rightarrow$S$_9$$\rightarrow$S$_{10}$: " + f"{OER['overP'][2]:.2f} eV", 
-    #             color='red', rotation=-9.5, fontsize=10)
-    #     ax.text(0.2, 0.88, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
-    #     ax.text(0.2, ORR['onsetP'][2] - 0.34,
-    #             r"S$_{10}$$\rightarrow$S$_9$$\rightarrow$S$_7$$\rightarrow$S$_4$: " + f"{ORR['overP'][2]:.2f} eV", 
-    #             color='green', rotation=-9.5, fontsize=10)
-    # plt.legend(loc='lower left', bbox_to_anchor=(0.0, 1.02), # borderaxespad=17, 
-    #            ncol=1, labelspacing=0.3, handlelength=2, fontsize=10,
-    #            fancybox=True, shadow=True)
-    # plt.savefig(f'/pscratch/sd/j/jiuy97/6_MNC/figures/pourbaix/{A}{B}_pourbaix_full.png', bbox_inches='tight')
-    # print(f"Figure saved as {A}{B}_pourbaix_full.png")
-    # plt.close()
+    plt.clf()
+    fig = plt.figure(figsize=fig_size, dpi=300)
+    ax = fig.add_axes([0.2, 0.2, 0.6, 0.6])
+    ax.axis([0, 14, Umin, Umax])
+    ax.set_xlabel(r'pH', fontsize='large')
+    ax.set_ylabel(r'U/V', fontsize='large')
+    current_yticks = list(plt.yticks()[0])  # Get the current y-ticks
+    extraticks = [1.23]
+    combined_ticks = sorted(set(current_yticks) | set(extraticks))
+    plt.yticks(combined_ticks)
+    plt.gca().yaxis.set_major_formatter(FormatStrFormatter('%.2f'))
+    for i in range(len(uniquesurf)):
+        k = uniquesurf[i]
+        label = r"S$_{%i}$(H-%i O-%i OH-%i OOH-%i)" % (k, surfs[k][1], surfs[k][2], surfs[k][3], surfs[k][4])
+        plt.fill_between(pH2, crossover[i] - pH2 * const, crossover[i + 1] - pH2 * const, 
+                         facecolor=color[k], alpha=0.3, lw=0.5, edgecolor='black')
+        plt.plot([], [], color=color[k], alpha=0.3, linewidth=5, label=label)
+    plt.plot(pH2, 1.23 - pH2 * const, '--', color='blue', lw=1, dashes=(3, 1))
+    if A == '1' and B == 'Fe':
+        plt.plot(pH2, OER['onsetP'][0] - pH2 * const, '--', color='black', lw=1, dashes=(3, 1))
+        plt.plot(pH2, OER['onsetP'][1] - pH2 * const, '--', color='red', lw=1, dashes=(3, 1))
+        plt.plot(pH2, ORR['onsetP'][0] - pH2 * const, '--', color='gray', lw=1, dashes=(3, 1))
+        ax.text(0.2, 0.65, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
+        ax.text(6.5, OER['onsetP'][0] - 0.70, 
+                r"S$_0$$\rightarrow$S$_3$$\rightarrow$S$_4$$\rightarrow$S$_7$: " + f"{OER['overP'][0]:.2f} eV", 
+                color='black', rotation=-9.5, fontsize=10)
+        ax.text(6.5, OER['onsetP'][1] - 0.96, # 1.14, 
+                r"S$_3$$\rightarrow$S$_6$$\rightarrow$S$_9$$\rightarrow$S$_{12}$: " + f"{OER['overP'][1]:.2f} eV", 
+                color='red', rotation=-9.5, fontsize=10)
+        ax.text(0.2, ORR['onsetP'][0] - 0.58, 
+                r"S$_7$$\rightarrow$S$_4$$\rightarrow$S$_3$$\rightarrow$S$_0$: " + f"{ORR['overP'][0]:.2f} eV", 
+                color='gray', rotation=-9.5, fontsize=10)
+    elif A == '2' and B == 'Co':
+        plt.plot(pH2, OER['onsetP'][0] - pH2 * const, '--', color='black', lw=1, dashes=(3, 1))
+        plt.plot(pH2, OER['onsetP'][2] - pH2 * const, '--', color='red', lw=1, dashes=(3, 1))
+        plt.plot(pH2, ORR['onsetP'][0] - pH2 * const, '--', color='gray', lw=1, dashes=(3, 1))
+        ax.text(0.2, 0.88, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
+        ax.text(6.5, OER['onsetP'][0] - 0.70,
+                r"S$_0$$\rightarrow$S$_3$$\rightarrow$S$_4$$\rightarrow$S$_7$: " + f"{OER['overP'][0]:.2f} eV", 
+                color='black', rotation=-9.5, fontsize=10)
+        ax.text(6.5, OER['onsetP'][2] - 0.98, 
+                r"S$_4$$\rightarrow$S$_9$$\rightarrow$S$_{10}$$\rightarrow$S$_{12}$: " + f"{OER['overP'][2]:.2f} eV", 
+                color='red', rotation=-9.5, fontsize=10)
+        ax.text(0.2, ORR['onsetP'][0] - 0.58, 
+                r"S$_7$$\rightarrow$S$_4$$\rightarrow$S$_3$$\rightarrow$S$_0$: " + f"{ORR['overP'][0]:.2f} eV", 
+                color='gray', rotation=-9.5, fontsize=10)
+    elif A == '3' and B == 'Mo':
+        plt.plot(pH2, OER['onsetP'][2] - pH2 * const, '--', color='red', lw=1, dashes=(3, 1))
+        plt.plot(pH2, ORR['onsetP'][2] - pH2 * const, '--', color='green', lw=1, dashes=(3, 1))
+        ax.text(0.2, 0.88, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
+        ax.text(6.8, OER['onsetP'][2] - 1.30, 
+                r"S$_4$$\rightarrow$S$_7$$\rightarrow$S$_9$$\rightarrow$S$_{10}$: " + f"{OER['overP'][2]:.2f} eV", 
+                color='red', rotation=-9.5, fontsize=10)
+        ax.text(0.2, 0.88, r'2H$_2$O $\leftrightarrow$ 4H$^+$ + O$_2$ + 4e$^-$', color='blue', rotation=-9.5, fontsize=10)
+        ax.text(0.2, ORR['onsetP'][2] - 0.34,
+                r"S$_{10}$$\rightarrow$S$_9$$\rightarrow$S$_7$$\rightarrow$S$_4$: " + f"{ORR['overP'][2]:.2f} eV", 
+                color='green', rotation=-9.5, fontsize=10)
+    plt.legend(loc='lower left', bbox_to_anchor=(0.0, 1.02), # borderaxespad=17, 
+               ncol=1, labelspacing=0.3, handlelength=2, fontsize=10,
+               fancybox=True, shadow=True)
+    plt.savefig(f'/pscratch/sd/j/jiuy97/6_MNC/figures/pourbaix/{A}{B}_pourbaix_full.png', bbox_inches='tight')
+    print(f"Figure saved as {A}{B}_pourbaix_full.png")
+    plt.close()
 
     plt.clf()
     fig = plt.figure(figsize=fig_size, dpi=300)
