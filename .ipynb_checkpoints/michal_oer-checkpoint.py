@@ -9,7 +9,7 @@ import matplotlib.colors as mcolors
 from matplotlib.colors import ListedColormap
 from matplotlib.markers import MarkerStyle
 
-# a, b = 0.87, 3.09
+a, b = 0.87, 3.09
 
 rows = ['3d', '3d', '3d', '3d'] #, '4d', '5d']
 groups = ['5', '6', '7', '8'] #, '4', '4']
@@ -60,9 +60,9 @@ ax.axis([x1, x2, y1, y2])
 ax.set_xlabel(r'$\Delta$G$_{\sf O}$ - $\Delta$G$_{\sf OH}$(eV)', fontsize='large')
 ax.set_ylabel(r'$\Delta$G$_{\sf OH}$ (eV)', fontsize='large')
 
-# Define functions for overpotential calculations
-# def ooh_oh_scaling(doh):
-#     return a * doh + b
+Define functions for overpotential calculations
+def ooh_oh_scaling(doh):
+    return a * doh + b
 
 def oer_step(i):
     steps = ['H2O->OH*', 'OH*->O*', 'O*->OOH*', 'OOH*->O2']
@@ -72,11 +72,11 @@ def overpotential_oer(doh, do, dooh):
     dg14 = [doh, do - doh, dooh - do, 4.92 - dooh]
     return max(dg14) - 1.23
     
-# def overpotential_oer_for_contour(do_doh, doh):
-#     do = do_doh + doh
-#     dooh = ooh_oh_scaling(doh)
-#     dg14 = [doh, do - doh, dooh - do, 4.92 - dooh]
-#     return max(dg14) - 1.23
+def overpotential_oer_for_contour(do_doh, doh):
+    do = do_doh + doh
+    dooh = ooh_oh_scaling(doh)
+    dg14 = [doh, do - doh, dooh - do, 4.92 - dooh]
+    return max(dg14) - 1.23
     
 def overpotential_oer_full(doh, do, dooh):
     dg14 = [doh, do - doh, dooh - do, 4.92 - dooh]
