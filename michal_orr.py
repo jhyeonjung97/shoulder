@@ -165,9 +165,9 @@ ax.scatter([], [], label='fixed Δz', s=24, marker='o', linewidths=0.5, facecolo
 
 
 ax.plot(x, a * x + b, '--', lw=1, dashes=(3, 1), c='black')
-ax.text(1.5, 2.7, r'$\Delta$G$_{\sf OOH}$=', color=(0.8,0.8,0.8), fontsize=10)
-ax.text(1.5, 2.5, rf'{a}*$\Delta$G$_{{\sf OH}}$', color=(0.8,0.8,0.8), fontsize=10)
-ax.text(1.5, 2.3, rf'+{b} eV', color=(0.8,0.8,0.8), fontsize=10)
+ax.text(1.4, 2.7, r'$\Delta$G$_{\sf OOH}$=', color=(0.8,0.8,0.8), fontsize=10)
+ax.text(1.4, 2.5, rf'{a}*$\Delta$G$_{{\sf OH}}$', color=(0.8,0.8,0.8), fontsize=10)
+ax.text(1.4, 2.3, rf'+{b} eV', color=(0.8,0.8,0.8), fontsize=10)
 ax.legend(bbox_to_anchor=(0.5, 1.1), loc='center', borderaxespad=0.5,
           ncol=3, columnspacing=1.0, handletextpad=0.4,
           fancybox=True, shadow=False, fontsize='small', handlelength=2)
@@ -209,9 +209,9 @@ for m, metal in enumerate(metals):
     cbar2.ax.set_ylabel(r'$\Delta z$ (Å)')
     cbar2.ax.tick_params(size=3, labelsize=6, labelcolor='black', width=0.5, color='black')
     ax.plot(x, a * x + b, '--', lw=1, dashes=(3, 1), c='black')
-    ax.text(1.5, 2.7, r'$\Delta$G$_{\sf OOH}$=', color=(0.8,0.8,0.8), fontsize=10)
-    ax.text(1.5, 2.5, rf'{a}*$\Delta$G$_{{\sf OH}}$', color=(0.8,0.8,0.8), fontsize=10)    
-    ax.text(1.5, 2.3, rf'+{b} eV', color=(0.8,0.8,0.8), fontsize=10)    
+    ax.text(1.4, 2.7, r'$\Delta$G$_{\sf OOH}$=', color=(0.8,0.8,0.8), fontsize=10)
+    ax.text(1.4, 2.5, rf'{a}*$\Delta$G$_{{\sf OH}}$', color=(0.8,0.8,0.8), fontsize=10)    
+    ax.text(1.4, 2.3, rf'+{b} eV', color=(0.8,0.8,0.8), fontsize=10)    
     fig.savefig(os.path.join(save_path, f"contour_ORR_{m+1}{metal}.png"), bbox_inches='tight')
     print(f"Figure saved as contour_ORR_{m+1}{metal}.png")
     fig.clf()
