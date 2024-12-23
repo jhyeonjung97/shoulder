@@ -10,6 +10,7 @@ from matplotlib.colors import ListedColormap
 from matplotlib.markers import MarkerStyle
 
 a, b = 0.87, 3.08
+c, d = 1.79, 0.62
 
 rows = ['3d', '3d', '3d', '3d'] #, '4d', '5d']
 groups = ['5', '6', '7', '8'] #, '4', '4']
@@ -71,7 +72,7 @@ def overpotential_orr(doh, do, dooh):
     return max(dg14) + 1.23
 
 def overpotential_orr_for_contour(doh, dooh):
-    do = 1.8847 * doh + 0.7599 
+    do = c * doh + d
     dg14 = [-doh, -do + doh, -dooh + do, -4.92 + dooh]
     return max(dg14) + 1.23
 
@@ -241,8 +242,8 @@ with open(os.path.join(save_path, 'contour_ORR.tsv'), 'w', newline='') as myfile
             'Surf.': row.name, 
             'dOH': round(row['dG_OH'], 2),
             'dO': round(row['dG_O'], 2),
-            'dO*': round(1.8847*row['dG_OH']+0.7599, 2),
-            'diff': round(1.8847*row['dG_OH']+0.7599-row['dG_O'], 2),
+            'dO*': round(c*row['dG_OH']+d, 2),
+            'diff': round(c*row['dG_OH']+d-row['dG_O'], 2),
             'dOOH': round(row['dG_OOH'], 2),
             'overP': round(recalculated_over[0], 2),
             'onsetP': round(recalculated_over[1], 2),
@@ -261,8 +262,8 @@ for m, metal in enumerate(metals):
                 'Surf.': row.name, 
                 'dOH': round(row['dG_OH'], 2),
                 'dO': round(row['dG_O'], 2),
-                'dO*': round(1.8847*row['dG_OH']+0.7599, 2),
-                'diff': round(1.8847*row['dG_OH']+0.7599-row['dG_O'], 2),
+                'dO*': round(c*row['dG_OH']+d, 2),
+                'diff': round(c*row['dG_OH']+d-row['dG_O'], 2),
                 'dOOH': round(row['dG_OOH'], 2),
                 'overP': round(recalculated_over[0], 2),
                 'onsetP': round(recalculated_over[1], 2),
