@@ -9,7 +9,7 @@ import matplotlib.colors as mcolors
 from matplotlib.colors import ListedColormap
 from matplotlib.markers import MarkerStyle
 
-a, b = 0.87, 3.09
+a, b = 0.87, 3.08
 
 rows = ['3d', '3d', '3d', '3d'] #, '4d', '5d']
 groups = ['5', '6', '7', '8'] #, '4', '4']
