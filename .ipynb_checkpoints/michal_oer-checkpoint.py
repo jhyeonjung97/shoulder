@@ -169,14 +169,51 @@ ax.scatter([], [], label='fixed Δz', s=24, marker='o', linewidths=0.5, facecolo
 # ax.plot(x, x + 3.2, '--', lw=1, dashes=(3, 1), c='black')
 # ax.text(1.1, 2.3, r'$\Delta$G$_{\sf OOH}$=$\Delta$G$_{\sf OH}$+3.2 eV', color='black', fontsize=10)
 
-
-
 ax.legend(bbox_to_anchor=(0.5, 1.1), loc='center', borderaxespad=0.5,
           ncol=3, columnspacing=1.0, handletextpad=0.4,
           fancybox=True, shadow=False, fontsize='small', handlelength=2)
 fig.savefig(os.path.join(save_path, 'contour_OER.png'), bbox_inches='tight')
 print("Figure saved as contour_OER.png")
 fig.clf()
+
+# Water and hydrogen properties
+water_E = -14.23797429
+water_Cv = 0.103
+water_TS = 0.675
+water_ZPE = 0.558
+water_G = water_E + water_Cv - water_TS + water_ZPE
+
+hydrogen2_E = -6.77412273
+hydrogen2_Cv = 0.0905
+hydrogen2_TS = 0.408
+hydrogen2_ZPE = 0.273
+hydrogen2_G = hydrogen2_E + hydrogen2_Cv - hydrogen2_TS + hydrogen2_ZPE
+hydrogen_G = hydrogen2_G / 2
+
+oxygen_G = water_G - hydrogen2_G
+hydroxide_G = water_G - hydrogen_G
+
+# Correction values
+OH_Cv = 0.042
+OH_TS = 0.066
+OH_ZPE = 0.376
+OH_corr = OH_Cv - OH_TS + OH_ZPE
+
+O_Cv = 0.034
+O_TS = 0.060
+O_ZPE = 0.064
+O_corr = O_Cv - O_TS + O_ZPE
+
+E_ = -279.25
+E_OH = -289.57160323
+E_O = -284.14645182
+
+G_ = E_
+G_OH = E_OH + OH_corr
+G_O = E_O + O_corr
+
+dG_OH = G_OH - G_ - hydroxide_G
+dG_O = G_O - G_ - oxygen_G
 
 for m, metal in enumerate(metals):
     ax = fig.add_axes([0.2, 0.2, 0.6, 0.6])
@@ -203,6 +240,13 @@ for m, metal in enumerate(metals):
                    s=36, marker='o',
                    linewidths=0.5,
                    facecolors=color_ranges[m][row_num-1],
+                   edgecolors='black',
+                   zorder=9)
+    if metal == 'Co':
+        ax.scatter(dG_O - dG_OH, dG_OH, 
+                   s=36, marker='o',
+                   linewidths=1.0,
+                   facecolors='white',
                    edgecolors='black',
                    zorder=9)
     norm = mcolors.Normalize(vmin=-0.1, vmax=1.3)
