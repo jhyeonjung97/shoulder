@@ -242,13 +242,13 @@ for m, metal in enumerate(metals):
                    facecolors=color_ranges[m][row_num-1],
                    edgecolors='black',
                    zorder=9)
-    if metal == 'Co':
-        ax.scatter(dG_O - dG_OH, dG_OH, 
-                   s=36, marker='o',
-                   linewidths=1.0,
-                   facecolors='white',
-                   edgecolors='black',
-                   zorder=9)
+    # if metal == 'Co':
+    #     ax.scatter(dG_O - dG_OH, dG_OH, 
+    #                s=36, marker='o',
+    #                linewidths=1.0,
+    #                facecolors='white',
+    #                edgecolors='black',
+    #                zorder=9)
     norm = mcolors.Normalize(vmin=-0.1, vmax=1.3)
     sm = cm.ScalarMappable(norm=norm, cmap=ListedColormap(color_ranges[m]))
     sm.set_array([])
