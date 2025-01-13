@@ -104,18 +104,18 @@ dsooh = dgooh - (2 * dgh2o - 1.5 * dgh2)
 dsh = dsoh - dso
 
 color = ['turquoise',
-         'tan', #
+         'silver', #
          'green', 
          'red', 
-         'gray', #
+         'tan', #
          'salmon', #
          'blue', 
          'gold', 
          'lime', 
          'darkorange', 
-         'plum', #
-         'pink', 
          'pink', #
+         'pink', 
+         'plum', #
          'violet', 
          'navy', 
          'purple', 
