@@ -107,8 +107,8 @@ color = ['turquoise',
          'plum', #
          'green', 
          'red', 
-         'tan', #
          'gray', #
+         'tan', #
          'blue', 
          'gold', 
          'lime', 
