@@ -103,27 +103,20 @@ dsoh = dgoh - (dgh2o - 0.5 * dgh2)
 dsooh = dgooh - (2 * dgh2o - 1.5 * dgh2)
 dsh = dsoh - dso
 
-color = ['cornflowerblue', #
+color = ['cornflowerblue', ##
          'darkgray', ##
-         'green', 
          'red', 
+         'blue', 
          'tan', ##
          'salmon', ##
-         'blue', 
-         'lightsteelblue', #
-         'lime', 
-         'darkorange', 
+         'green', 
+         'lightsteelblue', ##
+         'orange', 
+         'gold', 
          'pink', ##
-         'pink', 
-         'plum', ##
-         'violet', 
          'navy', 
-         'purple', 
-         'teal', 
-         'deeppink', 
-         'cyan', 
-         'dodgerblue', 
-         'steelblue']
+         'plum', ##
+         'olive']
 pH2 = np.arange(0, 14.01, 0.01)
 
 metal_path = '/pscratch/sd/j/jiuy97/6_MNC/gas/metals.tsv'
