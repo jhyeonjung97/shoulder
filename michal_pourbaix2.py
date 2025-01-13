@@ -104,7 +104,7 @@ dsooh = dgooh - (2 * dgh2o - 1.5 * dgh2)
 dsh = dsoh - dso
 
 color = ['turquoise',
-         'silver', #
+         'darkgray', #
          'green', 
          'red', 
          'tan', #
