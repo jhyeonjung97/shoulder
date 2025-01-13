@@ -103,9 +103,9 @@ dsoh = dgoh - (dgh2o - 0.5 * dgh2)
 dsooh = dgooh - (2 * dgh2o - 1.5 * dgh2)
 dsh = dsoh - dso
 
-color = ['turquoise', 'darkslategrey', 'green', 'red', 'pink', 'gray', 
+color = ['turquoise', 'salmon', 'green', 'red', 'pink', 'gray', 
          'blue', 'gold', 'lime', 'darkorange', 'yellowgreen',
-         'olive', 'mediumpurple', 'violet', 'navy', 'purple', 
+         'tan', 'plum', 'violet', 'navy', 'purple', 
          'teal', 'deeppink', 'cyan', 'dodgerblue', 'steelblue']
 pH2 = np.arange(0, 14.01, 0.01)
 
