@@ -169,8 +169,11 @@ ax.scatter([], [], label='fixed Δz', s=24, marker='o', linewidths=0.5, facecolo
 # ax.plot(x, x + 3.2, '--', lw=1, dashes=(3, 1), c='black')
 # ax.text(1.1, 2.3, r'$\Delta$G$_{\sf OOH}$=$\Delta$G$_{\sf OH}$+3.2 eV', color='black', fontsize=10)
 
+# ax.legend(bbox_to_anchor=(0.5, 1.1), loc='center', borderaxespad=0.5,
+#           ncol=3, columnspacing=1.0, handletextpad=0.4,
+#           fancybox=True, shadow=False, fontsize='small', handlelength=2)
 ax.legend(bbox_to_anchor=(0.5, 1.1), loc='center', borderaxespad=0.5,
-          ncol=6, columnspacing=1.0, handletextpad=0.4,
+          ncol=2, columnspacing=2.0, handletextpad=0.3,
           fancybox=True, shadow=False, fontsize='small', handlelength=2)
 # fig.savefig(os.path.join(save_path, 'contour_OER.png'), bbox_inches='tight')
 # print("Figure saved as contour_OER.png")
