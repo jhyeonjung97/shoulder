@@ -103,11 +103,10 @@ dsoh = dgoh - (dgh2o - 0.5 * dgh2)
 dsooh = dgooh - (2 * dgh2o - 1.5 * dgh2)
 dsh = dsoh - dso
 
-color = ['turquoise', 'green', 'red', 'pink', 'gray', 
+color = ['turquoise', 'darkslategrey', 'green', 'red', 'pink', 'gray', 
          'blue', 'gold', 'lime', 'darkorange', 'yellowgreen',
          'olive', 'mediumpurple', 'violet', 'navy', 'purple', 
-         'teal', 'deeppink', 'cyan', 'dodgerblue', 'steelblue', 
-         'darkslategrey']
+         'teal', 'deeppink', 'cyan', 'dodgerblue', 'steelblue']
 pH2 = np.arange(0, 14.01, 0.01)
 
 metal_path = '/pscratch/sd/j/jiuy97/6_MNC/gas/metals.tsv'
@@ -187,7 +186,6 @@ def dg(i, x, y):
         return None
     elif i == 1:
         if surfs[i][1] == 2:
-            print('hello')
             return (surfs[i][0] 
                     - surfs[0][0] 
                     + cation - charge * (y + x * const)
