@@ -172,8 +172,8 @@ ax.scatter([], [], label='fixed Δz', s=24, marker='o', linewidths=0.5, facecolo
 # ax.legend(bbox_to_anchor=(0.5, 1.1), loc='center', borderaxespad=0.5,
 #           ncol=3, columnspacing=1.0, handletextpad=0.4,
 #           fancybox=True, shadow=False, fontsize='small', handlelength=2)
-ax.legend(bbox_to_anchor=(0.5, 1.1), loc='center', borderaxespad=0.5,
-          ncol=2, columnspacing=0.5, handletextpad=0.1,
+ax.legend(loc='upper right', bbox_to_anchor=(0.5, 1, 1.5, 0.2), borderaxespad=0.5,
+          ncol=2, columnspacing=1.0, handletextpad=0.1,
           fancybox=True, shadow=False, fontsize='small', handlelength=2)
 # fig.savefig(os.path.join(save_path, 'contour_OER.png'), bbox_inches='tight')
 # print("Figure saved as contour_OER.png")
