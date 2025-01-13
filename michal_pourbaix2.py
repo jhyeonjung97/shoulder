@@ -113,9 +113,9 @@ color = ['turquoise',
          'gold', 
          'lime', 
          'darkorange', 
-         'pink', #
-         'pink', 
          'salmon', #
+         'pink', 
+         'pink', #
          'violet', 
          'navy', 
          'purple', 
