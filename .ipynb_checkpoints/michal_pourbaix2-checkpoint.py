@@ -110,7 +110,7 @@ color = ['cornflowerblue', #
          'tan', ##
          'salmon', ##
          'blue', 
-         'lightblue', #
+         'lightsteelblue', #
          'lime', 
          'darkorange', 
          'pink', ##
