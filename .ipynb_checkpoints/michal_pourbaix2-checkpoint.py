@@ -155,6 +155,7 @@ def addH(x, y):
 def dg(i, x, y):
     if surfs[i][0] is None:
         return None
+    # elif 
     return (surfs[i][0] 
             - surfs[0][0] 
             + surfs[i][1] * addH(x, y) 
@@ -276,6 +277,7 @@ for dir in dirs:
             df.loc[main_dir, 'E'] = min_e0
 
     df.loc['clean', ['#H', '#O', '#OH', '#OOH']] = [0, 0, 0, 0] # [energy, #Hs, #Os, #OHs, #OOHs]
+    # df.loc['vac', ['#H', '#O', '#OH', '#OOH']] = [2, 0, 0, 0]
     df.loc['mh', ['#H', '#O', '#OH', '#OOH']] = [1, 0, 0, 0]
     df.loc['nh', ['#H', '#O', '#OH', '#OOH']] = [1, 0, 0, 0]
     df.loc['o', ['#H', '#O', '#OH', '#OOH']] = [0, 1, 0, 0]
@@ -328,6 +330,7 @@ for dir in dirs:
     # Define surfaces with extracted E0 values
     surfs = [
         df.loc['clean', ['E', '#H', '#O', '#OH', '#OOH']].tolist(),
+        # df.loc['vac', ['E', '#H', '#O', '#OH', '#OOH']].tolist(),
         df.loc['mh', ['E', '#H', '#O', '#OH', '#OOH']].tolist(),
         df.loc['nh', ['E', '#H', '#O', '#OH', '#OOH']].tolist(),
         df.loc['oh', ['E', '#H', '#O', '#OH', '#OOH']].tolist(),
@@ -395,6 +398,10 @@ for dir in dirs:
             crossover.append(U2[j])
             old_value = lowest_surfaces[j]
     crossover.append(Umax2)
+    
+    print(surfs)
+    print(uniquesurf)
+    print(crossover)
     
     plt.clf()
     fig = plt.figure(figsize=fig_size, dpi=300)

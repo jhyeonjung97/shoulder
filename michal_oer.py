@@ -158,7 +158,7 @@ for m, metal in enumerate(metals):
 for row_num, row in enumerate(df.itertuples(), 1):
     if row_num < 5:
         ax.scatter([], [], 
-                   # label=f'{row.Index}: {row.overpotential:.2f} V',               
+                   label=f'{row.Index}: {row.overpotential:.2f} V',               
                    s=24, marker='X', 
                    linewidths=0.5,
                    facecolor=colors[row_num-1],
@@ -166,19 +166,19 @@ for row_num, row in enumerate(df.itertuples(), 1):
 ax.scatter([], [], label='relaxed Δz', s=24, marker='X', linewidths=0.5, facecolor='black', edgecolor='black')
 ax.scatter([], [], label='fixed Δz', s=24, marker='o', linewidths=0.5, facecolor='black', edgecolor='black')
 
-# ax.plot(x, x + 3.2, '--', lw=1, dashes=(3, 1), c='black')
-# ax.text(1.1, 2.3, r'$\Delta$G$_{\sf OOH}$=$\Delta$G$_{\sf OH}$+3.2 eV', color='black', fontsize=10)
+ax.plot(x, x + 3.2, '--', lw=1, dashes=(3, 1), c='black')
+ax.text(1.1, 2.3, r'$\Delta$G$_{\sf OOH}$=$\Delta$G$_{\sf OH}$+3.2 eV', color='black', fontsize=10)
 
-# ax.legend(bbox_to_anchor=(0.5, 1.1), loc='center', borderaxespad=0.5,
-#           ncol=3, columnspacing=1.0, handletextpad=0.4,
-#           fancybox=True, shadow=False, fontsize='small', handlelength=2)
-ax.legend(loc='upper left', bbox_to_anchor=(0.0, 1, 5.5, 0.2), borderaxespad=0.5,
-          ncol=2, columnspacing=6.0, handletextpad=0.1,
+ax.legend(bbox_to_anchor=(0.5, 1.1), loc='center', borderaxespad=0.5,
+          ncol=3, columnspacing=1.0, handletextpad=0.4,
           fancybox=True, shadow=False, fontsize='small', handlelength=2)
-# fig.savefig(os.path.join(save_path, 'contour_OER.png'), bbox_inches='tight')
-# print("Figure saved as contour_OER.png")
-fig.savefig(os.path.join(save_path, 'contour_OER_label.png'), bbox_inches='tight')
-print("Figure saved as contour_OER_label.png")
+# ax.legend(loc='upper left', bbox_to_anchor=(0.0, 1, 5.5, 0.2), borderaxespad=0.5,
+#           ncol=2, columnspacing=6.0, handletextpad=0.1,
+#           fancybox=True, shadow=False, fontsize='small', handlelength=2)
+fig.savefig(os.path.join(save_path, 'contour_OER.png'), bbox_inches='tight')
+print("Figure saved as contour_OER.png")
+# fig.savefig(os.path.join(save_path, 'contour_OER_label.png'), bbox_inches='tight')
+# print("Figure saved as contour_OER_label.png")
 
 fig.clf()
 
