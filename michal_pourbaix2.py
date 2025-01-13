@@ -114,9 +114,9 @@ color = ['cornflowerblue', ##
          'orange', 
          'gold', 
          'pink', ##
-         'navy', 
+         'yellowgreen', #
          'plum', ##
-         'olive']
+         'navy']
 pH2 = np.arange(0, 14.01, 0.01)
 
 metal_path = '/pscratch/sd/j/jiuy97/6_MNC/gas/metals.tsv'
