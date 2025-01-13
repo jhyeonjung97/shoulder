@@ -158,7 +158,6 @@ for m, metal in enumerate(metals):
 for row_num, row in enumerate(df.itertuples(), 1):
     if row_num < 5:
         ax.scatter([], [], 
-                   label=f'{row.Index}',               
                    # label=f'{row.Index}: {row.overpotential:.2f} V',               
                    s=24, marker='X', 
                    linewidths=0.5,
@@ -170,14 +169,11 @@ ax.scatter([], [], label='fixed Δz', s=24, marker='o', linewidths=0.5, facecolo
 # ax.plot(x, x + 3.2, '--', lw=1, dashes=(3, 1), c='black')
 # ax.text(1.1, 2.3, r'$\Delta$G$_{\sf OOH}$=$\Delta$G$_{\sf OH}$+3.2 eV', color='black', fontsize=10)
 
-# ax.legend(bbox_to_anchor=(0.5, 1.1), loc='center', borderaxespad=0.5,
-#           ncol=1, columnspacing=1.0, handletextpad=0.4,
-#           fancybox=True, shadow=False, fontsize='small', handlelength=2)
+ax.legend(bbox_to_anchor=(0.5, 1.1), loc='center', borderaxespad=0.5,
+          ncol=6, columnspacing=1.0, handletextpad=0.4,
+          fancybox=True, shadow=False, fontsize='small', handlelength=2)
 # fig.savefig(os.path.join(save_path, 'contour_OER.png'), bbox_inches='tight')
 # print("Figure saved as contour_OER.png")
-ax.legend(loc='center left', bbox_to_anchor=(1.2, 0.5), borderaxespad=0.5,
-          ncol=1, columnspacing=1.0, handletextpad=0.4,
-          fancybox=True, shadow=False, fontsize='small', handlelength=2)
 fig.savefig(os.path.join(save_path, 'contour_OER_label.png'), bbox_inches='tight')
 print("Figure saved as contour_OER_label.png")
 
