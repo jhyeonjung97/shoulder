@@ -319,8 +319,8 @@ for dir in dirs:
     atoms = read(json_path)
     df.loc['vac', 'E'] = atoms.get_potential_energy()
     
-    cation = metal_df.at[B, 'energy'] + elements_data[B]['electrode_potential']
     charge = elements_data[B]['cation_charge']
+    cation = metal_df.at[B, 'energy'] + charge * elements_data[B]['electrode_potential']
 
     df.loc['clean', ['#H', '#O', '#OH', '#OOH']] = [0, 0, 0, 0] # [energy, #Hs, #Os, #OHs, #OOHs]
     df.loc['vac', ['#H', '#O', '#OH', '#OOH']] = [2, 0, 0, 0]
@@ -352,7 +352,6 @@ for dir in dirs:
 
     overpotential('clean', 'oh', 'o', 'ooh', df, OER, ORR)
     if A == '1' and B == 'Fe':
-        cation = cations[0]
         overpotential('oh', 'oh-oh', ('o-oh', 'oh-o'), ('ooh-oh', 'oh-ooh'), df, OER, ORR)
         overpotential('o', ('o-oh', 'oh-o'), 'o-o', ('ooh-o', 'o-ooh'), df, OER, ORR)
         overpotential('ooh', ('oh-ooh', 'ooh-oh'), ('ooh-o', 'o-ooh'), 'ooh-ooh', df, OER, ORR)
@@ -361,7 +360,6 @@ for dir in dirs:
         overpotential('o', 'ooh', ('ooh-oh', 'oh-ooh'), ('ooh-o', 'o-ooh'), df, OER, ORR)        
         overpotential('o', ('o-oh', 'oh-o'), ('ooh-oh', 'oh-ooh'), ('ooh-o', 'o-ooh'), df, OER, ORR)
     elif A == '2' and B == 'Co':
-        cation = cations[1]
         overpotential('oh', 'oh-oh', ('o-oh', 'oh-o'), ('ooh-oh', 'oh-ooh'), df, OER, ORR)
         overpotential('o', ('o-oh', 'oh-o'), 'o-o', ('ooh-o', 'o-ooh'), df, OER, ORR)
         overpotential('ooh', ('oh-ooh', 'ooh-oh'), ('ooh-o', 'o-ooh'), 'ooh-ooh', df, OER, ORR)
@@ -370,7 +368,6 @@ for dir in dirs:
         overpotential('o', 'ooh', ('ooh-oh', 'oh-ooh'), ('ooh-o', 'o-ooh'), df, OER, ORR)        
         overpotential('o', ('o-oh', 'oh-o'), ('ooh-oh', 'oh-ooh'), ('ooh-o', 'o-ooh'), df, OER, ORR)
     elif A == '3' and B == 'Mo':
-        cation = cations[2]
         overpotential('oh', 'o', 'oho', ('oohoh', 'ohooh'), df, OER, ORR)
         overpotential('o', 'oho', 'oo', ('oooh', 'ooho'), df, OER, ORR)
         overpotential('oh', 'ohoh', 'oho', 'oo', df, OER, ORR)
