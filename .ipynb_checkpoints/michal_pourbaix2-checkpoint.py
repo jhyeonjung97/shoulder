@@ -195,21 +195,20 @@ def dg(i, x, y):
     if surfs[i][0] is None:
         return None
     elif i == 0 and surfs[i][1] == 2:
-        if y == 0:
-            print(surfs[i][0]) 
-            print(surfs[1][0])
-            print(cation)
-            print(charge)
-            print(x)
-            print(const)
-            print(surfs[i][1])
-            print(surfs[i][2])
-            print(surfs[i][3])
-            print(surfs[i][4])
-            print(addH(x, y))
-            print(addO(x, y))
-            print(addOH(x, y))
-            print(addOOH(x, y))
+        print(surfs[i][0]) 
+        print(surfs[1][0])
+        print(cation)
+        print(charge)
+        print(x)
+        print(const)
+        print(surfs[i][1])
+        print(surfs[i][2])
+        print(surfs[i][3])
+        print(surfs[i][4])
+        print(addH(x, y))
+        print(addO(x, y))
+        print(addOH(x, y))
+        print(addOOH(x, y))
         return (surfs[i][0] 
                 - surfs[1][0] 
                 + cation - charge * (y + x * const)
