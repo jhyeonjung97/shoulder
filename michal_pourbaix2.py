@@ -103,8 +103,8 @@ dsoh = dgoh - (dgh2o - 0.5 * dgh2)
 dsooh = dgooh - (2 * dgh2o - 1.5 * dgh2)
 dsh = dsoh - dso
 
-color = ['cornflowerblue', ##
-         'darkgray', ##
+color = ['darkgray', ##
+         'cornflowerblue', ## 
          'red', 
          'blue', 
          'tan', ##
@@ -194,17 +194,17 @@ def addH(x, y):
 def dg(i, x, y):
     if surfs[i][0] is None:
         return None
-    elif i == 1:
+    elif i == 0:
         if surfs[i][1] == 2:
             return (surfs[i][0] 
-                    - surfs[0][0] 
+                    - surfs[1][0] 
                     + cation - charge * (y + x * const)
                     + surfs[i][1] * addH(x, y) 
                     + surfs[i][2] * addO(x, y) 
                     + surfs[i][3] * addOH(x, y) 
                     + surfs[i][4] * addOOH(x, y))
     return (surfs[i][0] 
-            - surfs[0][0] 
+            - surfs[1][0] 
             + surfs[i][1] * addH(x, y) 
             + surfs[i][2] * addO(x, y) 
             + surfs[i][3] * addOH(x, y) 
@@ -329,9 +329,9 @@ for dir in dirs:
     
     charge = elements_data[B]['cation_charge']
     cation = metal_df.at[B, 'energy'] + charge * elements_data[B]['electrode_potential']
-
-    df.loc['clean', ['#H', '#O', '#OH', '#OOH']] = [0, 0, 0, 0] # [energy, #Hs, #Os, #OHs, #OOHs]
+    
     df.loc['vac', ['#H', '#O', '#OH', '#OOH']] = [2, 0, 0, 0]
+    df.loc['clean', ['#H', '#O', '#OH', '#OOH']] = [0, 0, 0, 0] # [energy, #Hs, #Os, #OHs, #OOHs]
     df.loc['mh', ['#H', '#O', '#OH', '#OOH']] = [1, 0, 0, 0]
     df.loc['nh', ['#H', '#O', '#OH', '#OOH']] = [1, 0, 0, 0]
     df.loc['o', ['#H', '#O', '#OH', '#OOH']] = [0, 1, 0, 0]
