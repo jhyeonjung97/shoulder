@@ -103,53 +103,14 @@ dsoh = dgoh - (dgh2o - 0.5 * dgh2)
 dsooh = dgooh - (2 * dgh2o - 1.5 * dgh2)
 dsh = dsoh - dso
 
-color = ['darkgray', ##
-         'cornflowerblue', ## 
-         'red', 
-         'blue', 
-         'tan', ##
-         'salmon', ##
-         'green', 
-         'lightsteelblue', ##
-         'orange', 
-         'gold', 
-         'pink', ##
-         'yellowgreen', #
-         'plum', ##
-         'navy']
+color = ['turquoise', 'green', 'red', 'pink', 'gray', 
+         'blue', 'gold', 'lime', 'darkorange', 'yellowgreen',
+         'olive', 'mediumpurple', 'violet', 'navy', 'purple', 
+         'teal', 'deeppink', 'cyan', 'dodgerblue', 'steelblue', 
+         'darkslategrey']
 pH2 = np.arange(0, 14.01, 0.01)
 
-metal_path = '/pscratch/sd/j/jiuy97/6_MNC/gas/metals.tsv'
-metal_df = pd.read_csv(metal_path, delimiter='\t', index_col=0)
-
-elements_data = {
-    "Ti": {"electrode_potential": -1.63, "cation_charge": 2},  # Ti^2+ + 2e- → Ti (Ti^2+ prioritized over Ti^4+)
-    "V":  {"electrode_potential": -1.18, "cation_charge": 2},  # V^2+ + 2e- → V (V^2+ prioritized over V^3+)
-    "Cr": {"electrode_potential": -0.91, "cation_charge": 2},  # Cr^2+ + 2e- → Cr (Cr^2+ prioritized over Cr^3+)
-    "Mn": {"electrode_potential": -1.18, "cation_charge": 2},  # Mn^2+ + 2e- → Mn
-    "Fe": {"electrode_potential": -0.44, "cation_charge": 2},  # Fe^2+ + 2e- → Fe (Fe^2+ prioritized over Fe^3+)
-    "Co": {"electrode_potential": -0.28, "cation_charge": 2},  # Co^2+ + 2e- → Co (Co^2+ prioritized over Co^3+)
-    "Ni": {"electrode_potential": -0.25, "cation_charge": 2},  # Ni^2+ + 2e- → Ni
-    "Cu": {"electrode_potential": 0.34,  "cation_charge": 2},  # Cu^2+ + 2e- → Cu
-
-    "Zr": {"electrode_potential": -1.45, "cation_charge": 2},  # Zr^2+ + 2e- → Zr (Zr^2+ prioritized over Zr^4+)
-    "Nb": {"electrode_potential": -1.00, "cation_charge": 3},  # Nb^3+ + 3e- → Nb (Nb^3+ prioritized over Nb^5+)
-    "Mo": {"electrode_potential": -0.20, "cation_charge": 3},  # Mo^3+ + 3e- → Mo (Mo^3+ prioritized over Mo^6+)
-    "Tc": {"electrode_potential": 0.74,  "cation_charge": 7},  # Tc^7+ + 7e- → Tc (No lower oxidation state available)
-    "Ru": {"electrode_potential": 0.45,  "cation_charge": 2},  # Ru^2+ + 2e- → Ru (Ru^2+ prioritized over Ru^3+)
-    "Rh": {"electrode_potential": 0.76,  "cation_charge": 2},  # Rh^2+ + 2e- → Rh (Rh^2+ prioritized over Rh^3+)
-    "Pd": {"electrode_potential": 0.95,  "cation_charge": 2},  # Pd^2+ + 2e- → Pd
-
-    "Hf": {"electrode_potential": -1.55, "cation_charge": 4},  # Hf^4+ + 4e- → Hf (No lower oxidation state available)
-    "Ta": {"electrode_potential": -1.10, "cation_charge": 3},  # Ta^3+ + 3e- → Ta (Ta^3+ prioritized over Ta^5+)
-    "W":  {"electrode_potential": -0.11, "cation_charge": 4},  # W^4+ + 4e- → W (W^4+ prioritized over W^6+)
-    "Re": {"electrode_potential": 0.30,  "cation_charge": 4},  # Re^4+ + 4e- → Re (Re^4+ prioritized over Re^7+)
-    "Os": {"electrode_potential": 0.40,  "cation_charge": 2},  # Os^2+ + 2e- → Os (Os^2+ prioritized over Os^4+)
-    "Ir": {"electrode_potential": 1.16,  "cation_charge": 2},  # Ir^2+ + 2e- → Ir (Ir^2+ prioritized over Ir^3+)
-    "Pt": {"electrode_potential": 1.20,  "cation_charge": 2},  # Pt^2+ + 2e- → Pt
-}
-
-# Function to findthe lowest E0 value in each subdirectory
+# Function to find the lowest E0 value in each subdirectory
 def find_min_e0(main_dir, sub_dirs):
     min_e0 = None
     for sub_dir in sub_dirs:
@@ -194,17 +155,8 @@ def addH(x, y):
 def dg(i, x, y):
     if surfs[i][0] is None:
         return None
-    elif i == 0:
-        if surfs[i][1] == 2:
-            return (surfs[i][0] 
-                    - surfs[1][0] 
-                    + cation - charge * (y + x * const)
-                    + surfs[i][1] * addH(x, y) 
-                    + surfs[i][2] * addO(x, y) 
-                    + surfs[i][3] * addOH(x, y) 
-                    + surfs[i][4] * addOOH(x, y))
     return (surfs[i][0] 
-            - surfs[1][0] 
+            - surfs[0][0] 
             + surfs[i][1] * addH(x, y) 
             + surfs[i][2] * addO(x, y) 
             + surfs[i][3] * addOH(x, y) 
@@ -322,16 +274,7 @@ for dir in dirs:
             continue
         else:
             df.loc[main_dir, 'E'] = min_e0
-    
-    json_path = '/pscratch/sd/j/jiuy97/6_MNC/empty/2_/final_with_calculator.json'
-    atoms = read(json_path)
-    df.loc['vac', 'E'] = atoms.get_potential_energy()
-    
-    charge = elements_data[B]['cation_charge']
-    cation = metal_df.at[B, 'energy'] + charge * elements_data[B]['electrode_potential']
-    print(cation)
-    
-    df.loc['vac', ['#H', '#O', '#OH', '#OOH']] = [2, 0, 0, 0]
+
     df.loc['clean', ['#H', '#O', '#OH', '#OOH']] = [0, 0, 0, 0] # [energy, #Hs, #Os, #OHs, #OOHs]
     df.loc['mh', ['#H', '#O', '#OH', '#OOH']] = [1, 0, 0, 0]
     df.loc['nh', ['#H', '#O', '#OH', '#OOH']] = [1, 0, 0, 0]
@@ -385,7 +328,6 @@ for dir in dirs:
     # Define surfaces with extracted E0 values
     surfs = [
         df.loc['clean', ['E', '#H', '#O', '#OH', '#OOH']].tolist(),
-        df.loc['vac', ['E', '#H', '#O', '#OH', '#OOH']].tolist(),
         df.loc['mh', ['E', '#H', '#O', '#OH', '#OOH']].tolist(),
         df.loc['nh', ['E', '#H', '#O', '#OH', '#OOH']].tolist(),
         df.loc['oh', ['E', '#H', '#O', '#OH', '#OOH']].tolist(),
@@ -453,10 +395,6 @@ for dir in dirs:
             crossover.append(U2[j])
             old_value = lowest_surfaces[j]
     crossover.append(Umax2)
-    
-    # print(surfs)
-    # print(uniquesurf)
-    # print(crossover)
     
     plt.clf()
     fig = plt.figure(figsize=fig_size, dpi=300)

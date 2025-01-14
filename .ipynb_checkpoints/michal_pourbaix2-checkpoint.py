@@ -329,6 +329,7 @@ for dir in dirs:
     
     charge = elements_data[B]['cation_charge']
     cation = metal_df.at[B, 'energy'] + charge * elements_data[B]['electrode_potential']
+    print(cation)
     
     df.loc['vac', ['#H', '#O', '#OH', '#OOH']] = [2, 0, 0, 0]
     df.loc['clean', ['#H', '#O', '#OH', '#OOH']] = [0, 0, 0, 0] # [energy, #Hs, #Os, #OHs, #OOHs]
