@@ -194,8 +194,7 @@ def addH(x, y):
 def dg(i, x, y):
     if surfs[i][0] is None:
         return None
-    elif surfs[i][1] == 2:
-        print(i)
+    elif i == 0 and surfs[i][1] == 2:
         return (surfs[i][0] 
                 - surfs[1][0] 
                 + cation - charge * (y + x * const)
@@ -326,7 +325,7 @@ for dir in dirs:
             continue
         else:
             df.loc[main_dir, 'E'] = min_e0
-    
+                
     charge = elements_data[B]['cation_charge']
     cation = metal_df.at[B, 'energy'] + charge * elements_data[B]['electrode_potential']
     
@@ -383,8 +382,8 @@ for dir in dirs:
         
     # Define surfaces with extracted E0 values
     surfs = [
-        df.loc['clean', ['E', '#H', '#O', '#OH', '#OOH']].tolist(),
         df.loc['vac', ['E', '#H', '#O', '#OH', '#OOH']].tolist(),
+        df.loc['clean', ['E', '#H', '#O', '#OH', '#OOH']].tolist(),
         df.loc['mh', ['E', '#H', '#O', '#OH', '#OOH']].tolist(),
         df.loc['nh', ['E', '#H', '#O', '#OH', '#OOH']].tolist(),
         df.loc['oh', ['E', '#H', '#O', '#OH', '#OOH']].tolist(),
