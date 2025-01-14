@@ -189,7 +189,7 @@ def addOOH(x, y):
     return -(2 * gh2o - 1.5 * gh2) - 3 * (y + x * const) + dsooh
 
 def addH(x, y):
-    return -0.5 * gh2 + 1 * (y + x * const) + dsh
+    return -0.5 * gh2 #+ 1 * (y + x * const) + dsh
 
 def dg(i, x, y):
     if surfs[i][0] is None:
