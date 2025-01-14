@@ -105,16 +105,15 @@ dsh = dsoh - dso
 
 color = ['darkgray', ##
          'cornflowerblue', ## 
-         'red', 
-         'blue', 
+         'yellowgreen', 
+         'teal', 
          'tan', ##
          'salmon', ##
-         'green', 
+         'forestgreen', 
          'lightsteelblue', ##
          'orange', 
          'gold', 
          'pink', ##
-         'yellowgreen', #
          'plum', ##
          'navy']
 pH2 = np.arange(0, 14.01, 0.01)
@@ -673,7 +672,7 @@ for dir in dirs:
                 r"S$_{11}$$\rightarrow$S$_{10}$$\rightarrow$S$_{8}$$\rightarrow$S$_{5}$: " + f"{ORR['overP'][2]:.2f} eV", 
                 color='green', rotation=-9.5, fontsize=10)
     plt.savefig(f'/pscratch/sd/j/jiuy97/6_MNC/figures/pourbaix/{A}{B}_pourbaix_clean.png', bbox_inches='tight')
-    print(f"Figure saved as {A}{B}_pourbaix_full.png")
+    print(f"Figure saved as {A}{B}_pourbaix_clean.png")
     plt.close()
     
     plt.clf()
