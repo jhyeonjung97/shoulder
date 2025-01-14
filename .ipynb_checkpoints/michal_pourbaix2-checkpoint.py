@@ -195,7 +195,7 @@ def dg(i, x, y):
     if surfs[i][0] is None:
         return None
     elif surfs[i][1] == 2:
-        print(cation)
+        print(i)
         return (surfs[i][0] 
                 - surfs[1][0] 
                 + cation - charge * (y + x * const)
