@@ -195,12 +195,11 @@ def dg(i, x, y):
     if surfs[i][0] is None:
         return None
     elif i == 0 and surfs[i][1] == 2:
-        if j == 0:
+        if y == 0:
             print(surfs[i][0]) 
             print(surfs[1][0])
             print(cation)
             print(charge)
-            print(y)
             print(x)
             print(const)
             print(surfs[i][1])
