@@ -312,6 +312,10 @@ for dir in dirs:
     OER = {'int1': [], 'int2': [], 'int3': [], 'int4': [], 'dg12': [], 'dg23': [], 'dg34': [], 'dg41': [], 'overP': [], 'onsetP': []}
     ORR = {'int1': [], 'int2': [], 'int3': [], 'int4': [], 'dg12': [], 'dg23': [], 'dg34': [], 'dg41': [], 'overP': [], 'onsetP': []}
     
+    json_path = '/pscratch/sd/j/jiuy97/6_MNC/empty/2_/final_with_calculator.json'
+    atoms = read(json_path)
+    df.loc['vac', 'E'] = atoms.get_potential_energy()
+    
     # Iterate through each main directory to extract E0 values and plot
     for main_dir in main_dirs:
         min_e0 = get_energy(main_dir, sub_dirs)
@@ -322,10 +326,6 @@ for dir in dirs:
             continue
         else:
             df.loc[main_dir, 'E'] = min_e0
-    
-    json_path = '/pscratch/sd/j/jiuy97/6_MNC/empty/2_/final_with_calculator.json'
-    atoms = read(json_path)
-    df.loc['vac', 'E'] = atoms.get_potential_energy()
     
     charge = elements_data[B]['cation_charge']
     cation = metal_df.at[B, 'energy'] + charge * elements_data[B]['electrode_potential']
