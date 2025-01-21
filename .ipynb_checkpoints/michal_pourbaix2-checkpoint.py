@@ -431,11 +431,9 @@ for dir in dirs:
     lowest_surfaces = []
     
     for j in U2:
-        if B=='Fe':
-            print(j)
         print(j)
         values = [dg(k, 0, j) for k in range(nsurfs) if dg(k, 0, j) is not None]
-        if B=='Fe' and j==0.0:
+        if B=='Fe' and -0.01 < j and j < 0.01:
             print(values)
         lowest_surfaces.append(np.argmin(values))
         
