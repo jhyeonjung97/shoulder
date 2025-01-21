@@ -53,9 +53,9 @@ const = kbt * np.log(10)
 kjmol = 96.485
 
 pH = np.arange(0, 14, 0.10)
-U = np.arange(Umin, Umax, 0.05)
+U = np.arange(Umin, Umax, 0.01)
 Umax2 = Umax + 0.06 * 14
-U2 = np.arange(Umin, Umax2, 0.05)
+U2 = np.arange(Umin, Umax2, 0.01)
 
 # gas
 h2 = -6.77149190
@@ -686,7 +686,7 @@ for dir in dirs:
     #     ax.axis([-1.0, 2.5, -600, 200])
     ax.set_xlabel(r'RHE (V)', fontsize='large')
     ax.set_ylabel(r'$\Delta$G (kJ/mol)', fontsize='large')
-    xx = np.arange(-1.00, 2.55, 0.05)
+    xx = np.arange(-1.00, 2.55, 0.01)
     for k in range(nsurfs):
         label = r"S$_{%i}$(H: %i O: %i OH: %i OOH: %i)" % (k, surfs[k][1], surfs[k][2], surfs[k][3], surfs[k][4])
         dg_value = dg(k, 0, xx)
