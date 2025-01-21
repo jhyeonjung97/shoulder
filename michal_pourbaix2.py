@@ -690,7 +690,8 @@ for dir in dirs:
     #     ax.axis([-1.0, 2.5, -600, 200])
     ax.set_xlabel(r'RHE (V)', fontsize='large')
     ax.set_ylabel(r'$\Delta$G (kJ/mol)', fontsize='large')
-    xx = np.arange(-1.00, 2.55, 0.05)
+    # xx = np.arange(-1.00, 2.55, 0.05)
+    xx = np.arange(0.0, 1.0, 0.5)
     for k in range(nsurfs):
         label = r"S$_{%i}$(H: %i O: %i OH: %i OOH: %i)" % (k, surfs[k][1], surfs[k][2], surfs[k][3], surfs[k][4])
         dg_value = dg(k, 0, xx)
