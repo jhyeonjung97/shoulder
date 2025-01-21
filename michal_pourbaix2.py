@@ -170,6 +170,9 @@ def get_energy(main_dir, sub_dirs):
         print(f"Warning: No valid energy found in {main_dir}.")
     return min_e0
     
+def addH(x, y):
+    return -gh + dgh + 1 * (y + x * const)
+    
 def addO(x, y):
     return -go + dgo - 2 * (y + x * const)
 
@@ -179,8 +182,7 @@ def addOH(x, y):
 def addOOH(x, y):
     return -gooh + dgooh - 3 * (y + x * const)
 
-def addH(x, y):
-    return -gh + dgh + 1 * (y + x * const)
+
 
 def dg(i, x, y):
     if surfs[i][0] is None:
@@ -345,8 +347,8 @@ for dir in dirs:
     df.loc['oohooh', ['#H', '#O', '#OH', '#OOH']] = [0, 0, 0, 2]
     df.loc['ooh-ooh', ['#H', '#O', '#OH', '#OOH']] = [0, 0, 0, 2]
 
-    df['G'] = df['E'] + dgh * df['#H'] + dgoh * df['#OH'] + dgo * df['#O'] + dgooh * df['#OOH']
-    df['dG'] = df['G'] - df.loc['clean', 'G'] - gh * df['#H'] - goh * df['#OH'] - go * df['#O'] - gooh * df['#OOH']
+    df['G'] = df['E'] + dgh * df['#H'] + dgo * df['#O'] + dgoh * df['#OH'] + dgooh * df['#OOH']
+    df['dG'] = df['G'] - df.loc['clean', 'E'] - gh * df['#H'] - go * df['#O'] - goh * df['#OH'] - gooh * df['#OOH']
     df.loc['vac', 'dG'] += cation
     
     overpotential('clean', 'oh', 'o', 'ooh', df, OER, ORR)
@@ -430,6 +432,8 @@ for dir in dirs:
     
     for j in U2:
         values = [dg(k, 0, j) for k in range(nsurfs) if dg(k, 0, j) is not None]
+        if B=='Fe' and j==0:
+            print(values)
         lowest_surfaces.append(np.argmin(values))
         
     crossover = []
@@ -444,7 +448,7 @@ for dir in dirs:
             old_value = lowest_surfaces[j]
     crossover.append(Umax2)
     
-    print(lowest_surfaces)
+    # print(lowest_surfaces)
     # print(surfs)
     # print(uniquesurf)
     # print(crossover)
