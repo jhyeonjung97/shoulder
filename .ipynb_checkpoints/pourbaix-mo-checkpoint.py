@@ -96,7 +96,7 @@ df['name'] = df['name'].str.replace('MoNC(VAC)', 'Mo⁺²+H₂NC', regex=False)
 df['comp'] = df['comp'].str.replace('MoCLEAN', 'Mo')
 df['name'] = df['name'].str.replace('MoNC(CLEAN)', 'MoNC(clean)')
 df['comp'] = df['comp'].str.replace('MoMH', 'MoH')
-df['comp'] = df['comp'].str.replace('MoNH', 'MH')
+df['comp'] = df['comp'].str.replace('MoNH', 'MoH')
 
 # Assuming charge, potential, and gh2 variables are defined elsewhere
 df['energy'] = df['dG'] - df.loc['vac', 'dG'] + charge * potential - water * (df['#O'] + df['#OH'] + df['#OOH']*2)
@@ -131,11 +131,10 @@ def get_ion_entries():
     ion_entries = []
     mpr_entries = mpr.get_pourbaix_entries(["Mo"])
     for entry in mpr_entries:
-        if 'ion' in entry.entry_id:
-            if entry.npH == -3 and entry.nPhi == -3 and entry.nH2O == 3:
-                continue
-            else:
-                ion_entries.append(entry)
+        # if 'ion' in entry.entry_id:
+        #     ion_entries.append(entry)
+        if 'ion' in entry.entry_id and entry.npH - entry.nPhi > 0:
+            ion_entries.append(entry)
 
     return ion_entries
 
@@ -161,10 +160,10 @@ def plot_pourbaix(entries):
     
     fig = ax.figure
     fig.set_size_inches((8, 7))
-    plt.tight_layout()
 
-    plt.savefig(png_name)
-    # plt.show()
+    plt.savefig(png_name, dpi=100, bbox_inches='tight')
+    # plt.close()
+    plt.show()
 
 def main():
     """Main execution function."""

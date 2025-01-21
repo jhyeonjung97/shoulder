@@ -131,13 +131,12 @@ def get_ion_entries():
     ion_entries = []
     mpr_entries = mpr.get_pourbaix_entries(["Co"])
     for entry in mpr_entries:
-        if 'ion' in entry.entry_id:
-            if entry.npH == -3 and entry.nPhi == -3 and entry.nH2O == 3:
-                continue
-            else:
-                ion_entries.append(entry)
+        # if 'ion' in entry.entry_id:
+        #     ion_entries.append(entry)
+        if 'ion' in entry.entry_id and entry.npH - entry.nPhi > 0:
+            ion_entries.append(entry)
 
-    return mpr_entries
+    return ion_entries
 
 def plot_pourbaix(entries):
     """Plot and save Pourbaix diagram."""
@@ -163,9 +162,8 @@ def plot_pourbaix(entries):
     fig.set_size_inches((8, 7))
 
     plt.savefig(png_name, dpi=100, bbox_inches='tight')
-    plt.close()
-
-    # plt.show()
+    # plt.close()
+    plt.show()
 
 def main():
     """Main execution function."""
