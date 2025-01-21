@@ -69,16 +69,16 @@ zpeh2 = 0.268
 cvh2 = 0.0905
 tsh2 = 0.408
 
-gh2o = h2o + cvh2o - tsh2o + zpeh2o
-gh2 = h2 + cvh2 - tsh2 + zpeh2
+gh2o = h2o + zpeh2o - tsh2o + cvh2o
+gh2 = h2 + zpeh2 - tsh2 + cvh2
 
 gh = gh2 / 2
 go = gh2o - gh2
-goh = gh2o - gh2 / 2
+goh = gh2o - gh
 gooh = go + goh
 
-dgh2o = zpeh2o + cvh2o - tsh2o
-dgh2 = zpeh2 + cvh2 - tsh2
+# dgh2o = zpeh2o + cvh2o - tsh2o
+# dgh2 = zpeh2 + cvh2 - tsh2
 
 # ads
 zpeoh = 0.376
@@ -93,15 +93,15 @@ zpeooh = 0.471
 cvooh = 0.077
 tsooh = 0.134
 
-dgh = 0
 dgo = zpeo + cvo - tso
 dgoh = zpeoh + cvoh - tsoh
 dgooh = zpeooh + cvooh - tsooh
+dgh = dgoh - dgo
 
-dso = dgo - (dgh2o - dgh2)
-dsoh = dgoh - (dgh2o - 0.5 * dgh2)
-dsooh = dgooh - (2 * dgh2o - 1.5 * dgh2)
-dsh = dsoh - dso
+# dso = dgo - (dgh2o - dgh2)
+# dsoh = dgoh - (dgh2o - 0.5 * dgh2)
+# dsooh = dgooh - (2 * dgh2o - 1.5 * dgh2)
+# dsh = dsoh - dso
 
 color = ['darkgray', ##
          'cornflowerblue', ## 
@@ -179,16 +179,16 @@ def get_energy(main_dir, sub_dirs):
     return min_e0
     
 def addO(x, y):
-    return -(gh2o - gh2) - 2 * (y + x * const) + dso
+    return -(gh2o - gh2) - 2 * (y + x * const) + dgo
 
 def addOH(x, y):
-    return -(gh2o - 0.5 * gh2) - (y + x * const) + dsoh
+    return -(gh2o - 0.5 * gh2) - (y + x * const) + dgoh
 
 def addOOH(x, y):
-    return -(2 * gh2o - 1.5 * gh2) - 3 * (y + x * const) + dsooh
+    return -(2 * gh2o - 1.5 * gh2) - 3 * (y + x * const) + dgooh
 
 def addH(x, y):
-    return -0.5 * gh2 + 1 * (y + x * const) + dsh
+    return -0.5 * gh2 + 1 * (y + x * const) + dgh
 
 def dg(i, x, y):
     if surfs[i][0] is None:
