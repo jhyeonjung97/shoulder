@@ -3,6 +3,7 @@
 import os
 import sys
 import warnings
+import pandas as pd
 import matplotlib.pyplot as plt
 from pymatgen.ext.matproj import MPRester
 from pymatgen.core.ion import Ion
