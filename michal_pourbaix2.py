@@ -444,9 +444,9 @@ for dir in dirs:
             old_value = lowest_surfaces[j]
     crossover.append(Umax2)
     
-    # print(surfs)
-    # print(uniquesurf)
-    # print(crossover)
+    print(surfs)
+    print(uniquesurf)
+    print(crossover)
     
 #     plt.clf()
 #     fig = plt.figure(figsize=fig_size, dpi=300)

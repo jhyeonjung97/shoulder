@@ -346,7 +346,8 @@ for dir in dirs:
     df.loc['ooh-ooh', ['#H', '#O', '#OH', '#OOH']] = [0, 0, 0, 2]
 
     df['G'] = df['E'] + dgh * df['#H'] + dgoh * df['#OH'] + dgo * df['#O'] + dgooh * df['#OOH']
-    df['dG'] = df['G'] - df.loc['clean', 'G'] - gh * df['#H'] - goh * df['#OH'] - go * df['#O'] - gooh * df['#OOH'] + cation
+    df['dG'] = df['G'] - df.loc['clean', 'G'] - gh * df['#H'] - goh * df['#OH'] - go * df['#O'] - gooh * df['#OOH']
+    df.loc['vac', 'dG'] += cation
     
     overpotential('clean', 'oh', 'o', 'ooh', df, OER, ORR)
     if A == '1' and B == 'Fe':
@@ -443,9 +444,9 @@ for dir in dirs:
             old_value = lowest_surfaces[j]
     crossover.append(Umax2)
     
-    # print(surfs)
-    # print(uniquesurf)
-    # print(crossover)
+    print(surfs)
+    print(uniquesurf)
+    print(crossover)
     
 #     plt.clf()
 #     fig = plt.figure(figsize=fig_size, dpi=300)
