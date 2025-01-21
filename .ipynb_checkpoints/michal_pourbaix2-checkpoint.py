@@ -692,7 +692,8 @@ for dir in dirs:
     ax.set_ylabel(r'$\Delta$G (kJ/mol)', fontsize='large')
     # xx = np.arange(-1.00, 2.55, 0.05)
     xx = np.arange(0.0, 1.0, 0.5)
-    for k in range(nsurfs):
+    # for k in range(nsurfs):
+    for k in [0, 1, 2]:
         label = r"S$_{%i}$(H: %i O: %i OH: %i OOH: %i)" % (k, surfs[k][1], surfs[k][2], surfs[k][3], surfs[k][4])
         dg_value = dg(k, 0, xx)
         if dg_value is not None:
