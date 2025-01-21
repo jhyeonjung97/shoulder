@@ -186,7 +186,7 @@ def dg(i, x, y):
     if surfs[i][0] is None:
         return None
     elif i == 0 and surfs[i][1] == 2:
-        if x==0 and a.any(y):
+        if x==0 and y.any():
             if y==0:
                 print(surfs[i][0]
                       - surfs[1][0]
@@ -202,7 +202,7 @@ def dg(i, x, y):
                 + surfs[i][2] * addO(x, y) 
                 + surfs[i][3] * addOH(x, y) 
                 + surfs[i][4] * addOOH(x, y))
-    if x==0 and a.any(y):
+    if x==0 and y.any():
         if y==0:
             print(surfs[i][0]
                   - surfs[1][0]
