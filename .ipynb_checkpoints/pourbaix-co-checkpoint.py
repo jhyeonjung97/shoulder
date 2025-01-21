@@ -15,7 +15,7 @@ from pymatgen.entries.computed_entries import ComputedEntry
 warnings.filterwarnings('ignore')
 
 # Set plot file name
-PLOT_NAME = 'Pourbaix_PBE+U_U2p75_allLayered'
+png_name = '/pscratch/sd/j/jiuy97/6_MNC/figures/pourbaix/2Co_pourbaix_bulk.png'
 
 # Load Materials Project API key from environment variable
 API_KEY = os.getenv('MAPI_KEY')
@@ -26,13 +26,30 @@ mpr = MPRester(API_KEY)
 
 # Define constants
 kJmol = 96.485
+water = 2.4583 # the standard Gibbs free energy of formation of water
 
 # gas
 h2 = -6.77149190
+h2o = -14.23091949
+
+zpeh2o = 0.560
+cvh2o = 0.103
+tsh2o = 0.675
+
 zpeh2 = 0.268
 cvh2 = 0.0905
 tsh2 = 0.408
+
+gh2o = h2o + zpeh2o - tsh2o + cvh2o
 gh2 = h2 + zpeh2 - tsh2 + cvh2
+
+n2 = -16.64503942
+zpen2 = 0.098
+tsn2 = 0.592
+gn2 = n2 + zpen2 - tsn2
+
+gc = -9.3573635
+N4C26 = -.27195317E+03
 
 elements_data = {
     "Ti": {"electrode_potential": -1.63, "cation_charge": 2},  # Ti^2+ + 2e- → Ti (Ti^2+ prioritized over Ti^4+)
@@ -61,60 +78,66 @@ elements_data = {
     "Pt": {"electrode_potential": 1.20,  "cation_charge": 2},  # Pt^2+ + 2e- → Pt
 }
 
-potential = elements_data['Fe']['electrode_potential']
-charge = elements_data['Fe']['cation_charge']
+potential = elements_data['Co']['electrode_potential']
+charge = elements_data['Co']['cation_charge']
 
-# metal_path = '/pscratch/sd/j/jiuy97/6_MNC/gas/metals.tsv'
-metal_path = '/Users/hailey/Desktop/jan20/metals.tsv'
+metal_path = '/pscratch/sd/j/jiuy97/6_MNC/gas/metals.tsv'
 metal_df = pd.read_csv(metal_path, delimiter='\t', index_col=0)
-metal = metal_df.loc['Fe', 'energy']
-N4C26 = -.27195317E+03
+gm = metal_df.loc['Co', 'energy']
 
 # Read the TSV file with correct delimiter and index column
-# df = pd.read_csv('/pscratch/sd/j/jiuy97/6_MNC/figures/pourbaix/1Fe_energies.tsv', delimiter='\t', index_col=0)
-df = pd.read_csv('/Users/hailey/Desktop/jan20/1Fe_energies.tsv', delimiter='\t', index_col=0)
+df = pd.read_csv('/pscratch/sd/j/jiuy97/6_MNC/figures/pourbaix/2Co_energies.tsv', delimiter='\t', index_col=0)
 
 # Process the composition column
-df['name'] = 'FeNC(' + df.index.str.upper() + ')'
-df['comp'] = 'FeHH' + df.index.str.upper().str.replace("-", "")
-df['comp'] = df['comp'].str.replace('FeHHVAC', 'VAC')
-df['comp'] = df['comp'].str.replace('FeHHCLEAN', 'FeHH')
-df['comp'] = df['comp'].str.replace('FeHHMH', 'FeHHH')
-df['comp'] = df['comp'].str.replace('FeHHNH', 'FeHHH')
+df['name'] = 'CoNC(' + df.index.str.upper() + ')'
+df['comp'] = 'Co' + df.index.str.upper().str.replace("-", "")
+df['comp'] = df['comp'].str.replace('CoVAC', 'Co')
+df['name'] = df['name'].str.replace('CoNC(VAC)', 'Co⁺²+H₂NC', regex=False)
+df['comp'] = df['comp'].str.replace('CoCLEAN', 'Co')
+df['name'] = df['name'].str.replace('CoNC(CLEAN)', 'CoNC(clean)')
+df['comp'] = df['comp'].str.replace('CoMH', 'CoH')
+df['comp'] = df['comp'].str.replace('CoNH', 'CoH')
 
 # Assuming charge, potential, and gh2 variables are defined elsewhere
-df['energy'] = df['dG'] + df.loc['clean', 'G'] - metal - N4C26
-df = df.drop(index='vac')
+df['energy'] = df['dG'] - df.loc['vac', 'dG'] + charge * potential - water * (df['#O'] + df['#OH'] + df['#OOH']*2)
+# df['energy'] = df['dG'] + df.loc['clean', 'G'] - gm - N4C26 - water * (df['#O'] + df['#OH'] + df['#OOH']*2)
+# df['energy'] = df['dG'] + df.loc['clean', 'G'] - gm - 2 * gn2 - 26 * gc - water * (df['#O'] + df['#OH'] + df['#OOH']*2)
+
+df = df.drop(index='o-ooh')
+df = df.drop(index='ooh-o')
+df = df.drop(index='oh-ooh')
+df = df.drop(index='ooh-oh')
+df = df.drop(index='ooh-ooh')
 df = df.dropna()
+print(df)
 
 def get_solid_entries():
     """Generate solid entries."""    
     solid_entries = []
-    
+    solid_entries.append(PourbaixEntry(ComputedEntry(Ion.from_formula("Co"), 0.0)))
+
     for index, row in df.iterrows():
-        try:
-            comp = Ion.from_formula(row['comp'])
-            energy = row['energy']
-            print(energy)
-            name = row['name']
-            
-            # Create IonEntry with zero charge by default
-            entry = PourbaixEntry(IonEntry(comp, energy, name=name))
-            solid_entries.append(entry)
-        
-        except Exception as e:
-            print(f"Error processing entry {row['comp']}: {e}")
-            
+        comp = Ion.from_formula(row['comp'])
+        energy = row['energy']        
+        name = row['name']        
+        entry = PourbaixEntry(IonEntry(comp, energy, name=name), concentration=1.0)
+        # entry = PourbaixEntry(ComputedEntry(comp, energy))
+        solid_entries.append(entry)
+    
     return solid_entries
 
 def get_ion_entries():
     """Fetch ion entries from the Materials Project API."""
-    try:
-        ion_entries = mpr.get_pourbaix_entries(["Fe"])
-    except Exception as e:
-        sys.exit(f"Error fetching ion data from Materials Project API: {e}")
+    ion_entries = []
+    mpr_entries = mpr.get_pourbaix_entries(["Co"])
+    for entry in mpr_entries:
+        if 'ion' in entry.entry_id:
+            if entry.npH == -3 and entry.nPhi == -3 and entry.nH2O == 3:
+                continue
+            else:
+                ion_entries.append(entry)
 
-    return ion_entries
+    return mpr_entries
 
 def plot_pourbaix(entries):
     """Plot and save Pourbaix diagram."""
@@ -140,9 +163,8 @@ def plot_pourbaix(entries):
     fig.set_size_inches((8, 7))
     plt.tight_layout()
 
-    plt.savefig(PLOT_NAME + '.pdf')
-    plt.savefig(PLOT_NAME + '.png')
-    plt.show()
+    plt.savefig(png_name)
+    # plt.show()
 
 def main():
     """Main execution function."""
@@ -155,7 +177,9 @@ def main():
     ion_entries = get_ion_entries()
     for entry in ion_entries:
         print(entry)
-
+        
+    # all_entries = solid_entries
+    # all_entries = ion_entries
     all_entries = solid_entries + ion_entries
     print("\nTotal Entries:", len(all_entries))
     

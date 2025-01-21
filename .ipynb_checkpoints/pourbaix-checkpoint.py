@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 from pymatgen.ext.matproj import MPRester
 from pymatgen.core.ion import Ion
 from pymatgen.core.composition import Composition
-from pymatgen.analysis.pourbaix_diagram import PourbaixEntry, PourbaixDiagram, PourbaixPlotter
+from pymatgen.analysis.pourbaix_diagram import PourbaixEntry, IonEntry, PourbaixDiagram, PourbaixPlotter
 from pymatgen.entries.computed_entries import ComputedEntry
 
 # Ignore warning messages
@@ -64,9 +64,11 @@ elements_data = {
 potential = elements_data['Fe']['electrode_potential']
 charge = elements_data['Fe']['cation_charge']
 
-metal_path = '/pscratch/sd/j/jiuy97/6_MNC/gas/metals.tsv'
+# metal_path = '/pscratch/sd/j/jiuy97/6_MNC/gas/metals.tsv'
+metal_path = '/Users/hailey/Desktop/jan20/metals.tsv'
 metal_df = pd.read_csv(metal_path, delimiter='\t', index_col=0)
-print(metal_df)
+metal = metal_df.loc['Fe', 'energy']
+N4C26 = -.27195317E+03
 
 # Read the TSV file with correct delimiter and index column
 # df = pd.read_csv('/pscratch/sd/j/jiuy97/6_MNC/figures/pourbaix/1Fe_energies.tsv', delimiter='\t', index_col=0)
@@ -74,29 +76,35 @@ df = pd.read_csv('/Users/hailey/Desktop/jan20/1Fe_energies.tsv', delimiter='\t',
 
 # Process the composition column
 df['name'] = 'FeNC(' + df.index.str.upper() + ')'
-df['comp'] = 'Fe' + df.index.str.upper().str.replace("-", "")
-df['comp'] = df['comp'].str.replace('FeVAC', 'VAC')
-df['comp'] = df['comp'].str.replace('FeCLEAN', 'Fe')
-df['comp'] = df['comp'].str.replace('FeMH', 'FeH')
-df['comp'] = df['comp'].str.replace('FeNH', 'FeH')
+df['comp'] = 'FeHH' + df.index.str.upper().str.replace("-", "")
+df['comp'] = df['comp'].str.replace('FeHHVAC', 'VAC')
+df['comp'] = df['comp'].str.replace('FeHHCLEAN', 'FeHH')
+df['comp'] = df['comp'].str.replace('FeHHMH', 'FeHHH')
+df['comp'] = df['comp'].str.replace('FeHHNH', 'FeHHH')
 
 # Assuming charge, potential, and gh2 variables are defined elsewhere
-df['energy'] = df['dG'] + df.loc['clean', 'G'] - metal_df
-
-# Print the processed DataFrame
-print(df)
+df['energy'] = df['dG'] + df.loc['clean', 'G'] - metal - N4C26
+df = df.drop(index='vac')
+df = df.dropna()
 
 def get_solid_entries():
-    """Generate solid entries."""
-    ion_dict_solids_mnc = dict(zip(df['comp'], df['energy']))
-    
+    """Generate solid entries."""    
     solid_entries = []
-    for key, energy in ion_dict_solids_mnc.items():
-        if key != 'VAC':
-            comp = Ion.from_formula(key)
-            entry = PourbaixEntry(ComputedEntry(comp, energy, entry_id='MNC'))
+    
+    for index, row in df.iterrows():
+        try:
+            comp = Ion.from_formula(row['comp'])
+            energy = row['energy']
+            print(energy)
+            name = row['name']
+            
+            # Create IonEntry with zero charge by default
+            entry = PourbaixEntry(IonEntry(comp, energy, name=name))
             solid_entries.append(entry)
-
+        
+        except Exception as e:
+            print(f"Error processing entry {row['comp']}: {e}")
+            
     return solid_entries
 
 def get_ion_entries():
@@ -150,12 +158,8 @@ def main():
 
     all_entries = solid_entries + ion_entries
     print("\nTotal Entries:", len(all_entries))
-
-    for entry in all_entries:
-        if entry.npH != entry.nPhi:
-            print(entry)
     
-    # plot_pourbaix(all_entries)
+    plot_pourbaix(all_entries)
 
 if __name__ == "__main__":
     main()
