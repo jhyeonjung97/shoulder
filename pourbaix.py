@@ -25,6 +25,10 @@ mpr = MPRester(API_KEY)
 # Define constants
 kJmol = 96.485
 
+df = pd.read_csv('/pscratch/sd/j/jiuy97/6_MNC/figures/pourbaix/1Fe_energies.tsv', delimiter='\t', index_col=0)
+df.index = df.index.str.upper()
+print(df.head())
+
 def get_pourbaix_energy(comp)
     
     SAC_formation_energy=0.1+2*(-0.44)  -2*237/kJmol
