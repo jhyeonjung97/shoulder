@@ -186,6 +186,13 @@ def dg(i, x, y):
     if surfs[i][0] is None:
         return None
     elif i == 0 and surfs[i][1] == 2:
+        print(surfs[i][0] 
+                - surfs[1][0] 
+                + cation - charge * (y + x * const)
+                + surfs[i][1] * addH(x, y) 
+                + surfs[i][2] * addO(x, y) 
+                + surfs[i][3] * addOH(x, y) 
+                + surfs[i][4] * addOOH(x, y))
         return (surfs[i][0] 
                 - surfs[1][0] 
                 + cation - charge * (y + x * const)
