@@ -164,6 +164,8 @@ def plot_pourbaix(entries):
     plt.tight_layout()
 
     plt.savefig(png_name)
+    plt.close()
+
     # plt.show()
 
 def main():
