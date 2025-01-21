@@ -27,7 +27,7 @@ mpr = MPRester(API_KEY)
 kJmol = 96.485
 
 df = pd.read_csv('/pscratch/sd/j/jiuy97/6_MNC/figures/pourbaix/1Fe_energies.tsv', delimiter='\t', index_col=0)
-df['Composition'] = 'Fe' + df.index.str.upper().replace("-", "")
+df['Composition'] = 'Fe' + df.index.str.upper().str.replace("-", "")
 print(df)
 
 
