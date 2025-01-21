@@ -4,6 +4,7 @@ import os
 import sys
 import warnings
 import pandas as pd
+import matplotlib
 import matplotlib.pyplot as plt
 from pymatgen.ext.matproj import MPRester
 from pymatgen.core.ion import Ion
@@ -13,6 +14,7 @@ from pymatgen.entries.computed_entries import ComputedEntry
 
 # Ignore warning messages
 warnings.filterwarnings('ignore')
+matplotlib.use('Agg')  # Use a backend that does not require a GUI
 
 # Set plot file name
 png_name = '/pscratch/sd/j/jiuy97/6_MNC/figures/pourbaix/2Co_pourbaix_bulk.png'
@@ -161,9 +163,8 @@ def plot_pourbaix(entries):
     
     fig = ax.figure
     fig.set_size_inches((8, 7))
-    plt.tight_layout()
 
-    plt.savefig(png_name)
+    plt.savefig(png_name, dpi=100, bbox_inches='tight')
     plt.close()
 
     # plt.show()
