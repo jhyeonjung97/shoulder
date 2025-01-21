@@ -15,7 +15,7 @@ from pymatgen.entries.computed_entries import ComputedEntry
 warnings.filterwarnings('ignore')
 
 # Set plot file name
-png_name = '/pscratch/sd/j/jiuy97/6_MNC/figures/pourbaix/1Fe_pourbaix_bulk.png'
+png_name = '1Fe_pourbaix_bulk.png'
 
 # Load Materials Project API key from environment variable
 API_KEY = os.getenv('MAPI_KEY')
@@ -81,12 +81,12 @@ elements_data = {
 potential = elements_data['Fe']['electrode_potential']
 charge = elements_data['Fe']['cation_charge']
 
-metal_path = '/pscratch/sd/j/jiuy97/6_MNC/gas/metals.tsv'
+metal_path = './metals.tsv'
 metal_df = pd.read_csv(metal_path, delimiter='\t', index_col=0)
 gm = metal_df.loc['Fe', 'energy']
 
 # Read the TSV file with correct delimiter and index column
-df = pd.read_csv('/pscratch/sd/j/jiuy97/6_MNC/figures/pourbaix/1Fe_energies.tsv', delimiter='\t', index_col=0)
+df = pd.read_csv('./1Fe_energies.tsv', delimiter='\t', index_col=0)
 
 # Process the composition column
 df['name'] = 'FeNC(' + df.index.str.upper() + ')'

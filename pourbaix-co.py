@@ -4,7 +4,6 @@ import os
 import sys
 import warnings
 import pandas as pd
-import matplotlib
 import matplotlib.pyplot as plt
 from pymatgen.ext.matproj import MPRester
 from pymatgen.core.ion import Ion
@@ -14,10 +13,9 @@ from pymatgen.entries.computed_entries import ComputedEntry
 
 # Ignore warning messages
 warnings.filterwarnings('ignore')
-matplotlib.use('Agg')  # Use a backend that does not require a GUI
 
 # Set plot file name
-png_name = '/pscratch/sd/j/jiuy97/6_MNC/figures/pourbaix/2Co_pourbaix_bulk.png'
+png_name = '2Co_pourbaix_bulk.png'
 
 # Load Materials Project API key from environment variable
 API_KEY = os.getenv('MAPI_KEY')
@@ -83,12 +81,12 @@ elements_data = {
 potential = elements_data['Co']['electrode_potential']
 charge = elements_data['Co']['cation_charge']
 
-metal_path = '/pscratch/sd/j/jiuy97/6_MNC/gas/metals.tsv'
+metal_path = './metals.tsv'
 metal_df = pd.read_csv(metal_path, delimiter='\t', index_col=0)
 gm = metal_df.loc['Co', 'energy']
 
 # Read the TSV file with correct delimiter and index column
-df = pd.read_csv('/pscratch/sd/j/jiuy97/6_MNC/figures/pourbaix/2Co_energies.tsv', delimiter='\t', index_col=0)
+df = pd.read_csv('./2Co_energies.tsv', delimiter='\t', index_col=0)
 
 # Process the composition column
 df['name'] = 'CoNC(' + df.index.str.upper() + ')'

@@ -15,7 +15,7 @@ from pymatgen.entries.computed_entries import ComputedEntry
 warnings.filterwarnings('ignore')
 
 # Set plot file name
-png_name = '/pscratch/sd/j/jiuy97/6_MNC/figures/pourbaix/3Mn_pourbaix_bulk.png'
+png_name = '3Mo_pourbaix_bulk.png'
 
 # Load Materials Project API key from environment variable
 API_KEY = os.getenv('MAPI_KEY')
@@ -78,25 +78,25 @@ elements_data = {
     "Pt": {"electrode_potential": 1.20,  "cation_charge": 2},  # Pt^2+ + 2e- → Pt
 }
 
-potential = elements_data['Mn']['electrode_potential']
-charge = elements_data['Mn']['cation_charge']
+potential = elements_data['Mo']['electrode_potential']
+charge = elements_data['Mo']['cation_charge']
 
-metal_path = '/pscratch/sd/j/jiuy97/6_MNC/gas/metals.tsv'
+metal_path = './metals.tsv'
 metal_df = pd.read_csv(metal_path, delimiter='\t', index_col=0)
-gm = metal_df.loc['Mn', 'energy']
+gm = metal_df.loc['Mo', 'energy']
 
 # Read the TSV file with correct delimiter and index column
-df = pd.read_csv('/pscratch/sd/j/jiuy97/6_MNC/figures/pourbaix/3Mn_energies.tsv', delimiter='\t', index_col=0)
+df = pd.read_csv('./3Mo_energies.tsv', delimiter='\t', index_col=0)
 
 # Process the composition column
-df['name'] = 'MnNC(' + df.index.str.upper() + ')'
-df['comp'] = 'Mn' + df.index.str.upper().str.replace("-", "")
-df['comp'] = df['comp'].str.replace('MnVAC', 'Mn')
-df['name'] = df['name'].str.replace('MnNC(VAC)', 'Mn⁺²+H₂NC', regex=False)
-df['comp'] = df['comp'].str.replace('MnCLEAN', 'Mn')
-df['name'] = df['name'].str.replace('MnNC(CLEAN)', 'MnNC(clean)')
-df['comp'] = df['comp'].str.replace('MnMH', 'MnH')
-df['comp'] = df['comp'].str.replace('MnNH', 'MnH')
+df['name'] = 'MoNC(' + df.index.str.upper() + ')'
+df['comp'] = 'Mo' + df.index.str.upper().str.replace("-", "")
+df['comp'] = df['comp'].str.replace('MoVAC', 'Mo')
+df['name'] = df['name'].str.replace('MoNC(VAC)', 'Mo⁺²+H₂NC', regex=False)
+df['comp'] = df['comp'].str.replace('MoCLEAN', 'Mo')
+df['name'] = df['name'].str.replace('MoNC(CLEAN)', 'MoNC(clean)')
+df['comp'] = df['comp'].str.replace('MoMH', 'MoH')
+df['comp'] = df['comp'].str.replace('MoNH', 'MH')
 
 # Assuming charge, potential, and gh2 variables are defined elsewhere
 df['energy'] = df['dG'] - df.loc['vac', 'dG'] + charge * potential - water * (df['#O'] + df['#OH'] + df['#OOH']*2)
@@ -114,7 +114,7 @@ print(df)
 def get_solid_entries():
     """Generate solid entries."""    
     solid_entries = []
-    solid_entries.append(PourbaixEntry(ComputedEntry(Ion.from_formula("Mn"), 0.0)))
+    solid_entries.append(PourbaixEntry(ComputedEntry(Ion.from_formula("Mo"), 0.0)))
 
     for index, row in df.iterrows():
         comp = Ion.from_formula(row['comp'])
@@ -129,7 +129,7 @@ def get_solid_entries():
 def get_ion_entries():
     """Fetch ion entries from the Materials Project API."""
     ion_entries = []
-    mpr_entries = mpr.get_pourbaix_entries(["Mn"])
+    mpr_entries = mpr.get_pourbaix_entries(["Mo"])
     for entry in mpr_entries:
         if 'ion' in entry.entry_id:
             if entry.npH == -3 and entry.nPhi == -3 and entry.nH2O == 3:
