@@ -448,10 +448,13 @@ for dir in dirs:
             old_value = lowest_surfaces[j]
     crossover.append(Umax2)
     
-    # print(lowest_surfaces)
-    # print(surfs)
-    # print(uniquesurf)
-    # print(crossover)
+    print(lowest_surfaces)
+    print(U2)
+    print(len(lowest_surfaces))
+    print(len(U2))
+    print(surfs)
+    print(uniquesurf)
+    print(crossover)
     
 #     plt.clf()
 #     fig = plt.figure(figsize=fig_size, dpi=300)
