@@ -28,6 +28,11 @@ kJmol = 96.485
 
 df = pd.read_csv('/pscratch/sd/j/jiuy97/6_MNC/figures/pourbaix/1Fe_energies.tsv', delimiter='\t', index_col=0)
 df['Composition'] = 'Fe' + df.index.str.upper().str.replace("-", "")
+df['Composition'] = df['Composition'].str.replace('FeVAC', 'vac')
+df['Composition'] = df['Composition'].str.replace('FeCLEAN', 'Fe')
+df['Composition'] = df['Composition'].str.replace('FeMH', 'FeH')
+df['Composition'] = df['Composition'].str.replace('FeNH', 'FeH')
+
 print(df)
 
 
