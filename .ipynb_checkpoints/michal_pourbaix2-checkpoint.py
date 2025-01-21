@@ -186,13 +186,6 @@ def dg(i, x, y):
     if surfs[i][0] is None:
         return None
     elif i == 0 and surfs[i][1] == 2:
-        print(surfs[i][0]
-              - surfs[1][0]
-              + cation - charge * (y + x * const)
-              + surfs[i][1] * addH(x, y)
-              + surfs[i][2] * addO(x, y)
-              + surfs[i][3] * addOH(x, y)
-              + surfs[i][4] * addOOH(x, y))
         return (surfs[i][0] 
                 - surfs[1][0] 
                 + cation - charge * (y + x * const)
@@ -200,12 +193,6 @@ def dg(i, x, y):
                 + surfs[i][2] * addO(x, y) 
                 + surfs[i][3] * addOH(x, y) 
                 + surfs[i][4] * addOOH(x, y))
-    print(surfs[i][0]
-          - surfs[1][0]
-          + surfs[i][1] * addH(x, y)
-          + surfs[i][2] * addO(x, y)
-          + surfs[i][3] * addOH(x, y)
-          + surfs[i][4] * addOOH(x, y))
     return (surfs[i][0] 
             - surfs[1][0] 
             + surfs[i][1] * addH(x, y) 
@@ -359,8 +346,8 @@ for dir in dirs:
     df.loc['ooh-ooh', ['#H', '#O', '#OH', '#OOH']] = [0, 0, 0, 2]
 
     df['G'] = df['E'] + dgh * df['#H'] + dgoh * df['#OH'] + dgo * df['#O'] + dgooh * df['#OOH']
-    df['dG'] = df['G'] - df.loc['clean', 'G'] - gh * df['#H'] - goh * df['#OH'] - go * df['#O'] - gooh * df['#OOH']
-
+    df['dG'] = df['G'] - df.loc['clean', 'G'] - gh * df['#H'] - goh * df['#OH'] - go * df['#O'] - gooh * df['#OOH'] + cation
+    
     overpotential('clean', 'oh', 'o', 'ooh', df, OER, ORR)
     if A == '1' and B == 'Fe':
         overpotential('oh', 'oh-oh', ('o-oh', 'oh-o'), ('ooh-oh', 'oh-ooh'), df, OER, ORR)
@@ -440,10 +427,10 @@ for dir in dirs:
     nsurfs = len(surfs)
     lowest_surfaces = []
     
-    # for j in U2:
-    #     values = [dg(k, 0, j) for k in range(nsurfs) if dg(k, 0, j) is not None]
-    #     lowest_surfaces.append(np.argmin(values))
-    
+    for j in U2:
+        values = [dg(k, 0, j) for k in range(nsurfs) if dg(k, 0, j) is not None]
+        lowest_surfaces.append(np.argmin(values))
+        
     crossover = []
     uniquesurf = [lowest_surfaces[0]]
     old_value = lowest_surfaces[0]
@@ -690,10 +677,8 @@ for dir in dirs:
     #     ax.axis([-1.0, 2.5, -600, 200])
     ax.set_xlabel(r'RHE (V)', fontsize='large')
     ax.set_ylabel(r'$\Delta$G (kJ/mol)', fontsize='large')
-    # xx = np.arange(-1.00, 2.55, 0.05)
-    xx = np.arange(0.0, 1.0, 0.5)
-    # for k in range(nsurfs):
-    for k in [0, 1, 2]:
+    xx = np.arange(-1.00, 2.55, 0.05)
+    for k in range(nsurfs):
         label = r"S$_{%i}$(H: %i O: %i OH: %i OOH: %i)" % (k, surfs[k][1], surfs[k][2], surfs[k][3], surfs[k][4])
         dg_value = dg(k, 0, xx)
         if dg_value is not None:
