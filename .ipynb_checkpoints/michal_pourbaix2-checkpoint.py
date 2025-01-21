@@ -444,7 +444,7 @@ for dir in dirs:
     for j in range(len(U2)):
         if lowest_surfaces[j] != old_value:
             uniquesurf.append(lowest_surfaces[j])
-            crossover.append(U2[j])
+            crossover.append(U2[j-1])
             old_value = lowest_surfaces[j]
     crossover.append(Umax2)
     
