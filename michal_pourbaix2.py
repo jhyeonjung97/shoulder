@@ -444,17 +444,17 @@ for dir in dirs:
     for j in range(len(U2)):
         if lowest_surfaces[j] != old_value:
             uniquesurf.append(lowest_surfaces[j])
-            crossover.append(U2[j-1])
+            crossover.append(U2[j])
             old_value = lowest_surfaces[j]
     crossover.append(Umax2)
     
-    print(lowest_surfaces)
-    print(U2)
-    print(len(lowest_surfaces))
-    print(len(U2))
-    print(surfs)
-    print(uniquesurf)
-    print(crossover)
+    # print(lowest_surfaces)
+    # print(U2)
+    # print(len(lowest_surfaces))
+    # print(len(U2))
+    # print(surfs)
+    # print(uniquesurf)
+    # print(crossover)
     
 #     plt.clf()
 #     fig = plt.figure(figsize=fig_size, dpi=300)
