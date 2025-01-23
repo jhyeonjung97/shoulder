@@ -11,20 +11,25 @@ from pymatgen.core.composition import Composition
 from pymatgen.analysis.pourbaix_diagram import PourbaixEntry, IonEntry, PourbaixDiagram, PourbaixPlotter
 from pymatgen.entries.computed_entries import ComputedEntry
 
+# Ignore warning messages
 warnings.filterwarnings('ignore')
 
+# Set plot file name
 png_name = '1Fe_pourbaix'
 tsv_name = '1Fe_energies.tsv'
 
+# Load Materials Project API key from environment variable
 API_KEY = os.getenv('MAPI_KEY')
 if not API_KEY:
     sys.exit("Error: MAPI_KEY environment variable not set.")
+
 mpr = MPRester(API_KEY)
 
+# Define constants
 kJmol = 96.485
-calmol = 23.061
 water = 2.4583 # the standard Gibbs free energy of formation of water
 
+# gas
 h2 = -6.77149190
 h2o = -14.23091949
 
@@ -81,20 +86,23 @@ metal_path = './metals.tsv'
 metal_df = pd.read_csv(metal_path, delimiter='\t', index_col=0)
 gm = metal_df.loc['Fe', 'energy']
 
+# Read the TSV file with correct delimiter and index column
 df = pd.read_csv(tsv_name, delimiter='\t', index_col=0)
 
+# Process the composition column
 df['name'] = 'FeNC(' + df.index.str.upper() + ')'
-df['comp'] = 'FeN4C26' + df.index.str.upper().str.replace("-", "")
-df['comp'] = df['comp'].str.replace('FeN4C26VAC', 'FeN4C26')
+df['comp'] = 'FeO' + df.index.str.upper().str.replace("-", "")
+df['comp'] = df['comp'].str.replace('FeOVAC', 'FeO')
 df['name'] = df['name'].str.replace('FeNC(VAC)', 'Fe⁺²+H₂NC', regex=False)
-df['comp'] = df['comp'].str.replace('FeN4C26CLEAN', 'FeN4C26')
+df['comp'] = df['comp'].str.replace('FeOCLEAN', 'FeO')
 df['name'] = df['name'].str.replace('FeNC(CLEAN)', 'FeNC(clean)')
-df['comp'] = df['comp'].str.replace('FeN4C26MH', 'FeN4C26H')
-df['comp'] = df['comp'].str.replace('FeN4C26NH', 'FeN4C26H')
+df['comp'] = df['comp'].str.replace('FeOMH', 'FeOH')
+df['comp'] = df['comp'].str.replace('FeONH', 'FeOH')
 
-# df['energy'] = df['dG'] - df.loc['vac', 'dG'] + charge * potential - water * (df['#O'] + df['#OH'] + df['#OOH']*2)
+# Assuming charge, potential, and gh2 variables are defined elsewhere
+df['energy'] = df['dG'] - df.loc['vac', 'dG'] + charge * potential - water * (df['#O'] + df['#OH'] + df['#OOH']*2)
 # df['energy'] = df['dG'] + df.loc['clean', 'G'] - gm - N4C26 - water * (df['#O'] + df['#OH'] + df['#OOH']*2)
-df['energy'] = df['dG'] + df.loc['clean', 'G'] - gm - 2 * gn2 - 26 * gc - water * (df['#O'] + df['#OH'] + df['#OOH']*2)
+# df['energy'] = df['dG'] + df.loc['clean', 'G'] - gm - 2 * gn2 - 26 * gc - water * (df['#O'] + df['#OH'] + df['#OOH']*2)
 
 df = df.drop(index='vac')
 df = df.drop(index='o-ooh')
@@ -105,81 +113,52 @@ df = df.drop(index='ooh-ooh')
 df = df.dropna()
 print(df)
 
-def get_ref_entries():
-    ref_entries = []
-    refs={
-        'Fe': 'Fe(s)',
-        'N2': 'N2(g)',
-        'C': 'C(s)',
-        }
-    
-    for ref, name in refs.items():
-        comp = Ion.from_formula(ref)
-        entry = PourbaixEntry(IonEntry(comp, 0.0, name=name), concentration=1e-0)
-        ref_entries.append(entry)
+def get_solid_entries():
+    """Generate solid entries."""    
+    solid_entries = []
+    # solid_entries.append(PourbaixEntry(ComputedEntry(Ion.from_formula("Fe"), 0.0)))
 
-    return ref_entries
-    
-def get_sac_entries():
-    sac_entries = []
-    
     for index, row in df.iterrows():
         comp = Ion.from_formula(row['comp'])
         energy = row['energy']        
         name = row['name']        
         entry = PourbaixEntry(IonEntry(comp, energy, name=name), concentration=1.0)
-        sac_entries.append(entry)
-    
-    return sac_entries
-
-def get_solid_entries():
-    solid_entries = []
-    solids={
-        'Fe': 0,
-        'FeO' : -58.880/calmol,
-        'Fe3O4': -242.400/calmol,
-        'Fe2O3': -177.100/calmol,
-        'Fe2O3': -161.930/calmol,
-        'Fe(OH)2': -115.570/calmol,
-        'Fe(OH)3': -166.000/calmol,
-        }
-    
-    for solid, energy in solids.items():
-        comp = Ion.from_formula(solid)
-        entry = PourbaixEntry(ComputedEntry(comp, energy))
+        # entry = PourbaixEntry(ComputedEntry(comp, energy))
         solid_entries.append(entry)
-
+    
     return solid_entries
 
 def get_ion_entries():
+    """Fetch ion entries from the Materials Project API."""
     ion_entries = []
-    ions={
-        'Fe++': -20.300/calmol,
-        'HFeO2-': -90.627/calmol,
-        'Fe+++': -2.530/calmol,
-        'FeOH++': -55.910/calmol,
-        'Fe(OH)2+': -106.200/calmol,
-        # 'FeO4-': -111685/calmol,
-        }
-    
-    for ion, energy in ions.items():
-        comp = Ion.from_formula(ion)
-        entry = PourbaixEntry(IonEntry(comp, energy), concentration=1e-6)
-        ion_entries.append(entry)
+    mpr_entries = mpr.get_pourbaix_entries(["Fe"])
+    for entry in mpr_entries:
+        # if 'ion' in entry.entry_id:
+        #     if entry.npH == -3 and entry.nPhi == -3 and entry.nH2O == 3:
+        #         continue
+        #     else:
+        #         ion_entries.append(entry)
+        if 'ion' in entry.entry_id: # and entry.npH - entry.nPhi > 0:
+            ion_entries.append(entry)
 
     return ion_entries
-    
+
 def plot_pourbaix(entries, png_name):
+    """Plot and save Pourbaix diagram."""
     pourbaix = PourbaixDiagram(entries, filter_solids=False)
     plotter = PourbaixPlotter(pourbaix)
 
+    # Generate the Pourbaix plot and get the Axes object
     ax = plotter.get_pourbaix_plot(limits=[[-2, 16], [-2, 4]])
     
+    # Customize the plot
     for line in ax.lines:
-        line.set_linewidth(1.0)
+        line.set_linewidth(1.0)  # Adjust line thickness
+    
     for text in ax.texts:
         text.set_fontsize(14)
     
+    # Set axis labels and tick font size
     ax.set_xlabel("pH", fontsize=14)
     ax.set_ylabel("Potential (V vs SHE)", fontsize=14)
     ax.tick_params(axis='both', labelsize=14)
@@ -192,38 +171,24 @@ def plot_pourbaix(entries, png_name):
     plt.show()
 
 def main():
-    print('\n################## Reference Entries ##########################################\n')
-    ref_entries = get_ref_entries()
-    for entry in ref_entries:
-        print(entry)
-    
-    print('\n################## SAC Entries ##########################################\n')
-    sac_entries = get_sac_entries()
-    for entry in sac_entries:
-        print(entry)
-
+    """Main execution function."""
     print('\n################## Solid Entries ##########################################\n')
     solid_entries = get_solid_entries()
     for entry in solid_entries:
         print(entry)
-        
+
     print('\n################## Ion Entries ##########################################\n')
     ion_entries = get_ion_entries()
     for entry in ion_entries:
         print(entry)
-
-    all_entries = ref_entries + sac_entries + solid_entries + ion_entries
+        
+    # all_entries = solid_entries
+    # all_entries = ion_entries
+    all_entries = solid_entries + ion_entries
     print("\nTotal Entries:", len(all_entries))
     
-    all_entries = ref_entries + sac_entries
-    plot_pourbaix(all_entries, f'{png_name}_sac.png')
+    plot_pourbaix(solid_entries, f'{png_name}_mnc.png')
+    plot_pourbaix(all_entries, f'{png_name}_mpr.png')
     
-    plot_pourbaix(solid_entries, f'{png_name}_solid.png')
-    plot_pourbaix(ion_entries, f'{png_name}_ion.png')
-    
-    all_entries = solid_entries + ion_entries
-    plot_pourbaix(all_entries, f'{png_name}_bulk.png')
-
-
 if __name__ == "__main__":
     main()
