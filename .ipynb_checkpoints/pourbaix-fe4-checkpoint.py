@@ -34,6 +34,7 @@ for entry in mpr_entries:
 kJmol = 96.485
 calmol = 23.061
 water = 2.4583 # the standard Gibbs free energy of formation of water
+aqueous = -0.3522
 
 # gas
 h2 = -6.77149190
@@ -79,8 +80,6 @@ dgoh = zpeoh + cvoh - tsoh
 dgooh = zpeooh + cvooh - tsooh
 dgh = dgoh - dgo
 
-# print((H2N4C26 + 2 * dgh - N4C26 - gh2)/2)
-
 elements_data = {
     "Ti": {"electrode_potential": -1.63, "cation_charge": 2},  # Ti^2+ + 2e- → Ti (Ti^2+ prioritized over Ti^4+)
     "V":  {"electrode_potential": -1.18, "cation_charge": 2},  # V^2+ + 2e- → V (V^2+ prioritized over V^3+)
@@ -118,17 +117,17 @@ gm = metal_df.loc['Fe', 'energy']
 df = pd.read_csv(tsv_name, delimiter='\t', index_col=0)
 
 df['name'] = 'FeNC(' + df.index.str.upper() + ')'
-df['comp'] = 'FeN4C26' + df.index.str.upper().str.replace("-", "")
-df['comp'] = df['comp'].str.replace('FeN4C26VAC', 'FeH2N4C26')
+df['comp'] = 'FeXO' + df.index.str.upper().str.replace("-", "")
+df['comp'] = df['comp'].str.replace('FeXOVAC', 'H2XO')
 df['name'] = df['name'].str.replace('FeNC(VAC)', 'Fe⁺²+H₂NC', regex=False)
-df['comp'] = df['comp'].str.replace('FeN4C26CLEAN', 'FeN4C26')
+df['comp'] = df['comp'].str.replace('FeXOCLEAN', 'FeXO')
 df['name'] = df['name'].str.replace('FeNC(CLEAN)', 'FeNC(clean)')
-df['comp'] = df['comp'].str.replace('FeN4C26MH', 'FeN4C26H')
-df['comp'] = df['comp'].str.replace('FeN4C26NH', 'FeN4C26H')
+df['comp'] = df['comp'].str.replace('FeXOMH', 'FeXOH')
+df['comp'] = df['comp'].str.replace('FeXONH', 'FeXOH')
 
-df['energy'] = df['dG'] + df.loc['clean', 'G'] - gm - 2 * gn2 - 26 * gc - water * (df['#O'] + df['#OH'] + df['#OOH']*2)
+# df['energy'] = df['dG'] + df.loc['clean', 'G'] - gm - 2 * gn2 - 26 * gc - water * (df['#O'] + df['#OH'] + df['#OOH']*2)
 # df['energy'] = df['dG'] + df.loc['clean', 'G'] - gm - N4C26 - water * (df['#O'] + df['#OH'] + df['#OOH']*2)
-# df['energy'] = df['dG'] + df.loc['clean', 'G'] + gh2 - gm - H2N4C26 - 2 * dgh - water * (df['#O'] + df['#OH'] + df['#OOH']*2)
+df['energy'] = df['dG'] + df.loc['clean', 'G'] + gh2 - gm - H2N4C26 - 2 * dgh - water * (df['#O'] + df['#OH'] + df['#OOH']*2)
 
 df = df.drop(index='vac')
 df = df.drop(index='o-oh')
@@ -145,27 +144,28 @@ def get_ref_entries():
     
     refs={
         'Fe': 'Fe(s)',
-        'N2': 'N2(g)',
-        'C': 'C(s)',
+        # 'N2': 'N2(g)',
+        # 'C': 'C(s)',
+        # 'X': 'N4C26',
+        # 'N4C26': 'N4C26',
         }
     
     for comp, name in refs.items():
         entry = PourbaixEntry(PDEntry(comp, 0.0, name=name))
         ref_entries.append(entry)
-
+    
     return ref_entries
     
 def get_sac_entries():
     sac_entries = []
     
     for index, row in df.iterrows():    
-        entry = PourbaixEntry(ComputedEntry(row['comp'], row['energy'], entry_id=row['name']))
+        entry = PourbaixEntry(ComputedEntry(row['comp'], row['energy']-water, entry_id=row['name']))
         sac_entries.append(entry)
         
-    energy = H2N4C26 + 2 * dgh - gh2 - 2 * gn2 - 26 * gc
-    entry = PourbaixEntry(ComputedEntry('H2N4C26', energy, entry_id='H2NC(vac)'))
+    entry = PourbaixEntry(ComputedEntry('H2XO', -water, entry_id='H2NC(vac)'))
     sac_entries.append(entry)
-        
+    
     return sac_entries
 
 def get_solid_entries():
@@ -251,18 +251,18 @@ def main():
     print("\nTotal Entries:", len(all_entries))
     
     all_entries = ref_entries + sac_entries
-    plot_pourbaix(all_entries, f'{png_name}_sac1.png')
+    plot_pourbaix(all_entries, f'{png_name}_sac4.png')
     
-    plot_pourbaix(solid_entries, f'{png_name}_solid.png')
-    plot_pourbaix(ion_entries, f'{png_name}_ion.png')
-    all_entries = solid_entries + ion_entries
-    plot_pourbaix(all_entries, f'{png_name}_exp.png')
+    # plot_pourbaix(solid_entries, f'{png_name}_solid.png')
+    # plot_pourbaix(ion_entries, f'{png_name}_ion.png')
+    # all_entries = solid_entries + ion_entries
+    # plot_pourbaix(all_entries, f'{png_name}_exp.png')
 
-    plot_pourbaix(mpr1_entries, f'{png_name}_mpr1.png')
-    plot_pourbaix(mpr2_entries, f'{png_name}_mpr2.png')
+    # plot_pourbaix(mpr1_entries, f'{png_name}_mpr1.png')
+    # plot_pourbaix(mpr2_entries, f'{png_name}_mpr2.png')
     
     all_entries = ref_entries + sac_entries + solid_entries + ion_entries
-    plot_pourbaix(all_entries, f'{png_name}_bulk1.png')
+    plot_pourbaix(all_entries, f'{png_name}_bulk4.png')
 
 
 if __name__ == "__main__":

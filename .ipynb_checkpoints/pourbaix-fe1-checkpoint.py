@@ -8,8 +8,8 @@ import matplotlib.pyplot as plt
 from pymatgen.ext.matproj import MPRester
 from pymatgen.core.ion import Ion
 from pymatgen.core.composition import Composition
-from pymatgen.analysis.pourbaix_diagram import PourbaixEntry, IonEntry, PourbaixDiagram, PourbaixPlotter
-from pymatgen.entries.computed_entries import ComputedEntry
+from pymatgen.analysis.pourbaix_diagram import PourbaixEntry, PourbaixDiagram, PourbaixPlotter
+from pymatgen.analysis.pourbaix_diagram import IonEntry, PDEntry, ComputedEntry
 
 warnings.filterwarnings('ignore')
 
@@ -20,7 +20,17 @@ API_KEY = os.getenv('MAPI_KEY')
 if not API_KEY:
     sys.exit("Error: MAPI_KEY environment variable not set.")
 mpr = MPRester(API_KEY)
+mpr_entries = mpr.get_pourbaix_entries(['Fe'])
 
+mpr1_entries = []
+mpr2_entries = []
+
+for entry in mpr_entries:
+    if 'ion' in entry.entry_id and entry.npH - entry.nPhi > 0:
+        mpr1_entries.append(entry)
+    else:
+        mpr2_entries.append(entry)
+        
 kJmol = 96.485
 calmol = 23.061
 water = 2.4583 # the standard Gibbs free energy of formation of water
@@ -68,6 +78,8 @@ dgo = zpeo + cvo - tso
 dgoh = zpeoh + cvoh - tsoh
 dgooh = zpeooh + cvooh - tsooh
 dgh = dgoh - dgo
+
+# print((H2N4C26 + 2 * dgh - N4C26 - gh2)/2)
 
 elements_data = {
     "Ti": {"electrode_potential": -1.63, "cation_charge": 2},  # Ti^2+ + 2e- → Ti (Ti^2+ prioritized over Ti^4+)
@@ -137,10 +149,8 @@ def get_ref_entries():
         'C': 'C(s)',
         }
     
-    for ref, name in refs.items():
-        comp = Ion.from_formula(ref)
-        # entry = PourbaixEntry(IonEntry(comp, 0.0, name=name), concentration=1E-0)
-        entry = PourbaixEntry(ComputedEntry(comp, 0.0, entry_id=name))
+    for comp, name in refs.items():
+        entry = PourbaixEntry(PDEntry(comp, 0.0, name=name))
         ref_entries.append(entry)
 
     return ref_entries
@@ -148,17 +158,12 @@ def get_ref_entries():
 def get_sac_entries():
     sac_entries = []
     
-    for index, row in df.iterrows():
-        comp = Ion.from_formula(row['comp'])
-        energy = row['energy']        
-        name = row['name']        
-        entry = PourbaixEntry(IonEntry(comp, energy, name=name), concentration=1E-0)
-        # entry = PourbaixEntry(ComputedEntry(comp, energy, entry_id=name))
+    for index, row in df.iterrows():    
+        entry = PourbaixEntry(ComputedEntry(row['comp'], row['energy'], entry_id=row['name']))
         sac_entries.append(entry)
         
-    comp = Ion.from_formula('H2N4C26')
     energy = H2N4C26 + 2 * dgh - gh2 - 2 * gn2 - 26 * gc
-    entry = PourbaixEntry(ComputedEntry(comp, energy))
+    entry = PourbaixEntry(ComputedEntry('H2N4C26', energy, entry_id='H2NC(vac)'))
     sac_entries.append(entry)
         
     return sac_entries
@@ -176,8 +181,7 @@ def get_solid_entries():
         }
     
     for solid, energy in solids.items():
-        comp = Ion.from_formula(solid)
-        entry = PourbaixEntry(ComputedEntry(comp, energy))
+        entry = PourbaixEntry(PDEntry(solid, energy))
         solid_entries.append(entry)
 
     return solid_entries
@@ -247,13 +251,18 @@ def main():
     print("\nTotal Entries:", len(all_entries))
     
     all_entries = ref_entries + sac_entries
-    plot_pourbaix(all_entries, f'{png_name}_sac.png')
+    plot_pourbaix(all_entries, f'{png_name}_sac1.png')
     
     plot_pourbaix(solid_entries, f'{png_name}_solid.png')
     plot_pourbaix(ion_entries, f'{png_name}_ion.png')
+    all_entries = solid_entries + ion_entries
+    plot_pourbaix(all_entries, f'{png_name}_exp.png')
+
+    plot_pourbaix(mpr1_entries, f'{png_name}_mpr1.png')
+    plot_pourbaix(mpr2_entries, f'{png_name}_mpr2.png')
     
     all_entries = ref_entries + sac_entries + solid_entries + ion_entries
-    plot_pourbaix(all_entries, f'{png_name}_bulk.png')
+    plot_pourbaix(all_entries, f'{png_name}_bulk1.png')
 
 
 if __name__ == "__main__":

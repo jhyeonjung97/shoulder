@@ -8,8 +8,8 @@ import matplotlib.pyplot as plt
 from pymatgen.ext.matproj import MPRester
 from pymatgen.core.ion import Ion
 from pymatgen.core.composition import Composition
-from pymatgen.analysis.pourbaix_diagram import PourbaixEntry, IonEntry, PourbaixDiagram, PourbaixPlotter
-from pymatgen.entries.computed_entries import ComputedEntry
+from pymatgen.analysis.pourbaix_diagram import PourbaixEntry, PourbaixDiagram, PourbaixPlotter
+from pymatgen.analysis.pourbaix_diagram import IonEntry, PDEntry, ComputedEntry
 
 warnings.filterwarnings('ignore')
 
@@ -20,11 +20,22 @@ API_KEY = os.getenv('MAPI_KEY')
 if not API_KEY:
     sys.exit("Error: MAPI_KEY environment variable not set.")
 mpr = MPRester(API_KEY)
+mpr_entries = mpr.get_pourbaix_entries(['Co'])
+
+mpr1_entries = []
+mpr2_entries = []
+
+for entry in mpr_entries:
+    if 'ion' in entry.entry_id and entry.npH - entry.nPhi > 0:
+        mpr1_entries.append(entry)
+    else:
+        mpr2_entries.append(entry)
 
 kJmol = 96.485
 calmol = 23.061
 water = 2.4583 # the standard Gibbs free energy of formation of water
 
+# gas
 h2 = -6.77149190
 h2o = -14.23091949
 
@@ -44,8 +55,29 @@ zpen2 = 0.098
 tsn2 = 0.592
 gn2 = n2 + zpen2 - tsn2
 
-gc = -9.3573635
+# solid
+gc = -.37429454E+02/4
+
 N4C26 = -.27195317E+03
+H2N4C26 = -.28183609E+03
+
+# ads
+zpeoh = 0.376
+cvoh = 0.042
+tsoh = 0.066
+
+zpeo = 0.064
+cvo = 0.034
+tso = 0.060
+
+zpeooh = 0.471
+cvooh = 0.077
+tsooh = 0.134
+
+dgo = zpeo + cvo - tso
+dgoh = zpeoh + cvoh - tsoh
+dgooh = zpeooh + cvooh - tsooh
+dgh = dgoh - dgo
 
 elements_data = {
     "Ti": {"electrode_potential": -1.63, "cation_charge": 2},  # Ti^2+ + 2e- → Ti (Ti^2+ prioritized over Ti^4+)
@@ -85,18 +117,19 @@ df = pd.read_csv(tsv_name, delimiter='\t', index_col=0)
 
 df['name'] = 'CoNC(' + df.index.str.upper() + ')'
 df['comp'] = 'CoN4C26' + df.index.str.upper().str.replace("-", "")
-df['comp'] = df['comp'].str.replace('CoN4C26VAC', 'CoN4C26')
+df['comp'] = df['comp'].str.replace('CoN4C26VAC', 'CoH2N4C26')
 df['name'] = df['name'].str.replace('CoNC(VAC)', 'Co⁺²+H₂NC', regex=False)
 df['comp'] = df['comp'].str.replace('CoN4C26CLEAN', 'CoN4C26')
 df['name'] = df['name'].str.replace('CoNC(CLEAN)', 'CoNC(clean)')
 df['comp'] = df['comp'].str.replace('CoN4C26MH', 'CoN4C26H')
 df['comp'] = df['comp'].str.replace('CoN4C26NH', 'CoN4C26H')
 
-# df['energy'] = df['dG'] - df.loc['vac', 'dG'] + charge * potential - water * (df['#O'] + df['#OH'] + df['#OOH']*2)
-# df['energy'] = df['dG'] + df.loc['clean', 'G'] - gm - N4C26 - water * (df['#O'] + df['#OH'] + df['#OOH']*2)
 df['energy'] = df['dG'] + df.loc['clean', 'G'] - gm - 2 * gn2 - 26 * gc - water * (df['#O'] + df['#OH'] + df['#OOH']*2)
+# df['energy'] = df['dG'] + df.loc['clean', 'G'] - gm - N4C26 - water * (df['#O'] + df['#OH'] + df['#OOH']*2)
+# df['energy'] = df['dG'] + df.loc['clean', 'G'] + gh2 - gm - H2N4C26 - 2 * dgh - water * (df['#O'] + df['#OH'] + df['#OOH']*2)
 
 df = df.drop(index='vac')
+df = df.drop(index='o-oh')
 df = df.drop(index='o-ooh')
 df = df.drop(index='ooh-o')
 df = df.drop(index='oh-ooh')
@@ -107,15 +140,15 @@ print(df)
 
 def get_ref_entries():
     ref_entries = []
+    
     refs={
         'Co': 'Co(s)',
         'N2': 'N2(g)',
         'C': 'C(s)',
         }
     
-    for ref, name in refs.items():
-        comp = Ion.from_formula(ref)
-        entry = PourbaixEntry(IonEntry(comp, 0.0, name=name), concentration=1e-0)
+    for comp, name in refs.items():
+        entry = PourbaixEntry(PDEntry(comp, 0.0, name=name))
         ref_entries.append(entry)
 
     return ref_entries
@@ -123,13 +156,14 @@ def get_ref_entries():
 def get_sac_entries():
     sac_entries = []
     
-    for index, row in df.iterrows():
-        comp = Ion.from_formula(row['comp'])
-        energy = row['energy']        
-        name = row['name']        
-        entry = PourbaixEntry(IonEntry(comp, energy, name=name), concentration=1.0)
+    for index, row in df.iterrows():      
+        entry = PourbaixEntry(ComputedEntry(row['comp'], row['energy'], entry_id=row['name']))
         sac_entries.append(entry)
-    
+        
+    energy = H2N4C26 + 2 * dgh - gh2 - 2 * gn2 - 26 * gc
+    entry = PourbaixEntry(ComputedEntry('H2N4C26', energy, entry_id='H2NC(vac)'))
+    sac_entries.append(entry)
+        
     return sac_entries
 
 def get_solid_entries():
@@ -146,8 +180,7 @@ def get_solid_entries():
         }
     
     for solid, energy in solids.items():
-        comp = Ion.from_formula(solid)
-        entry = PourbaixEntry(ComputedEntry(comp, energy))
+        entry = PourbaixEntry(ComputedEntry(solid, energy))
         solid_entries.append(entry)
 
     return solid_entries
@@ -190,7 +223,7 @@ def plot_pourbaix(entries, png_name):
     plt.show()
 
 def main():
-    print('\n################## Reference Entries ##########################################\n')
+    print('\n################## ReCorence Entries ##########################################\n')
     ref_entries = get_ref_entries()
     for entry in ref_entries:
         print(entry)
@@ -214,13 +247,18 @@ def main():
     print("\nTotal Entries:", len(all_entries))
     
     all_entries = ref_entries + sac_entries
-    plot_pourbaix(all_entries, f'{png_name}_sac.png')
+    plot_pourbaix(all_entries, f'{png_name}_sac1.png')
     
     plot_pourbaix(solid_entries, f'{png_name}_solid.png')
     plot_pourbaix(ion_entries, f'{png_name}_ion.png')
-    
     all_entries = solid_entries + ion_entries
-    plot_pourbaix(all_entries, f'{png_name}_bulk.png')
+    plot_pourbaix(all_entries, f'{png_name}_exp.png')
+    
+    plot_pourbaix(mpr1_entries, f'{png_name}_mpr1.png')
+    plot_pourbaix(mpr2_entries, f'{png_name}_mpr2.png')
+
+    all_entries = ref_entries + sac_entries + solid_entries + ion_entries
+    plot_pourbaix(all_entries, f'{png_name}_bulk1.png')
 
 
 if __name__ == "__main__":
