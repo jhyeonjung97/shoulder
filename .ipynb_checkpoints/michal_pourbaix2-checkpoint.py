@@ -182,8 +182,6 @@ def addOH(x, y):
 def addOOH(x, y):
     return -gooh + dgooh - 3 * (y + x * const)
 
-
-
 def dg(i, x, y):
     if surfs[i][0] is None:
         return None
