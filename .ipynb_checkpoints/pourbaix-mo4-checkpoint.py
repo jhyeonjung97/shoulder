@@ -146,12 +146,15 @@ def get_ref_entries():
         # 'N2': 'N2(g)',
         # 'C': 'C(s)',
         # 'X': 'N4C26',
-        # 'N4C26': 'N4C26',
+        # 'H2X': 'H2NC(vac)',
         }
     
     for comp, name in refs.items():
         entry = PourbaixEntry(PDEntry(comp, 0.0, name=name))
         ref_entries.append(entry)
+        
+    entry = PourbaixEntry(PDEntry('H2XO', -water, name='H2NC(vac)'))
+    ref_entries.append(entry)
     
     return ref_entries
     
@@ -162,7 +165,8 @@ def get_sac_entries():
         entry = PourbaixEntry(ComputedEntry(row['comp'], row['energy']-water, entry_id=row['name']))
         sac_entries.append(entry)
         
-    entry = PourbaixEntry(ComputedEntry('H2XO', -water, entry_id='H2NC(vac)'))
+    energy = H2N4C26 + 2 * dgh - gh2 - N4C26
+    entry = PourbaixEntry(ComputedEntry('X', -energy-water, entry_id='NC(vac)'))
     sac_entries.append(entry)
     
     return sac_entries
