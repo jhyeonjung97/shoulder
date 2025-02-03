@@ -3,6 +3,7 @@
 import os
 import sys
 import warnings
+import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from pymatgen.ext.matproj import MPRester
@@ -10,6 +11,7 @@ from pymatgen.core.ion import Ion
 from pymatgen.core.composition import Composition
 from pymatgen.analysis.pourbaix_diagram import PourbaixEntry, PourbaixDiagram, PourbaixPlotter
 from pymatgen.analysis.pourbaix_diagram import IonEntry, PDEntry, ComputedEntry
+from adjustText import adjust_text
 
 warnings.filterwarnings('ignore')
 
@@ -151,7 +153,7 @@ def get_ref_entries():
         }
     
     for comp, name in refs.items():
-        entry = PourbaixEntry(PDEntry(comp, 0.0, name=name))
+        entry = PourbaixEntry(ComputedEntry(comp, 0.0, entry_id=name))
         ref_entries.append(entry)
     
     return ref_entries
@@ -204,27 +206,100 @@ def get_ion_entries():
         ion_entries.append(entry)
 
     return ion_entries
-    
-def plot_pourbaix(entries, png_name):
+
+def plot_pourbaix(entries, png_name):    
     pourbaix = PourbaixDiagram(entries, filter_solids=False)
     plotter = PourbaixPlotter(pourbaix)
 
-    ax = plotter.get_pourbaix_plot(limits=[[-2, 16], [-2, 4]])
+    fig, ax = plt.subplots(figsize=(6, 5))
+    plotter.get_pourbaix_plot(limits=[[0, 14], [-1, 3]], label_domains=True, label_fontsize=14,
+                              show_water_lines=False, show_neutral_axes=False, ax=ax)
+    stable_entries = pourbaix.stable_entries
     
     for line in ax.lines:
-        line.set_linewidth(1.0)
+        line.set_linewidth(0.5)
     for text in ax.texts:
         text.set_fontsize(14)
+        text.set_color('black')
+        
+    name_mapping = {'Fe[+2]': 'Fe²⁺',
+                    'Fe[+3]': 'Fe³⁺',
+                    'FeOH[+2]': 'FeOH²⁺',
+                    'X(s)': 'NC(vac)',
+                    'XH2(s)': 'H₂NC(vac)',
+                    'XFe(s)': 'FeNC(clean)',
+                    'XFeO(s)': 'FeNC(O)',
+                    'XFeO2(s)': 'FeNC(O-O)',
+                    'XFeHO(s)': 'FeNC(OH)',
+                    'XFeHO2(s)': 'FeNC(O-OH)',
+                   }
+                    
+    for text in ax.texts:
+        old_name = text.get_text()
+        new_name = old_name
+        for old_part, new_part in name_mapping.items():
+            if old_part in new_name:
+                new_name = new_name.replace(old_part, new_part)
+        if '⁺' in new_name:
+            new_name = None
+        text.set_text(new_name)
+        
+    if 'sac' in png_name:
+        ax.text(0.2, -0.9, "Fe(s) + H₂NC(vac)", fontsize=14)
+    elif 'bulk' in png_name:
+        ax.text(0.1, 1.7, "Fe³⁺ + NC(vac)", fontsize=14)
+        ax.text(2.5, 1.5, "FeOH²⁺ + NC(vac)", fontsize=14)
+        ax.text(0.1, 0.9, "Fe³⁺ + H₂NC(vac)", fontsize=14)
+        ax.text(0.1, -0.3, "Fe²⁺ + H₂NC(vac)", fontsize=14)
+        ax.text(0.1, -0.9, "Fe(s) + H₂NC(vac)", fontsize=14)
+    
+    # adjust_text(ax.texts, ax=ax, force_text=0.1, expand_text=False)
+    # plt.draw()
+    # plt.pause(0.1)
+    # plt.gcf().canvas.draw_idle()
+
+    legend_patches = []
+    legend_labels = []
+    
+    vac_entries = [entry for entry in stable_entries if 'XFe' not in entry.name]
+    sac_entries = [entry for entry in stable_entries if 'XFe' in entry.name]
+    vac_colors = [plt.cm.Greys(i) for i in np.linspace(0.1, 0.3, len(vac_entries))]
+    sac_colors = [plt.cm.Oranges(i) for i in np.linspace(0.1, 0.3, len(sac_entries))]
+    # sac_colors = plt.cm.get_cmap("tab10").colors[:len(sac_entries)]
+
+    for i, entry in enumerate(vac_entries):
+        vertices = plotter.domain_vertices(entry)
+        x, y = zip(*vertices)
+        color = vac_colors[i]
+        ax.fill(x, y, color=color)
+        
+    for i, entry in enumerate(sac_entries):
+        vertices = plotter.domain_vertices(entry)
+        x, y = zip(*vertices)
+        color = sac_colors[i]
+        ax.fill(x, y, color=color)
+        
+    # for i, entry in enumerate(stable_entries):
+    #     vertices = plotter.domain_vertices(entry)
+    #     x, y = zip(*vertices)
+    #     if 'X(s)' in entry.name:
+    #         color = 'green'
+    #     elif 'XH2(s)' in entry.name:
+    #         color = 'blue'
+    #     elif 'XFe' in entry.name:
+    #         color = 'orange'
+    #     label_name = entry.name
+    #     ax.fill(x, y, color=color, alpha=0.1, label=label_name)
+    #     legend_patches.append(plt.Rectangle((0,0),1,1, fc=color, alpha=0.3))
+    #     legend_labels.append(label_name)
+    # ax.legend(legend_patches, legend_labels, loc='best')
     
     ax.set_xlabel("pH", fontsize=14)
     ax.set_ylabel("Potential (V vs SHE)", fontsize=14)
     ax.tick_params(axis='both', labelsize=14)
     
-    fig = ax.figure
-    fig.set_size_inches((8, 8))
-
+    plt.tight_layout()
     plt.savefig(png_name, bbox_inches='tight')
-    # plt.close()
     plt.show()
 
 def main():
