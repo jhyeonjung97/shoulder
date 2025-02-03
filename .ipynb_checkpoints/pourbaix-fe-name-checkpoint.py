@@ -221,19 +221,6 @@ def plot_pourbaix(entries, png_name):
         text.set_fontsize(14)
         text.set_color('black')
         text.set_fontweight('bold')
-
-    # name_mapping = {
-    #     'Fe[+2]': 'Fe²⁺',
-    #     'Fe[+3]': 'Fe³⁺',
-    #     'FeOH[+2]': 'FeOH²⁺',
-    #     'X(s)': 'NC(vac)',
-    #     'XH2(s)': 'H2NC(vac)',
-    #     'XFe(s)': 'FeNC(clean)',
-    #     'XFeO(s)': 'FeNC(O)',
-    #     'XFeO2(s)': 'FeNC(O-O)',
-    #     'XFeHO(s)': 'FeNC(OH)',
-    #     'XFeHO2(s)': 'FeNC(O-OH)',
-    # }
     
     name_mapping1 = {
         'Fe(s) + XH2(s)': 'XH2(s) + Fe(s)',
@@ -244,9 +231,6 @@ def plot_pourbaix(entries, png_name):
     }
     
     name_mapping2 = {
-        'Fe[+2]': 'Fe²⁺',
-        'Fe[+3]': 'Fe³⁺',
-        'FeOH[+2]': 'FeOH²⁺',
         'X(s)': r"S$_{\mathbf{v}}$",
         'XH2(s)': r"S$_{\mathbf{0}}$",
         'XFe(s)': r"S$_{\mathbf{1}}$",
@@ -254,6 +238,9 @@ def plot_pourbaix(entries, png_name):
         'XFeO(s)': r"S$_{\mathbf{5}}$",
         'XFeHO2(s)': r"S$_{\mathbf{10}}$",
         'XFeO2(s)': r"S$_{\mathbf{11}}$",
+        'Fe[+2]': 'Fe²⁺',
+        'Fe[+3]': 'Fe³⁺',
+        'FeOH[+2]': 'FeOH²⁺',
     }
     
     omit_parts = [r"S$_{\mathbf{v}}$", r"S$_{\mathbf{0}}$", r"S$_{\mathbf{11}}$"]
@@ -281,11 +268,7 @@ def plot_pourbaix(entries, png_name):
                text.set_text(None)
         
     if 'sac' in png_name:
-        ax.text(0.2, -0.9, r"S$_{\mathbf{0}}$", fontsize=14, color="black", fontweight='bold')
-    #     ax.text(7, -0.4, r"S$_{1}$", fontsize=14, color="black", ha='center', va='center')
-    #     ax.text(7, 0.45, r"S$_{4}$", fontsize=14, color="black", ha='center', va='center')
-    #     ax.text(7, 1.05, r"S$_{5}$", fontsize=14, color="black", ha='center', va='center')
-    #     ax.text(7, 1.45, r"S$_{10}$", fontsize=14, color="black", ha='center', va='center')
+        ax.text(0.2, -0.9, r"S$_{\mathbf{0}}$+Fe(s)", fontsize=14, color="black", fontweight='bold')
         ax.text(7, 2.4, r"S$_{\mathbf{11}}$", fontsize=14, color="black", fontweight='bold', ha='center', va='center')
     elif 'bulk' in png_name:
         ax.text(2.6, 1.5, r"S$_{\mathbf{v}}$+FeOH$^{\mathbf{2+}}$", fontsize=14, color="black", fontweight='bold')
@@ -293,10 +276,6 @@ def plot_pourbaix(entries, png_name):
         ax.text(0.2, 0.9, r"S$_{\mathbf{v}}$+Fe$^{\mathbf{2+}}$", fontsize=14, color="black", fontweight='bold')
         ax.text(0.2, -0.5, r"S$_{\mathbf{0}}$+Fe$^{\mathbf{2+}}$", fontsize=14, color="black", fontweight='bold')
         ax.text(0.2, -0.9, r"S$_{\mathbf{0}}$+Fe(s)", fontsize=14, color="black", fontweight='bold')
-    #     ax.text(10, -0.5, r"S$_{1}$", fontsize=14, color="black", ha='center', va='center')
-    #     ax.text(7, 0.5, r"S$_{4}$", fontsize=14, color="black", ha='center', va='center')
-    #     ax.text(8, 1.1, r"S$_{5}$", fontsize=14, color="black", ha='center', va='center')
-    #     ax.text(10, 1.3, r"S$_{10}$", fontsize=14, color="black", ha='center', va='center')
         ax.text(8, 2.5, r"S$_{\mathbf{11}}$", fontsize=14, color="black", fontweight='bold', ha='center', va='center')
 
     vac_entries = [entry for entry in stable_entries if 'XFe' not in entry.name]
@@ -328,7 +307,7 @@ def plot_pourbaix(entries, png_name):
     for i, entry in enumerate(vac_entries):
         vertices = plotter.domain_vertices(entry)
         x, y = zip(*vertices)
-        color = vac_colors[i]
+        color = vac_colors[vac_mapping[entry.name]]
         ax.fill(x, y, color=color)
     
     for i, entry in enumerate(sac_entries):

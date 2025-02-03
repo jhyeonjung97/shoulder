@@ -77,22 +77,25 @@ dgoh = zpeoh + cvoh - tsoh
 dgooh = zpeooh + cvooh - tsooh
 dgh = dgoh - dgo
 
-color = ['lightsteelblue', ##
-         'darkgray', ##  
-         'yellowgreen', 
-         'teal', 
-         'tan', ##
-         'pink', ##
-         'forestgreen', 
-         'cornflowerblue', ## 
-         'khaki', 
-         'orange', 
-         'salmon', ## 
-         'plum', ##
-         'navy']
+color = [
+    'navy', # Sv
+    'lightsteelblue', # S0
+    'darkgray', # S1
+    'yellowgreen', # S2
+    'teal', # S3
+    'tan', # S4
+    'pink', # S5
+    'forestgreen', # S6
+    'cornflowerblue', # S7 
+    'khaki', # S8
+    'orange', # S9
+    'salmon', # S10
+    'plum', # S11
+    # 'navy', # S12
+]
 pH2 = np.arange(0, 14.01, 0.01)
 
-path = '/Users/hailey/Desktop/jan20/'
+path = '/Users/hailey/Desktop/jan20/pourbaix/'
 metal_path = '/Users/hailey/Desktop/jan20/metals.tsv'
 # path = '/Users/jiuy97/Desktop/jan6/figures/pourbaix/'
 # metal_path = '/Users/jiuy97/Desktop/jan21/metals.tsv'
@@ -286,7 +289,7 @@ for i, metal in enumerate(metals):
     plt.legend(loc='lower left', bbox_to_anchor=(0.0, 1.02), # borderaxespad=17, 
                ncol=1, labelspacing=0.3, handlelength=2, fontsize=10,
                fancybox=True, shadow=True)
-    plt.savefig(f'/Users/jiuy97/Desktop/jan28/{A}{B}_pourbaix_full.png', bbox_inches='tight')
+    plt.savefig(f'{path}{A}{B}_pourbaix_full.png', bbox_inches='tight')
     print(f"Figure saved as {A}{B}_pourbaix_full.png")
     plt.close()
 
@@ -346,7 +349,7 @@ for i, metal in enumerate(metals):
         ax.text(0.2, ORR['onsetP'][2] - 0.34,
                 r"S$_{11}$$\rightarrow$S$_{10}$$\rightarrow$S$_{8}$$\rightarrow$S$_{5}$: " + f"{ORR['overP'][2]:.2f} eV", 
                 color='green', rotation=-9.5, fontsize=10)
-    plt.savefig(f'/Users/jiuy97/Desktop/jan28/{A}{B}_pourbaix_clean.png', bbox_inches='tight')
+    plt.savefig(f'{path}{A}{B}_pourbaix_clean.png', bbox_inches='tight')
     print(f"Figure saved as {A}{B}_pourbaix_clean.png")
     # plt.show()
     plt.close()
@@ -369,7 +372,7 @@ for i, metal in enumerate(metals):
     plt.legend(loc='upper left', bbox_to_anchor=(1.02, 1.02), # borderaxespad=17, 
                ncol=1, labelspacing=0.3, handlelength=2, fontsize=10,
                fancybox=True, shadow=True)
-    plt.savefig(f'/Users/jiuy97/Desktop/jan28/{A}{B}_pourbaix.png', bbox_inches='tight')
+    plt.savefig(f'{path}{A}{B}_pourbaix.png', bbox_inches='tight')
     print(f"Figure saved as {A}{B}_pourbaix.png")
     # plt.show()
     plt.close()

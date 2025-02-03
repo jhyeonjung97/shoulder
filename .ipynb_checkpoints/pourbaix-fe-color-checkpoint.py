@@ -231,9 +231,6 @@ def plot_pourbaix(entries, png_name):
     }
     
     name_mapping2 = {
-        'Fe[+2]': 'Fe²⁺',
-        'Fe[+3]': 'Fe³⁺',
-        'FeOH[+2]': 'FeOH²⁺',
         'X(s)': r"S$_{\mathbf{v}}$",
         'XH2(s)': r"S$_{\mathbf{0}}$",
         'XFe(s)': r"S$_{\mathbf{1}}$",
@@ -241,6 +238,9 @@ def plot_pourbaix(entries, png_name):
         'XFeO(s)': r"S$_{\mathbf{5}}$",
         'XFeHO2(s)': r"S$_{\mathbf{10}}$",
         'XFeO2(s)': r"S$_{\mathbf{11}}$",
+        'Fe[+2]': 'Fe²⁺',
+        'Fe[+3]': 'Fe³⁺',
+        'FeOH[+2]': 'FeOH²⁺',
     }
     
     omit_parts = [r"S$_{\mathbf{v}}$", r"S$_{\mathbf{0}}$", r"S$_{\mathbf{11}}$"]
@@ -268,7 +268,7 @@ def plot_pourbaix(entries, png_name):
                text.set_text(None)
         
     if 'sac' in png_name:
-        ax.text(0.2, -0.9, r"S$_{\mathbf{0}}$", fontsize=14, color="black", fontweight='bold')
+        ax.text(0.2, -0.9, r"S$_{\mathbf{0}}$+Mo(s)", fontsize=14, color="black", fontweight='bold')
         ax.text(7, 2.4, r"S$_{\mathbf{11}}$", fontsize=14, color="black", fontweight='bold', ha='center', va='center')
     elif 'bulk' in png_name:
         ax.text(2.6, 1.5, r"S$_{\mathbf{v}}$+FeOH$^{\mathbf{2+}}$", fontsize=14, color="black", fontweight='bold')
@@ -277,58 +277,23 @@ def plot_pourbaix(entries, png_name):
         ax.text(0.2, -0.5, r"S$_{\mathbf{0}}$+Fe$^{\mathbf{2+}}$", fontsize=14, color="black", fontweight='bold')
         ax.text(0.2, -0.9, r"S$_{\mathbf{0}}$+Fe(s)", fontsize=14, color="black", fontweight='bold')
         ax.text(8, 2.5, r"S$_{\mathbf{11}}$", fontsize=14, color="black", fontweight='bold', ha='center', va='center')
-
-    vac_entries = [entry for entry in stable_entries if 'XFe' not in entry.name]
-    sac_entries = [entry for entry in stable_entries if 'XFe' in entry.name]
-    vac_colors = [plt.cm.Greys(i) for i in np.linspace(0.1, 0.3, len(vac_entries))]
-    sac_colors = [plt.cm.Oranges(i) for i in np.linspace(0.1, 0.3, len(sac_entries))]
-
-    vac_mapping = {
-        'XH2(s) + Fe(s)': 0,
-        'XH2(s) + Fe[+2]': 1,
-        'XH2(s) + Fe[+3]': 2,
-        'X(s) + Fe[+3]': 3,
-        'X(s) + FeOH[+2]': 4,
-        'Fe(s) + XH2(s)': 0,
-        'Fe[+2] + XH2(s)': 1,
-        'Fe[+3] + XH2(s)': 2,
-        'Fe[+3] + X(s)': 3,
-        'FeOH[+2] + X(s)': 4,
+        
+    color_mapping = {
+        'X(s)': 'cornflowerblue', 
+        'XH2(s)': 'lightsteelblue', 
+        'XFe(s)': 'darkgray',
+        'XFeHO(s)': 'tan',
+        'XFeO(s)': 'pink',
+        'XFeHO2(s)': 'salmon',
+        'XFeO2(s)': 'plum',
     }
-
-    sac_mapping = {
-        'XFe(s)': 0,
-        'XFeHO(s)': 1,
-        'XFeO(s)': 2,
-        'XFeHO2(s)': 3,
-        'XFeO2(s)': 4,
-    }
-
-color = ['lightsteelblue', ##
-         'darkgray', ##  
-         'yellowgreen', 
-         'teal', 
-         'tan', ##
-         'pink', ##
-         'forestgreen', 
-         'cornflowerblue', ## 
-         'khaki', 
-         'orange', 
-         'salmon', ## 
-         'plum', ##
-         'navy']
     
-    for i, entry in enumerate(vac_entries):
+    for entry in stable_entries:
         vertices = plotter.domain_vertices(entry)
         x, y = zip(*vertices)
-        color = vac_colors[i]
-        ax.fill(x, y, color=color)
-    
-    for i, entry in enumerate(sac_entries):
-        vertices = plotter.domain_vertices(entry)
-        x, y = zip(*vertices)
-        color = sac_colors[sac_mapping[entry.name]]
-        ax.fill(x, y, color=color)
+        for name, color in color_mapping.items():
+            if name in entry.name:
+                ax.fill(x, y, color=color, alpha=0.3)
 
     ax.set_xlabel("pH", fontsize=14)
     ax.set_ylabel("Potential (V vs SHE)", fontsize=14)
@@ -363,7 +328,7 @@ def main():
     print("\nTotal Entries:", len(all_entries))
     
     all_entries = ref_entries + sac_entries
-    plot_pourbaix(all_entries, f'{png_name}_sac_name.png')
+    plot_pourbaix(all_entries, f'{png_name}_sac_color.png')
     
     # plot_pourbaix(solid_entries, f'{png_name}_solid.png')
     # plot_pourbaix(ion_entries, f'{png_name}_ion.png')
@@ -374,7 +339,7 @@ def main():
     # plot_pourbaix(mpr2_entries, f'{png_name}_mpr2.png')
     
     all_entries = ref_entries + sac_entries + solid_entries + ion_entries
-    plot_pourbaix(all_entries, f'{png_name}_bulk_name.png')
+    plot_pourbaix(all_entries, f'{png_name}_bulk_color.png')
 
 
 if __name__ == "__main__":
