@@ -228,32 +228,20 @@ def plot_pourbaix(entries, png_name):
     vac_colors = [plt.cm.Greys(i) for i in np.linspace(0.1, 0.3, len(vac_entries))]
     sac_colors = [plt.cm.Blues(i) for i in np.linspace(0.1, 0.3, len(sac_entries))]
 
-    vac_mapping = {
-        'XH2(s) + Co(s)': 0,
-        'XH2(s) + Co[+2]': 1,
-        'X(s) + Co[+3]': 2,
-        'Co(s) + XH2(s)': 0,
-        'Co[+2] + XH2(s)': 1,
-        'Co[+3] + X(s)': 2,
+    color_mapping = {
+        'X(s)': 'cornflowerblue', #Sv
+        'XH2(s)': 'lightsteelblue', #S0
+        'XCo(s)': 'darkgray', #S1
+        'XCo(HO)2(s)': 'thistle', #S7
+        'XCoO2(s)': 'plum', #S11
     }
-
-    sac_mapping = {
-        'XCo(s)': 0,
-        'XCo(HO)2(s)': 1,
-        'XCoO2(s)': 2,
-    }
-
-    for i, entry in enumerate(vac_entries):
-        vertices = plotter.domain_vertices(entry)
-        x, y = zip(*vertices)
-        color = vac_colors[vac_mapping[entry.name]]
-        ax.fill(x, y, color=color)
     
-    for i, entry in enumerate(sac_entries):
+    for entry in stable_entries:
         vertices = plotter.domain_vertices(entry)
         x, y = zip(*vertices)
-        color = sac_colors[sac_mapping[entry.name]]
-        ax.fill(x, y, color=color)   
+        for name, color in color_mapping.items():
+            if name in entry.name:
+                ax.fill(x, y, color=color, alpha=0.3)
     
     ax.set_xlabel("pH", fontsize=14)
     ax.set_ylabel("Potential (V vs SHE)", fontsize=14)
@@ -288,7 +276,7 @@ def main():
     print("\nTotal Entries:", len(all_entries))
     
     all_entries = ref_entries + sac_entries
-    plot_pourbaix(all_entries, f'{png_name}_sac_name.png')
+    plot_pourbaix(all_entries, f'{png_name}_sac_color.png')
     
     # plot_pourbaix(solid_entries, f'{png_name}_solid.png')
     # plot_pourbaix(ion_entries, f'{png_name}_ion.png')
@@ -296,7 +284,7 @@ def main():
     # plot_pourbaix(all_entries, f'{png_name}_exp.png')
     
     all_entries = ref_entries + sac_entries + solid_entries + ion_entries
-    plot_pourbaix(all_entries, f'{png_name}_bulk_name.png')
+    plot_pourbaix(all_entries, f'{png_name}_bulk_color.png')
 
 
 if __name__ == "__main__":

@@ -17,21 +17,6 @@ warnings.filterwarnings('ignore')
 png_name = '3Mo_pourbaix'
 tsv_name = '3Mo_energies.tsv'
 
-API_KEY = os.getenv('MAPI_KEY')
-if not API_KEY:
-    sys.exit("Error: MAPI_KEY environment variable not set.")
-mpr = MPRester(API_KEY)
-mpr_entries = mpr.get_pourbaix_entries(['Mo'])
-
-mpr1_entries = []
-mpr2_entries = []
-
-for entry in mpr_entries:
-    if 'ion' in entry.entry_id and entry.npH - entry.nPhi > 0:
-        mpr1_entries.append(entry)
-    else:
-        mpr2_entries.append(entry)
-        
 kJmol = 96.485
 calmol = 23.061
 water = 2.4583 # the standard Gibbs free energy of formation of water
@@ -80,36 +65,6 @@ dgoh = zpeoh + cvoh - tsoh
 dgooh = zpeooh + cvooh - tsooh
 dgh = dgoh - dgo
 
-elements_data = {
-    "Ti": {"electrode_potential": -1.63, "cation_charge": 2},  # Ti^2+ + 2e- → Ti (Ti^2+ prioritized over Ti^4+)
-    "V":  {"electrode_potential": -1.18, "cation_charge": 2},  # V^2+ + 2e- → V (V^2+ prioritized over V^3+)
-    "Cr": {"electrode_potential": -0.91, "cation_charge": 2},  # Cr^2+ + 2e- → Cr (Cr^2+ prioritized over Cr^3+)
-    "Mn": {"electrode_potential": -1.18, "cation_charge": 2},  # Mn^2+ + 2e- → Mn
-    "Fe": {"electrode_potential": -0.44, "cation_charge": 2},  # Fe^2+ + 2e- → Fe (Fe^2+ prioritized over Fe^3+)
-    "Co": {"electrode_potential": -0.28, "cation_charge": 2},  # Co^2+ + 2e- → Co (Co^2+ prioritized over Co^3+)
-    "Ni": {"electrode_potential": -0.25, "cation_charge": 2},  # Ni^2+ + 2e- → Ni
-    "Cu": {"electrode_potential": 0.34,  "cation_charge": 2},  # Cu^2+ + 2e- → Cu
-
-    "Zr": {"electrode_potential": -1.45, "cation_charge": 2},  # Zr^2+ + 2e- → Zr (Zr^2+ prioritized over Zr^4+)
-    "Nb": {"electrode_potential": -1.00, "cation_charge": 3},  # Nb^3+ + 3e- → Nb (Nb^3+ prioritized over Nb^5+)
-    "Mo": {"electrode_potential": -0.20, "cation_charge": 3},  # Mo^3+ + 3e- → Mo (Mo^3+ prioritized over Mo^6+)
-    "Tc": {"electrode_potential": 0.74,  "cation_charge": 7},  # Tc^7+ + 7e- → Tc (No lower oxidation state available)
-    "Ru": {"electrode_potential": 0.45,  "cation_charge": 2},  # Ru^2+ + 2e- → Ru (Ru^2+ prioritized over Ru^3+)
-    "Rh": {"electrode_potential": 0.76,  "cation_charge": 2},  # Rh^2+ + 2e- → Rh (Rh^2+ prioritized over Rh^3+)
-    "Pd": {"electrode_potential": 0.95,  "cation_charge": 2},  # Pd^2+ + 2e- → Pd
-
-    "Hf": {"electrode_potential": -1.55, "cation_charge": 4},  # Hf^4+ + 4e- → Hf (No lower oxidation state available)
-    "Ta": {"electrode_potential": -1.10, "cation_charge": 3},  # Ta^3+ + 3e- → Ta (Ta^3+ prioritized over Ta^5+)
-    "W":  {"electrode_potential": -0.11, "cation_charge": 4},  # W^4+ + 4e- → W (W^4+ prioritized over W^6+)
-    "Re": {"electrode_potential": 0.30,  "cation_charge": 4},  # Re^4+ + 4e- → Re (Re^4+ prioritized over Re^7+)
-    "Os": {"electrode_potential": 0.40,  "cation_charge": 2},  # Os^2+ + 2e- → Os (Os^2+ prioritized over Os^4+)
-    "Ir": {"electrode_potential": 1.16,  "cation_charge": 2},  # Ir^2+ + 2e- → Ir (Ir^2+ prioritized over Ir^3+)
-    "Pt": {"electrode_potential": 1.20,  "cation_charge": 2},  # Pt^2+ + 2e- → Pt
-}
-
-potential = elements_data['Mo']['electrode_potential']
-charge = elements_data['Mo']['cation_charge']
-
 metal_path = './metals.tsv'
 metal_df = pd.read_csv(metal_path, delimiter='\t', index_col=0)
 gm = metal_df.loc['Mo', 'energy']
@@ -131,6 +86,7 @@ df['energy'] = df['dG'] + df.loc['clean', 'G'] + gh2 - gm - H2N4C26 - 2 * dgh - 
 
 df = df.drop(index='vac')
 df = df.drop(index='o-oh')
+df = df.drop(index='ooho')
 df = df.drop(index='o-ooh')
 df = df.drop(index='ooh-o')
 df = df.drop(index='oh-ooh')
@@ -214,57 +170,10 @@ def plot_pourbaix(entries, png_name):
         text.set_fontsize(14)
         text.set_color('black')
         text.set_fontweight('bold')
-    
-    # name_mapping1 = {
-    #     'Mo(s) + XH2(s)': 'XH2(s) + Mo(s)',
-    #     'Mo[+3] + XH2(s)': 'XH2(s) + Mo[+3]',
-    #     'MoO2(s) + XH2(s)': 'XH2(s) + MoO2(s)',
-    #     'MoO3(s) + XH2(s)': 'XH2(s) + MoO3(s)',
-    #     'MoO4[-2] + XH2(s)': 'XH2(s) + MoO4[-2]',
-    #     'MoO3(s) + X(s)': 'X(s) + MoO3(s)',
-    #     'MoO4[-2] + X(s)': 'X(s) + MoO4[-2]',
-    # }
-    
-    # name_mapping2 = {
-    #     'X(s)': r"S$_{\mathbf{v}}$",
-    #     'XH2(s)': r"S$_{\mathbf{0}}$",
-    #     'XMoO(s)': r"S$_{\mathbf{4}}$",
-    #     'XMoO2(s)': r"S$_{\mathbf{9}}$",
-    #     'XMoHO3(s)': r"S$_{\mathbf{10}}$",
-    #     'Mo[+3]': 'Mo³⁺',
-    #     'MoO2(s)': r"MoO$_{\mathbf{2}}$(s)",
-    #     'MoO3(s)': r"MoO$_{\mathbf{3}}$(s)",
-    #     'MoO4[-2]': r"MoO$_{\mathbf{4}}^{\mathbf{2-}}$",
-    # }
-    
-    # omit_parts = [r"S$_{\mathbf{v}}$", "⁺"]
-    
-    # for text in ax.texts:
-    #     old_name = text.get_text()
-    #     new_name = old_name
-    #     for old_part, new_part in name_mapping1.items():
-    #         if old_part in new_name:
-    #             new_name = new_name.replace(old_part, new_part)
-    #     text.set_text(new_name)
-        
-    # for text in ax.texts:
-    #     old_name = text.get_text()
-    #     new_name = old_name
-    #     for old_part, new_part in name_mapping2.items():
-    #         if old_part in new_name:
-    #             new_name = new_name.replace(old_part, new_part)
-    #     text.set_text(new_name)
-        
-    # for text in ax.texts:
-    #     name = text.get_text()
-    #     for part in omit_parts:
-    #         if part in name:
-    #            text.set_text(None)
         
     if 'sac' in png_name:
         ax.text(0.2, -0.9, r"S$_{\mathbf{0}}$+Mo(s)", fontsize=14, color="black", fontweight='bold')
-        ax.text(13.8, 2.9, r"S$_{\mathbf{10}}$", fontsize=14, color="black", fontweight='bold', ha='right', va='top')
-        ax.text(7.0, 1.3, r"S$_{\mathbf{9}}$", fontsize=14, color="black", fontweight='bold', ha='center', va='center')
+        ax.text(7.0, 1.5, r"S$_{\mathbf{9}}$", fontsize=14, color="black", fontweight='bold', ha='center', va='center')
         ax.text(7.0, -0.25, r"S$_{\mathbf{4}}$", fontsize=14, color="black", fontweight='bold', ha='center', va='center')
     elif 'bulk' in png_name:
         ax.text(0.2, -0.9, r"S$_{\mathbf{0}}$+Mo(s)", fontsize=14, color="black", fontweight='bold')
@@ -276,11 +185,10 @@ def plot_pourbaix(entries, png_name):
         ax.text(0.2, 1.9, r"S$_{\mathbf{v}}$+MoO$_{\mathbf{3}}$(s)", fontsize=14, color="black", fontweight='bold')
 
     color_mapping = {
-        'X(s)': 'cornflowerblue', 
-        'XH2(s)': 'lightsteelblue', 
-        'XMoO(s)': 'tan',
-        'XMoHO3(s)': 'orange',
-        'XMoO2(s)': 'salmon',
+        'X(s)': 'cornflowerblue', #Sv
+        'XH2(s)': 'lightsteelblue', #S0
+        'XMoO(s)': 'tan', #S4
+        'XMoO2(s)': 'khaki', #S9
     }
     
     for entry in stable_entries:
@@ -296,7 +204,7 @@ def plot_pourbaix(entries, png_name):
     ax.tick_params(axis='both', labelsize=14)
 
     plt.tight_layout()
-    plt.savefig(png_name, bbox_inches='tight')
+    plt.savefig(png_name, dpi=300, bbox_inches='tight')
     plt.show()
 
 def main():
@@ -324,18 +232,15 @@ def main():
     print("\nTotal Entries:", len(all_entries))
     
     all_entries = ref_entries + sac_entries
-    plot_pourbaix(all_entries, f'{png_name}_sac_name.png')
+    plot_pourbaix(all_entries, f'{png_name}_sac_color.png')
     
     # plot_pourbaix(solid_entries, f'{png_name}_solid.png')
     # plot_pourbaix(ion_entries, f'{png_name}_ion.png')
     # all_entries = solid_entries + ion_entries
     # plot_pourbaix(all_entries, f'{png_name}_exp.png')
-
-    # plot_pourbaix(mpr1_entries, f'{png_name}_mpr1.png')
-    # plot_pourbaix(mpr2_entries, f'{png_name}_mpr2.png')
     
     all_entries = ref_entries + sac_entries + solid_entries + ion_entries
-    plot_pourbaix(all_entries, f'{png_name}_bulk_name.png')
+    plot_pourbaix(all_entries, f'{png_name}_bulk_color.png')
 
 
 if __name__ == "__main__":

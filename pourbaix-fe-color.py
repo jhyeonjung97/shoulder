@@ -16,21 +16,6 @@ warnings.filterwarnings('ignore')
 
 png_name = '1Fe_pourbaix'
 tsv_name = '1Fe_energies.tsv'
-
-API_KEY = os.getenv('MAPI_KEY')
-if not API_KEY:
-    sys.exit("Error: MAPI_KEY environment variable not set.")
-mpr = MPRester(API_KEY)
-mpr_entries = mpr.get_pourbaix_entries(['Fe'])
-
-mpr1_entries = []
-mpr2_entries = []
-
-for entry in mpr_entries:
-    if 'ion' in entry.entry_id and entry.npH - entry.nPhi > 0:
-        mpr1_entries.append(entry)
-    else:
-        mpr2_entries.append(entry)
         
 kJmol = 96.485
 calmol = 23.061
@@ -80,36 +65,6 @@ dgoh = zpeoh + cvoh - tsoh
 dgooh = zpeooh + cvooh - tsooh
 dgh = dgoh - dgo
 
-elements_data = {
-    "Ti": {"electrode_potential": -1.63, "cation_charge": 2},  # Ti^2+ + 2e- → Ti (Ti^2+ prioritized over Ti^4+)
-    "V":  {"electrode_potential": -1.18, "cation_charge": 2},  # V^2+ + 2e- → V (V^2+ prioritized over V^3+)
-    "Cr": {"electrode_potential": -0.91, "cation_charge": 2},  # Cr^2+ + 2e- → Cr (Cr^2+ prioritized over Cr^3+)
-    "Mn": {"electrode_potential": -1.18, "cation_charge": 2},  # Mn^2+ + 2e- → Mn
-    "Fe": {"electrode_potential": -0.44, "cation_charge": 2},  # Fe^2+ + 2e- → Fe (Fe^2+ prioritized over Fe^3+)
-    "Co": {"electrode_potential": -0.28, "cation_charge": 2},  # Co^2+ + 2e- → Co (Co^2+ prioritized over Co^3+)
-    "Ni": {"electrode_potential": -0.25, "cation_charge": 2},  # Ni^2+ + 2e- → Ni
-    "Cu": {"electrode_potential": 0.34,  "cation_charge": 2},  # Cu^2+ + 2e- → Cu
-
-    "Zr": {"electrode_potential": -1.45, "cation_charge": 2},  # Zr^2+ + 2e- → Zr (Zr^2+ prioritized over Zr^4+)
-    "Nb": {"electrode_potential": -1.00, "cation_charge": 3},  # Nb^3+ + 3e- → Nb (Nb^3+ prioritized over Nb^5+)
-    "Mo": {"electrode_potential": -0.20, "cation_charge": 3},  # Mo^3+ + 3e- → Mo (Mo^3+ prioritized over Mo^6+)
-    "Tc": {"electrode_potential": 0.74,  "cation_charge": 7},  # Tc^7+ + 7e- → Tc (No lower oxidation state available)
-    "Ru": {"electrode_potential": 0.45,  "cation_charge": 2},  # Ru^2+ + 2e- → Ru (Ru^2+ prioritized over Ru^3+)
-    "Rh": {"electrode_potential": 0.76,  "cation_charge": 2},  # Rh^2+ + 2e- → Rh (Rh^2+ prioritized over Rh^3+)
-    "Pd": {"electrode_potential": 0.95,  "cation_charge": 2},  # Pd^2+ + 2e- → Pd
-
-    "Hf": {"electrode_potential": -1.55, "cation_charge": 4},  # Hf^4+ + 4e- → Hf (No lower oxidation state available)
-    "Ta": {"electrode_potential": -1.10, "cation_charge": 3},  # Ta^3+ + 3e- → Ta (Ta^3+ prioritized over Ta^5+)
-    "W":  {"electrode_potential": -0.11, "cation_charge": 4},  # W^4+ + 4e- → W (W^4+ prioritized over W^6+)
-    "Re": {"electrode_potential": 0.30,  "cation_charge": 4},  # Re^4+ + 4e- → Re (Re^4+ prioritized over Re^7+)
-    "Os": {"electrode_potential": 0.40,  "cation_charge": 2},  # Os^2+ + 2e- → Os (Os^2+ prioritized over Os^4+)
-    "Ir": {"electrode_potential": 1.16,  "cation_charge": 2},  # Ir^2+ + 2e- → Ir (Ir^2+ prioritized over Ir^3+)
-    "Pt": {"electrode_potential": 1.20,  "cation_charge": 2},  # Pt^2+ + 2e- → Pt
-}
-
-potential = elements_data['Fe']['electrode_potential']
-charge = elements_data['Fe']['cation_charge']
-
 metal_path = './metals.tsv'
 metal_df = pd.read_csv(metal_path, delimiter='\t', index_col=0)
 gm = metal_df.loc['Fe', 'energy']
@@ -131,6 +86,7 @@ df['energy'] = df['dG'] + df.loc['clean', 'G'] + gh2 - gm - H2N4C26 - 2 * dgh - 
 
 df = df.drop(index='vac')
 df = df.drop(index='o-oh')
+df = df.drop(index='ooh')
 df = df.drop(index='o-ooh')
 df = df.drop(index='ooh-o')
 df = df.drop(index='oh-ooh')
@@ -267,7 +223,7 @@ def plot_pourbaix(entries, png_name):
                text.set_text(None)
         
     if 'sac' in png_name:
-        ax.text(0.2, -0.9, r"S$_{\mathbf{0}}$+Mo(s)", fontsize=14, color="black", fontweight='bold')
+        ax.text(0.2, -0.9, r"S$_{\mathbf{0}}$+Fe(s)", fontsize=14, color="black", fontweight='bold')
         ax.text(7, 2.4, r"S$_{\mathbf{11}}$", fontsize=14, color="black", fontweight='bold', ha='center', va='center')
     elif 'bulk' in png_name:
         ax.text(2.6, 1.5, r"S$_{\mathbf{v}}$+FeOH$^{\mathbf{2+}}$", fontsize=14, color="black", fontweight='bold')
@@ -278,13 +234,13 @@ def plot_pourbaix(entries, png_name):
         ax.text(8, 2.5, r"S$_{\mathbf{11}}$", fontsize=14, color="black", fontweight='bold', ha='center', va='center')
         
     color_mapping = {
-        'X(s)': 'cornflowerblue', 
-        'XH2(s)': 'lightsteelblue', 
-        'XFe(s)': 'darkgray',
-        'XFeHO(s)': 'tan',
-        'XFeO(s)': 'pink',
-        'XFeHO2(s)': 'salmon',
-        'XFeO2(s)': 'plum',
+        'X(s)': 'cornflowerblue', #Sv
+        'XH2(s)': 'lightsteelblue', #S0
+        'XFe(s)': 'darkgray', #S1
+        'XFeHO(s)': 'tan', #S4
+        'XFeO(s)': 'pink', #S5
+        'XFeHO2(s)': 'salmon', #S10
+        'XFeO2(s)': 'plum', #S11
     }
     
     for entry in stable_entries:
@@ -299,7 +255,7 @@ def plot_pourbaix(entries, png_name):
     ax.tick_params(axis='both', labelsize=14)
 
     plt.tight_layout()
-    plt.savefig(png_name, bbox_inches='tight')
+    plt.savefig(png_name, dpi=300, bbox_inches='tight')
     plt.show()
 
 def main():
