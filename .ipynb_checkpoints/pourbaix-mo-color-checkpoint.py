@@ -279,14 +279,13 @@ def plot_pourbaix(entries, png_name):
     color_mapping = {
         'X(s)': 'cornflowerblue', 
         'XH2(s)': 'lightsteelblue', 
-        'XFe(s)': 'darkgray',
-        'XFeHO(s)': 'tan',
-        'XFeO(s)': 'pink',
-        'XFeHO2(s)': 'salmon',
-        'XFeO2(s)': 'plum',
+        'XMoO(s)': 'tan',
+        'XMoHO3(s)': 'orange',
+        'XMoO2(s)': 'salmon',
     }
     
     for entry in stable_entries:
+        print(entry.name)
         vertices = plotter.domain_vertices(entry)
         x, y = zip(*vertices)
         for name, color in color_mapping.items():

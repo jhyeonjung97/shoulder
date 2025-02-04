@@ -36,7 +36,6 @@ for entry in mpr_entries:
 kJmol = 96.485
 calmol = 23.061
 water = 2.4583 # the standard Gibbs free energy of formation of water
-aqueous = -0.3522
 
 # gas
 h2 = -6.77149190
