@@ -3,6 +3,7 @@
 import os
 import sys
 import warnings
+import numpy as np
 import pandas as pd
 from math import log10
 import matplotlib.pyplot as plt
@@ -13,49 +14,37 @@ from pymatgen.analysis.pourbaix_diagram import PourbaixEntry, PourbaixDiagram, P
 from pymatgen.analysis.pourbaix_diagram import IonEntry, PDEntry, ComputedEntry
 
 warnings.filterwarnings('ignore')
-png_name = 'iron_sulfur'
-
-# API_KEY = os.getenv('MAPI_KEY')
-# if not API_KEY:
-#     sys.exit("Error: MAPI_KEY environment variable not set.")
-# mpr = MPRester(API_KEY)
-# mpr_entries = mpr.get_pourbaix_entries(['S'])
+png_name = 'nitrogenase'
+tag = '_exp'
 
 T = 273.15 + 25
 kJmol = 96.485
 Jmol = 96.485 * 1E+3
 calmol = 23.061
 water = 2.4583 # the standard Gibbs free energy of formation of water
+kbt = 0.0256 
+const = kbt * np.log(10)
 
 # gas
-h2 = -6.98952052
-h2o = -14.1655297
+h2 = -6.98952052 # RPBE
+zpeh2 = 0.291 # RPBE
+cvh2 = 0.091 # RPBE
+tsh2 = 0.434 # RPBE
 
-zpeh2 = 0.268
-cvh2 = 0.0905
-tsh2 = 0.408
-
-zpeh2o = 0.560
-cvh2o = 0.103
-tsh2o = 0.675
-
-gh2o = h2o + zpeh2o - tsh2o + cvh2o
+dgh2 = zpeh2 - tsh2 + cvh2
 gh2 = h2 + zpeh2 - tsh2 + cvh2
-
-# n2 = -16.64503942
-# zpen2 = 0.098
-# tsn2 = 0.592
-# gn2 = n2 + zpen2 - tsn2
-
 gh = gh2 / 2
-go = gh2o - gh2
-# gn = gn2 / 2
+
+h2s = -11.25130575 # RPBE
+zpeh2s = 0.400 # RPBE
+cvh2s = 0.105 # RPBE
+tsh2s = -0.636 # RPBE
+
+dgh2s = zpeh2s - tsh2s + cvh2s
+gh2s = h2s + zpeh2s - tsh2s + cvh2s
 
 # solid
-# gc = -.37429454E+02/4
-# gfe = -5.041720865
-# gmo = -10.94947049
-gs = -126.00103840/32
+gs = -126.00103840/32 # RPBE
 
 # ads
 zpeoh = 0.376
@@ -69,6 +58,10 @@ tso = 0.060
 dgoh = zpeoh + cvoh - tsoh
 dgo = zpeo + cvo - tso
 dgh = dgoh - dgo
+# dgh = 0.217
+dgs = dgh2s - dgh2 ## caution
+
+print(f"dgh: {dgh:.2f}, dgo: {dgo:.2f}, dgs: {dgs:.2f}")
 
 df = pd.DataFrame()
 df.loc['EO', ['E', '#C', '#H', '#Fe', '#Mo', '#N', '#O', '#S']] = [-166.3055962, 2, 8, 7, 1, 1, 2, 10]
@@ -77,31 +70,35 @@ df.loc['E2', ['E', '#C', '#H', '#Fe', '#Mo', '#N', '#O', '#S']] = [-173.8708366,
 df.loc['E3', ['E', '#C', '#H', '#Fe', '#Mo', '#N', '#O', '#S']] = [-177.5720029, 2, 11, 7, 1, 1, 2, 10]
 df.loc['E4', ['E', '#C', '#H', '#Fe', '#Mo', '#N', '#O', '#S']] = [-180.622922, 2, 12, 7, 1, 1, 2, 10]
 df.loc['Vac', ['E', '#C', '#H', '#Fe', '#Mo', '#N', '#O', '#S']] = [-168.4517031, 2, 10, 7, 1, 1, 2, 9] # C2H8Fe7MoNO2S9 + H2
-reference = -168.4517031 + 2 * dgh - gh2 # C2H8Fe7MoNO2S9
 
 df['comp'] = (
-    'X' +
-    # 'C' + df['#C'].astype(str) +
-    'H' + (df['#H']-8).astype(str) +
-    # 'Fe' + df['#Fe'].astype(str) +
-    # 'Mo' + df['#Mo'].astype(str) +
-    # 'N' + df['#N'].astype(str) +
-    # 'O' + df['#O'].astype(str) +
-    'S' + (df['#S']-9).astype(str)
+    'X'
+    # + 'C' + (df['#C']-2).astype(str)
+    + 'H' + (df['#H']-8).astype(str)
+    # + 'Fe' + (df['#Fe']-7).astype(str)
+    # + 'Mo' + (df['#Mo']-1).astype(str)
+    # + 'N' + (df['#N']-1).astype(str)
+    # + 'O' + (df['#O']-2).astype(str)
+    + 'S' + (df['#S']-9).astype(str)
 )
-df['G'] = df['E'] + (
-    dgh * (df['#H']-8)
-    # + dgo * df['#O']
-) - (
-    # gc * df['#C'] 
+df['G'] = df['E'] + (0
+    # + dgc * (df['#C']-2)
+    + dgh * (df['#H']-8)
+    # + dgfe * (df['#Fe']-7)
+    # + dgmo * (df['#Mo']-1)
+    # + dgn * (df['#N']-1)
+    # + dgo * (df['#O']-2)
+    # + dgo * (df['#S']-9) ## caution
+) - (0
+    # + gc * (df['#C']-2)
     + gh * (df['#H']-8)
-    # + gfe * df['#Fe']
-    # + gmo * df['#Mo']
-    # + gn * df['#N']
-    # + go * df['#O']
+    # + gfe * (df['#Fe']-7)
+    # + gmo * (df['#Mo']-1)
+    # + gn * (df['#N']-1)
+    # + go * (df['#O']-2)
     + gs * (df['#S']-9)
-) 
-df['energy'] = df['G'] - reference # - water * df['#O']
+)
+df['energy'] = df['G'] - df.loc['Vac', 'G'] # - water * df['#O']
 
 df_print = pd.DataFrame()
 df_print = df
@@ -139,7 +136,6 @@ def get_cluster_entries():
 def get_solid_entries():
     solid_entries = []
     solids={
-        'S': 0,
         # 'FeO' : -58.880/calmol,
         # 'Fe3O4': -242.400/calmol,
         # 'Fe2O3': -177.100/calmol,
@@ -235,27 +231,38 @@ def plot_pourbaix(entries, png_name):
     pourbaix = PourbaixDiagram(entries, filter_solids=False)
     plotter = PourbaixPlotter(pourbaix)
     stable_entries = pourbaix.stable_entries
-
-    # ax = plotter.get_pourbaix_plot(limits=[[0, 14], [-2, 1.5]])
-    ax = plotter.get_pourbaix_plot(limits=[[-2, 16], [-4, 4]])
+    
+    fig, ax = plt.subplots(figsize=(6, 5))    
+    plotter.get_pourbaix_plot(limits=[[0, 14], [-2, 1]], label_domains=False,
+                              show_water_lines=False, show_neutral_axes=False, ax=ax)
     
     for line in ax.lines:
         line.set_linewidth(1.0)
     for text in ax.texts:
         text.set_fontsize(14)
+        text.set_color('black')
+        text.set_fontweight('bold')
+        
+    pH2 = np.arange(0, 14.01, 0.01)
+    plt.plot(pH2, 0.05 - pH2 * const, color='blue', lw=1.5, dashes=(3, 1))
+    plt.plot(pH2, -0.7 - pH2 * const, color='black', lw=1.5, dashes=(3, 1))
+    # ax.text(7, -0.5, r'E°$_{N_{2}/NH_{3}}$ = 0.05 V vs RHE', 
+    #         color='blue', rotation=-14, fontsize=14, ha='center')
+    ax.text(2.5, -0.45, r'E°$_{N_{2}/NH_{3}}$ = 0.05 V vs RHE', 
+            color='blue', rotation=-14, fontsize=14)
     
     name_mapping1 = {
+        'H2SO4(aq) + XH2(s)': 'XH2(s) + H2SO4(aq)',
         'HSO4[-1] + XH2(s)': 'XH2(s) + HSO4[-1]',
         'SO4[-1] + XH2(s)': 'XH2(s) + SO4[-1]',
         'SO4[-2] + XH2(s)': 'XH2(s) + SO4[-2]',
-        'H2SO4(aq) + XH2(s)': 'XH2(s) + H2SO4(aq)',
-        'S[-2] + XH2(s)': 'XH2(s) + S[-2]',
-        'HS[-1] + XH2(s)': 'XH2(s) + HS[-1]',
         'H2S(aq) + XH2(s)': 'XH2(s) + H2S(aq)',
+        'HS[-1] + XH2(s)': 'XH2(s) + HS[-1]',
+        'S[-2] + XH2(s)': 'XH2(s) + S[-2]',
     }
     
     name_mapping2 = {
-        'X(s)': r'E$_{vv}$',
+        # 'X(s)': r'E$_{vv}$',
         'XS(s)': r'E$_{0}$', 
         'XHS(s)': r'E$_{1}$',
         'XH2S(s)': r'E$_{2}$',
@@ -270,17 +277,7 @@ def plot_pourbaix(entries, png_name):
         'HSO4[-1]': 'HSO₄⁻',
         'H2SO4(aq)': 'H₂SO₄(aq)',
     }
-    
-    name_mapping3 = {
-    #     '+ S[-2]': '+ S²⁻',
-    #     '+ HS[-1]': '+ HS⁻',
-    #     '+ H2S(aq)': '+ H₂S(aq)',
-    #     '+ SO4[-1]': '+ S₂O₈²⁻',
-    #     '+ SO4[-2]': '+ SO₄²⁻',
-        # 'HSO4[-1]': 'HSO₄⁻',
-    #     '+ H2SO4(aq)': '+ H₂SO₄(aq)',
-    }
-    
+
     for text in ax.texts:
         old_name = text.get_text()
         new_name = old_name
@@ -297,40 +294,63 @@ def plot_pourbaix(entries, png_name):
                 new_name = new_name.replace(old_part, new_part)
         text.set_text(new_name)
         
-    for text in ax.texts:
-        old_name = text.get_text()
-        new_name = old_name
-        for old_part, new_part in name_mapping3.items():
-            if old_part in new_name:
-                new_name = new_name.replace(old_part, new_part)
-        text.set_text(new_name)
-        
-    # if 'cluster' in png_name:
-    #     omit_parts = ['X(s)', 'Fe(s)', 'Mo(s)', 'N2(s)', 'C(s)' , 'S(s)', ' ', '+']
-    #     for text in ax.texts:
-    #         old_name = text.get_text()
-    #         new_name = old_name
-    #         for old_part in omit_parts:
-    #             if old_part in old_name:
-    #                 new_name = new_name.replace(old_part, '')
-    #             text.set_text(new_name)
+    sulfur_names = [
+        'XS(s)',
+        'XHS(s)',
+        'XH2S(s)',
+        'XH3S(s)',
+        'XH4S(s)',
+    ]
     
-    if 'bulk' in png_name:
-        sulfur_entries = [entry for entry in stable_entries if 'XH2(s)' not in entry.name]
-        for i, entry in enumerate(sulfur_entries):
-            vertices = plotter.domain_vertices(entry)
-            x, y = zip(*vertices)
-            ax.fill(x, y, color='gold')
-            
+    vacancy_names = [
+        'HSO4[-1]',
+        'SO4[-1]',
+        'HS[-1]',
+        'H2SO4(aq)',
+        'SO4[-2]',
+        'S[-2]',
+        'H2S(aq)',
+    ]
+        
+    sulfur_entries = [entry for entry in stable_entries if 'XH2(s)' not in entry.name]
+    vacancy_entries = [entry for entry in stable_entries if 'XH2(s)' in entry.name]
+    sulfur_colors = [plt.cm.Greys(i) for i in np.linspace(0.05, 0.35, len(sulfur_names))]
+    vacancy_colors = [plt.cm.Blues(i) for i in np.linspace(0.05, 0.35, len(vacancy_names))] # YlOrBr
+
+    for i, entry in enumerate(sulfur_entries):
+        vertices = plotter.domain_vertices(entry)
+        x, y = zip(*vertices)
+        color = sulfur_colors[-sulfur_names.index(entry.name)]
+        ax.fill(x, y, color=color)
+        
+    for i, entry in enumerate(vacancy_entries):
+        vertices = plotter.domain_vertices(entry)
+        x, y = zip(*vertices)
+        ion_part = entry.name.replace(' + ', '').replace('XH2(s)', '')
+        color = vacancy_colors[vacancy_names.index(ion_part)]
+        ax.fill(x, y, color=color)
+        
+    if 'cluster' in png_name:
+        ax.text(13, -0.4, r"$\mathbf{E_{0}}$", fontsize=14, ha='center')
+        ax.text(13, -0.9, r"$\mathbf{E_{2}}$", fontsize=14, ha='center')
+        ax.text(13, -1.25, r"$\mathbf{E_{3}}$", fontsize=14, ha='center')
+        ax.text(13, -1.85, r"$\mathbf{E_{4}}$", fontsize=14, ha='center')
+    elif 'bulk' in png_name:
+        ax.text(12, -0.50, r"$\mathbf{E_{0}}$", fontsize=14, ha='center')
+        ax.text(12, -0.80, r"$\mathbf{E_{2}}$", fontsize=14, ha='center')
+        ax.text(12, -1.00, r"$\mathbf{E_{3}}$", fontsize=14, ha='center')
+        ax.text(0.7, 0.8, r"$\mathbf{E_{v} + HSO_{4}^{-}}$", fontsize=14)
+        ax.text(9.0, 0.5, r"$\mathbf{E_{v} + SO_{4}^{2-}}$", fontsize=14)
+        ax.text(3.5, -1.6, r"$\mathbf{E_{v} + H_{2}S(aq)}$", fontsize=14, ha='center')
+        ax.text(9.0, -1.5, r"$\mathbf{E_{v} + HS^{-}}$", fontsize=14)
+        ax.text(13.8, -1.9, r"$\mathbf{E_{v} + S^{2-}}$", fontsize=14, ha='right')
+        
     ax.set_xlabel("pH", fontsize=14)
     ax.set_ylabel("Potential (V vs SHE)", fontsize=14)
     ax.tick_params(axis='both', labelsize=14)
-    
-    fig = ax.figure
-    fig.set_size_inches((8, 6))
-    
-    plt.savefig(png_name, dpi=300, bbox_inches='tight') #, transparent=True)
-    # plt.close()
+        
+    plt.tight_layout()
+    plt.savefig(png_name, dpi=300, bbox_inches='tight')
     plt.show()
 
 def main():
@@ -363,7 +383,7 @@ def main():
     print("\nTotal Entries:", len(all_entries))
     
     all_entries = ref_entries + cluster_entries
-    plot_pourbaix(all_entries, f'{png_name}_cluster4.png')
+    plot_pourbaix(all_entries, f'{png_name}_cluster{tag}.png')
 
     # for i in range(7):
     #     ion_entries = get_ion_entries(concentration=10**(-i))
@@ -380,7 +400,7 @@ def main():
     # plot_pourbaix(mpr2_entries, f'{png_name}_mpr2.png')
     
     all_entries = ref_entries + cluster_entries + solid_entries + gas_entries + ion_entries # + mpr_entries
-    plot_pourbaix(all_entries, f'{png_name}_bulk4.png')
+    plot_pourbaix(all_entries, f'{png_name}_bulk{tag}.png')
 
 if __name__ == "__main__":
     main()
