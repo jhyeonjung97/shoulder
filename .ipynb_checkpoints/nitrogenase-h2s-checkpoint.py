@@ -15,7 +15,7 @@ from pymatgen.analysis.pourbaix_diagram import IonEntry, PDEntry, ComputedEntry
 
 warnings.filterwarnings('ignore')
 png_name = 'nitrogenase'
-tag = '_h2s'
+tag = '_E4'
 
 T = 273.15 + 25
 kJmol = 96.485
@@ -24,7 +24,6 @@ calmol = 23.061
 water = 2.4583 # the standard Gibbs free energy of formation of water
 kbt = 0.0256 
 const = kbt * np.log(10)
-print(const)
 
 # gas
 h2 = -6.98952052 # RPBE
@@ -65,10 +64,6 @@ tso = 0.060
 dgoh = zpeoh + cvoh - tsoh
 dgo = zpeo + cvo - tso
 dgh = 0.217
-dgs_aq = dgh2s_aq - dgh2 ## caution
-dgs_gas = dgh2s_gas - dgh2 ## caution
-
-print(f"dgh: {dgh:.2f}, dgo: {dgo:.2f}, dgs_aq: {dgs_aq:.2f}, dgs_gas: {dgs_gas:.2f}")
 
 df = pd.DataFrame()
 df.loc['EO', ['E', '#C', '#H', '#Fe', '#Mo', '#N', '#O', '#S']] = [-166.3055962, 2, 8, 7, 1, 1, 2, 10]
@@ -80,29 +75,13 @@ df.loc['Vac', ['E', '#C', '#H', '#Fe', '#Mo', '#N', '#O', '#S']] = [-168.4517031
 
 df['comp'] = (
     'X'
-    # + 'C' + (df['#C']-2).astype(str)
     + 'H' + (df['#H']-8).astype(str)
-    # + 'Fe' + (df['#Fe']-7).astype(str)
-    # + 'Mo' + (df['#Mo']-1).astype(str)
-    # + 'N' + (df['#N']-1).astype(str)
-    # + 'O' + (df['#O']-2).astype(str)
     + 'S' + (df['#S']-9).astype(str)
 )
 df['G'] = df['E'] + (0
-    # + dgc * (df['#C']-2)
     + dgh * (df['#H']-8)
-    # + dgfe * (df['#Fe']-7)
-    # + dgmo * (df['#Mo']-1)
-    # + dgn * (df['#N']-1)
-    # + dgo * (df['#O']-2)
-    # + dgo * (df['#S']-9) ## caution
 ) - (0
-    # + gc * (df['#C']-2)
     + gh * (df['#H']-8)
-    # + gfe * (df['#Fe']-7)
-    # + gmo * (df['#Mo']-1)
-    # + gn * (df['#N']-1)
-    # + go * (df['#O']-2)
     + gs * (df['#S']-9)
 )
 df['energy'] = df['G'] - df.loc['Vac', 'G'] # - water * df['#O']
@@ -110,20 +89,10 @@ print(df)
 
 def get_ref_entries():
     ref_entries = []
+    entry = PourbaixEntry(PDEntry('S', 0.0))
+    entry = PourbaixEntry(PDEntry('H2S', fh2s_aq))
+    ref_entries.append(entry)
     
-    refs={
-        # 'X': 'C2H8Fe7MoNO2S9',
-        # 'C': 'C(s)',
-        # 'Fe': 'Fe(s)',
-        # 'Mo': 'Mo(s)',
-        # 'N': 'N2(g)',
-        'S': 'S(s)',
-        }
-    
-    for comp, name in refs.items():
-        entry = PourbaixEntry(PDEntry(comp, 0.0, name=name))
-        ref_entries.append(entry)
-
     return ref_entries
     
 def get_cluster_entries():
@@ -134,36 +103,10 @@ def get_cluster_entries():
         cluster_entries.append(entry)
     
     return cluster_entries  
-
-def get_solid_entries():
-    solid_entries = []
-    solids={
-        # 'FeO' : -58.880/calmol,
-        # 'Fe3O4': -242.400/calmol,
-        # 'Fe2O3': -177.100/calmol,
-        # 'Fe2O3': -161.930/calmol,
-        # 'Fe(OH)2': -115.570/calmol,
-        # 'Fe(OH)3': -166.000/calmol,
-        # 'MoO2' : -120.000/calmol,
-        # # 'MoO3': -227.000/calmol,
-        # 'MoO3': -161.950/calmol,
-        # 'FeS': -101.67/kJmol,
-        # 'FeS2': -167.36/kJmol,
-        # 'FeS2': -171.54/kJmol, # marcasite
-        # 'Mo2S3': -407.10/kJmol,
-        # 'MoS2': -276.14/kJmol,
-        }
-    
-    for solid, energy in solids.items():
-        entry = PourbaixEntry(PDEntry(solid, energy))
-        solid_entries.append(entry)
-
-    return solid_entries
           
 def get_gas_entries():
     gas_entries = []
     gases={
-        'H2S': fh2s_aq,
         'SO': 12.780/calmol,
         'SO2': -71.790/calmol,
         'SO3': -88.520/calmol,
@@ -178,15 +121,6 @@ def get_gas_entries():
 def get_ion_entries(concentration=1e-6):
     ion_entries = []
     ions={
-        # 'Fe++': -20.300/calmol,
-        # 'HFeO2-': -90.627/calmol,
-        # 'Fe+++': -2.530/calmol,
-        # 'FeOH++': -55.910/calmol,
-        # 'Fe(OH)2+': -106.200/calmol,
-        # # 'FeO4-': -111685/calmol,
-        # 'Mo+++': -13.800/calmol,
-        # # 'HMoO4-': -213.600/calmol,
-        # 'MoO4--': -205.420/calmol,
         'HS-': 3.010/calmol,
         'S--': 21.958/calmol,
         'S2--': 19.749/calmol,
@@ -210,8 +144,6 @@ def get_ion_entries(concentration=1e-6):
         'SO4--': -177.340/calmol,
         'S2O8--': -262.000/calmol,
         }
-
-    # updated_ions = {ion: energy - 0.05917 * log10(concentration) for ion, energy in ions.items()}
     
     for ion, energy in ions.items():
         comp = Ion.from_formula(ion)
@@ -234,13 +166,10 @@ def plot_pourbaix(entries, png_name):
     for text in ax.texts:
         text.set_fontsize(14)
         text.set_color('black')
-        # text.set_fontweight('bold')
         
     pH2 = np.arange(0, 14.01, 0.01)
     plt.plot(pH2, 0.05 - pH2 * const, color='blue', lw=1.5, dashes=(3, 1))
     plt.plot(pH2, -0.7 - pH2 * const, color='black', lw=1.5, dashes=(3, 1))
-    # ax.text(7, -0.5, r'E°$_{N_{2}/NH_{3}}$ = 0.05 V vs RHE', 
-    #         color='blue', rotation=-14, fontsize=14, ha='center')
     ax.text(2.5, -0.45, r'E°$_{N_{2}/NH_{3}}$ = 0.05 V vs RHE', 
             color='blue', rotation=-14, fontsize=14)
     
@@ -255,7 +184,6 @@ def plot_pourbaix(entries, png_name):
     }
     
     name_mapping2 = {
-        # 'X(s)': r'E$_{vv}$',
         'XS(s)': r'E$_{0}$', 
         'XHS(s)': r'E$_{1}$',
         'XH2S(s)': r'E$_{2}$',
@@ -264,7 +192,7 @@ def plot_pourbaix(entries, png_name):
         'XH2(s)': r'E$_{v}$',
         'S[-2]': 'S²⁻',
         'HS[-1]': 'HS⁻',
-        'H2S(aq)': 'H₂S(aq)',
+        'H2S(s)': 'H₂S(aq)',
         ' SO4[-1]': ' S₂O₈²⁻',
         'SO4[-2]': 'SO₄²⁻',
         'HSO4[-1]': 'HSO₄⁻',
@@ -302,7 +230,7 @@ def plot_pourbaix(entries, png_name):
         'H2SO4(aq)',
         'SO4[-2]',
         'S[-2]',
-        'H2S(aq)',
+        'H2S(s)',
     ]
         
     sulfur_entries = [entry for entry in stable_entries if 'XH2(s)' not in entry.name]
@@ -357,11 +285,6 @@ def main():
     for entry in cluster_entries:
         print(entry)
 
-    print('\n################## Solid Entries ##########################################\n')
-    solid_entries = get_solid_entries()
-    for entry in solid_entries:
-        print(entry)
-
     print('\n################## Gas Entries ##########################################\n')
     gas_entries = get_gas_entries()
     for entry in gas_entries:
@@ -372,28 +295,12 @@ def main():
     for entry in ion_entries:
         print(entry)
 
-    all_entries = ref_entries + cluster_entries + solid_entries + ion_entries
+    all_entries = ref_entries + cluster_entries + gas_entries + ion_entries
     print("\nTotal Entries:", len(all_entries))
-    
-    all_entries = ref_entries + cluster_entries
-    plot_pourbaix(all_entries, f'{png_name}_cluster{tag}.png')
-
-    # for i in range(7):
-    #     ion_entries = get_ion_entries(concentration=10**(-i))
-    #     all_entries = solid_entries + gas_entries + ion_entries
-    #     # for entry in all_entries:
-    #     #     print(entry.conc_term)
-    #     plot_pourbaix(all_entries, f'{png_name}_ion{i}.png')
-    
-    # plot_pourbaix(solid_entries, f'{png_name}_solid.png')
-    # all_entries = solid_entries + ion_entries
-    # plot_pourbaix(all_entries, f'{png_name}_exp.png')
-
-    # plot_pourbaix(mpr1_entries, f'{png_name}_mpr1.png')
-    # plot_pourbaix(mpr2_entries, f'{png_name}_mpr2.png')
-    
-    all_entries = ref_entries + cluster_entries + solid_entries + gas_entries + ion_entries # + mpr_entries
     plot_pourbaix(all_entries, f'{png_name}_bulk{tag}.png')
 
+    all_entries = ref_entries + cluster_entries
+    plot_pourbaix(all_entries, f'{png_name}_cluster{tag}.png')
+    
 if __name__ == "__main__":
     main()
