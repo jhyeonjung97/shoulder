@@ -8,6 +8,9 @@ export DIR_NAME=$(date '+%Y-%m-%d-%T')
 if [[ ${here} == 'nersc' ]]; then
     mkdir /pscratch/sd/j/jiuy97/_TRASH/${DIR_NAME}
     mv -v $* /pscratch/sd/j/jiuy97/_TRASH/${DIR_NAME}
+elif [[ ${here} == 's3df' ]]; then
+    mkdir /sdf/scratch/users/j/jiuy97/_TRASH/${DIR_NAME}
+    mv -v $* /sdf/scratch/users/j/jiuy97/_TRASH/${DIR_NAME}
 else
     mkdir ~/_TRASH/${DIR_NAME}
     mv -v $* ~/_TRASH/${DIR_NAME}
